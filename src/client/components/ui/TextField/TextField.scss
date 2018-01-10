@@ -1,0 +1,31 @@
+@import "ui";
+
+:local(.container) {
+    color: inherit;
+    width: 100%;
+    position: relative;
+    .ui-textfield-label {
+        display: flex;
+        align-items: center;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        margin-bottom: map-get($spacers, 1);
+        .label-icon {
+            font-size: 16px;
+            display: inline-block;
+            margin-bottom: -3px;
+        }
+        .label-text { 
+            font-size: 14px; 
+            margin-left: map-get($spacers, 1);
+        }
+    }
+    .ui-textfield-input {
+        width: 100%;
+        border: none;
+        height: 48px;
+        background: none;
+        border-bottom: 1px $dark solid;
+    }
+}

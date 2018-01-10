@@ -27,10 +27,10 @@ export default class DonationList extends Component {
                     className='user-image'
                     style={{backgroundImage: `url(${item.image})`}}/>
                 <div className='user-details'>
-                    <div class='full-name'> {item.full_name} </div>
-                    <div class='donation'> Just Donated ${item.amount} </div>
+                    <div className='full-name'> {item.full_name} </div>
+                    <div className='donation'> Just Donated ${item.amount} </div>
                 </div>
-                <div class='stamp'>{item.updatedAt}</div>
+                <div className='stamp'>{item.updatedAt}</div>
             </div>
         )
     }
