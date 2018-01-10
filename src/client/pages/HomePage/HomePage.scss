@@ -47,3 +47,33 @@
 		}
 	}
 }
+
+
+.home-page .latest-distribution-section {
+	.content-row + .content-row {
+		border-top: 1px $dark solid;
+	}
+	.info-block {
+		padding: 40px 15px;
+		&:not(:first-child) {
+			border-left: 1px $dark solid;
+		}
+	}
+	.info-title,
+	.info-subtitle {
+		margin-bottom: map-get($spacers, 1);
+	}
+	.info-title {
+		@include _typography-h2();
+	}
+	.info-subtitle {
+		font-weight: $font-weight-bold;
+	}
+
+}
+
+.home-page .contact-section {
+	.ui-textfield {
+		margin-top: map-get($spacers, 3);
+	}
+}
