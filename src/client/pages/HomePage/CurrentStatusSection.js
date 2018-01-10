@@ -2,6 +2,7 @@ import React from 'react'
 import classnames from 'classnames'
 
 import DonationProgressBar from 'components/DonationProgressBar'
+import DonationList from 'components/DonationList'
 
 const CurrentStatusSection = (props)=> {
 
@@ -45,6 +46,7 @@ const CurrentStatusSection = (props)=> {
                         <h4 className='section-title-underlined'>
                             Just Donated
                         </h4>
+                        <DonationList/>
                     </div>
                 </div>
 
