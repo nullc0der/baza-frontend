@@ -3,7 +3,7 @@
 :local(.container) {
     color: inherit;
     .donation-list-inner {
-        // overflow-y: auto;
+        overflow-y: auto;
         height: (72*5 + 16*4)*1px;
     }
 }
@@ -16,7 +16,7 @@
     padding: 12px;
     border-radius: 5px;
 
-    @include _shadow-1();
+    // @include _shadow-1();
     
     .user-image {
         width: 48px;

@@ -14,7 +14,7 @@ const GENERATE_DONATION_ITEM = (x, i)=> ({
     amount: 8*i
 })
 
-const items = new Array(5).fill(1).map(GENERATE_DONATION_ITEM)
+const items = new Array(10).fill(1).map(GENERATE_DONATION_ITEM)
 
 export default class DonationList extends Component {
     
