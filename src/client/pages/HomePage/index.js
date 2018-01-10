@@ -4,11 +4,15 @@ import classnames from 'classnames'
 
 // import ContentWithImage from 'components/FullScreenPages/ContentWithImage'
 import Header from 'components/Header'
-import BasicIncomeCalculator from "components/BasicIncomeCalculator";
+import Footer from 'components/Footer'
+
+import BasicIncomeCalculator from "components/BasicIncomeCalculator"
 import ParallaxContainer    from 'components/ui/ParallaxContainer'
 
-import FeaturesSection from "./FeaturesSection";
-import CurrentStatusSection from "./CurrentStatusSection";
+import FeaturesSection from "./FeaturesSection"
+import CurrentStatusSection from "./CurrentStatusSection"
+import LatestDistributionSection from "./LatestDistributionSection"
+import ContactSection from "./ContactSection"
 
 import './HomePage.scss'
 
@@ -44,6 +48,10 @@ class HomePage extends Component {
 
 				<FeaturesSection />
 				<CurrentStatusSection />
+				<LatestDistributionSection />
+				<ContactSection/>
+
+				<Footer/>
 			</div>
 		)
 	}

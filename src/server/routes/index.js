@@ -31,17 +31,17 @@ export default function getRouter(app){
 
 
     // No server rendering
-    // router.get(
-    //     '*',
-    //     StaticRenderer
-    // )
+    router.get(
+        '*',
+        StaticRenderer
+    )
 
 
     // Server rendering
-    router.get(
-        '*',
-        require('../helpers/pre-renderer').default
-    )
+    // router.get(
+    //     '*',
+    //     require('../helpers/pre-renderer').default
+    // )
 
 
     return router

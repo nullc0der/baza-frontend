@@ -1,0 +1,37 @@
+@import "ui";
+
+:local(.container) {
+    color: #fff;
+
+
+    .footer-copyright-info {
+        font-weight: $font-weight-bold;
+    }
+
+    .footer-link {
+        text-decoration: none;
+        color: inherit;
+    }
+
+    .list-inline {
+        margin-bottom: 0;
+    }
+    .list-inline-item {
+        position: relative;
+        margin-right: 2rem;
+        &:first-child::after {
+            display: none;
+        }
+
+        &:after {
+            position: absolute;
+            left: -1rem;
+            width: 1px;
+            top: 3px;
+            bottom: 3px;
+            background-color: #fff;
+            content: '';
+            z-index: 1;
+        }
+    }
+}
