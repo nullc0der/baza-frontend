@@ -1,0 +1,16 @@
+.ui-parallax-container {
+	position: relative;
+	height: 500px;
+	overflow: hidden;
+
+	.ui-parallax-background {
+		position: absolute;
+		height: inherit;
+		width: 100%;
+		top: 0;
+		bottom: 0;
+		background-size: cover;
+		z-index: -1;
+	}
+
+}

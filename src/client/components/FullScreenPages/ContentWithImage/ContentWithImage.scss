@@ -1,0 +1,33 @@
+.ui-content-with-image {
+	width: 100vw;
+	height: 100vh;
+	position: relative;
+
+	.section-image {
+		position: absolute;
+		top: 0;
+		left: 0;
+		bottom: 0;
+		width: 50vw;
+		z-index: 10;
+
+		background-repeat: no-repeat;
+		background-size: cover;
+		background-position: center center;
+	}
+
+	&.in-right .section-image {
+		left: unset;
+		right: 0;
+	}
+
+	.section-content {
+		height: inherit;
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+	}
+
+
+
+}

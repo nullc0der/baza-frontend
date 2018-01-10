@@ -1,0 +1,28 @@
+@import 'ui';
+
+:local(.container) {
+    color: inherit;
+
+    .ui-tooltip-dropdown-btn {
+        background-color: rgba($dark, 0.07);
+        .icon {
+            margin-left: map-get($spacers, 2);
+        }
+    }
+
+    .ui-tooltip-dropdown-menu {
+        &:not(.show) {
+            pointer-events: none;
+        }
+    }
+
+    .ui-tooltip-dropdown-item {
+        padding: 4px 16px;
+        opacity: 0.8;
+        cursor: pointer;
+        &:hover, &:active {
+            background-color: $light;
+            opacity: 1;
+        }
+    }
+}

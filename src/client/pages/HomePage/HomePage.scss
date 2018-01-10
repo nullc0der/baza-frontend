@@ -1,0 +1,49 @@
+@import 'ui';
+
+.home-page {
+	.top-parallax-section {
+		height: 100vh;
+		color: #fff;
+	}
+	
+	.page-section {
+		padding-top: map-get($spacers, 5);
+		padding-bottom: map-get($spacers, 5);
+	}
+	
+	.hero-subtitle {
+		font-weight: $font-weight-normal;
+	}
+}
+
+.home-page .hero-donate-wrapper {
+	height: 96px;
+	background-color: $dark;
+	user-select: none;
+	cursor: pointer;
+	transition: all 0.2s ease;
+
+	h3 {
+		line-height: 33px;
+		margin-bottom: 0;
+	}
+	p {
+		line-height: 22px;
+		margin-bottom: 0;
+	}
+
+	&:hover {
+		background-color: $primary;
+		color: $dark;
+	}
+}
+
+.home-page .features-section {
+	.feature-item {
+		text-align: center;
+		i {
+			font-size: 56px;
+			margin-bottom: map-get($spacers, 3)
+		}
+	}
+}

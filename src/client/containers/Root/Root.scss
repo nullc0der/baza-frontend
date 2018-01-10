@@ -1,0 +1,40 @@
+@import 'ui';
+@import '~bootstrap/scss/bootstrap';
+@import './custom-bootstrap.scss';
+
+body {
+	background-color: #fff;
+	color: $dark;
+}
+
+
+.flex-vertical {
+	display: flex;
+	flex-direction: column;
+}
+.flex-horizontal {
+	display: flex;
+	flex-direction: row;
+}
+
+.fill, 
+.flex-1 { flex: 1; }
+
+
+
+.section-title-underlined {
+	margin-bottom: map-get($spacers, 5);
+	position: relative;
+	&:after { 
+		content: '';
+		position: absolute;
+		left: 0;
+		bottom: (-1 * map-get($spacers, 3) );
+		height: 2px;
+		background-color: $dark;
+		width: map-get($spacers, 4);
+	}
+	&:not(:first-child) {
+		margin-top: map-get($spacers, 4);
+	}
+}

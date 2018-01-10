@@ -1,0 +1,23 @@
+.ui-input-field {
+	width: 100%;
+	display: flex;
+	flex-direction: row;
+	align-items: stretch;
+
+	.ui-input-field-input {
+		border: none;
+		box-shadow: none;
+	}
+	.ui-input-field-icon {
+		width: 32px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+}
+
+// Reverse arrangement
+.ui-input-field.icon-in-right {
+	.ui-input-field-icon  { order: 1; }
+	.ui-input-field-input { order: 2; }
+}

@@ -1,0 +1,31 @@
+@import "ui";
+
+$basic-income-calculator-height: 56px;
+
+:local(.container) {
+    color: inherit;
+    width: auto;
+    height: $basic-income-calculator-height;
+    border-radius: ($basic-income-calculator-height/2);
+    background-color: #fff;
+    color: $dark;
+
+    flex: unset;
+    flex-grow: 0;
+
+    transition: all 0.2s ease;
+    
+    @include _shadow-2();
+
+    .form-inner {
+        height: 100%;
+    }
+
+    .badge {
+        width: 64px;
+        height: 32px;
+        line-height: 24px;
+        font-size: 14px;
+        font-weight: $font-weight-bold;
+    }
+}

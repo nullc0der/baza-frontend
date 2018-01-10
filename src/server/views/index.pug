@@ -1,0 +1,40 @@
+extends layout
+
+block preload
+    if is_prod
+        link(rel='preload' as='style'  href= webpack_assets['main.css'])
+        link(rel='preload' as='script' href= webpack_assets['manifest.js'])
+        link(rel='preload' as='script' href= webpack_assets['vendors.js'])
+        link(rel='preload' as='script' href= webpack_assets['main.js'])
+
+block head_styles
+    //- Fonts
+    link(rel='stylesheet' type='text/css' href='https://fonts.googleapis.com/icon?family=Material+Icons')
+    link(rel='stylesheet' type='text/css' href='https://fonts.googleapis.com/css?family=Raleway:100,300,400,500,600,700,800')
+
+    style(id='server-css' type='text/css' rel='stylesheet')!= css
+
+    //- Assets
+    //- link(rel='stylesheet' type='text/css' href='/public/vendor/bootstrap/css/bootstrap.css')
+    link(rel='stylesheet' type='text/css' href='/public/vendor/animate.css/animate.css')
+    link(rel='stylesheet' type='text/css' href='https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css')
+
+    if is_prod
+        link(rel='stylesheet' type='text/css' href= webpack_assets['main.css'])
+
+block content
+    section#root!= html
+
+    script(defer type='text/javascript' src='/public/vendor/jquery/jquery.js')
+    script(defer type='text/javascript' src='/public/vendor/popper.js/umd/popper.js')
+    script(defer type='text/javascript' src='/public/vendor/bootstrap/js/bootstrap.js')
+    script(type='text/javascript' src='/public/vendor/wowjs/wow.js')
+
+    script(type='text/javascript' src= webpack_assets['manifest.js'])
+
+    if is_prod
+        script(type='text/javascript' src= webpack_assets['vendors.js'])
+    else
+        script(type='text/javascript' src= '/public/dll.vendor.js')
+
+    script(type='text/javascript' src= webpack_assets['main.js'])

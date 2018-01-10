@@ -1,0 +1,44 @@
+// Import this file to re-use variables and functions from bootstrap
+@import 'ui';
+
+// Import this file to re-use mixins supplied by bootstrap
+// @import '~bootstrap/scss/mixins';
+
+.search-properties-form {
+	height: 64px;
+	background-color: #fff;
+	border-radius: 32px;
+	color: #444;
+
+	.ui-input-field {
+		height: 100%;
+	}
+	.ui-input-field-icon {
+		font-size: 24px;
+	}
+
+	.divider {
+		width: 1px;
+		height: 70%;
+		margin: 0px 1rem;
+		flex-shrink: 0;
+		flex-grow: 0;
+		background-color: rgba($body-color, 0.4);
+	}
+
+
+	.location-input-field {
+		flex: 2;
+		margin-left: 28px;
+	}
+	.filters-input-field {
+		flex: 1;
+	}
+
+	.btn-search {
+		padding: 21px 24px;
+		margin-left: 10px;
+		cursor: pointer;
+	}
+
+}
