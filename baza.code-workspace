@@ -7,10 +7,10 @@
 	],
 	"settings": {
 		"search.exclude": {
-			"**/node_modules": true
+			"node_modules/": true
 		},
 		"files.exclude": {
-			"**/node_modules": true
+			"node_modules/": true
 		},
 		"editor.tabSize": 4
 	}
