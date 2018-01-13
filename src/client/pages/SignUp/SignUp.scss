@@ -2,6 +2,53 @@
 
 :local(.container) {
     color: inherit;
+    .app-header {
+        z-index: $zindex-fixed;
+    }
+
+    .app-header + .page-layer {
+        padding-top: $header-height;
+    }
+
+    .signup-container {
+        min-height: 100px;
+        overflow-y: auto;
+    }
+
+    .signup-form {
+        width: 270px;
+        margin: 0 auto;
+    }
+    .form-check {
+        margin-right: 0;
+        width: 100%;
+    }
+
+
+    
+    .carousel-container {
+        color: #fff;
+    }
+    .carousel-indicators li {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+    }
+    .carousel-item-content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+        width: 60%;
+        margin: 0 auto;
+        text-align: center;
+        position: relative;
+    }
+    .carousel-item, .carousel-inner {
+        height: 100%;
+    }
+
 }
 
 

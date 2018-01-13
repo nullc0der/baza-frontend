@@ -22,6 +22,21 @@ body {
 .flex-1 { flex: 1; }
 
 
+.page-container {
+	min-height: 100vh;
+}
+
+.page-layer {
+	position: absolute;
+	top: 0; bottom: 0; right: 0; left: 0;
+	overflow: hidden;
+}
+
+.bg {
+	background-repeat: no-repeat;
+	background-position: center center;
+	background-size: cover;
+}
 
 .section-title-underlined {
 	margin-bottom: map-get($spacers, 5);
@@ -37,6 +52,12 @@ body {
 	}
 	&:not(:first-child) {
 		margin-top: map-get($spacers, 4);
+	}
+	&.underline-center {
+		&:after {
+			left: 50%;
+			margin-left: map-get($spacers, 2)*-1;
+		}
 	}
 }
 

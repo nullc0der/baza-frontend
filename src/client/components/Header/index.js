@@ -42,10 +42,16 @@ export default class Header extends Component {
   };
 
   render() {
-    const { className, inCenter, showDonateButton = false } = this.props;
+    const { 
+      className, 
+      inCenter, 
+      invert = false,
+      showDonateButton = false 
+    } = this.props;
 
     const cx = classnames("app-header navbar navbar-expand-md", className, {
-      "in-center": inCenter
+      "in-center": inCenter,
+      "navbar-light bg-white": invert
     });
 
     return (
