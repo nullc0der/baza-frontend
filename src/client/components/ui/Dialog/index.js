@@ -16,7 +16,7 @@ export default class Dialog extends Component {
         document.removeEventListener("keydown", this.closeOnEscapeKey, false);
         document.removeEventListener("mousedown", this.handleClick, false);
 
-        this.toggleBodyScroll(this.props.isOpen);
+        this.toggleBodyScroll(false);
     }
 
     componentWillReceiveProps = (nextProps)=> {
@@ -64,7 +64,7 @@ export default class Dialog extends Component {
         return (
             <div className={cx} tabIndex="-1" role="dialog" aria-labelledby="userLoginModal" aria-hidden="true">
                 <div className={backdropClass}/>
-                <div className='modal-dialog' role="document">
+                <div className='modal-dialog modal-dialog-centered' role="document">
                     <div className='modal-content' ref={node => this.modalContent = node }>
                         <div className='modal-header'>
                             {!!title && <h5 className='modal-title'> {title} </h5>}

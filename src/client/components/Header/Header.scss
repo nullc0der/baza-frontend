@@ -4,44 +4,48 @@ $font-size-nav-link: 12px !default;
 $header-height: 80px !default;
 
 .app-header {
-	color: #fff;
-	height: $header-height;
-	position: fixed;
-	top: 0;
-	left: 0;
-	right: 0;
+    color: #fff;
+    height: $header-height;
+    top: 0;
+    left: 0;
+    right: 0;
 
-	.nav-link {
-		color: #fff;
-		font-size: $font-size-nav-link;
-		margin: 0 map-get($spacers, 2);
-		text-transform: uppercase;
-		font-weight: $font-weight-bold;
-		letter-spacing: 1.5px;
-		&:hover {
-			color: $primary;
-		}
-	}
+    .nav-link {
+        color: #fff;
+        font-size: $font-size-nav-link;
+        margin: 0 map-get($spacers, 2);
+        text-transform: uppercase;
+        font-weight: $font-weight-bold;
+        letter-spacing: 1.5px;
+        &:hover {
+            color: $primary;
+        }
+    }
 
-	.center-icon {
-		font-size: 32px;
-		.nav-link {
-			padding: 0px;
-			width: 48px;
-			height: 48px;
-		}
-	}
+    .center-icon {
+        font-size: 32px;
+        .nav-link {
+            padding: 0px;
+            width: 48px;
+            height: 48px;
+        }
+    }
 
-	.donate-button {
-		position: absolute;
-		right: map-get($spacers, 2);
-		border-width: 3px;
-		color: $light;
-		border-color: $light;
-		&:hover {
-			color: $dark;
-			border-color: $primary;
-		}
-	}
+    .donate-button {
+        position: absolute;
+        right: map-get($spacers, 2);
+        border-width: 3px;
+        color: $light;
+        border-color: $light;
+        &:hover {
+            color: $dark;
+            border-color: $primary;
+        }
+    }
+
+    &.navbar-light.fixed-top .donate-button {
+        border-color: $dark;
+        color: $dark;
+    }
 
 }

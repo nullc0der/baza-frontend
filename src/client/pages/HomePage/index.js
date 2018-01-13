@@ -14,6 +14,8 @@ import CurrentStatusSection from "./CurrentStatusSection"
 import LatestDistributionSection from "./LatestDistributionSection"
 import ContactSection from "./ContactSection"
 
+import { Link } from 'react-router-dom'
+
 import './HomePage.scss'
 
 class HomePage extends Component {
@@ -53,10 +55,10 @@ class HomePage extends Component {
 							</div>
 						</div>
 					</div>
-					<div className='hero-donate-wrapper flex-vertical align-items-center justify-content-center'>
+					<Link to='#!donate' className='hero-donate-wrapper'>
 						<h3> Donate Now </h3>
 						<p> Donate now and become part of the family. </p>
-					</div>
+					</Link>
 
 				</ParallaxContainer>
 

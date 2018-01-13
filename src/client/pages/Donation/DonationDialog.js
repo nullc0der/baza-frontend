@@ -58,7 +58,7 @@ class DonationDialog extends Component {
                             <label className="form-check-label" htmlFor="add_to_newsletter"> Yes! Add me to your newsletter list </label>
                         </div>
                     </div>
-                    <div className='col-md-7 mt-4'>
+                    <div className='col-md-7 mt-3'>
                         <div className='well p-2'>
                             <p className='font-weight-bold mb-3'> Payment Details </p>
                             <div className='row'>
