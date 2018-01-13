@@ -45,13 +45,14 @@ export default class ParallaxContainer extends Component {
 		const {
 			backgroundImage,
 			className,
-			children
+			children,
+			...others
 		} = this.props
 
 		const cx = classnames('ui-parallax-container', className)
 
 		return (
-			<div className={cx}>
+			<div className={cx} {...others}>
 				<div className='ui-parallax-background'
 					ref={node => this.backgroundElement = node}
 					style={{ backgroundImage: `url('${backgroundImage}')` }}>

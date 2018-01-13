@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 import { Provider } from 'react-redux'
 
+import {ConnectedRouter} from 'react-router-redux'
 
 // Base styles
 import './Root.scss'
@@ -12,7 +13,9 @@ export default class Root extends Component {
 	render(){
 		return (
 			<Provider store={this.props.store}>
-				<App renderCounter={this.props.renderCounter}/>
+				<ConnectedRouter history={this.props.history}>
+					<App renderCounter={this.props.renderCounter}/>
+				</ConnectedRouter>
 			</Provider>
 		)
 	}

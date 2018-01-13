@@ -6,6 +6,10 @@ $header-height: 80px;
 .app-header {
 	color: #fff;
 	height: $header-height;
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
 
 	.nav-link {
 		color: #fff;

@@ -66,7 +66,7 @@ export default class LatestDistributionSection extends Component {
         const [dataChunk1, dataChunk2] = chunk(DistributionData, 3)
 
         return (
-            <div className='page-section container latest-distribution-section'>
+            <div id={this.props.id} className='page-section container latest-distribution-section'>
                 <h3 className='text-center mb-2'> Latest Distribution </h3>
                 <div className='row content-row mt-4'>
                     { dataChunk1.map(this.renderOneInfoBlock) }

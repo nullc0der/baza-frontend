@@ -1,6 +1,7 @@
 @import 'ui';
 
 .home-page {
+	position: relative;
 	.top-parallax-section {
 		height: 100vh;
 		color: #fff;
@@ -13,6 +14,9 @@
 	
 	.hero-subtitle {
 		font-weight: $font-weight-normal;
+	}
+	.tooltip {
+		z-index: 10;
 	}
 }
 

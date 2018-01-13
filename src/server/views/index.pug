@@ -2,6 +2,7 @@ extends layout
 
 block preload
     if is_prod
+        link(rel='preload' as='script' href='/public/vendor/jquery/jquery.js')
         link(rel='preload' as='style'  href= webpack_assets['main.css'])
         link(rel='preload' as='script' href= webpack_assets['manifest.js'])
         link(rel='preload' as='script' href= webpack_assets['vendors.js'])
@@ -33,8 +34,8 @@ block content
     script(type='text/javascript' src= webpack_assets['manifest.js'])
 
     if is_prod
-        script(type='text/javascript' src= webpack_assets['vendors.js'])
+        script(defer type='text/javascript' src= webpack_assets['vendors.js'])
     else
-        script(type='text/javascript' src= '/public/dll.vendor.js')
+        script(defer type='text/javascript' src= '/public/dll.vendor.js')
 
-    script(type='text/javascript' src= webpack_assets['main.js'])
+    script(defer type='text/javascript' src= webpack_assets['main.js'])

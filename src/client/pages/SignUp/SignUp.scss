@@ -1,0 +1,35 @@
+@import "ui";
+
+:local(.container) {
+    color: inherit;
+}
+
+
+:local(.loginDialog) {
+
+    .modal-dialog {
+        width: 370px;
+    }
+
+    input[type='checkbox'] + label {
+        margin: 1px 0 0 map-get($spacers, 1);
+    }
+    
+    .social-login-list {
+        font-size: 22px;
+        margin-bottom: map-get($spacers, 1);
+        .list-inline-item {
+            width: 24px;
+            height: 24px;
+            &:not(:last-child) {
+                margin-right: map-get($spacers, 2);
+            }
+        }
+    }
+
+    .bottom-content {
+        margin-top: map-get($spacers, 2);
+        line-height: 22px;
+    }
+
+}

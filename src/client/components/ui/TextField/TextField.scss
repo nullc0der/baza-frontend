@@ -1,5 +1,7 @@
 @import "ui";
 
+$ui-textfield-input-height: 36px !default;
+
 :local(.container) {
     color: inherit;
     width: 100%;
@@ -8,24 +10,41 @@
         display: flex;
         align-items: center;
         position: absolute;
-        bottom: 0;
+        bottom: 0rem;
         left: 0;
         margin-bottom: map-get($spacers, 1);
+        transition: bottom 0.2s ease;
+        pointer-events: none;
         .label-icon {
             font-size: 16px;
             display: inline-block;
             margin-bottom: -3px;
+            & + .label-text {
+                margin-left: map-get($spacers, 1);
+            }
         }
         .label-text { 
             font-size: 14px; 
-            margin-left: map-get($spacers, 1);
         }
+
     }
+
     .ui-textfield-input {
         width: 100%;
         border: none;
-        height: 48px;
+        height: $ui-textfield-input-height;
         background: none;
         border-bottom: 1px $dark solid;
+        outline: none;
+        padding-bottom: 0;
+        &:focus, &:active {
+            outline: none;
+        }
+        &:focus,
+        &.has-value {
+            & + .ui-textfield-label {
+                bottom: map-get($spacers, 2)*1.15;
+            }
+        }
     }
 }

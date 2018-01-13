@@ -2,6 +2,7 @@
 
 import { createStore, applyMiddleware, compose } from "redux";
 import thunk from "redux-thunk";
+import {routerMiddleware} from 'react-router-redux'
 import rootReducer from "./rootReducer";
 
 import debounce from 'lodash/debounce'
@@ -28,9 +29,9 @@ export function loadLocalState(){
     return {}
 }
 
-export function configureStore(initialState = {}) {
+export function configureStore(initialState = {}, history) {
     // Include all middlewares here
-    const middlewares = [thunk];
+    const middlewares = [thunk, routerMiddleware(history)];
 
     // Devtools for development mode on client
     const devTools =

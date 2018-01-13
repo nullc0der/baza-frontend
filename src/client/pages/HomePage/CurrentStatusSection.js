@@ -9,7 +9,7 @@ const CurrentStatusSection = (props)=> {
     const cx = classnames('current-status-section bg-light', props.className)
 
     return (
-        <div className={cx}>
+        <div className={cx} id={props.id}>
             <div className="container page-section">
                 <h3 className='text-center mb-3'> Current Status </h3>
                 <div className='row mb-5'>
@@ -20,7 +20,7 @@ const CurrentStatusSection = (props)=> {
                                 className="embed-responsive-item" 
                                 src="https://www.youtube.com/embed/FWoYfcSZzzY?rel=0&amp;controls=0&amp;showinfo=0" 
                                 frameBorder="0" 
-                                allow="autoplay; encrypted-media" 
+                                allow="encrypted-media" 
                                 allowFullScreen/>
                         </div>
                     </div>

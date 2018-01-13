@@ -17,11 +17,25 @@ import ContactSection from "./ContactSection"
 import './HomePage.scss'
 
 class HomePage extends Component {
+
+	componentDidMount = ()=> {
+	
+	}
+
+	componentWillUnmount = ()=> {
+
+	}
+
 	render(){
 		const cx = classnames('home-page')
 		return (
-			<div className={cx}>
+			<div 
+				className={cx}
+				data-spy="scroll"
+				data-target="#app-header"
+				data-offset="0">
 				<ParallaxContainer
+					id='hero-section'
 					className='top-parallax-section flex-vertical'
 					backgroundImage='/public/img/hero_image.jpg'>
 
@@ -46,10 +60,10 @@ class HomePage extends Component {
 
 				</ParallaxContainer>
 
-				<FeaturesSection />
-				<CurrentStatusSection />
-				<LatestDistributionSection />
-				<ContactSection/>
+				<FeaturesSection id='features-section'/>
+				<CurrentStatusSection id='status-section'/>
+				<LatestDistributionSection id='latest-section'/>
+				<ContactSection id='contact-section'/>
 
 				<Footer/>
 			</div>

@@ -2,18 +2,18 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import { AppContainer } from "react-hot-loader";
-import { BrowserRouter } from "react-router-dom";
+// import { BrowserRouter } from "react-router-dom";
 
 import { configureStore, saveLocalState, loadLocalState } from "./store/index";
+
+import createHistory from 'history/createBrowserHistory'
+// import {ConnectedRouter} from 'react-router-redux'
+
 import Root from "./containers/Root";
 
-import $ from 'jquery'
-if (!__SERVER__)
-	window.$ = window.jQuery = $
 
-if (!__SERVER__ && __DEV__) {
-	window.localStorage.debug = 'baza:*'
-}
+// Create Initial History Object
+const history = createHistory();
 
 
 // Check if server sent a dehydrated state
@@ -26,7 +26,7 @@ const localState = loadLocalState() || {};
 const finalState = { ...localState, ...initialState };
 
 // Initialize our store
-const store = configureStore(finalState);
+const store = configureStore(finalState, history);
 
 // Save a local copy whenever store changes
 store.subscribe(() => {
@@ -51,9 +51,7 @@ const renderApp = Component => {
 	console.time("react:rendered-in");
 	renderFn(
 		<AppContainer>
-			<BrowserRouter>
-				<Component store={store} renderCounter={++renderCounter} />
-			</BrowserRouter>
+			<Component history={history} store={store} renderCounter={++renderCounter} />
 		</AppContainer>,
 		document.getElementById("root"),
 		onRenderComplete

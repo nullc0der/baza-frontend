@@ -1,0 +1,38 @@
+@import "ui";
+
+$dialog-width: 830px;
+$dialog-padding-x: map-get($spacers, 2);
+$dialog-padding-y: map-get($spacers, 3);
+
+:local(.donationDialog) {
+    .modal-dialog {
+        width: 830px;
+        max-width: 90vw;
+    }
+
+    .donate-buttons .btn {
+        font-weight: $font-weight-bold;
+    }
+
+    .payment-image {
+        height: 26px;
+        width: 120px;
+        background-repeat: no-repeat;
+        background-position: center center;
+        background-size: contain;
+        & + .payment-image {
+            margin-left: map-get($spacers, 2);
+        }
+    }
+
+    .payment-image-ssl {
+        background-image: url('/public/img/ssl_encrypted.svg');
+    }
+    .payment-image-stripe {
+        background-image: url('/public/img/powered_by_stripe.svg');
+    }
+    .form-check-input + .form-check-label {
+        margin-left: map-get($spacers, 2);
+    }
+
+}

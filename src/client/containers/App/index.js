@@ -1,9 +1,12 @@
 import React, {Component} from 'react'
 import classnames from 'classnames'
 
+import {connect} from 'react-redux'
+
 import './App.scss'
 
 import AppRoutes from './AppRoutes'
+import AppOverlays from './AppOverlays'
 
 class App extends Component {
     static propTypes = {
@@ -15,11 +18,18 @@ class App extends Component {
         return (
             <div className={cx}>
                {AppRoutes}
+               {AppOverlays(this.props.location)}
             </div>
         )
     }
 }
 
+const mapStateToProps = state => ({
+    location: state.router.location
+})
 
 
-export default App
+
+export default connect(
+    mapStateToProps
+)(App)

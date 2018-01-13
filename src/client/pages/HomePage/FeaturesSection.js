@@ -7,7 +7,7 @@ const FeatureSelection = (props)=> {
     const cx = classnames(props.className, 'features-section')
 
     return (
-        <div className={cx}>
+        <div className={cx} id={props.id}>
             <div className='container page-section'>
                 <h3 className='text-center mb-2'> Baza Features </h3>
                 <div className='row'>

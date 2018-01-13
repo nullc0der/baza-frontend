@@ -6,7 +6,7 @@ import TextField from 'components/ui/TextField'
 const ContactSection = (props)=> {
     const cx = classnames('contact-section bg-light', props.className)
     return (
-        <div className={cx}>
+        <div className={cx} id={props.id}>
             <div className='page-section container'>
                 <h3 className='text-center mb-3'> Contact </h3>
                 <div className='row'>
