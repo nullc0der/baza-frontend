@@ -1,2 +1,16 @@
 {
+    "files.eol": "\n",
+    "editor.tabSize": 4,
+    "editor.insertSpaces": false,
+    "search.exclude": {
+        "node_modules/": true
+    },
+    "files.exclude": {
+        "node_modules/": true,
+        "build/": true,
+        "dist/": true,
+        "package-lock.json": true
+    },
+    "prettier.jsxBracketSameLine": true,
+    "prettier.useTabs": false
 }
