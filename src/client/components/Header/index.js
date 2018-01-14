@@ -135,7 +135,7 @@ export default class Header extends Component {
                             aria-controls="navbarContentContainer"
                             aria-expanded="false"
                             aria-label="Toggle navigation">
-                            <span className="navbar-toggler-icon" />
+                            <i className='material-icons'>menu</i>
                         </button>
 
                         <div
@@ -143,7 +143,7 @@ export default class Header extends Component {
                             id="navbarContentContainer">
                             <ul className="navbar-nav mx-auto align-items-center">
                                 {HEADER_ITEMS_LEFT.map(this.renderOneBSLink)}
-                                <li className="nav-item center-icon d-sm-none d-xs-none">
+                                <li className="nav-item center-icon d-none d-md-block d-lg-block d-xl-block">
                                     <NavLink className="nav-link" to="/" activeClassName="active">
                                         <img
                                             className="img-fluid"

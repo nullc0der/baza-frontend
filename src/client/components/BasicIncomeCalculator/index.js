@@ -37,8 +37,7 @@ export default class BasicIncomeCalculator extends Component {
         )
 
         const columnClasses = classnames(
-            'flex-horizontal align-items-center',
-            'col-md-4'
+            'flex-horizontal align-items-center'
         )
 
         return (

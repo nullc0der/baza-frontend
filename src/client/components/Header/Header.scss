@@ -9,6 +9,11 @@ $header-height: 80px !default;
     top: 0;
     left: 0;
     right: 0;
+    position: relative;
+
+    &.fixed-top {
+        position: fixed;
+    }
 
     .nav-link {
         color: #fff;
@@ -43,9 +48,53 @@ $header-height: 80px !default;
         }
     }
 
-    &.navbar-light.fixed-top .donate-button {
-        border-color: $dark;
-        color: $dark;
+    .navbar-toggler {
+        position: absolute;
+        left: map-get($spacers, 2);
+        color: inherit;
+        font-size: 32px;
+        outline: none;
+        padding-top: 10px;
     }
+
+    &.navbar-light.fixed-top {
+        .navbar-toggler {
+            color: $dark;
+            border-color: transparent;
+        }
+        
+        .donate-button {
+            border-color: $dark;
+            color: $dark;
+        }
+    }
+
+    @include media-breakpoint-down(sm, $grid-breakpoints) {
+        .navbar-collapse {
+            position: absolute;
+            left: 0;
+            right: 0;
+            top: $header-height;
+            background-color: $light;
+            @include _shadow-2();
+            .nav-item {
+                width: 100%;
+                text-align: center;
+                padding: map-get($spacers, 1) map-get($spacers, 1);
+            }
+        }
+        &:not(.navbar-light) {
+            .navbar-collapse.show {
+                position: absolute;
+                z-index: 1030;
+                top: $header-height;
+                background-color: $light;
+                .nav-link {
+                    color: $dark;
+                }
+            }
+        }
+    }
+    
 
 }

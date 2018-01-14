@@ -28,6 +28,7 @@ export default class TooltipDropdown extends Component {
     onItemClick = (item, index)=> (e)=> {
         debug('Clicked ', index, item)
         this.props.onItemClick(item, index)
+        this.hideTooltip()
     }
 
     handleClick = (e)=> {
