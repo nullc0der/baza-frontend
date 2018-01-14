@@ -38,7 +38,7 @@ $dialog-title-padding-x: 50px;
     @include media-breakpoint-up(md, $grid-breakpoints) {
         .modal-dialog {
             max-height: 90vw;
-            overflow-y: scroll;
+            overflow-y: auto;
         }
     }
     

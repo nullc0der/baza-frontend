@@ -5,6 +5,8 @@ import s from './BasicIncomeCalculator.scss'
 
 import TooltipDropdown from 'components/ui/TooltipDropdown'
 
+import * as bsutils from 'utils/bsutils'
+
 const ENTITIES = [
   { label: "Coffee", value: "coffee", cost: 2 },
   { label: "Alcoholic Beverage", value: "alcholic-beverage", cost: 4 },
@@ -30,9 +32,13 @@ export default class BasicIncomeCalculator extends Component {
 
         const selectedItem = ENTITIES[this.state.selectedIndex]
 
+        const formInnerClasses = classnames('form-inner flex-horizontal align-items-center',
+            bsutils.toStringWithPrefix('px',[1,2,3,3,3])
+        )
+
         return (
             <div className={cx}>
-                <div className='form-inner px-3 flex-horizontal align-items-center'>
+                <div className={formInnerClasses}>
                     <span className='form-text'> Your 1 times </span>
                     <TooltipDropdown 
                         className='entity-dropdown' 

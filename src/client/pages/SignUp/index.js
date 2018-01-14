@@ -8,7 +8,55 @@ import Carousel  from 'components/ui/Carousel'
 
 import s from './SignUp.scss'
 
+// eslint-disable-next-line
+const EMAIL_REGEX = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+
 export default class SignUpPage extends Component {
+
+    state = {
+        username: '',
+        usernameError: null,
+        password: '',
+        passwordError: null,
+        confirmPassword: '',
+        confirmPasswordError: null,
+        email: '',
+        emailError: null
+    }
+
+    updateUsername = (username)=> {
+        const state = { username }
+        state.usernameError = username && username.length >=6 
+            ? false
+            : 'Minimum 6 characters'
+        this.setState(state)
+    }
+    
+    updatePassword = (password)=> {
+        const state = { password }
+        state.passwordError = password && password.length >=8
+            ? false
+            : 'Minimum 8 characters'
+        this.setState(state)
+    }
+
+    updateConfirmPassword = (confirmPassword)=> {
+        const state = { confirmPassword }
+        state.confirmPasswordError = this.state.password === confirmPassword
+            ? false
+            : 'Passwords do not match'
+        this.setState(state)
+    }
+
+    updateEmail = (email)=> {
+        const state = { email }
+        state.emailError = EMAIL_REGEX.test(email)
+            ? false
+            : 'Email is invalid'
+        this.setState(state)
+    }
+
+
     render(){
         const cx = classnames(s.container, 'signup-page')
         
@@ -26,18 +74,30 @@ export default class SignUpPage extends Component {
                                     <TextField
                                         label='Username'
                                         className='mt-3'
+                                        value={this.state.username}
+                                        errorState={this.state.usernameError}
+                                        onChange={this.updateUsername}
                                         icon={<i className='material-icons'>perm_identity</i>}/>
                                     <TextField
                                         label='Password'
                                         className='mt-3'
+                                        value={this.state.password}
+                                        errorState={this.state.passwordError}
+                                        onChange={this.updatePassword}
                                         icon={<i className='material-icons'>lock_outline</i>}/>
                                     <TextField
                                         label='Confirm Password'
                                         className='mt-3'
+                                        value={this.state.confirmPassword}
+                                        errorState={this.state.confirmPasswordError}
+                                        onChange={this.updateConfirmPassword}
                                         icon={<i className='material-icons'>lock_outline</i>}/>
                                     <TextField
                                         label='Email'
                                         className='mt-3'
+                                        value={this.state.email}
+                                        errorState={this.state.emailError}
+                                        onChange={this.updateEmail}
                                         icon={<i className='material-icons'>mail_outline</i>}/>
                                     
                                     <button className='mt-3 btn btn-dark btn-block'> Sign Up </button>

@@ -24,6 +24,7 @@
 		animation: fadeInDown 0.24s;
 		@include _shadow-2();
 	}
+	
 	.app-header.fixed-top + .container {
 		margin-top: $header-height;
 	}

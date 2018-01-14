@@ -15,7 +15,12 @@ export default class TextField extends Component {
     }
 
     componentDidMount = ()=> {
-        this._onChange = debounce(this.onChange, 100)
+        this._onChange = debounce(this.onChange, 100, {trailing: true})
+    }
+
+    componentWillReceiveProps = (nextProps)=> {
+        if (nextProps.value !== this.state.value) 
+            this.setState({ value: nextProps.value })
     }
 
     onChange = (value)=> {
@@ -37,6 +42,8 @@ export default class TextField extends Component {
             label = false,
             icon  = false,
             type  = 'text',
+            errorState = null,
+            value,
             onChange,
             ...others
         } = this.props 
@@ -56,14 +63,31 @@ export default class TextField extends Component {
             </label>
         )
 
+        const _ValidationIcon = errorState !== null && (
+            <div className='ui-textfield-validation-icon'>
+                { 
+                    errorState === false
+                        ? <i className='material-icons text-success'>check</i>
+                        : errorState === 'loading'
+                            ? <i className='material-icons text-info'>cached</i>
+                            : <i className='material-icons text-danger'>close</i>
+                }
+            </div>
+        )
+
         return (
             <div className={cx}>
                 <input 
                     type={type} 
                     className={inputClass} 
-                    onChange={this.onInputChange} 
+                    onChange={this.onInputChange}
+                    value={this.state.value}
                     {...others} />
                 {_Label}
+                {_ValidationIcon}
+                {
+                    (errorState && errorState !== 'loading') && <div className='ui-textfield-error'> {errorState} </div>
+                }
             </div>
         )
     }

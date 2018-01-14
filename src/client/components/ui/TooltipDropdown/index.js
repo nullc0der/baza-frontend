@@ -3,6 +3,8 @@ import classnames from 'classnames'
 
 import s from './TooltipDropdown.scss'
 
+import * as bsutils from 'utils/bsutils'
+
 const debug = require('debug')('baza:comp:ui/TooltipDropdown')
 
 export default class TooltipDropdown extends Component {
@@ -64,15 +66,18 @@ export default class TooltipDropdown extends Component {
             'ui-tooltip-dropdown-menu tooltip bs-tooltip-bottom',
             { show: this.state.isOpen }
         )
-        
 
+        const btnClassName = classnames('btn btn-light ui-tooltip-dropdown-btn',
+            bsutils.toStringWithPrefix('mx', [1,2,3,3,3])
+        )
+        
         return (
             <div 
                 className={cx}
                 onMouseOver={this.showTooltip}
                 ref={node => this.containerEl = node }>
                 <div 
-                    className='btn btn-light mx-3 ui-tooltip-dropdown-btn'
+                    className={btnClassName}
                     onClick={this.toggleTooltip}>
                     <span className='text'> {selectedItem.label} </span>
                     <span className='icon'> 

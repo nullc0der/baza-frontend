@@ -5,6 +5,7 @@ import classnames from "classnames";
 import { Link, NavLink } from "react-router-dom";
 
 import debounce from "lodash/debounce";
+import { scrollToElement } from "utils/dom";
 
 import "./Header.scss";
 
@@ -22,10 +23,10 @@ const HEADER_ITEMS_RIGHT = [
 
 export default class Header extends Component {
     static propTypes = {
-        scrollspy: PropTypes.boolean,
-        invert: PropTypes.boolean,
-        inCenter: PropTypes.boolean,
-        showDonateButton: PropTypes.boolean,
+        scrollspy: PropTypes.bool,
+        invert: PropTypes.bool,
+        inCenter: PropTypes.bool,
+        showDonateButton: PropTypes.bool,
         className: PropTypes.string
     };
 
@@ -57,10 +58,10 @@ export default class Header extends Component {
         let top = $(window).scrollTop();
         let threshold = $(".app-header").height();
 
-        console.log(top, threshold, top >= threshold);
+        // console.log(top, threshold, top >= threshold);
 
         this.setState({ isFixed: top >= threshold });
-    };
+    }
 
     renderOneLink = (item, index) => {
         return (
@@ -76,12 +77,37 @@ export default class Header extends Component {
         });
         return (
             <li className={cx} key={index}>
-                <NavLink className="nav-link" to={item.href}>
+                <NavLink className="nav-link" to={item.href} onClick={this.handleLinkNavigation}>
                     {item.title}
                 </NavLink>
             </li>
         );
     };
+
+    handleLinkNavigation = (e)=> {
+        const strip = window.location.origin + '/'
+        const href = (e.target.href || '').replace(strip, '')
+
+        const isValid = /^#[a-zA-Z]/.test(href)
+        
+        if (!isValid) 
+            return
+        
+        const el = document.getElementById(href.substr(1))
+        if (el) 
+            scrollToElement(el, {
+                offset: $('.app-header').height()*-1 
+            })
+
+        // If element is not present, wait for browser to navigate
+        // and then scroll again
+        setTimeout(()=> {
+            scrollToElement(href, {
+                offset: $('.app-header').height()*-1 
+            })
+        }, 500)
+        
+    }
 
     render() {
         const {

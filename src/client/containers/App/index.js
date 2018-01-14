@@ -8,9 +8,18 @@ import './App.scss'
 import AppRoutes from './AppRoutes'
 import AppOverlays from './AppOverlays'
 
+
 class App extends Component {
     static propTypes = {
 
+    }
+
+    componentDidMount = ()=> {
+
+    }
+
+    componentWillUnmount = ()=> {
+        
     }
 
     render(){

@@ -28,4 +28,26 @@ $basic-income-calculator-height: 56px;
         font-size: 14px;
         font-weight: $font-weight-bold;
     }
+
+    @include media-breakpoint-down(sm, $grid-breakpoints) {
+        width: 90vw;
+        display: block;
+        height: auto;
+        .form-inner {
+            flex-wrap: wrap;
+            text-align: center;
+            @include clearfix();
+        }
+        .form-text {
+            float: left;
+            padding-top: 10px;
+            padding-bottom: 10px;
+        }
+        .ui-tooltip-dropdown {
+            display: block;
+            float: left;
+        }
+    }
+
 }
+

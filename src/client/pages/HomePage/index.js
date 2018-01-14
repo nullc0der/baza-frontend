@@ -31,18 +31,14 @@ class HomePage extends Component {
 	render(){
 		const cx = classnames('home-page')
 		return (
-			<div 
-				className={cx}
-				data-spy="scroll"
-				data-target="#app-header"
-				data-offset="0">
+			<div className={cx}>
 				<ParallaxContainer
 					id='hero-section'
 					className='top-parallax-section flex-vertical'
 					backgroundImage='/public/img/hero_image.jpg'>
 
 					<div className='flex-vertical fill'>
-						<Header inCenter showDonateButton/>
+						<Header inCenter showDonateButton scrollspy/>
 						<div className='container fill flex-vertical'>
 							<div className='row fill align-items-center justify-content-center'>
 								<div className='col-sm-12 col-xs-12 mx-auto'>
