@@ -35,7 +35,7 @@ export default class TooltipDropdown extends Component {
             return
         }
         // On outside click
-        this.hideTooltip()
+        // this.hideTooltip()
     }
 
     hideTooltip = ()=> {
@@ -44,12 +44,12 @@ export default class TooltipDropdown extends Component {
     }
 
     showTooltip = ()=> {
-        // if (!this.state.isOpen)
-        //     this.setState({ isOpen: true })
+        if (!this.state.isOpen)
+            this.setState({ isOpen: true })
     }
 
     toggleTooltip = ()=> {
-        // this.setState({ isOpen: !this.state.isOpen })
+        this.setState({ isOpen: !this.state.isOpen })
     }
     
     render(){

@@ -10,6 +10,17 @@ $dialog-padding-y: map-get($spacers, 3);
         max-width: 90vw;
     }
 
+    @include media-breakpoint-down(sm, $grid-breakpoints) {
+        .modal-dialog {
+            max-width: unset;
+            width: 100vw;
+        }
+        .modal-body {
+            padding-left: map-get($spacers, 3);
+            padding-right: map-get($spacers, 3);
+        }
+    }
+
     .donate-buttons .btn {
         font-weight: $font-weight-bold;
     }

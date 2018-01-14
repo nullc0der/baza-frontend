@@ -32,24 +32,35 @@ export default class BasicIncomeCalculator extends Component {
 
         const selectedItem = ENTITIES[this.state.selectedIndex]
 
-        const formInnerClasses = classnames('form-inner flex-horizontal align-items-center',
+        const formInnerClasses = classnames('form-inner row align-items-center',
             bsutils.toStringWithPrefix('px',[1,2,3,3,3])
+        )
+
+        const columnClasses = classnames(
+            'flex-horizontal align-items-center',
+            'col-md-4'
         )
 
         return (
             <div className={cx}>
                 <div className={formInnerClasses}>
-                    <span className='form-text'> Your 1 times </span>
-                    <TooltipDropdown 
-                        className='entity-dropdown' 
-                        items={ENTITIES}
-                        selectedIndex={this.state.selectedIndex}
-                        onItemClick={this.selectEntity}/>
-                    <span className='form-text'> is Basic Income of 1 person for </span>
-                    <span className='badge badge-pill badge-dark mx-3'>
-                        {selectedItem.cost}
-                    </span>
-                    <span className='form-text'> Days </span>
+                    <div className={columnClasses}>
+                        <span className='form-text'> Your 1 times </span>
+                        <TooltipDropdown 
+                            className='entity-dropdown' 
+                            items={ENTITIES}
+                            selectedIndex={this.state.selectedIndex}
+                            onItemClick={this.selectEntity}/>
+                    </div>
+                    <div className={columnClasses}>
+                        <span className='form-text'> is Basic Income of 1 person for </span>
+                    </div>
+                    <div className={columnClasses}>
+                        <span className='badge badge-pill badge-dark mx-3'>
+                            {selectedItem.cost}
+                        </span>
+                        <span className='form-text'> Days </span>
+                    </div>
                 </div>
             </div>
         )

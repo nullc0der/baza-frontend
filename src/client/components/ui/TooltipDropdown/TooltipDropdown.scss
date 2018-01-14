@@ -35,12 +35,21 @@
         top: 22px;
     }
 
-    &:hover .ui-tooltip-dropdown-menu {
+    .ui-tooltip-dropdown-menu.show {
         opacity: 1;
         transform: translate3d(0, 0px, 0);
     }
-    &:not(:hover) .ui-tooltip-dropdown-menu {
+
+    .ui-tooltip-dropdown-menu:not(.show) {
         pointer-events: none;
     }
 
+    @include media-breakpoint-down(md, $grid-breakpoints) {
+        .ui-tooltip-dropdown-menu {
+            padding-top: map-get($spacers, 1);
+            .arrow { display: none; }
+        }
+    }
+
 }
+

@@ -29,17 +29,33 @@ $basic-income-calculator-height: 56px;
         font-weight: $font-weight-bold;
     }
 
-    @include media-breakpoint-down(sm, $grid-breakpoints) {
+    @include media-breakpoint-down(md, $grid-breakpoints) {
         width: 90vw;
         display: block;
         height: auto;
         .form-inner {
-            flex-wrap: wrap;
-            text-align: center;
+            margin: 0;
+            padding: map-get($spacers, 2) 0;
             @include clearfix();
+            .form-text {
+                margin-top: 0;
+            }
+            div[class*='col-'] {
+                padding-left: 0;
+                padding-right: 0;
+            }
+            .ui-tooltip-dropdown {
+                margin-left: map-get($spacers, 2);
+            }
+            .flex-horizontal {
+                justify-content: center;
+            }
+            .badge {
+                margin-left: 0 !important;
+                margin-right: map-get($spacers, 2) !important; 
+            }
         }
         .form-text {
-            float: left;
             padding-top: 10px;
             padding-bottom: 10px;
         }

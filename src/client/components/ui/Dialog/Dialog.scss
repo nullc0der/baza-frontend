@@ -41,5 +41,13 @@ $dialog-title-padding-x: 50px;
             overflow-y: auto;
         }
     }
+
+    @include media-breakpoint-down(sm, $grid-breakpoints) {
+        .modal-dialog {
+            padding-left: map-get($spacers, 2)*0.75;
+            padding-right: map-get($spacers, 2)*0.75;
+            margin: map-get($spacers, 2) 0;
+        }
+    }
     
 }
