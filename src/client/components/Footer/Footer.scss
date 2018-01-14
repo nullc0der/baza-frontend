@@ -2,8 +2,6 @@
 
 :local(.container) {
     color: #fff;
-
-
     .footer-copyright-info {
         font-weight: $font-weight-bold;
     }
@@ -32,6 +30,13 @@
             background-color: #fff;
             content: '';
             z-index: 1;
+        }
+    }
+    @include media-breakpoint-down(sm, $grid-breakpoints) {
+        .list-inline-item {
+            display: block;
+            padding-top: map-get($spacers, 1);
+            padding-bottom: map-get($spacers, 1);
         }
     }
 }
