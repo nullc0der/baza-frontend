@@ -28,12 +28,12 @@ class DonationDialog extends Component {
                     </p>
                 }
                 onRequestClose={this.closeDonationDialog}>
-                <div className='donate-buttons flex-horizontal align-items-center justify-content-between'>
-                    <button className='btn btn-outline-dark btn-responsive'> $5 </button>
-                    <button className='btn btn-outline-dark btn-responsive'> $10 </button>
-                    <button className='btn btn-outline-dark btn-responsive'> $15 </button>
-                    <button className='btn btn-outline-dark btn-responsive'> $20 </button>
-                    <button className='btn btn-outline-dark btn-responsive'> $25 </button>
+                <div className='donate-buttons flex-horizontal'>
+                    <button className='btn btn-outline-dark'> $2 </button>
+                    <button className='btn btn-outline-dark'> $5 </button>
+                    <button className='btn btn-outline-dark'> $25 </button>
+                    <button className='btn btn-outline-dark'> $100 </button>
+                    <button className='btn btn-outline-dark'> Other </button>
                 </div>
                 <div className='row mb-1'>
                     <div className='col-md-5 mt-4'>

@@ -9,6 +9,26 @@ $dialog-padding-y: map-get($spacers, 3);
         width: 830px;
         max-width: 90vw;
     }
+    .modal-body {
+        padding-top: 0;
+    }
+
+    
+
+    .donate-buttons {
+        flex-wrap: wrap;
+        justify-content: space-around;
+        .btn {
+            min-width: 96px;
+            display: flex;
+            height: 64px;
+            align-items: center;
+            justify-content: center;
+            padding: map-get($spacers, 2);
+            margin: map-get($spacers, 2) map-get($spacers, 2);
+            @include _typography-h3();
+        }
+    }
 
     @include media-breakpoint-down(sm, $grid-breakpoints) {
         .modal-dialog {
@@ -19,10 +39,12 @@ $dialog-padding-y: map-get($spacers, 3);
             padding-left: map-get($spacers, 3);
             padding-right: map-get($spacers, 3);
         }
-    }
-
-    .donate-buttons .btn {
-        font-weight: $font-weight-bold;
+        .donate-buttons {
+            .btn {
+                min-width: 64px;
+                margin: map-get($spacers, 1) map-get($spacers, 1);
+            }
+        }
     }
 
     .payment-image {

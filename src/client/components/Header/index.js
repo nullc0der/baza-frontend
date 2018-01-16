@@ -89,6 +89,8 @@ export default class Header extends Component {
         const href = (e.target.href || '').replace(strip, '')
 
         const isValid = /^#[a-zA-Z]/.test(href)
+
+        $('.app-header .collapse.show').removeClass('show')
         
         if (!isValid) 
             return
@@ -144,7 +146,7 @@ export default class Header extends Component {
                             <ul className="navbar-nav mx-auto align-items-center">
                                 {HEADER_ITEMS_LEFT.map(this.renderOneBSLink)}
                                 <li className="nav-item center-icon d-none d-md-block d-lg-block d-xl-block">
-                                    <NavLink className="nav-link" to="/" activeClassName="active">
+                                    <NavLink className="nav-link" to="/" activeClassName="active" onClick={this.handleLinkNavigation}>
                                         <img
                                             className="img-fluid"
                                             alt="Baza"

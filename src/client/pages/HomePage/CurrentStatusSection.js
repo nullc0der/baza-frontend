@@ -4,6 +4,9 @@ import classnames from 'classnames'
 import DonationProgressBar from 'components/DonationProgressBar'
 import DonationList from 'components/DonationList'
 
+
+import {Link} from 'react-router-dom'
+
 const CurrentStatusSection = (props)=> {
 
     const cx = classnames('current-status-section bg-light', props.className)
@@ -39,10 +42,10 @@ const CurrentStatusSection = (props)=> {
                         <p> When donation reach the goal an automatic purchase of the baza and crypto on the market will be purchased then distributed to the qualifying Baza account holders in the form of basic income </p>
                         <DonationProgressBar max={1500} value={1088}/>
                         <div className='pt-3'>
-                            <button className='btn btn-dark'> Donate Now </button>
+                            <Link to='/#!donate' className='btn btn-dark'> Donate Now </Link>
                         </div>
                     </div>
-                    <div className='col-md-4'>
+                    <div className='col-md-4 mt-3 mt-md-0 mt-lg-0 mt-xl-0'>
                         <h4 className='section-title-underlined'>
                             Just Donated
                         </h4>
