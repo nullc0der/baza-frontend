@@ -150,7 +150,7 @@ export default class Header extends Component {
                                         <img
                                             className="img-fluid"
                                             alt="Baza"
-                                            src="/public/img/baza_logo.png"
+                                            src="/public/img/baza_logo.svg"
                                         />
                                     </NavLink>
                                 </li>

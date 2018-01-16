@@ -33,7 +33,9 @@ class DonationDialog extends Component {
                     <button className='btn btn-outline-dark'> $5 </button>
                     <button className='btn btn-outline-dark'> $25 </button>
                     <button className='btn btn-outline-dark'> $100 </button>
-                    <button className='btn btn-outline-dark'> Other </button>
+                    <button className='btn btn-outline-dark other-donation-button'> 
+                        <input type='text' className='other-button-input' defaultValue='Other'/>
+                    </button>
                 </div>
                 <div className='row mb-1'>
                     <div className='col-md-5 mt-4'>
@@ -54,7 +56,7 @@ class DonationDialog extends Component {
                             <button className='btn btn-dark btn-block'>
                                 SUBMIT
                             </button>
-                            <div className='form-check form-check-inline'>
+                            <div className='form-check form-check-inline mt-2'>
                                 <input className="form-check-input" type="checkbox" id="add_to_newsletter" value="add_to_newsletter"/>
                                 <label className="form-check-label" htmlFor="add_to_newsletter"> Yes! Add me to your newsletter list </label>
                             </div>
@@ -106,7 +108,7 @@ class DonationDialog extends Component {
                         </div>
                     </div>
                 </div>
-                <div className='mt-3 mb-2 button-submit-wrap d-md-0 d-lg-0 d-xl-0'>
+                <div className='mt-3 mb-2 button-submit-wrap d-md-none d-lg-none d-xl-none'>
                     <button className='btn btn-dark btn-block'>
                         SUBMIT
                     </button>

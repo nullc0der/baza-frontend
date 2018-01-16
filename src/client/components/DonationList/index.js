@@ -36,7 +36,7 @@ export default class DonationList extends Component {
     }
 
     render(){ 
-        const cx = classnames(s.container)
+        const cx = classnames(s.container, 'donation-list')
         return (
             <div className={cx}>
                 <div className='donation-list-inner'>

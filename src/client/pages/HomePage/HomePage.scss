@@ -28,6 +28,14 @@
 	.app-header.fixed-top + .container {
 		margin-top: $header-height;
 	}
+
+	.donation-list {
+		@include media-breakpoint-down(sm, $grid-breakpoints) {
+			.donation-list-inner {
+				overflow: hidden;
+			}
+		}
+	}
 }
 
 .home-page .hero-donate-wrapper {
@@ -89,6 +97,20 @@
 	}
 	.info-subtitle {
 		font-weight: $font-weight-bold;
+	}
+
+	@include media-breakpoint-down(sm, $grid-breakpoints) {
+		.info-block {
+			border-bottom: 1px $dark solid;
+			margin-left: map-get($spacers, 2);
+			margin-right: map-get($spacers, 2);
+			&:not(:first-child) {
+				border-left: none;
+			}
+		}
+		.content-row + .content-row {
+			border-top: none;
+		}
 	}
 
 }
