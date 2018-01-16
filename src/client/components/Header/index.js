@@ -137,7 +137,7 @@ export default class Header extends Component {
                             aria-controls="navbarContentContainer"
                             aria-expanded="false"
                             aria-label="Toggle navigation">
-                            <i className='material-icons'>menu</i>
+                            <div className='menu-icon'/>
                         </button>
 
                         <div

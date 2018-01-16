@@ -3,6 +3,10 @@
 $font-size-nav-link: 12px !default;
 $header-height: 80px !default;
 
+$menu-icon-stroke: 2px;
+$menu-icon-color: #fff;
+$menu-icon-inter-spacing: -10px;
+
 .app-header {
     color: #fff;
     height: $header-height;
@@ -14,6 +18,7 @@ $header-height: 80px !default;
     &.fixed-top {
         position: fixed;
     }
+
 
     .nav-link {
         color: #fff;
@@ -48,19 +53,49 @@ $header-height: 80px !default;
         }
     }
 
+    .menu-icon {
+        width: 48px;
+        height: $menu-icon-stroke;
+        color: $menu-icon-color;
+        background-color: currentColor;
+        display: block;
+        position: relative;
+        &:after, &:before {
+            position: absolute;
+            height: $menu-icon-stroke;
+            background-color: currentColor;
+            left: 0;
+            right: 0;
+            content: '';
+        }
+        &:before {
+            top: $menu-icon-inter-spacing;
+            right: 20%;
+        }
+        &:after {
+            bottom: $menu-icon-inter-spacing;
+            right: 40%;
+        }
+    }
+
     .navbar-toggler {
         position: absolute;
         left: map-get($spacers, 2);
         color: inherit;
-        font-size: 32px;
         outline: none;
         padding-top: 10px;
+        font-size: 32px;
+        margin-left: -1*map-get($spacers, 2);
     }
 
     &.navbar-light.fixed-top {
         .navbar-toggler {
             color: $dark;
             border-color: transparent;
+        }
+
+        .menu-icon {
+            color: $dark;
         }
         
         .donate-button {
