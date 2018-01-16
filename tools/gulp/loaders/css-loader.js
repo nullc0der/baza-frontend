@@ -17,7 +17,7 @@ const _POSTCSS_LOADER = (isServer = false)=> ({
 		plugins: () => [
 			require('postcss-flexbugs-fixes'),
 			autoprefixer({
-				browsers: ['>5%', 'last 4 versions', 'iOS 7'],
+				browsers: ['> 3%', 'last 4 versions', 'iOS 7'],
 				flexbox: 'no-2009',
 			}),
 		],
