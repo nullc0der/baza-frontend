@@ -50,12 +50,14 @@ class DonationDialog extends Component {
                             label='Phone no.'
                             className='mb-3'
                             icon={<i className='material-icons'>phone</i>}/>
-                        <button className='btn btn-dark btn-block mt-3 mb-2'>
-                            SUBMIT
-                        </button>
-                        <div className='form-check form-check-inline'>
-                            <input className="form-check-input" type="checkbox" id="add_to_newsletter" value="add_to_newsletter"/>
-                            <label className="form-check-label" htmlFor="add_to_newsletter"> Yes! Add me to your newsletter list </label>
+                        <div className='mt-3 mb-2 button-submit-wrap d-none d-md-block d-lg-block d-xl-block'>
+                            <button className='btn btn-dark btn-block'>
+                                SUBMIT
+                            </button>
+                            <div className='form-check form-check-inline'>
+                                <input className="form-check-input" type="checkbox" id="add_to_newsletter" value="add_to_newsletter"/>
+                                <label className="form-check-label" htmlFor="add_to_newsletter"> Yes! Add me to your newsletter list </label>
+                            </div>
                         </div>
                     </div>
                     <div className='col-md-7 mt-3'>
@@ -102,6 +104,15 @@ class DonationDialog extends Component {
                                 </div>
                             </div>
                         </div>
+                    </div>
+                </div>
+                <div className='mt-3 mb-2 button-submit-wrap d-md-0 d-lg-0 d-xl-0'>
+                    <button className='btn btn-dark btn-block'>
+                        SUBMIT
+                    </button>
+                    <div className='form-check form-check-inline mt-2 mb-2'>
+                        <input className="form-check-input" type="checkbox" id="add_to_newsletter" value="add_to_newsletter"/>
+                        <label className="form-check-label" htmlFor="add_to_newsletter"> Yes! Add me to your newsletter list </label>
                     </div>
                 </div>
                 <div className='flex-horizontal align-content-center justify-content-center mt-2'>
