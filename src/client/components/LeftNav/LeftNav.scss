@@ -252,6 +252,7 @@ $sidebar-menu-width: $admin-primary-sidebar-menu-width;
   .search-icon {
     position: absolute;
     top: 8px;
+    font-size: 18px;
     right: $subheader-padding + 8px;
     color: $inactive-search-color;
     @include transition();
@@ -294,7 +295,7 @@ $sidebar-menu-width: $admin-primary-sidebar-menu-width;
     }
 
     &.is-active {
-      background-color: #3d3d3d;
+      background-color: $admin-secondary;
       color: #fff;
     }
   }
@@ -365,7 +366,7 @@ $sidebar-menu-width: $admin-primary-sidebar-menu-width;
     padding: 5px 12px 5px 32px;
     cursor: pointer;
     &:hover {
-      background-color: theme_primary;
+      background-color: $admin-primary;
       color: #fff;
     }
   }

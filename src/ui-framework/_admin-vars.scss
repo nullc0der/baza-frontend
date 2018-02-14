@@ -1,5 +1,5 @@
 $admin-primary: $dark;
-$admin-secondary: $darker;
+$admin-secondary: darken($dark, 5%);
 
 $admin-link-color: $admin-primary;
 
@@ -12,7 +12,7 @@ $admin-header-bg: $dark;
 $admin-header-text: #eee;
 
 $admin-sidebar-bg: $dark;
-$admin-sidebar-header-bg: $dark;
+$admin-sidebar-header-bg: $admin-secondary;
 
 $color-lime500: #cddc39;
 $color-red700: #d32f2f;

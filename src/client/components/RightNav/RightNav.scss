@@ -6,7 +6,7 @@ $active-tab-color: $bg-color;
 $text-color: #b8c7ce;
 
 :local(.container) {
-  color: text_color;
+  color: $text-color;
   background-color: #222d32;
 
   right: -1* $admin-sidebar-width;
@@ -17,22 +17,25 @@ $text-color: #b8c7ce;
   .nav.nav-tabs {
     display: flex;
     align-items: stretch;
-    > li {
+    > .nav-item {
       flex: 1;
       text-align: center;
-      background-color: $inactive-tab-color;
-      &.active {
-        background-color: $active-tab-color;
-      }
-      > a {
+      > .nav-link {
         box-shadow: none;
         outline: none;
         border: none;
+        height: 45px;
+        padding-top: 13px;
+        color: $text-color;
+        background-color: $inactive-tab-color;
+        &.active {
+          background-color: $active-tab-color;
+          color: $primary;
+        }
       }
     }
   }
 
-  .rightnav-tabs,
   .tab-content,
   .rightnav-tab {
     height: 100%;

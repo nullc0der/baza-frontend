@@ -17,6 +17,7 @@
 :local(.container) {
   @include _fixed-layer();
   overflow: hidden;
+  color: $admin-text-color;
 }
 
 :local(.content) {

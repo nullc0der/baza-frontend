@@ -12,6 +12,8 @@ import SubHeader from 'components/SubHeader'
 import Footer from 'components/AdminFooter'
 import MiniChat from 'components/HeaderMiniChat/MiniChat'
 
+import AdminRoutes from './AdminRoutes'
+
 // var debug = require('debug')('ekata:client:app')
 
 class App extends Component {
@@ -46,7 +48,7 @@ class App extends Component {
           />
           <SubHeader className={s.subHeader} />
           <section className="content-inner flex-vertical">
-            {this.props.children}
+            {AdminRoutes(this.props.location)}
           </section>
           <Footer />
         </section>
@@ -61,7 +63,9 @@ class App extends Component {
   }
 }
 
-const mapStateToProps = state => ({})
+const mapStateToProps = state => ({
+  location: state.router.location
+})
 
 const mapDispatchToProps = dispatch => ({})
 
