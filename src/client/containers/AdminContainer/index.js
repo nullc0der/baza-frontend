@@ -22,6 +22,26 @@ class App extends Component {
     isRightNavOpen: false
   }
 
+  componentDidMount = () => {
+    this.injectFontIfAbsent()
+    document.body.classList.add('is-admin-ui')
+  }
+  componentWillUnmount = () => {
+    document.body.classList.remove('is-admin-ui')
+  }
+
+  injectFontIfAbsent = () => {
+    const link = document.querySelectorAll(`[data-font='admin-ss-pro']`)
+    if (link.length) return
+    var l = document.createElement('link')
+    l.rel = 'stylesheet'
+    l.type = 'text/css'
+    l.dataset.font = 'admin-ss-pro'
+    l.href =
+      'https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700'
+    document.head.appendChild(l)
+  }
+
   toggleLeftNav = () => {
     this.setState({ isLeftNavOpen: !this.state.isLeftNavOpen })
   }

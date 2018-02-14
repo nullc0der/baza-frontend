@@ -13,7 +13,7 @@ export default class CoinSalePage extends Component {
     const cx = classnames(s.container)
     return (
       <div className={cx}>
-        <h1> Coin Sale </h1>
+        <div className="page-inner" />
       </div>
     )
   }
