@@ -6,7 +6,7 @@ import { withRouter } from 'react-router'
 
 import MENU_ITEMS from './menu-items'
 
-const debug = require('debug')('ekata:sidebar-menu')
+const debug = require('debug')('baza:sidebar-menu')
 
 class SidebarMenu extends Component {
   state = {

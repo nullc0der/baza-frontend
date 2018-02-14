@@ -53,12 +53,10 @@ export default class HeaderProfileButton extends Component {
         </div>
         <div className="profile-menu-footer flex-horizontal j-between">
           <a className="btn footer-btn" href="#">
-            {' '}
-            Profile{' '}
+            Profile
           </a>
           <a className="btn footer-btn" href="#">
-            {' '}
-            Sign Out{' '}
+            Sign Out
           </a>
         </div>
       </div>

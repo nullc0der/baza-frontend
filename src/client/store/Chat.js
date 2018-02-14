@@ -2,7 +2,7 @@ import CHAT_LIST from 'pages/Admin/Messenger/sample-chats' //eslint-disable-line
 import CHAT_DETAILS from 'pages/Admin/Messenger/sample-detailed-chat'
 
 // eslint-disable-next-line no-unused-vars
-const debug = require('debug')('ekata:store:chat')
+const debug = require('debug')('baza:store:chat')
 
 const INITIAL_STATE = {
   minichats: [],

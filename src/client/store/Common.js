@@ -1,5 +1,5 @@
 // eslint-disable-next-line no-unused-vars
-const debug = require('debug')('ekata:store:common')
+const debug = require('debug')('baza:store:common')
 
 const INITIAL_STATE = {
   breadcrumbs: {

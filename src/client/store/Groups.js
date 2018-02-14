@@ -1,5 +1,5 @@
 //eslint-disable-next-line no-unused-vars
-const debug = require('debug')('ekata:store:groups')
+const debug = require('debug')('baza:store:groups')
 
 const DEFAULT_GROUPS = [
   {

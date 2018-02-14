@@ -14,7 +14,7 @@ import MiniChat from 'components/HeaderMiniChat/MiniChat'
 
 import AdminRoutes from './AdminRoutes'
 
-// var debug = require('debug')('ekata:client:app')
+// var debug = require('debug')('baza:client:app')
 
 class App extends Component {
   state = {
