@@ -89,3 +89,7 @@ body {
     padding: (map-get($spacers, 1)*0.5) map-get($spacers, 2);
   }
 }
+
+.no-overflow {
+  overflow: hidden;
+}

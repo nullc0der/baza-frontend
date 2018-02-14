@@ -41,6 +41,8 @@
   }
 
   .profile-icon {
+    background-color: $primary;
+    border-radius: 50%;
     @include dimensions(24px);
     margin-right: 8px;
     &.big {

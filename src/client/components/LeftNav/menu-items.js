@@ -50,6 +50,11 @@ module.exports = [
         name: 'My Blog',
         href: '/admin/dashboard/',
         icon: 'fa fa-fw fa-bookmark'
+      },
+      {
+        name: 'Coin Sale',
+        href: '/admin/coinsale',
+        icon: 'fa fa-fw fa-bitcoin'
       }
     ]
   },
