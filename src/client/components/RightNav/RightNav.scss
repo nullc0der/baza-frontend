@@ -1,0 +1,46 @@
+@import 'ui';
+
+$bg-color: #222d32;
+$inactive-tab-color: #181f23;
+$active-tab-color: $bg-color;
+$text-color: #b8c7ce;
+
+:local(.container) {
+  color: text_color;
+  background-color: #222d32;
+
+  right: -1* $admin-sidebar-width;
+  transition: all 0.16s ease;
+  &.is-open {
+    right: 0;
+  }
+  .nav.nav-tabs {
+    display: flex;
+    align-items: stretch;
+    > li {
+      flex: 1;
+      text-align: center;
+      background-color: $inactive-tab-color;
+      &.active {
+        background-color: $active-tab-color;
+      }
+      > a {
+        box-shadow: none;
+        outline: none;
+        border: none;
+      }
+    }
+  }
+
+  .rightnav-tabs,
+  .tab-content,
+  .rightnav-tab {
+    height: 100%;
+  }
+
+  // Temporary
+  .rightnav-tab {
+    text-align: center;
+    padding: 10vh 0;
+  }
+}

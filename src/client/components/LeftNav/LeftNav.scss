@@ -1,0 +1,372 @@
+@import 'ui';
+
+$subheader-padding: 12px;
+$profile-pic-size: 48px;
+$circle-size: 12px;
+$icon-size: 16px;
+$inactive-search-color: rgba(#fff, 0.6);
+$active-search-color: #fff;
+$icon-color: #878787;
+$sidebar-menu-width: $admin-primary-sidebar-menu-width;
+
+:local(.container) {
+  color: inherit;
+  background-color: #fff;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+
+  .leftnav-backdrop {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    z-index: -1;
+    background-color: rgba(#000, 0.42);
+  }
+
+  .fa {
+    display: inline;
+  }
+
+  .user-details {
+    .name,
+    .status {
+      white-space: nowrap;
+    }
+  }
+
+  .secondary-menu {
+    @include media-breakpoint-down(md, $grid-breakpoints) {
+      width: $admin-sidebar-width - 40px;
+    }
+  }
+
+  &.is-open {
+    overflow: visible;
+    .sidebar-header {
+      font-size: 20px;
+    }
+
+    .secondary-menu {
+      position: absolute;
+      left: 40px;
+    }
+
+    @include media-breakpoint-up(md, $grid-breakpoints) {
+      .user-block {
+        .user-image {
+          margin-left: 4px;
+        }
+        .user-details {
+          display: none;
+        }
+      }
+      .menu-search .search-input {
+        color: rgba(#fff, 0);
+        &::placeholder {
+          opacity: 0;
+        }
+      }
+      .search-icon {
+        right: 28px;
+      }
+
+      .sidebar-menu {
+        width: 80px;
+        .secondary-menu-item .menu-inner {
+          width: 40px;
+          overflow: hidden;
+        }
+      }
+    }
+    .sidebar-menu {
+      overflow: visible;
+      position: relative;
+      @include media-breakpoint-down(md, $grid-breakpoints) {
+        overflow-y: auto;
+      }
+      .secondary-menu-item {
+        width: 40px;
+        overflow: visible;
+        white-space: nowrap;
+        @include media-breakpoint-down(md, $grid-breakpoints) {
+          width: auto;
+        }
+        .menu-inner {
+          height: 46px;
+          @include media-breakpoint-down(md, $grid-breakpoints) {
+            position: relative;
+          }
+        }
+        .menu-icon {
+          display: flex;
+        }
+        .menu-dropdown {
+          visibility: hidden;
+          &.is-open {
+            max-height: 0px;
+          }
+        }
+
+        .menu-dropdown-toggle {
+          @include media-breakpoint-down(md, $grid-breakpoints) {
+            position: absolute;
+            right: 8px;
+          }
+        }
+        .sub-submenu-item {
+          padding-left: 52px;
+          background-color: #fff;
+          &:hover {
+            background-color: #fff;
+            color: $admin-primary;
+          }
+          @include media-breakpoint-down(md, $grid-breakpoints) {
+            padding-left: 44px;
+          }
+        }
+        &:hover {
+          width: auto;
+          background-color: $admin-primary;
+          color: #fff;
+          @include media-breakpoint-down(md, $grid-breakpoints) {
+            width: $admin-sidebar-width - 40px;
+          }
+          .menu-dropdown {
+            width: 177px;
+            max-height: 999px;
+            overflow: visible;
+            color: #878787;
+            visibility: visible;
+            @include media-breakpoint-down(md, $grid-breakpoints) {
+              width: 200px;
+            }
+          }
+
+          .menu-dropdown-toggle {
+            position: absolute;
+            top: 8px;
+            right: 2px;
+            @include media-breakpoint-down(md, $grid-breakpoints) {
+              right: 8px;
+            }
+          }
+          .menu-name {
+            overflow: visible;
+            position: absolute;
+            top: 0;
+            left: 40px;
+            bottom: 0;
+            padding: 8px 40px 8px 12px;
+            font-size: 16px;
+            height: 46px;
+            z-index: 200;
+            background-color: $admin-primary;
+            color: #fff;
+            border: 1px rgba(#000, 0.12) solid;
+            border-width: 1px 1px 1px 0;
+            @include media-breakpoint-down(md, $grid-breakpoints) {
+              border: none;
+              padding-left: 4px;
+              right: 0;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .sidebar-header {
+    height: $admin-header-height;
+    background-color: $admin-sidebar-header-bg;
+    color: #fff;
+    font-weight: $font-weight-normal;
+    font-size: 24px;
+  }
+
+  .sidebar-sub-header {
+    height: 2*$admin-subheader-height;
+    // ui-border bottom
+    color: #fff;
+    background-color: $admin-header-bg;
+  }
+}
+
+:local(.container) .user-block {
+  padding: $subheader-padding;
+
+  .user-image {
+    @include dimensions($profile-pic-size);
+    border-radius: 50%;
+    background-color: rgba(#000, 0.4);
+    margin-right: 12px;
+    flex-shrink: 0;
+  }
+
+  .status {
+    padding-left: 18px;
+    position: relative;
+    &:after {
+      position: absolute;
+      left: 0;
+      top: ($circle-size/2);
+      @include dimensions($circle-size);
+      background-color: rgba(#000, 0.12);
+      content: '';
+      border-radius: 50%;
+    }
+    &.is-online:after {
+      background-color: $color_lime500;
+    }
+  }
+}
+
+:local(.container) .menu-search {
+  padding: 0 $subheader-padding;
+  position: relative;
+  .search-input {
+    width: 100%;
+    background-color: rgba(#000, 0.12);
+    border: none;
+    border-radius: 3px;
+    // border 1px rgba(#000, 0.12) solid
+    color: #fff;
+    height: 36px;
+    padding: 4px 12px;
+    box-shadow: none;
+    @include transition();
+    @include placeholder() {
+      color: $inactive-search-color;
+      &:focus {
+        background-color: rgba(#000, 0.24);
+      }
+      & + .search-icon {
+        color: $active-search-color;
+      }
+    }
+  }
+  .search-icon {
+    position: absolute;
+    top: 8px;
+    right: $subheader-padding + 8px;
+    color: $inactive-search-color;
+    @include transition();
+  }
+}
+
+:local(.container) .sidebar-menu {
+  flex: 1;
+  min-height: 200px;
+  color: #878787;
+  overflow-y: auto;
+  background-color: #f1f1f1;
+  background-image: linear-gradient(90deg, #f1f1f1 40px, #fff, 40px, #fff);
+
+  .primary-menu {
+    width: $sidebar-menu-width;
+    flex-shrink: 0;
+  }
+
+  .secondary-menu {
+    background-color: #fff;
+    flex: 1;
+    overflow: visible;
+  }
+
+  .primary-menu-item {
+    width: 100%;
+    display: block;
+    cursor: pointer;
+    padding: 12px 2px 9px 2px;
+    height: 46px;
+    text-align: center;
+    text-decoration: none;
+    color: $icon-color;
+    .fa {
+      font-size: $icon-size;
+    }
+    &:hover {
+      background-color: rgba(#000, 0.12);
+    }
+
+    &.is-active {
+      background-color: #3d3d3d;
+      color: #fff;
+    }
+  }
+
+  .secondary-menu-item {
+    display: block;
+    width: 100%;
+    color: $icon-color;
+    text-decoration: none;
+    outline: none;
+    position: relative;
+    transition: all 0.16s ease;
+  }
+  .menu-dropdown {
+    overflow: hidden;
+    max-height: 0px;
+    transition: all 0.2s ease;
+    background-color: #fff;
+    &.is-open {
+      max-height: 999px;
+    }
+  }
+
+  .menu-dropdown-toggle {
+    padding: 4px 8px;
+    font-size: 12px;
+    // background-color rgba(#000, 0.12)
+  }
+  .menu-inner {
+    display: flex;
+    align-items: center;
+    padding: 5px 10px;
+    height: 46px;
+    cursor: pointer;
+    transition: all 0.1s ease;
+  }
+
+  .menu-icon,
+  .sub-submenu-icon {
+    transition: none;
+    font-size: $icon-size;
+    margin-right: 14px;
+    .fa {
+      width: 20px;
+      text-align: center;
+    }
+  }
+
+  .menu-name,
+  .sub-submenu-name {
+    flex: 1;
+    transition: none;
+    white-space: nowrap;
+  }
+
+  .menu-inner {
+    &:hover,
+    &.is-active,
+    &:focus {
+      background-color: $admin-primary;
+      color: #fff;
+    }
+  }
+
+  .sub-submenu-item {
+    display: flex;
+    align-items: center;
+    padding: 5px 12px 5px 32px;
+    cursor: pointer;
+    &:hover {
+      background-color: theme_primary;
+      color: #fff;
+    }
+  }
+}

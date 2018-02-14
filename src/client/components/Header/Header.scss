@@ -8,128 +8,126 @@ $menu-icon-color: #fff;
 $menu-icon-inter-spacing: -10px;
 
 .app-header {
+  color: #fff;
+  height: $header-height;
+  top: 0;
+  left: 0;
+  right: 0;
+  position: relative;
+
+  &.fixed-top {
+    position: fixed;
+  }
+
+  .nav-link {
     color: #fff;
-    height: $header-height;
-    top: 0;
-    left: 0;
-    right: 0;
-    position: relative;
-
-    &.fixed-top {
-        position: fixed;
+    font-size: $font-size-nav-link;
+    margin: 0 map-get($spacers, 2);
+    text-transform: uppercase;
+    font-weight: $font-weight-bold;
+    letter-spacing: 1.5px;
+    &:hover {
+      color: $primary;
     }
+  }
 
-
+  .center-icon {
+    font-size: 32px;
     .nav-link {
-        color: #fff;
-        font-size: $font-size-nav-link;
-        margin: 0 map-get($spacers, 2);
-        text-transform: uppercase;
-        font-weight: $font-weight-bold;
-        letter-spacing: 1.5px;
-        &:hover {
-            color: $primary;
-        }
+      padding: 0px;
+      width: 48px;
+      height: 48px;
     }
+  }
 
-    .center-icon {
-        font-size: 32px;
-        .nav-link {
-            padding: 0px;
-            width: 48px;
-            height: 48px;
-        }
+  .donate-button {
+    position: absolute;
+    right: map-get($spacers, 2);
+    border-width: 3px;
+    color: $light;
+    border-color: $light;
+    &:hover {
+      color: $dark;
+      border-color: $primary;
     }
+  }
 
-    .donate-button {
-        position: absolute;
-        right: map-get($spacers, 2);
-        border-width: 3px;
-        color: $light;
-        border-color: $light;
-        &:hover {
-            color: $dark;
-            border-color: $primary;
-        }
+  .menu-icon {
+    width: 48px;
+    height: $menu-icon-stroke;
+    color: $menu-icon-color;
+    background-color: currentColor;
+    display: block;
+    position: relative;
+    &:after,
+    &:before {
+      position: absolute;
+      height: $menu-icon-stroke;
+      background-color: currentColor;
+      left: 0;
+      right: 0;
+      content: '';
+    }
+    &:before {
+      top: $menu-icon-inter-spacing;
+      right: 20%;
+    }
+    &:after {
+      bottom: $menu-icon-inter-spacing;
+      right: 40%;
+    }
+  }
+
+  .navbar-toggler {
+    position: absolute;
+    left: map-get($spacers, 2);
+    color: inherit;
+    outline: none;
+    padding-top: 10px;
+    font-size: 32px;
+    margin-left: -1*map-get($spacers, 2);
+  }
+
+  &.navbar-light.fixed-top {
+    .navbar-toggler {
+      color: $dark;
+      border-color: transparent;
     }
 
     .menu-icon {
-        width: 48px;
-        height: $menu-icon-stroke;
-        color: $menu-icon-color;
-        background-color: currentColor;
-        display: block;
-        position: relative;
-        &:after, &:before {
-            position: absolute;
-            height: $menu-icon-stroke;
-            background-color: currentColor;
-            left: 0;
-            right: 0;
-            content: '';
-        }
-        &:before {
-            top: $menu-icon-inter-spacing;
-            right: 20%;
-        }
-        &:after {
-            bottom: $menu-icon-inter-spacing;
-            right: 40%;
-        }
+      color: $dark;
     }
 
-    .navbar-toggler {
+    .donate-button {
+      border-color: $dark;
+      color: $dark;
+    }
+  }
+
+  @include media-breakpoint-down(sm, $grid-breakpoints) {
+    .navbar-collapse {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: $header-height;
+      background-color: $light;
+      @include _shadow-2();
+      .nav-item {
+        width: 100%;
+        text-align: center;
+        padding: map-get($spacers, 1) map-get($spacers, 1);
+      }
+    }
+    &:not(.navbar-light) {
+      .navbar-collapse.show {
         position: absolute;
-        left: map-get($spacers, 2);
-        color: inherit;
-        outline: none;
-        padding-top: 10px;
-        font-size: 32px;
-        margin-left: -1*map-get($spacers, 2);
+        z-index: 1030;
+        top: $header-height;
+        background-color: $light;
+        .nav-link {
+          color: $dark;
+        }
+      }
     }
-
-    &.navbar-light.fixed-top {
-        .navbar-toggler {
-            color: $dark;
-            border-color: transparent;
-        }
-
-        .menu-icon {
-            color: $dark;
-        }
-        
-        .donate-button {
-            border-color: $dark;
-            color: $dark;
-        }
-    }
-
-    @include media-breakpoint-down(sm, $grid-breakpoints) {
-        .navbar-collapse {
-            position: absolute;
-            left: 0;
-            right: 0;
-            top: $header-height;
-            background-color: $light;
-            @include _shadow-2();
-            .nav-item {
-                width: 100%;
-                text-align: center;
-                padding: map-get($spacers, 1) map-get($spacers, 1);
-            }
-        }
-        &:not(.navbar-light) {
-            .navbar-collapse.show {
-                position: absolute;
-                z-index: 1030;
-                top: $header-height;
-                background-color: $light;
-                .nav-link {
-                    color: $dark;
-                }
-            }
-        }
-    }
-    
-
+  }
 }

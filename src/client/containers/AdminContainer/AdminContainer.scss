@@ -1,0 +1,102 @@
+@import 'ui';
+@mixin _fixed-layer() {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+@mixin _absolute-layer() {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+:local(.container) {
+  @include _fixed-layer();
+  overflow: hidden;
+}
+
+:local(.content) {
+  @include _absolute-layer();
+  left: $admin-sidebar-width;
+
+  overflow-x: hidden;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background-color: $admin-body-bg;
+  transition: all 0.16s ease;
+  z-index: 100;
+
+  .content-inner {
+    flex: 1;
+    position: relative;
+  }
+}
+
+:local(.header) {
+  height: $admin-header-height;
+  z-index: 1900;
+}
+
+:local(.subHeader) {
+  color: $admin-text-color;
+}
+
+:local(.leftNav) {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: $admin-sidebar-width;
+  overflow: hidden;
+  transition: all 0.16s ease;
+  z-index: 2000;
+
+  @include media-breakpoint-up(md, $grid-breakpoints) {
+    &.is-open {
+      width: 80px;
+    }
+
+    &.is-open ~ :local(.content) {
+      left: 80px;
+    }
+
+    &.is-open ~ :local(.content) .ui-footer {
+      left: 80px;
+    }
+  }
+
+  @include media-breakpoint-down(md, $grid-breakpoints) {
+    left: (-1*$admin-sidebar_width) !important;
+    z-index: 800;
+
+    & ~ :local(.content) {
+      left: 0px;
+      .ui-footer {
+        left: 0;
+      }
+    }
+
+    &.is-open {
+      width: $admin-sidebar-width;
+      left: 0px !important;
+      .leftnav-backdrop {
+        display: block;
+      }
+    }
+  }
+}
+
+:local(.rightNav) {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  top: $admin-header-height;
+  overflow: hidden;
+  width: $admin-sidebar-width;
+  z-index: 2000;
+}

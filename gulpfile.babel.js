@@ -15,7 +15,6 @@ const WebpackDevServer = require('webpack-dev-server')
 const webpack = require('webpack')
 const webpackHotMiddleware = require('webpack-hot-middleware')
 const webpackDevMiddleware = require('webpack-dev-middleware')
-const browserSync = require('browser-sync')
 
 const webpackClientConfig = require('./tools/webpack.config.client')
 const webpackServerConfig = require('./tools/webpack.config.server')
@@ -153,7 +152,6 @@ gulp.task('default', ['dev'])
 
 
 const exit = ()=> {
-	browserSync && browserSync.exit();
 	devServer && devServer.close();
 	console.log(chalk.green('Stopped'))
 	process.exit(0)
