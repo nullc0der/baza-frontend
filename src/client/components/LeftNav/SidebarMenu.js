@@ -27,7 +27,7 @@ class SidebarMenu extends Component {
   }
 
   setBreadCrumbs = e => {
-    var $el = $(e.currentTarget)
+    // var $el = $(e.currentTarget)
   }
 
   toggleSubMenu = e => {

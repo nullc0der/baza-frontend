@@ -36,15 +36,11 @@ class HeaderMiniChat extends Component {
   }
 
   render() {
-    const { className, username = 'sharad_kant' } = this.props
+    const { className } = this.props
 
     const cx = classnames(c.container, className)
 
     const labelClass = classnames('flex-horizontal', 'a-center', c.label)
-
-    const labelImageStyle = {
-      // backgroundImage: `url('https://placehold.it/48x48')`
-    }
 
     const label = (
       <span className={labelClass}>

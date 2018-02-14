@@ -32,7 +32,7 @@ export default class HeaderNotifications extends Component {
     return (
       <div key={i} className="notification-item flex-horizontal">
         <div className="notification-icon black-bg">
-          <img className="img-responsive" />
+          <img alt="" className="img-fluid" />
         </div>
         <div className="flex-1">
           <div className="notification-title">{item.title}</div>
@@ -46,10 +46,6 @@ export default class HeaderNotifications extends Component {
     const { className } = this.props
     const { list } = this.state
     const cx = classnames(c.container, className)
-
-    const listClass = classnames('notification-list', {
-      'is-open': this.state.isOpen
-    })
 
     const label = (
       <span className="notification-label">

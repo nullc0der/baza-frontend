@@ -50,7 +50,7 @@ export default class UIDropdown extends Component {
 
   handleClick = e => {
     let $root = $(this.root)
-    let $toggle = $(e.currentTarget)
+    // let $toggle = $(e.currentTarget)
 
     $root
       .parent()

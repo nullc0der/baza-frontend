@@ -36,7 +36,7 @@ export default class HeaderProfileButton extends Component {
       <div className="profile-menu">
         <div className="flex-vertical a-center j-center blue-container">
           <div className="profile-icon big no-overflow black-bg">
-            <img className="img-responsive" src={user.image} />
+            <img alt="" className="img-responsive" src={user.image} />
           </div>
           <div className="text-center"> {user.created_at_text} </div>
         </div>
@@ -69,9 +69,6 @@ export default class HeaderProfileButton extends Component {
     const { className, user = SAMPLE_USER } = this.props
 
     const cx = classnames('header-profile-button', className)
-    const menuClass = classnames('profile-menu', {
-      'is-open': this.state.isOpen
-    })
 
     const label = (
       <div className="profile-button flex-horizontal a-center">

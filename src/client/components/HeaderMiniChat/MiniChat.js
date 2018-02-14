@@ -2,8 +2,6 @@ import React, { Component } from 'react'
 import classnames from 'classnames'
 import { connect } from 'react-redux'
 
-import moment from 'moment'
-
 import ChatBodyItem from 'components/ChatBodyItem'
 import ChatFooter from 'components/ChatFooter'
 
@@ -11,7 +9,7 @@ import s from './HeaderMiniChat.scss'
 
 import { actions as chatActions } from 'store/Chat'
 
-import { generateRandomDate, getOnlineStatus } from 'utils/common'
+import { getOnlineStatus } from 'utils/common'
 
 class MiniChat extends Component {
   state = {
@@ -89,7 +87,7 @@ class MiniChat extends Component {
   }
 
   render() {
-    const { className, chats = [] } = this.props
+    const { chats = [] } = this.props
     const cx = classnames(
       s.miniChatHolder,
       'mini-chat-holder',

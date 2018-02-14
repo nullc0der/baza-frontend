@@ -1,6 +1,7 @@
-import CHAT_LIST from 'pages/Admin/Messenger/sample-chats'
+import CHAT_LIST from 'pages/Admin/Messenger/sample-chats' //eslint-disable-line no-unused-vars
 import CHAT_DETAILS from 'pages/Admin/Messenger/sample-detailed-chat'
 
+// eslint-disable-next-line no-unused-vars
 const debug = require('debug')('ekata:store:chat')
 
 const INITIAL_STATE = {
