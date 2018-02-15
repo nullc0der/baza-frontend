@@ -1,9 +1,67 @@
 @import 'ui';
 
+$purchase-button-height: 50px;
+
 :local(.container) {
   flex: 1;
   display: flex;
   flex-direction: column;
   background-color: #fff;
   @include _shadow-1();
+  .page-inner {
+    padding: $admin-gutter/2;
+  }
+  .title {
+    font-size: 16px;
+    font-weight: $font-weight-semibold;
+    text-align: center;
+  }
+  .progress-title {
+    margin-top: 28px;
+    font-size: 16px;
+    font-weight: $font-weight-semibold;
+    color: rgba($dark, 0.5);
+    text-align: center;
+    position: relative;
+    margin-bottom: 30px;
+    &:after,
+    &:before {
+      position: absolute;
+      content: '';
+      bottom: -20px;
+      width: 2px;
+      height: 12px;
+      background-color: #939ca7;
+    }
+    &:after {
+      left: calc(50% + 3px);
+      transform: rotate(45deg);
+    }
+    &:before {
+      right: calc(50% + 3px);
+      transform: rotate(-45deg);
+    }
+  }
+}
+
+:local(.container) .purchase-button {
+  $bgsize: $purchase-button-height/2;
+  height: $purchase-button-height;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: $success;
+  color: #fff;
+  @include gradient-striped();
+  background-size: $bgsize $bgsize;
+
+  font-weight: $font-weight-bold;
+  font-size: 18px;
+}
+
+:local(.container) .sale-description-container {
+  margin-top: 48px;
+  background-color: rgba($dark, 0.08);
+  padding: $admin-gutter/2;
+  text-align: center;
 }

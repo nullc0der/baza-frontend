@@ -1,0 +1,36 @@
+@import 'ui';
+
+$ui-progress-height: 28px;
+$ui-progress-border-radius: 14px;
+
+:local(.container) {
+  height: $ui-progress-height;
+  background-color: rgba($dark, 0.08);
+  border-radius: $ui-progress-border-radius;
+  position: relative;
+  overflow: hidden;
+  font-size: 14px;
+  .ui-progress-bar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    padding: 0 16px;
+    height: $ui-progress-height;
+    border-radius: $ui-progress-border-radius;
+    background-color: $primary;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+  }
+  .ui-progress-active-text {
+    color: #fff;
+    font-weight: $font-weight-bold;
+  }
+  .ui-progress-end-text {
+    position: absolute;
+    right: 16px;
+    font-weight: $font-weight-semibold;
+    color: rgba($dark, 0.5);
+    top: 4px;
+  }
+}

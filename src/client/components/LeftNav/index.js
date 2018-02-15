@@ -30,7 +30,7 @@ class LeftNav extends Component {
           onClick={this.props.onRequestToggle}
         />
         <div className="sidebar-header flex-horizontal a-center j-center">
-          EKATA
+          BAZA
         </div>
         <div className="sidebar-sub-header">
           <div className="user-block flex-horizontal">
