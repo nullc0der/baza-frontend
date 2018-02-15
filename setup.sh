@@ -18,7 +18,7 @@ log "  ✓ Done"
 
 echo "◦ Installing Dependencies..."
 # Install dependencies
-# yarn install --silent
+yarn install --silent
 log "  ✓ Done"
 
 echo "\n◦ Patching modules..."
