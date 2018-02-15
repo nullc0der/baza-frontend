@@ -7,7 +7,7 @@
   "license": "MIT",
   "scripts": {
     "postinstall": "sh ./setup.sh && npm run build",
-    "start": "npm run dev:server",
+    "start": "node build/server.bundle.js",
     "dev": "NODE_ENV=development gulp",
     "dev:server": "nodemon build/server.bundle.js",
     "dist": "DEBUG=baza:* NODE_ENV=production DIST_MODE=1 gulp dist",
