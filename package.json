@@ -1,7 +1,7 @@
 {
   "name": "baza",
   "version": "1.0.0",
-  "description": "Baza Website",
+  "description": "Baza Website + Admin",
   "main": "index.js",
   "author": "Tushar Kant",
   "license": "MIT",
