@@ -12,14 +12,11 @@
     "dev:server": "nodemon build/server.bundle.js",
     "dist": "DEBUG=baza:* NODE_ENV=production DIST_MODE=1 gulp dist",
     "build": "NODE_ENV=production gulp build",
-    "prod:server":
-      "NODE_ENV=production DEBUG=baza:* pm2 start build/server.bundle.js --name baza-frontend",
+    "prod:server": "NODE_ENV=production DEBUG=baza:* pm2 start build/server.bundle.js --name baza-frontend",
     "prod:reload": "pm2 reload baza-frontend",
     "generate-docs": "jsdoc --configure .jsdoc.json --verbose",
-    "profile":
-      "NODE_ENV=production webpack --config tools/webpack.config.client --profile --json > stats.json",
-    "analyze":
-      "npm run profile && webpack-bundle-analyzer stats.json build/public -s gzip"
+    "profile": "NODE_ENV=production webpack --config tools/webpack.config.client --profile --json > stats.json",
+    "analyze": "npm run profile && webpack-bundle-analyzer stats.json build/public -s gzip"
   },
   "dependencies": {
     "animate.css": "^3.5.2",
@@ -67,6 +64,7 @@
     "jsdoc": "3.5.5",
     "jstransformer-uglify-js": "^1.2.0",
     "lodash": "^4.17.4",
+    "luxon": "^0.5.0",
     "mixitup": "^3.2.2",
     "moment": "^2.20.1",
     "morgan": "1.9.0",

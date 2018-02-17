@@ -4,11 +4,12 @@ $ui-progress-height: 28px;
 $ui-progress-border-radius: 14px;
 
 :local(.container) {
+  margin: 50px 0;
   height: $ui-progress-height;
   background-color: rgba($dark, 0.08);
   border-radius: $ui-progress-border-radius;
   position: relative;
-  overflow: hidden;
+  overflow: visible;
   font-size: 14px;
   .ui-progress-bar {
     position: absolute;
@@ -18,9 +19,12 @@ $ui-progress-border-radius: 14px;
     height: $ui-progress-height;
     border-radius: $ui-progress-border-radius;
     background-color: $primary;
+    @include thin-gradient();
+    background-size: 9px $ui-progress-height;
     display: flex;
     align-items: center;
     justify-content: flex-end;
+    transition: all 0.24s ease-in-out;
   }
   .ui-progress-active-text {
     color: #fff;
@@ -32,5 +36,35 @@ $ui-progress-border-radius: 14px;
     font-weight: $font-weight-semibold;
     color: rgba($dark, 0.5);
     top: 4px;
+  }
+  .ui-progress-tooltip {
+    position: absolute;
+    color: rgba($dark, 0.5);
+    font-size: 16px;
+    &:after {
+      position: absolute;
+      font-size: 14px;
+      left: 50%;
+      margin-left: -7px;
+      font-family: 'FontAwesome';
+      content: '\f078';
+    }
+  }
+  .current-tooltip {
+    top: -50px;
+    padding-bottom: 50px;
+    &:after {
+      bottom: 30px;
+      content: '\f078';
+    }
+  }
+  .end-tooltip {
+    bottom: -50px;
+    right: 0;
+    padding-top: 50px;
+    &:after {
+      top: 30px;
+      content: '\f077';
+    }
   }
 }

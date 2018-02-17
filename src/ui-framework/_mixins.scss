@@ -17,3 +17,13 @@
     @content;
   }
 }
+
+@mixin thin-gradient($angle: 45deg, $color: rgba(0,0,0,0.05)) {
+  background-image: repeating-linear-gradient(
+    $angle,
+    transparent,
+    transparent 20%,
+    $color 20%,
+    $color 25%
+  );
+}

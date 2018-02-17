@@ -52,7 +52,7 @@ class App extends Component {
   render() {
     return (
       <section className={s.container}>
-        <Helmet titleTemplate="%s | Ekata" defaultTitle="Ekata Social" />
+        <Helmet titleTemplate="%s | Baza" defaultTitle="Baza" />
         <MiniChat />
         <LeftNav
           className={s.leftNav}

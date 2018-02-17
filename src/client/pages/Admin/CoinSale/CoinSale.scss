@@ -3,7 +3,6 @@
 $purchase-button-height: 50px;
 
 :local(.container) {
-  flex: 1;
   display: flex;
   flex-direction: column;
   background-color: #fff;
@@ -15,53 +14,101 @@ $purchase-button-height: 50px;
     font-size: 16px;
     font-weight: $font-weight-semibold;
     text-align: center;
-  }
-  .progress-title {
-    margin-top: 28px;
-    font-size: 16px;
-    font-weight: $font-weight-semibold;
-    color: rgba($dark, 0.5);
-    text-align: center;
-    position: relative;
-    margin-bottom: 30px;
-    &:after,
-    &:before {
-      position: absolute;
-      content: '';
-      bottom: -20px;
-      width: 2px;
-      height: 12px;
-      background-color: #939ca7;
-    }
-    &:after {
-      left: calc(50% + 3px);
-      transform: rotate(45deg);
-    }
-    &:before {
-      right: calc(50% + 3px);
-      transform: rotate(-45deg);
+    &.top-title {
+      padding-bottom: map-get($spacers, 3);
     }
   }
 }
 
-:local(.container) .purchase-button {
-  $bgsize: $purchase-button-height/2;
+:local(.purchaseButton) {
   height: $purchase-button-height;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   background-color: $success;
-  color: #fff;
-  @include gradient-striped();
-  background-size: $bgsize $bgsize;
-
-  font-weight: $font-weight-bold;
-  font-size: 18px;
+  background-size: 16px $purchase-button-height;
+  transition: all 0.24s ease;
+  position: relative;
+  cursor: pointer;
+  @include thin-gradient();
+  &:hover {
+    background-color: darken($success, 5%);
+  }
+  .ui-progress {
+    margin: 0;
+    height: 100%;
+    border-radius: 0;
+    &.is-hidden {
+      opacity: 0;
+    }
+  }
+  .ui-progress-bar {
+    height: 100%;
+    border-radius: 0;
+    background-size: 22px $purchase-button-height;
+    background-color: rgba(0, 0, 0, 0.2);
+    border-radius: 0 36px 36px 0;
+  }
+  .purchase-button-text {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1;
+    font-size: 18px;
+    font-weight: $font-weight-bold;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .date-title {
+    padding: 0 40px 0 20px;
+    position: relative;
+    &:after {
+      position: absolute;
+      right: 20px;
+      content: ' : ';
+    }
+  }
+  .time-item {
+    padding: 0 10px;
+  }
 }
 
 :local(.container) .sale-description-container {
   margin-top: 48px;
   background-color: rgba($dark, 0.08);
-  padding: $admin-gutter/2;
+  padding: 48px;
   text-align: center;
+  .sale-item-container {
+    margin-top: 44px;
+  }
+  .sale-item-title {
+    margin-bottom: 30px;
+    color: rgba($dark, 0.5);
+    position: relative;
+    &:after {
+      position: absolute;
+      left: 50%;
+      bottom: -12px;
+      width: 50px;
+      margin-left: -25px;
+      content: '';
+      height: 2px;
+      background-color: rgba($dark, 0.1);
+    }
+  }
+  .sale-item-amount {
+    color: $dark;
+    font-size: 16px;
+    font-weight: $font-weight-semibold;
+  }
+  .btn {
+    height: 22px;
+    padding: 1px 14px;
+    border-radius: 22px;
+    font-size: 12px;
+  }
+  .btn-warning {
+    color: #fff;
+  }
 }

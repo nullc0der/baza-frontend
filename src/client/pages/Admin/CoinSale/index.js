@@ -2,116 +2,122 @@ import React, { Component } from 'react'
 import classnames from 'classnames'
 import PropTypes from 'prop-types'
 
-import ProgressBar from 'components/ui/ProgressBar'
+import CoinSale from './CoinSale'
+import PurchaseButton from './PurchaseButton'
+
+import { DateTime } from 'luxon'
 
 import s from './CoinSale.scss'
 
-const ACTION_STATUS_TEXT_MAP = {
-  'sold-out': 'Sold Out',
-  'almost-gone': 'Almost Gone',
-  available: 'Available'
-}
+const START_TIME = DateTime.fromObject({
+  year: 2018,
+  month: 2,
+  days: 1,
+  hours: 0,
+  minutes: 0,
+  seconds: 0
+})
+const END_TIME = DateTime.fromObject({
+  year: 2018,
+  month: 3,
+  days: 11,
+  hours: 0,
+  minutes: 0,
+  seconds: 0
+})
 
-const PurchaseButton = props => {
-  return (
-    <div className="purchase-button" onClick={props.onClick}>
-      PURCHASE
-    </div>
+const getCountdownValues = (startDate, endDate) => {
+  const now = DateTime.local()
+  const duration = endDate.diff(now, ['days', 'hours', 'minutes', 'seconds'])
+
+  const diff = duration.toObject()
+  const countdown = Object.keys(diff).reduce((result, key) => {
+    var v = Math.floor(diff[key])
+    result[key] = v.toString().length === 1 ? `0${v}` : v
+    return result
+  }, {})
+
+  const countdownProgress = Math.floor(
+    (endDate.valueOf() - now.valueOf()) *
+      100 /
+      (endDate.valueOf() - startDate.valueOf())
   )
-}
 
-const SaleItem = props => {
-  const actionClass = classnames('sale-action btn', {
-    'btn-danger': props.status === 'sold-out',
-    'btn-warning': props.status === 'almost-gone',
-    'btn-success': props.status === 'available'
-  })
-
-  const actionText = ACTION_STATUS_TEXT_MAP[props.status]
-
-  return (
-    <div className="sale-item">
-      <div className="sale-item-title">{props.title}</div>
-      <div className="sale-item-amount">{props.amount}</div>
-      <button className={actionClass}>{actionText}</button>
-    </div>
-  )
-}
-
-SaleItem.propTypes = {
-  status: PropTypes.oneOf(['sold-out', 'almost-gone', 'available'])
+  return { countdown, countdownProgress }
 }
 
 export default class CoinSalePage extends Component {
+  state = {
+    totalAvailableCoins: 600000,
+    totalSoldCoins: 400000,
+    isSaleOpen: true,
+    isSaleWaiting: false,
+    startTime: START_TIME,
+    endTime: END_TIME,
+    countdownPercentage: 0,
+    countdown: {
+      days: 0,
+      hours: 0,
+      minutes: 0,
+      seconds: 0
+    }
+  }
+
   static propTypes = {
     className: PropTypes.string
+  }
+
+  componentDidMount = () => {
+    this.startIntervalTimer()
+  }
+
+  startIntervalTimer = () => {
+    this.interval = window.setInterval(this.startTimer, 1000)
+  }
+
+  startTimer = () => {
+    const { startTime, endTime } = this.state
+    const { countdown, countdownProgress } = getCountdownValues(
+      startTime,
+      endTime
+    )
+    this.setState({ countdown, countdownProgress })
+    console.log('setting countdown: ', countdown, countdownProgress)
+  }
+
+  componentWillUnmount = () => {
+    if (this.interval) {
+      window.clearInterval(this.interval)
+    }
   }
 
   render() {
     const cx = classnames(s.container)
 
+    const {
+      totalAvailableCoins,
+      totalSoldCoins,
+      isSaleOpen,
+      countdown,
+      countdownProgress,
+      isSaleWaiting
+    } = this.state
+
     return (
       <div className={cx}>
-        <div className="page-inner container-fluid flex-1 flex-vertical">
-          <div className="row">
-            <div className="col-md-8 mx-auto">
-              <h4 className="title">
-                BAZA FOUNDATION 1 MILLION COIN <br /> SALE
-              </h4>
-              <div className="progress-title">Coin Sale</div>
-              <ProgressBar
-                activeText="400,000 BAZ"
-                percentage={60}
-                endText="600,000 BAZ"
-              />
-            </div>
-          </div>
-          <div className="flex-1" />
-          <div className="sale-description-container">
-            <div className="row">
-              <div className="col-md-8 mx-auto">
-                <h4 className="title mb-1">DETAILS</h4>
-                <p>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                  do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                  Ut enim ad minim veniam, quis nostrud exercitation ullamco
-                  laboris nisi ut aliquip ex ea commodo consequat.
-                </p>
-                <div className="row">
-                  <div className="col-md-3">
-                    <SaleItem
-                      status="sold-out"
-                      title="FIrst 100K BAZ Coins"
-                      amount="$0.50 USD"
-                    />
-                  </div>
-                  <div className="col-md-3">
-                    <SaleItem
-                      status="almost-gone"
-                      title="FIrst 100K BAZ Coins"
-                      amount="$0.50 USD"
-                    />
-                  </div>
-                  <div className="col-md-3">
-                    <SaleItem
-                      status="available"
-                      title="FIrst 100K BAZ Coins"
-                      amount="$0.50 USD"
-                    />
-                  </div>
-                  <div className="col-md-3">
-                    <SaleItem
-                      status="available"
-                      title="FIrst 100K BAZ Coins"
-                      amount="$0.50 USD"
-                    />
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+        <div className="page-inner container-fluid flex-vertical">
+          <CoinSale
+            totalAvailableCoins={totalAvailableCoins}
+            totalSoldCoins={totalSoldCoins}
+          />
         </div>
-        <PurchaseButton />
+        <PurchaseButton
+          buttonText="PURCHASE"
+          isSaleOpen={isSaleOpen}
+          percentage={countdownProgress}
+          endTime={countdown}
+          isSaleWaiting={isSaleWaiting}
+        />
       </div>
     )
   }

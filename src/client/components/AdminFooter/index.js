@@ -17,11 +17,10 @@ export default class Footer extends Component {
     return (
       <div className={cx}>
         <div className="flex-horizontal a-center">
-          <b>Copyright &copy; 2014-2016 Ekata.&nbsp;</b>
+          <b>Copyright &copy; 2014-2018 Baza.&nbsp;</b>
           <span>All rights reserved.</span>
           <span className="badge badge-pill pill-blue pill-powered">
-            {' '}
-            Powered by Ekata{' '}
+            Powered by Baza
           </span>
         </div>
         <div className="flex-1" />
