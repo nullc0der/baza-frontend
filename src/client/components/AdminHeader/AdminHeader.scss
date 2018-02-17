@@ -3,6 +3,7 @@
 :local(.container) {
   background-color: $admin-header-bg;
   color: $admin-header-text;
+  flex-shrink: 0;
 
   .material-icons {
     font-size: 24px;

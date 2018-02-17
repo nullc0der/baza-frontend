@@ -43,6 +43,7 @@ $purchase-button-height: 50px;
     height: 100%;
     border-radius: 0;
     background-size: 22px $purchase-button-height;
+    background-image: none;
     background-color: rgba(0, 0, 0, 0.2);
     border-radius: 0 36px 36px 0;
   }

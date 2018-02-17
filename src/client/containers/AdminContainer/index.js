@@ -67,7 +67,7 @@ class App extends Component {
             onSettingsToggle={this.toggleRightNav}
           />
           <SubHeader className={s.subHeader} />
-          <section className="content-inner flex-vertical">
+          <section className="content-inner">
             {AdminRoutes(this.props.location)}
           </section>
           <Footer />

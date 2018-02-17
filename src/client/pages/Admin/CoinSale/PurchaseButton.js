@@ -2,6 +2,7 @@ import React, { Fragment } from 'react'
 
 import s from './CoinSale.scss'
 
+import noop from 'lodash/noop'
 import ProgressBar from 'components/ui/ProgressBar'
 
 const createDateText = (title, date) => {
@@ -24,8 +25,10 @@ const PurchaseButton = props => {
       ? createDateText('Next Release', props.endTime)
       : props.buttonText
 
+  const onClickFn = props.isSaleOpen ? props.onClick : noop
+
   return (
-    <div className={s.purchaseButton}>
+    <div className={s.purchaseButton} onClick={onClickFn}>
       <div className="purchase-button-text">{buttonText}</div>
       <ProgressBar
         className={`${percentage === 0 ? 'is-hidden' : ''}`}

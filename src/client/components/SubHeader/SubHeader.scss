@@ -1,6 +1,7 @@
 @import 'ui';
 
 :local(.container) {
+  flex-shrink: 0;
   background-color: #fff;
   height: $admin-subheader-height;
   border-bottom: 1px $border-color solid;

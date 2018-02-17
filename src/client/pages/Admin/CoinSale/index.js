@@ -4,6 +4,7 @@ import PropTypes from 'prop-types'
 
 import CoinSale from './CoinSale'
 import PurchaseButton from './PurchaseButton'
+import PurchaseDialog from './PurchaseDialog'
 
 import { DateTime } from 'luxon'
 
@@ -54,6 +55,7 @@ export default class CoinSalePage extends Component {
     isSaleWaiting: false,
     startTime: START_TIME,
     endTime: END_TIME,
+    isPurchaseDialogOpen: false,
     countdownPercentage: 0,
     countdown: {
       days: 0,
@@ -82,13 +84,20 @@ export default class CoinSalePage extends Component {
       endTime
     )
     this.setState({ countdown, countdownProgress })
-    console.log('setting countdown: ', countdown, countdownProgress)
+    // console.log('setting countdown: ', countdown, countdownProgress)
   }
 
   componentWillUnmount = () => {
     if (this.interval) {
       window.clearInterval(this.interval)
     }
+  }
+
+  openPurchaseDialog = () => {
+    this.setState({ isPurchaseDialogOpen: true })
+  }
+  closePurchaseDialog = () => {
+    this.setState({ isPurchaseDialogOpen: false })
   }
 
   render() {
@@ -117,6 +126,11 @@ export default class CoinSalePage extends Component {
           percentage={countdownProgress}
           endTime={countdown}
           isSaleWaiting={isSaleWaiting}
+          onClick={this.openPurchaseDialog}
+        />
+        <PurchaseDialog
+          isOpen={this.state.isPurchaseDialogOpen}
+          onRequestClose={this.closePurchaseDialog}
         />
       </div>
     )
