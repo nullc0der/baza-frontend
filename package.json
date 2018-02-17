@@ -19,7 +19,7 @@
     "analyze": "npm run profile && webpack-bundle-analyzer stats.json build/public -s gzip"
   },
   "dependencies": {
-    "animate.css": "^3.5.2",
+    "animate.css": "3.6.1",
     "autoprefixer": "^8.0.0",
     "axis": "^1.0.0",
     "babel-core": "6.26.0",
