@@ -113,3 +113,33 @@ $purchase-button-height: 50px;
     color: #fff;
   }
 }
+
+:local(.purchaseDialog) {
+  .purchase-amount-input .ui-textfield-input {
+    text-align: center;
+    border-bottom-width: 2px;
+    height: 65px;
+    padding-bottom: 12px;
+    font-size: 21px;
+    font-weight: $font-weight-bold;
+  }
+  .modal-footer {
+    padding: map-get($spacers, 2) map-get($spacers, 3);
+    justify-content: center;
+    background-color: $light;
+  }
+  .baz-conversion {
+    height: 128px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 28px;
+    line-height: 33px;
+    color: $dark;
+    font-weight: $font-weight-bold;
+  }
+  .baz-unit {
+    opacity: 0.5;
+    margin-left: 8px;
+  }
+}

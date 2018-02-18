@@ -1,95 +1,77 @@
-@import "ui";
+@import 'ui';
 
 $dialog-width: 830px;
 $dialog-padding-x: map-get($spacers, 2);
 $dialog-padding-y: map-get($spacers, 3);
 
 :local(.donationDialog) {
+  .modal-dialog {
+    width: 830px;
+    max-width: 90vw;
+  }
+  .modal-body {
+    padding-top: 0;
+  }
+
+  .other-donation-button {
+    &:hover,
+    &:active,
+    &:focus,
+    &:active:focus,
+    &:not([disabled]):active,
+    &:not(.disabled):active {
+      background: none;
+    }
+    .other-button-input {
+      width: 90px;
+      text-align: center;
+    }
+  }
+
+  .other-button-input {
+    outline: none;
+    display: block;
+    color: $dark;
+    @include _typography-h3();
+    border: none;
+    background: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .donate-buttons {
+    flex-wrap: wrap;
+    justify-content: space-around;
+    .btn {
+      min-width: 96px;
+      display: flex;
+      height: 64px;
+      align-items: center;
+      justify-content: center;
+      padding: map-get($spacers, 2);
+      margin: map-get($spacers, 2) map-get($spacers, 2);
+      @include _typography-h3();
+    }
+  }
+
+  @include media-breakpoint-down(sm, $grid-breakpoints) {
     .modal-dialog {
-        width: 830px;
-        max-width: 90vw;
+      max-width: unset;
+      width: 100vw;
     }
     .modal-body {
-        padding-top: 0;
+      padding-left: map-get($spacers, 3);
+      padding-right: map-get($spacers, 3);
     }
-
-    .other-donation-button {
-        &:hover, 
-        &:active, 
-        &:focus, 
-        &:active:focus,
-        &:not([disabled]):active,
-        &:not(.disabled):active {
-            background: none;
-        }
-        .other-button-input {
-            width: 90px;
-            text-align: center;
-        }
-    }
-
-    .other-button-input {
-        outline: none;
-        display: block;
-        color: $dark;
-        @include _typography-h3();
-        border: none;
-        background: none;
-        padding: 0;
-        margin: 0;
-    }
-
     .donate-buttons {
-        flex-wrap: wrap;
-        justify-content: space-around;
-        .btn {
-            min-width: 96px;
-            display: flex;
-            height: 64px;
-            align-items: center;
-            justify-content: center;
-            padding: map-get($spacers, 2);
-            margin: map-get($spacers, 2) map-get($spacers, 2);
-            @include _typography-h3();
-        }
+      .btn {
+        min-width: 64px;
+        margin: map-get($spacers, 1) map-get($spacers, 1);
+      }
     }
+  }
 
-    @include media-breakpoint-down(sm, $grid-breakpoints) {
-        .modal-dialog {
-            max-width: unset;
-            width: 100vw;
-        }
-        .modal-body {
-            padding-left: map-get($spacers, 3);
-            padding-right: map-get($spacers, 3);
-        }
-        .donate-buttons {
-            .btn {
-                min-width: 64px;
-                margin: map-get($spacers, 1) map-get($spacers, 1);
-            }
-        }
-    }
-
-    .payment-image {
-        height: 26px;
-        width: 120px;
-        background-repeat: no-repeat;
-        background-position: center center;
-        background-size: contain;
-        & + .payment-image {
-            margin-left: map-get($spacers, 2);
-        }
-    }
-
-    .payment-image-ssl {
-        background-image: url('/public/img/ssl_encrypted.svg');
-    }
-    .payment-image-stripe {
-        background-image: url('/public/img/powered_by_stripe.svg');
-    }
-    .form-check-input + .form-check-label {
-        margin-left: map-get($spacers, 2);
-    }
-
+  .form-check-input + .form-check-label {
+    margin-left: map-get($spacers, 2);
+  }
 }

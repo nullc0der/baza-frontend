@@ -46,7 +46,7 @@ export default class Dialog extends Component {
   }
 
   render() {
-    const { className, isOpen, title } = this.props
+    const { className, isOpen, title, footer } = this.props
 
     const cx = classnames(s.container, 'ui-dialog modal fade', className, {
       show: isOpen
@@ -78,6 +78,7 @@ export default class Dialog extends Component {
               </button>
             </div>
             <div className="modal-body">{this.props.children}</div>
+            {!!footer && <div className="modal-footer">{footer}</div>}
           </div>
         </div>
       </div>

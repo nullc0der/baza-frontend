@@ -7,9 +7,23 @@ $dialog-title-padding-x: 50px;
   &.show {
     display: block;
   }
-
+  .modal-content {
+    border-radius: 10px;
+  }
+  .modal-footer {
+    border-radius: 0 0 10px 10px;
+  }
   .modal-dialog {
     z-index: $zindex-modal;
+    @include media-breakpoint-only(md, $grid-breakpoints) {
+      max-width: 650px;
+    }
+    @include media-breakpoint-only(lg, $grid-breakpoints) {
+      max-width: 800px;
+    }
+    @include media-breakpoint-up(xl, $grid-breakpoints) {
+      max-width: 950px;
+    }
   }
 
   .modal-header {
