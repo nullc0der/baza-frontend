@@ -118,6 +118,7 @@ export default class CoinSalePage extends Component {
           <CoinSale
             totalAvailableCoins={totalAvailableCoins}
             totalSoldCoins={totalSoldCoins}
+            isSaleWaiting={isSaleWaiting}
           />
         </div>
         <PurchaseButton

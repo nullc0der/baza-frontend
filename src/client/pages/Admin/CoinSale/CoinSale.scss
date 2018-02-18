@@ -142,4 +142,13 @@ $purchase-button-height: 50px;
     opacity: 0.5;
     margin-left: 8px;
   }
+  .button-purchase-wrap .btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    .material-icons {
+      margin-left: 8px;
+      font-size: 20px;
+    }
+  }
 }

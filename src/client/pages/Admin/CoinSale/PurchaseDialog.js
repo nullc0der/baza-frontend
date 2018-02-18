@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import classnames from 'classnames'
 import Dialog from 'components/ui/Dialog'
 
 import last from 'lodash/last'
@@ -35,6 +36,32 @@ export default class PurchaseDialog extends Component {
     return multiplier ? amount * multiplier : 0
   }
 
+  getSubmitButton = device => {
+    const cx = classnames('mt-3 mb-2 button-purchase-wrap', {
+      'd-none d-md-block d-lg-block d-xl-block': device === 'desktop',
+      'd-md-none d-lg-none d-xl-none': device === 'mobile'
+    })
+    return (
+      <div className={cx}>
+        <button className="btn btn-dark btn-block">
+          <span>PURCHASE</span>
+          <i className="material-icons">arrow_forward</i>
+        </button>
+        <div className="form-check form-check-inline mt-2 mb-2">
+          <input
+            className="form-check-input"
+            type="checkbox"
+            id="add_to_newsletter"
+            value="add_to_newsletter"
+          />
+          <label className="form-check-label" htmlFor="add_to_newsletter">
+            Yes! Add me to your newsletter list
+          </label>
+        </div>
+      </div>
+    )
+  }
+
   render() {
     return (
       <Dialog
@@ -54,11 +81,13 @@ export default class PurchaseDialog extends Component {
             <div className="baz-conversion well p-2 mt-3">
               {this.state.conversion} <span className="baz-unit">BAZ</span>
             </div>
+            {this.getSubmitButton('desktop')}
           </div>
-          <div className="col-md-7">
+          <div className="col-md-7 mt-2 mt-md-0 mt-lg-0 mt-xl-0">
             <PaymentInformation />
           </div>
         </div>
+        {this.getSubmitButton('mobile')}
         <PaymentBadges />
       </Dialog>
     )
