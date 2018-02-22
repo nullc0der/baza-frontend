@@ -53,6 +53,7 @@ export default class CoinSalePage extends Component {
     totalSoldCoins: 400000,
     isSaleOpen: true,
     isSaleWaiting: false,
+    selectedCurrency: 'USD',
     startTime: START_TIME,
     endTime: END_TIME,
     isPurchaseDialogOpen: false,
@@ -100,6 +101,11 @@ export default class CoinSalePage extends Component {
     this.setState({ isPurchaseDialogOpen: false })
   }
 
+  onCurrencySelect = currency => {
+    this.setState({ selectedCurrency: currency.name })
+    console.log('selected currency: ', currency)
+  }
+
   render() {
     const cx = classnames(s.container)
 
@@ -108,6 +114,7 @@ export default class CoinSalePage extends Component {
       totalSoldCoins,
       isSaleOpen,
       countdown,
+      selectedCurrency,
       countdownProgress,
       isSaleWaiting
     } = this.state
@@ -119,6 +126,8 @@ export default class CoinSalePage extends Component {
             totalAvailableCoins={totalAvailableCoins}
             totalSoldCoins={totalSoldCoins}
             isSaleWaiting={isSaleWaiting}
+            selectedCurrency={selectedCurrency}
+            onCurrencySelect={this.onCurrencySelect}
           />
         </div>
         <PurchaseButton
@@ -130,6 +139,8 @@ export default class CoinSalePage extends Component {
           onClick={this.openPurchaseDialog}
         />
         <PurchaseDialog
+          selectedCurrency={selectedCurrency}
+          onCurrencySelect={this.onCurrencySelect}
           isOpen={this.state.isPurchaseDialogOpen}
           onRequestClose={this.closePurchaseDialog}
         />

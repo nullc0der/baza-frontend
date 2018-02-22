@@ -81,6 +81,7 @@ export default class UIDropdown extends Component {
       listItemClass = '',
       items = [],
       itemRenderer,
+      toggleClassName = '',
       dropdownFooter = false
     } = this.props
 
@@ -88,9 +89,14 @@ export default class UIDropdown extends Component {
       'has-footer': !!dropdownFooter
     })
 
-    const toggleClass = classnames(c.toggle, 'ui-dropdown-toggle', {
-      'is-active': this.state.isOpen
-    })
+    const toggleClass = classnames(
+      c.toggle,
+      'ui-dropdown-toggle',
+      {
+        'is-active': this.state.isOpen
+      },
+      toggleClassName
+    )
 
     const listClass = classnames(c.list, 'flex-vertical', 'ui-dropdown-list', {
       'is-active': this.state.isOpen

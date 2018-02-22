@@ -2,23 +2,21 @@ import React, { Component } from 'react'
 import classnames from 'classnames'
 import Dialog from 'components/ui/Dialog'
 
-import last from 'lodash/last'
+// import last from 'lodash/last'
 
 import TextField from 'components/ui/TextField'
 import PaymentInformation, {
   PaymentBadges
 } from 'components/PaymentInformation'
 
-import s from './CoinSale.scss'
+import { CurrencyDropdown } from './CoinSale'
+import { CONVERSION_TABLE, CURRENCIES } from './data'
 
-const CONVERSION_TABLE = {
-  usd: 0.00434,
-  inr: 0.00043
-}
+import s from './CoinSale.scss'
 
 export default class PurchaseDialog extends Component {
   state = {
-    purchaseAmount: '$1 USD',
+    purchaseAmount: '1',
     conversion: CONVERSION_TABLE['usd']
   }
 
@@ -30,10 +28,17 @@ export default class PurchaseDialog extends Component {
 
   convertAmountToBAZ = str => {
     const amount = (str + '').replace(/\D/g, '') || 0
-    const unit = last((str + '').split(' '))
-
-    const multiplier = CONVERSION_TABLE[unit.toLowerCase()]
+    // const unit = last((str + '').split(' '))
+    const unit = this.props.selectedCurrency.toLowerCase()
+    const multiplier = CONVERSION_TABLE[unit]
     return multiplier ? amount * multiplier : 0
+  }
+
+  onCurrencySelect = currency => {
+    this.setState({
+      conversion: this.state.purchaseAmount * CONVERSION_TABLE[currency.key]
+    })
+    this.props.onCurrencySelect(currency)
   }
 
   getSubmitButton = device => {
@@ -72,6 +77,10 @@ export default class PurchaseDialog extends Component {
         onRequestClose={this.props.onRequestClose}>
         <div className="row">
           <div className="col-md-5">
+            <CurrencyDropdown
+              selectedCurrency={this.props.selectedCurrency}
+              onCurrencySelect={this.onCurrencySelect}
+            />
             <div className="text-center">Enter Amount</div>
             <TextField
               className="purchase-amount-input"
