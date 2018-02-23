@@ -1,0 +1,54 @@
+@import 'ui';
+
+$active-tab-color: #4e92df;
+$inactive-tab-color: $dark;
+$completed-tab-color: $success;
+$error-tab-color: $danger;
+
+:local(.container) {
+  color: inherit;
+  .modal-dialog {
+    max-width: 620px;
+  }
+  .modal-content {
+    border-radius: 3px;
+  }
+  .modal-body {
+    padding: 30px 18px;
+  }
+}
+
+:local(.container) .admin-signup-tabs {
+  display: flex;
+  align-items: stretch;
+  .admin-signup-tab {
+    flex: 1;
+    padding: 10px 10px;
+    text-align: center;
+    color: $inactive-tab-color;
+    // background-color: rgba(0, 0, 0, 0.2);
+    border-bottom: 2px currentColor solid;
+    opacity: 0.5;
+    height: 40px;
+
+    &:not(:first-child) {
+      margin-left: map-get($spacers, 2);
+    }
+
+    &.is-selected,
+    &.is-completed,
+    &.has-error {
+      opacity: 1;
+    }
+
+    &.is-selected {
+      color: $active-tab-color;
+    }
+    &.is-completed {
+      color: $completed-tab-color;
+    }
+    &.has-error {
+      color: $error-tab-color;
+    }
+  }
+}

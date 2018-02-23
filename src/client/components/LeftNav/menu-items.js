@@ -55,6 +55,11 @@ module.exports = [
         name: 'Coin Sale',
         href: '/admin/coinsale',
         icon: 'fa fa-fw fa-bitcoin'
+      },
+      {
+        name: 'Admin SignUp',
+        href: '#!admin-signup',
+        icon: 'fa fa-fw fa-user'
       }
     ]
   },
