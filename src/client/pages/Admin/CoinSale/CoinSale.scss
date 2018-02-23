@@ -163,6 +163,7 @@ $purchase-button-height: 50px;
     position: absolute;
     right: 0;
     top: 0;
+    z-index: 1;
     margin: 20px;
     .dropdown-toggle:after {
       margin-bottom: -2px;

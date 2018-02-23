@@ -107,7 +107,7 @@ export default class CoinSalePage extends Component {
   }
 
   render() {
-    const cx = classnames(s.container)
+    const cx = classnames(s.container, this.props.className)
 
     const {
       totalAvailableCoins,
