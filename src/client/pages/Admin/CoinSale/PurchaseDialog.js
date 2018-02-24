@@ -10,7 +10,7 @@ import PaymentInformation, {
 } from 'components/PaymentInformation'
 
 import { CurrencyDropdown } from './CoinSale'
-import { CONVERSION_TABLE, CURRENCIES } from './data'
+import { CONVERSION_TABLE } from './data'
 
 import s from './CoinSale.scss'
 

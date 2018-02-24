@@ -42,6 +42,7 @@ export default class TextField extends Component {
       inputClassName,
       label = false,
       icon = false,
+      center = false,
       type = 'text',
       errorState = null,
       value,
@@ -52,7 +53,8 @@ export default class TextField extends Component {
     const cx = classnames(s.container, 'ui-textfield', className)
 
     const inputClass = classnames('ui-textfield-input', inputClassName, {
-      'has-value': this.state.value || value
+      'has-value': this.state.value || value,
+      'in-center': center
     })
 
     const _Label = !!label && (

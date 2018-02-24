@@ -3,6 +3,9 @@ import classnames from 'classnames'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { push } from 'react-router-redux'
+
+import SwipeableViews from 'react-swipeable-views'
+
 import Dialog from 'components/ui/Dialog'
 
 import s from './AdminSignUp.scss'
@@ -10,13 +13,18 @@ import s from './AdminSignUp.scss'
 import AdminSignUpTabs from './AdminSignUpTabs'
 import AdminSignUpFooter from './AdminSignUpFooter'
 
+import NameAddressSection from './NameAddressSection'
+import EmailSection from './EmailSection'
+import MobileSection from './MobileSection'
+import DocumentsSection from './DocumentsSection'
+
 class AdminSignUpDialog extends Component {
   static propTypes = {
     className: PropTypes.string
   }
 
   state = {
-    selectedTab: 0,
+    selectedIndex: 0,
     completedTabs: '',
     errorTabs: ''
   }
@@ -24,6 +32,14 @@ class AdminSignUpDialog extends Component {
   closeAdminSignUpDialog = () => {
     const { pathname, hash } = this.props.location
     this.props.navigate(pathname + (hash || '').replace('#!admin-signup', ''))
+  }
+
+  switchTab = (tab, selectedIndex) => {
+    this.setState({ selectedIndex })
+  }
+
+  changeSwipeIndex = index => {
+    this.setState({ index })
   }
 
   render() {
@@ -37,9 +53,17 @@ class AdminSignUpDialog extends Component {
         <AdminSignUpTabs
           completedTabs={this.state.completedTabs}
           errorTabs={this.state.errorTabs}
-          selectedIndex={this.state.selectedTab}
+          selectedIndex={this.state.selectedIndex}
+          onTabClick={this.switchTab}
         />
-        <h3> Admin SignUp </h3>
+        <SwipeableViews
+          index={this.state.selectedIndex}
+          onChangeIndex={this.changeSwipeIndex}>
+          <NameAddressSection />
+          <EmailSection />
+          <MobileSection />
+          <DocumentsSection />
+        </SwipeableViews>
         <AdminSignUpFooter />
       </Dialog>
     )

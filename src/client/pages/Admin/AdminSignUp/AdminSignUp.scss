@@ -5,16 +5,30 @@ $inactive-tab-color: $dark;
 $completed-tab-color: $success;
 $error-tab-color: $danger;
 
+$footer-btn-color: #4e92df;
+
 :local(.container) {
   color: inherit;
   .modal-dialog {
-    max-width: 620px;
+    max-width: 550px;
   }
   .modal-content {
     border-radius: 3px;
   }
   .modal-body {
-    padding: 30px 18px;
+    padding: 30px 18px 0;
+  }
+
+  .btn {
+    height: 50px;
+    font-size: inherit;
+    font-weight: inherit;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    border-radius: 0;
+    color: #fff;
   }
 }
 
@@ -23,6 +37,7 @@ $error-tab-color: $danger;
   align-items: stretch;
   .admin-signup-tab {
     flex: 1;
+    cursor: pointer;
     padding: 10px 10px;
     text-align: center;
     color: $inactive-tab-color;
@@ -50,5 +65,112 @@ $error-tab-color: $danger;
     &.has-error {
       color: $error-tab-color;
     }
+  }
+}
+
+:local(.container) .admin-signup-footer {
+  margin: 0 -18px;
+  font-size: 18px;
+  font-weight: $font-weight-semibold;
+  color: #fff;
+  .become-donor-check {
+    padding: 0 18px;
+    height: 48px;
+    background-color: $primary;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .bottom-buttons {
+    position: relative;
+  }
+  .btn {
+    background-color: $footer-btn-color;
+    border: none;
+    height: 50px;
+    color: #fff;
+  }
+  .submit-button {
+    border-radius: 0;
+  }
+  .skip-button {
+    position: absolute;
+    z-index: 1;
+    font-weight: $font-weight-bold;
+    left: 0;
+    top: 0;
+    background-color: darken($footer-btn-color, 10%);
+    border-radius: 0 24px 24px 0;
+  }
+}
+
+:local(.container) .signup-section {
+  $text-color: rgba($dark, 0.5);
+  padding: 30px 64px;
+  color: $text-color;
+  .ui-textfield-input {
+    border-bottom-color: $text-color;
+  }
+  .ui-textfield-label {
+    color: $text-color;
+  }
+  .ui-textfield.is-textbox {
+    background-color: $light;
+    padding: 12px 24px;
+    .ui-textfield-label {
+      left: 24px;
+      bottom: 10px;
+    }
+    .ui-textfield-input {
+      border-bottom: none;
+      @include placeholder() {
+        opacity: 0.5;
+      }
+      &:focus,
+      &.has-value {
+        & + .ui-textfield-label {
+          bottom: 28px;
+        }
+      }
+    }
+  }
+
+  .section-title {
+    font-weight: $font-weight-semibold;
+    text-align: center;
+  }
+
+  .send-verification-btn {
+    border-radius: 0;
+    color: #fff;
+    height: 50px;
+    font-weight: $font-weight-bold;
+  }
+
+  .verification-submit-btn {
+    height: 60px;
+  }
+}
+
+:local(.container) .documents-section {
+  .image-preview-container {
+    width: 128px;
+    height: 128px;
+    margin: 10px auto;
+    background-color: $light;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center center;
+  }
+  .file-input-container {
+    position: relative;
+  }
+  .file-input {
+    display: none;
+  }
+  .selected-file-name {
+    background-color: $light;
+    margin-right: 15px;
+    padding: 16px 20px 15px 20px;
   }
 }

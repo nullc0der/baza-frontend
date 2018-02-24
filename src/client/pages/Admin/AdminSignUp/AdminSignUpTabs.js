@@ -2,7 +2,7 @@ import React from 'react'
 import classnames from 'classnames'
 
 const TABS = [
-  { name: 'Name & Address' },
+  { name: 'General' },
   { name: 'Email' },
   { name: 'Mobile No.' },
   { name: 'Docs' }
@@ -32,6 +32,7 @@ const AdminSignUpTabs = props => {
         })
         return (
           <div
+            key={index}
             className={tabClassName}
             onClick={e => props.onTabClick(tab, index)}>
             {tab.name}
