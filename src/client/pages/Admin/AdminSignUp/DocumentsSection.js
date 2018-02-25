@@ -53,6 +53,22 @@ export default class DocumentsSection extends Component {
             BROWSE
           </button>
         </div>
+        <div className="upload-guidelines mt-2">
+          <div className="guideline-dashed font-weight-bold">
+            IMAGE UPLOAD GUIDELINES
+          </div>
+          <div className="guideline-dashed">
+            Upload a recent photo of yourself or image proof of identification
+          </div>
+          <div className="guideline">
+            <div className="label">Format</div>
+            <div className="value">JPG, JPEG, PNG</div>
+          </div>
+          <div className="guideline">
+            <div className="label">Size</div>
+            <div className="value">512px X 512px (min)</div>
+          </div>
+        </div>
       </div>
     )
   }

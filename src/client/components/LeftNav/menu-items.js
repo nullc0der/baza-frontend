@@ -60,6 +60,11 @@ module.exports = [
         name: 'Admin SignUp',
         href: '#!admin-signup',
         icon: 'fa fa-fw fa-user'
+      },
+      {
+        name: 'Wallets Page',
+        href: '/admin/wallets',
+        icon: 'fa fa-fw fa-credit-card'
       }
     ]
   },

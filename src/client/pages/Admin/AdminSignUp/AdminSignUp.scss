@@ -16,7 +16,7 @@ $footer-btn-color: #4e92df;
     border-radius: 3px;
   }
   .modal-body {
-    padding: 30px 18px 0;
+    padding: 30px 0 0;
   }
 
   .btn {
@@ -106,7 +106,7 @@ $footer-btn-color: #4e92df;
 
 :local(.container) .signup-section {
   $text-color: rgba($dark, 0.5);
-  padding: 30px 64px;
+  padding: 30px 65px;
   color: $text-color;
   .ui-textfield-input {
     border-bottom-color: $text-color;
@@ -153,6 +153,8 @@ $footer-btn-color: #4e92df;
 }
 
 :local(.container) .documents-section {
+  height: 100%;
+  position: relative;
   .image-preview-container {
     width: 128px;
     height: 128px;
@@ -172,5 +174,39 @@ $footer-btn-color: #4e92df;
     background-color: $light;
     margin-right: 15px;
     padding: 16px 20px 15px 20px;
+  }
+  .upload-guidelines {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: $light;
+    padding: 16px 65px;
+  }
+  .guideline-dashed {
+    position: relative;
+    margin-bottom: map-get($spacers, 2);
+    &:after {
+      position: absolute;
+      content: '';
+      left: 0;
+      bottom: -8px;
+      height: 2px;
+      width: 44px;
+      background-color: rgba(0, 0, 0, 0.12);
+    }
+  }
+  .guideline {
+    display: flex;
+    align-items: center;
+    .label {
+      width: 100px;
+      position: relative;
+      &:after {
+        position: absolute;
+        right: 10px;
+        content: ':';
+      }
+    }
   }
 }
