@@ -15,6 +15,8 @@ const STORE_TIMEOUT = 3000
 
 const debug = require('debug')('baza:store')
 
+export var store
+
 function _saveLocalState(providedState = {}) {
   localStorage.setItem(LOCAL_KEY, JSON.stringify(providedState))
   debug('Stated synced to local')
@@ -46,7 +48,7 @@ export function configureStore(initialState = {}, history) {
   const composed = compose(applyMiddleware(...middlewares), devTools)
 
   // Create the store
-  const store = createStore(rootReducer, initialState, composed)
+  store = createStore(rootReducer, initialState, composed)
 
   // Easier debugging in dev mode
   if (process.env.NODE_ENV === 'development' && !__SERVER__) {

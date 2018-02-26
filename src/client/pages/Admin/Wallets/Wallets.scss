@@ -1,0 +1,34 @@
+@import 'ui';
+
+$sidebar-width: 210px;
+
+:local(.container) {
+  color: inherit;
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  height: 100%;
+  @include _shadow-1();
+  .accounts-sidebar {
+    background-color: #fff;
+    width: $sidebar-width;
+    flex-shrink: 0;
+    position: relative;
+    z-index: 1;
+    padding: map-get($spacers, 3);
+    @include _shadow-1();
+  }
+  .transanctions-table {
+    background-color: #fff;
+    flex: 1;
+    padding: map-get($spacers, 3);
+  }
+}
+
+:local(.container) .accounts-sidebar {
+  .sidebar-title {
+    width: 100%;
+    text-align: center;
+    font-weight: $font-weight-semibold;
+  }
+}

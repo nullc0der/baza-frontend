@@ -20,6 +20,7 @@
   },
   "dependencies": {
     "animate.css": "3.6.1",
+    "apisauce": "^0.14.3",
     "autoprefixer": "^8.0.0",
     "axis": "^1.0.0",
     "babel-core": "6.26.0",
@@ -51,6 +52,7 @@
     "eslint-plugin-react": "7.6.1",
     "express": "4.16.2",
     "extract-text-webpack-plugin": "3.0.2",
+    "felicity": "^2.4.6",
     "file-loader": "^1.1.6",
     "fs-extra": "5.0.0",
     "glob": "7.1.2",
@@ -60,6 +62,7 @@
     "http-proxy-middleware": "0.17.4",
     "imagesloaded": "^4.1.4",
     "jest": "^22.0.4",
+    "joi": "^13.1.2",
     "jquery": "^3.2.1",
     "jsdoc": "3.5.5",
     "jstransformer-uglify-js": "^1.2.0",

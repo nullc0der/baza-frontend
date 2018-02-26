@@ -7,6 +7,8 @@ import Groups from './Groups'
 import Members from './Members'
 import Runtime from './Runtime'
 
+import WalletAccounts from './WalletAccounts'
+
 export default combineReducers({
   router,
   Runtime,
@@ -14,5 +16,7 @@ export default combineReducers({
   Chat,
   Common,
   Groups,
-  Members
+  Members,
+
+  WalletAccounts
 })
