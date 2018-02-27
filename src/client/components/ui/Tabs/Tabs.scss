@@ -1,0 +1,23 @@
+@import 'ui';
+
+:local(.container) {
+  color: inherit;
+  display: flex;
+  align-items: stretch;
+  .ui-tab {
+    flex: 1;
+    cursor: pointer;
+    padding: 10px 10px;
+    text-align: center;
+    color: $dark;
+    border-bottom: 2px currentColor solid;
+    opacity: 0.5;
+    height: 40px;
+    &:not(:first-child) {
+      margin-left: map-get($spacers, 2);
+    }
+    &.is-selected {
+      opacity: 1;
+    }
+  }
+}

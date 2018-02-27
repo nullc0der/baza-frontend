@@ -1,12 +1,15 @@
 import { DispatchAPI } from 'api/base'
 import * as WalletAccountsAPI from 'api/wallet-accounts'
 
+import get from 'lodash/get'
+
 const createAction = str => `WALLET_ACCOUNTS_${str}`
 
 const INITIAL_STATE = {
   isLoading: false,
   hasError: false,
-  list: []
+  list: [],
+  selectedWalletId: null
 }
 
 const FETCH_ACCOUNTS = createAction('FETCH_ACCOUNTS')
@@ -22,7 +25,7 @@ const FETCH_ACCOUNTS_SUCCESS = createAction('FETCH_ACCOUNTS_SUCCESS')
 const fetchAccountsSuccess = response => {
   return {
     type: FETCH_ACCOUNTS_SUCCESS,
-    list: []
+    list: get(response, 'data.results', [])
   }
 }
 
@@ -34,8 +37,15 @@ const fetchAccountsFailure = err => {
   }
 }
 
+const SELECT_WALLET = createAction('SELECT_WALLET')
+const selectWallet = walletId => ({
+  type: SELECT_WALLET,
+  walletId
+})
+
 export const actions = {
-  fetchAccounts
+  fetchAccounts,
+  selectWallet
 }
 
 export default function WalletAccountsReducer(state = INITIAL_STATE, action) {
@@ -46,6 +56,8 @@ export default function WalletAccountsReducer(state = INITIAL_STATE, action) {
       return { ...state, isLoading: false, list: [...action.list] }
     case FETCH_ACCOUNTS_FAILURE:
       return { ...state, isLoading: false, hasError: action.error }
+    case SELECT_WALLET:
+      return { ...state, selectedWalletId: get(action, 'walletId', null) }
     default:
       return state
   }

@@ -1,11 +1,13 @@
 import React from 'react'
 import classnames from 'classnames'
 
+import Tabs from 'components/ui/Tabs'
+
 const TABS = [
-  { name: 'General' },
-  { name: 'Email' },
-  { name: 'Mobile No.' },
-  { name: 'Docs' }
+  { label: 'General' },
+  { label: 'Email' },
+  { label: 'Mobile No.' },
+  { label: 'Docs' }
 ]
 
 // Converts a tab csv to array
@@ -22,24 +24,25 @@ const AdminSignUpTabs = props => {
   const completedTabs = parseTabs(props.completedTabs)
   const errorTabs = parseTabs(props.errorTabs)
 
+  const list = TABS.map((tab, index) => {
+    const className = classnames({
+      'is-completed': completedTabs.includes(index),
+      'has-error': errorTabs.includes(index)
+    })
+    return {
+      ...tab,
+      className
+    }
+  })
+
   return (
-    <div className="admin-signup-tabs">
-      {TABS.map((tab, index) => {
-        const tabClassName = classnames('admin-signup-tab', {
-          'is-completed': completedTabs.includes(index),
-          'is-selected': props.selectedIndex === index,
-          'has-error': errorTabs.includes(index)
-        })
-        return (
-          <div
-            key={index}
-            className={tabClassName}
-            onClick={e => props.onTabClick(tab, index)}>
-            {tab.name}
-          </div>
-        )
-      })}
-    </div>
+    <Tabs
+      className="admin-signup-tabs"
+      tabClassName="admin-signup-tab"
+      tabs={list}
+      onTabClick={props.onTabClick}
+      selectedIndex={props.selectedIndex}
+    />
   )
 }
 

@@ -1,7 +1,7 @@
 import { create } from 'apisauce'
 import { store } from 'store/index'
 
-const debug = require('debug')('chefstalk:api:base')
+const debug = require('debug')('baza:api:base')
 
 const api = create({
   baseURL: '/api/mock',

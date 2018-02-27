@@ -1,7 +1,5 @@
 @import 'ui';
-
 $sidebar-width: 210px;
-
 :local(.container) {
   color: inherit;
   display: flex;
@@ -15,20 +13,178 @@ $sidebar-width: 210px;
     flex-shrink: 0;
     position: relative;
     z-index: 1;
-    padding: map-get($spacers, 3);
+    display: flex;
+    flex-direction: column;
+    padding: map-get($spacers, 3) 0;
     @include _shadow-1();
   }
   .transanctions-table {
     background-color: #fff;
     flex: 1;
     padding: map-get($spacers, 3);
+    display: flex;
+    flex-direction: column;
   }
 }
 
 :local(.container) .accounts-sidebar {
+  $pad-y: map-get($spacers, 2);
+  $pad-x: 10px;
   .sidebar-title {
     width: 100%;
     text-align: center;
     font-weight: $font-weight-semibold;
+    padding: 0 $pad-x;
+  }
+  .sidebar-items {
+    flex: 1;
+    overflow-y: auto;
+    min-height: 200px;
+  }
+  .account-sidebar-item {
+    cursor: pointer;
+    margin: map-get($spacers, 2);
+    border: 1px $dark solid;
+    border-radius: 1px;
+    @include _shadow-0();
+    transition: all 0.24s ease;
+    &:hover:not(.is-selected) {
+      @include _shadow-1();
+    }
+    &.is-selected {
+      border-left-width: 17px;
+      margin-left: 0px;
+    }
+    &:not(.is-selected) .account-actions-wrap {
+      display: none;
+    }
+  }
+  .account-actions-wrap {
+    position: relative;
+    &:after {
+      position: absolute;
+      left: 0;
+      top: 0;
+      content: '';
+      height: 2px;
+      width: 48px;
+      background-color: $dark;
+    }
+  }
+  .action-btn {
+    width: 50%;
+    display: inline-block;
+    text-align: center;
+    padding: 9px;
+    font-weight: $font-weight-semibold;
+    font-size: 12px;
+    text-transform: uppercase;
+    cursor: pointer;
+    &:hover {
+      background-color: $light;
+    }
+    .material-icons {
+      position: relative;
+      top: 1px;
+    }
+  }
+  .account-details-wrap {
+    display: flex;
+    align-items: center;
+    padding-top: $pad-y;
+    padding-bottom: $pad-y;
+  }
+  .wallet-account-img {
+    object-fit: contain;
+    object-position: center center;
+    max-width: 100%;
+  }
+  .wallet-account-image {
+    height: 36px;
+    width: 36px;
+    flex-shrink: 0;
+    margin-left: 12px;
+    margin-right: 12px;
+  }
+  .wallet-account-details {
+    flex: 1;
+  }
+  .wallet-name {
+    font-weight: $font-weight-semibold;
+    font-size: 14px;
+  }
+  .wallet-conversion-rate {
+    font-weight: $font-weight-normal;
+    font-size: 12px;
+    opacity: 0.5;
+  }
+}
+
+:local(.container) .transanctions-table {
+  .table-title {
+    font-weight: $font-weight-semibold;
+  }
+  .ReactTable {
+    border: none;
+    .rt-thead.-header {
+      box-shadow: none;
+    }
+    .rt-th {
+      text-align: left;
+      padding-bottom: 24px;
+      font-size: 12px;
+      font-weight: $font-weight-semibold;
+      text-transform: uppercase;
+      position: relative;
+      &:after {
+        position: absolute;
+        right: 8px;
+        top: 7px;
+        font-family: 'FontAwesome';
+        content: '\f0dc';
+        opacity: 0;
+        color: $dark;
+      }
+      &.-sort-asc,
+      &.-sort-desc {
+        box-shadow: none;
+        &:after {
+          opacity: 1;
+        }
+      }
+      &.-sort-asc:after {
+        content: '\f0de';
+      }
+      &.-sort-desc:after {
+        content: '\f0dd';
+      }
+    }
+    .rt-tr-group {
+      border: none;
+    }
+    .rt-th,
+    .rt-td {
+      border: none;
+    }
+    .rt-td {
+      height: 48px;
+      display: flex;
+      align-items: center;
+    }
+    .rt-th,
+    .rt-td {
+      &:first-child {
+        margin-left: 16px;
+      }
+      &:not(:last-child) {
+        margin-right: 21px;
+      }
+    }
+    .rt-tr.-even {
+      background-color: $light;
+    }
+    .td-status {
+      font-weight: $font-weight-semibold;
+    }
   }
 }

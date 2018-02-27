@@ -1,11 +1,11 @@
 @import 'ui';
 
-$active-tab-color: #4e92df;
+$active-tab-color: $admin-active-tab-color;
 $inactive-tab-color: $dark;
 $completed-tab-color: $success;
 $error-tab-color: $danger;
 
-$footer-btn-color: #4e92df;
+$footer-btn-color: $admin-active-tab-color;
 
 :local(.container) {
   color: inherit;
@@ -33,24 +33,8 @@ $footer-btn-color: #4e92df;
 }
 
 :local(.container) .admin-signup-tabs {
-  display: flex;
-  align-items: stretch;
+  margin: 0 18px;
   .admin-signup-tab {
-    flex: 1;
-    cursor: pointer;
-    padding: 10px 10px;
-    text-align: center;
-    color: $inactive-tab-color;
-    // background-color: rgba(0, 0, 0, 0.2);
-    border-bottom: 2px currentColor solid;
-    opacity: 0.5;
-    height: 40px;
-
-    &:not(:first-child) {
-      margin-left: map-get($spacers, 2);
-    }
-
-    &.is-selected,
     &.is-completed,
     &.has-error {
       opacity: 1;
@@ -113,26 +97,6 @@ $footer-btn-color: #4e92df;
   }
   .ui-textfield-label {
     color: $text-color;
-  }
-  .ui-textfield.is-textbox {
-    background-color: $light;
-    padding: 12px 24px;
-    .ui-textfield-label {
-      left: 24px;
-      bottom: 10px;
-    }
-    .ui-textfield-input {
-      border-bottom: none;
-      @include placeholder() {
-        opacity: 0.5;
-      }
-      &:focus,
-      &.has-value {
-        & + .ui-textfield-label {
-          bottom: 28px;
-        }
-      }
-    }
   }
 
   .section-title {
