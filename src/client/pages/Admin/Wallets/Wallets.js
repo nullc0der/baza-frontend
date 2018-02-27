@@ -14,10 +14,10 @@ export default class WalletsPage extends Component {
   }
 
   openReceiveDialog = accountId => {
-    this.setState({ isPaymentDialogOpen: true, paymentDialogScreenIndex: 0 })
+    this.setState({ isPaymentDialogOpen: true, paymentDialogScreenIndex: 1 })
   }
   openSendDialog = accountId => {
-    this.setState({ isPaymentDialogOpen: true, paymentDialogScreenIndex: 1 })
+    this.setState({ isPaymentDialogOpen: true, paymentDialogScreenIndex: 0 })
   }
 
   closeDialog = () => {
@@ -35,6 +35,7 @@ export default class WalletsPage extends Component {
         <TransanctionsTable />
         <PaymentDialog
           id="wallet-payment-dialog"
+          selectedTab={this.state.paymentDialogScreenIndex}
           isOpen={this.state.isPaymentDialogOpen}
           onRequestClose={this.closeDialog}
         />

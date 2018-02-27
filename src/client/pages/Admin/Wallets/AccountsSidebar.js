@@ -33,13 +33,13 @@ class AccountsSidebar extends Component {
         <div className="account-actions-wrap">
           <div
             className="action-btn"
-            onClick={e => this.props.onRequestReceive(wallet, index, e)}>
-            Receive <i className="material-icons">arrow_upward</i>
+            onClick={e => this.props.onRequestSend(wallet, index, e)}>
+            Send <i className="material-icons">arrow_upward</i>
           </div>
           <div
             className="action-btn"
-            onClick={e => this.props.onRequestSend(wallet, index, e)}>
-            Send <i className="material-icons">arrow_downward</i>
+            onClick={e => this.props.onRequestReceive(wallet, index, e)}>
+            Receive <i className="material-icons">arrow_downward</i>
           </div>
         </div>
       </div>

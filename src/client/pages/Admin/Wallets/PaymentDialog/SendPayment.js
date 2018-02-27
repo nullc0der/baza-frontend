@@ -1,6 +1,6 @@
 import React from 'react'
 import classnames from 'classnames'
-
+import PropTypes from 'prop-types'
 import TextField from 'components/ui/TextField'
 
 const SendPayment = props => {
@@ -35,9 +35,17 @@ const SendPayment = props => {
       </div>
 
       <div className="flex-1" />
-      <button className="btn btn-info bottom-submit-btn mt-3">SUBMIT</button>
+      <button
+        className="btn btn-info bottom-submit-btn mt-3"
+        onClick={props.onSendSubmitClick}>
+        SUBMIT
+      </button>
     </div>
   )
+}
+
+SendPayment.propTypes = {
+  onSendSubmitClick: PropTypes.func.isRequired
 }
 
 export default SendPayment

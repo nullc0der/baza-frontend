@@ -16,12 +16,29 @@ export default class PaymentsDialog extends Component {
     selectedTab: 0
   }
 
+  componentDidMount = () => {
+    if (this.props.selectedTab) {
+      this.setState({ selectedTab: this.props.selectedTab })
+    }
+  }
+
+  componentWillReceiveProps = nextProps => {
+    this.setState({ selectedTab: nextProps.selectedTab })
+  }
+
   switchTab = (tab, selectedTab) => {
     this.setState({ selectedTab })
   }
 
   switchSwipeTab = selectedTab => {
     this.setState({ selectedTab })
+  }
+
+  onReceiveSubmitClick = () => {
+    console.log('receive submit clicked')
+  }
+  onSendSubmitClick = () => {
+    console.log('send submit clicked')
   }
 
   render() {
@@ -43,8 +60,8 @@ export default class PaymentsDialog extends Component {
         <SwipeableViews
           index={this.state.selectedTab}
           onChange={this.switchSwipeTab}>
-          <SendPayment />
-          <ReceivePayment />
+          <SendPayment onSendSubmitClick={this.onSendSubmitClick} />
+          <ReceivePayment onReceiveSubmitClick={this.onReceiveSubmitClick} />
         </SwipeableViews>
       </Dialog>
     )
