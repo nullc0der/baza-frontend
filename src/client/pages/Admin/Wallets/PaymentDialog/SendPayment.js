@@ -3,12 +3,15 @@ import classnames from 'classnames'
 import PropTypes from 'prop-types'
 import TextField from 'components/ui/TextField'
 
+import SelectDropdown from 'components/ui/SelectDropdown'
+
 const SendPayment = props => {
   const cx = classnames('send-payment payment-tab-content flex-vertical')
   return (
     <div className={cx}>
       <div className="tab-content-inner">
-        <TextField className="mt-3" label="Address or Select User" />
+        <SelectDropdown className="mt-3" label="Address or Select User" />
+
         <div className="row align-items-center">
           <div className="col-md-6 mt-3">
             <TextField label="Select Account" />

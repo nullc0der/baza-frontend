@@ -1,0 +1,22 @@
+@import 'ui';
+
+:local(.container) {
+  color: inherit;
+  .ui-select-dropdown-label {
+    position: relative;
+    &:after {
+      font-family: 'FontAwesome';
+      font-size: 14px;
+      position: absolute;
+      content: '\f0d7';
+      top: 8px;
+      right: 0px;
+      opacity: 0.5;
+    }
+    &:focus {
+      &:after {
+        transform: rotate(180deg);
+      }
+    }
+  }
+}
