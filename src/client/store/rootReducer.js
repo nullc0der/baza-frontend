@@ -9,6 +9,7 @@ import Runtime from './Runtime'
 
 import WalletAccounts from './WalletAccounts'
 import WalletTransanctions from './WalletTransanctions'
+import DistributionSignUp from './DistributionSignUp'
 
 export default combineReducers({
   router,
@@ -20,5 +21,6 @@ export default combineReducers({
   Members,
 
   WalletAccounts,
-  WalletTransanctions
+  WalletTransanctions,
+  DistributionSignUp
 })
