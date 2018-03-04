@@ -1,4 +1,6 @@
+// import get from 'lodash/get'
 import moment from 'moment'
+
 function randomDate(start, end) {
   return new Date(
     start.getTime() + Math.random() * (end.getTime() - start.getTime())
@@ -35,3 +37,14 @@ export function getImageURLFromFile(file) {
     reader.readAsDataURL(file)
   })
 }
+
+// export function selectState(namespaceKey, childProps) {
+//   return function selectFromReduxState(state) {
+//     const namespace = get(state, namespaceKey, {})
+//     const expandedProps = Object.keys(childProps).reduce((result, key)=>{
+
+//       return result
+//     }, {})
+//     return expandedProps
+//   }
+// }

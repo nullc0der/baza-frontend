@@ -1,15 +1,36 @@
-import { jsonAPI } from './base'
+import { jsonAPI } from './base' //eslint-disable-line no-unused-vars
 
 export const saveAccount = data => {
-  const { id, accountData } = data
+  // mock api
+  return Promise.resolve({ data })
 
-  const method = id ? 'put' : 'post'
-  const url = '/distribution-signup' + (id ? `/${id}` : '')
+  // real api
+  // const { id, accountData } = data
 
-  return jsonAPI(api => api[method](url, accountData))
+  // const method = id ? 'put' : 'post'
+  // const url = '/distribution-signup' + (id ? `/${id}` : '')
+
+  // return jsonAPI(api => api[method](url, accountData))
 }
 
 export const fetchAccount = id => {
-  const url = `/distribution-signup/${id}`
-  return jsonAPI(api => api.get(url))
+  // mock api
+  return Promise.resolve({ data: id })
+
+  // real api
+  // const url = `/distribution-signup/${id}`
+  // return jsonAPI(api => api.get(url))
+}
+
+export const deletePhoto = photoId => {
+  // mock api
+  return Promise.resolve({
+    data: {
+      id: photoId
+    }
+  })
+
+  // real api
+  // const url = `/distribution-signup/delete-photo/${photoId}`
+  // return jsonAPI(api => api.delete(url))
 }

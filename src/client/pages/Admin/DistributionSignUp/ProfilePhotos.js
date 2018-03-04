@@ -1,26 +1,40 @@
 import React, { Component } from 'react'
-
-const PHOTOS_LIST = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+import { connect } from 'react-redux'
+import { actions as distributionActions } from 'store/DistributionSignUp'
 
 class ProfilePhotos extends Component {
+  onRequestPhotoDelete = photo => {
+    console.log('deleting photo: ', photo)
+    this.props.deletePhoto(photo.id)
+  }
   render() {
+    const photos = this.props.list || []
     return (
       <div className="signup-details-section profile-photos-section">
         <div className="section-title">
           Photos
-          <a href="#" className="badge badge-link badge-light">
-            <i className="fa fa-plus" /> Add Photos
-          </a>
+          {this.props.editMode && (
+            <a href="#" className="badge badge-link badge-light">
+              <i className="fa fa-plus" /> Add Photos
+            </a>
+          )}
         </div>
         <div className="photos-list mt-2">
-          {PHOTOS_LIST.map(x => {
+          {photos.map(photo => {
             return (
-              <div className="profile-photo-item" key={x}>
+              <div className="profile-photo-item" key={photo.id}>
                 <img
                   className="profile-photo-item-img img-fluid"
                   alt=""
-                  src={`https://api.adorable.io/avatars/285/abott${x}@adorable.png`}
+                  src={photo.url}
                 />
+                {this.props.editMode && (
+                  <div
+                    className="photo-item-delete"
+                    onClick={e => this.onRequestPhotoDelete(photo)}>
+                    REMOVE
+                  </div>
+                )}
               </div>
             )
           })}
@@ -30,4 +44,14 @@ class ProfilePhotos extends Component {
   }
 }
 
-export default ProfilePhotos
+const mapStateToProps = state => ({
+  list: state.DistributionSignUp.data.photos
+})
+
+const mapDispatchToProps = dispatch => ({
+  deletePhoto(photoId) {
+    return dispatch(distributionActions.deletePhoto(photoId))
+  }
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(ProfilePhotos)

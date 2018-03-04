@@ -59,8 +59,39 @@
   }
 }
 
+:local(.container) .edit-mode-bar {
+  margin: -30px -30px 30px;
+  padding: 12px 20px;
+  background-color: $primary;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  .btn + .btn {
+    margin-left: 16px;
+  }
+}
+
 :local(.container) .profile-details-section {
   display: flex;
+  position: relative;
+  .profile-dropdown {
+    position: absolute;
+    right: 0;
+    top: 0;
+    .dropdown-toggle {
+      color: #979797;
+      background-color: #f6f6f6;
+      padding-left: 10px;
+      padding-right: 10px;
+    }
+    .dropdown-item {
+      cursor: pointer;
+    }
+    .dropdown-menu.show {
+      left: initial;
+      right: 0;
+    }
+  }
   .profile-photo {
     height: 140px;
     width: 140px;
@@ -138,6 +169,7 @@
   .profile-photo-item {
     display: inline-block;
     height: 90px;
+    position: relative;
     width: 90px;
     overflow: hidden;
     border-radius: 50px;
@@ -148,6 +180,29 @@
     }
     @include media-breakpoint-down(sm, $grid-breakpoints) {
       margin: map-get($spacers, 2);
+    }
+    .photo-item-delete {
+      background-color: rgba(red, 0.5);
+      color: #fff;
+      font-weight: $font-weight-semibold;
+      cursor: pointer;
+      position: absolute;
+      top: 0;
+      left: 0;
+      opacity: 0;
+      height: 100%;
+      width: 100%;
+      transform: translate3d(0, 100px, 0);
+      transition: all 0.24s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    &:hover {
+      .photo-item-delete {
+        opacity: 1;
+        transform: translate3d(0px, 0px, 0px);
+      }
     }
   }
 }

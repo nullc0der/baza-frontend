@@ -1,65 +1,67 @@
 /*eslint-env browser*/
-import React from "react";
-import ReactDOM from "react-dom";
-import { AppContainer } from "react-hot-loader";
+import React from 'react'
+import ReactDOM from 'react-dom'
+import { AppContainer } from 'react-hot-loader'
 // import { BrowserRouter } from "react-router-dom";
 
-import { configureStore, saveLocalState, loadLocalState } from "./store/index";
+import { configureStore, saveLocalState, loadLocalState } from './store/index'
 
 import createHistory from 'history/createBrowserHistory'
 // import {ConnectedRouter} from 'react-router-redux'
 
-import Root from "./containers/Root";
-
+import Root from './containers/Root'
 
 // Create Initial History Object
-const history = createHistory();
-
+const history = createHistory()
 
 // Check if server sent a dehydrated state
-const initialState = window.INITIAL_STATE || {};
+const initialState = window.INITIAL_STATE || {}
 
 // Check if a localState is present
-const localState = loadLocalState() || {};
+const localState = loadLocalState() || {}
 
 // Combine the final state
-const finalState = { ...localState, ...initialState };
+const finalState = { ...localState, ...initialState }
 
 // Initialize our store
-const store = configureStore(finalState, history);
+const store = configureStore(finalState, history)
 
 // Save a local copy whenever store changes
 store.subscribe(() => {
-	saveLocalState(store.getState());
-});
+  saveLocalState(store.getState())
+})
 
 // Usually you'd want to remove server copy of minimum css in SSR here
 // you also can do your post initialization tasks here,
 // 	 e.g. (re)initializing global libraries such as bootstrap/tooltip
 const onRenderComplete = () => {
-	console.timeEnd("react:rendered-in");
-	console.log('renderCount: ', renderCounter)
-};
+  console.timeEnd('react:rendered-in')
+  console.log('renderCount: ', renderCounter)
+}
 
 // If you have multiple containers before actual router's <Switch> / <Route> kicks in
 // You need to pass a ever changing prop. otherwise app won't show update
 // This happens because until <Switch> / <Route> is encountered the container's prop remains unchanged,
 // and the default `shouldComponentUpdate()` fails
-var renderCounter = 0;
+var renderCounter = 0
 const renderApp = Component => {
-	const renderFn = !!module.hot ? ReactDOM.render : ReactDOM.hydrate
-	console.time("react:rendered-in");
-	renderFn(
-		<AppContainer>
-			<Component history={history} store={store} renderCounter={++renderCounter} />
-		</AppContainer>,
-		document.getElementById("root"),
-		onRenderComplete
-	);
-};
+  const renderFn = !!module.hot ? ReactDOM.render : ReactDOM.hydrate
+  console.time('react:rendered-in')
+  renderFn(
+    <AppContainer>
+      <Component
+        history={history}
+        store={store}
+        renderCounter={++renderCounter}
+      />
+    </AppContainer>,
+    document.getElementById('root'),
+    onRenderComplete
+  )
+}
 
 // Render the app for first time
-renderApp(Root);
+renderApp(Root)
 
 // [TODO: Add service worker support,
 // 			partial work has been done,
@@ -96,7 +98,7 @@ renderApp(Root);
 // and removes it from the final build
 // You can employ similar tactics by using proper variables in DefinePlugin in your webpack config
 if (module.hot) {
-	module.hot.accept("./containers/Root", () => {
-		renderApp(Root);
-	});
+  module.hot.accept('./containers/Root', () => {
+    renderApp(Root)
+  })
 }
