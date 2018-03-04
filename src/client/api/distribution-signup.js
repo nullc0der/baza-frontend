@@ -31,6 +31,19 @@ export const deletePhoto = photoId => {
   })
 
   // real api
-  // const url = `/distribution-signup/delete-photo/${photoId}`
+  // const url = `/distribution-signup/photo/${photoId}`
+  // return jsonAPI(api => api.delete(url))
+}
+
+export const deleteDocument = documentId => {
+  // mock api
+  return Promise.resolve({
+    data: {
+      id: documentId
+    }
+  })
+
+  // real api
+  // const url = `/distribution-signup/document/${photoId}`
   // return jsonAPI(api => api.delete(url))
 }

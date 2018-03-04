@@ -216,6 +216,32 @@
     display: inline-block;
     margin-right: map-get($spacers, 3);
     margin-top: map-get($spacers, 2);
+    position: relative;
+    .document-item-delete {
+      border-radius: 3px;
+      background-color: rgba($danger, 0.5);
+      color: #fff;
+      font-weight: $font-weight-semibold;
+      cursor: pointer;
+      position: absolute;
+      top: 0;
+      left: 0;
+      opacity: 0;
+      height: 100%;
+      width: 100%;
+      transform: translate3d(0, 100px, 0);
+      transition: all 0.24s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    &:hover {
+      .document-item-delete {
+        opacity: 1;
+        transform: translate3d(0px, 0px, 0px);
+      }
+    }
   }
   .document-image {
     font-size: 42px;

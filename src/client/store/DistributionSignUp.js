@@ -136,6 +136,31 @@ const deletePhotoFailure = err => ({
   error: err.message
 })
 
+const DELETE_DOCUMENT = createAction('DELETE_DOCUMENT')
+const deleteDocument = documentId => dispatch => {
+  dispatch({ type: DELETE_DOCUMENT })
+  return DispatchAPI(
+    dispatch,
+    DistributionSignUpAPI.deleteDocument(documentId),
+    {
+      success: deleteDocumentSuccess,
+      failure: deleteDocumentFailure
+    }
+  )
+}
+
+const DELETE_DOCUMENT_SUCCESS = createAction('DELETE_DOCUMENT_SUCCESS')
+const deleteDocumentSuccess = response => ({
+  type: DELETE_DOCUMENT_SUCCESS,
+  documentId: response.data.id
+})
+
+const DELETE_DOCUMENT_FAILURE = createAction('DELETE_DOCUMENT_FAILURE')
+const deleteDocumentFailure = err => ({
+  type: DELETE_DOCUMENT_FAILURE,
+  error: err.message
+})
+
 const FETCH_ACCOUNT = createAction('FETCH_ACCOUNT')
 const fetchAccount = id => (dispatch, getState) => {
   dispatch({ type: FETCH_ACCOUNT })
@@ -196,6 +221,7 @@ const discardEdits = () => dispatch => {
 export const actions = {
   saveAccount,
   deletePhoto,
+  deleteDocument,
   fetchAccount,
   toggleEditMode,
   setFullName,
@@ -205,7 +231,7 @@ export const actions = {
   discardEdits
 }
 
-const removePhotoFromList = (list, idToRemove) => {
+const removeFromList = (list, idToRemove) => {
   return list.filter(x => x.id !== idToRemove)
 }
 
@@ -217,6 +243,7 @@ export default function DistributionSignUpReducer(
     case FETCH_ACCOUNT:
     case SAVE_ACCOUNT:
     case DELETE_PHOTO:
+    case DELETE_DOCUMENT:
       return { ...state, isLoading: true, hasError: false }
 
     case FETCH_ACCOUNT_SUCCESS:
@@ -256,14 +283,29 @@ export default function DistributionSignUpReducer(
     case DISCARD_EDITS:
       return { ...state, data: { ...state._fetchedData } }
 
+    case DELETE_DOCUMENT_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+        data: {
+          ...state.data,
+          documents: removeFromList(state.data.documents, action.documentId)
+        }
+      }
+
     case DELETE_PHOTO_SUCCESS:
       return {
         ...state,
+        isLoading: false,
         data: {
           ...state.data,
-          photos: removePhotoFromList(state.data.photos, action.photoId)
+          photos: removeFromList(state.data.photos, action.photoId)
         }
       }
+
+    case DELETE_PHOTO_FAILURE:
+    case DELETE_DOCUMENT_FAILURE:
+      return { ...state, isLoading: false, hasError: action.error }
 
     default:
       return state
