@@ -1,0 +1,108 @@
+@import 'ui';
+
+$ui-card-header-height: 80px !default;
+$ui-card-radius: 3px;
+
+:local(.container) {
+  color: inherit;
+  display: flex;
+  flex-direction: column;
+  border-radius: $ui-card-radius;
+  .ui-card-header {
+    display: flex;
+    flex-direction: column;
+    height: $ui-card-header-height;
+    position: relative;
+    border-radius: $ui-card-radius $ui-card-radius 0 0;
+    background-color: #666;
+  }
+  .ui-card-options-dropdown {
+    position: absolute;
+    right: 0;
+  }
+  .ui-card-body {
+    flex: 1;
+    overflow-y: auto;
+    background-color: #fff;
+    border-radius: 0 0 $ui-card-radius $ui-card-radius;
+  }
+  .ui-card-content {
+    padding: 18px;
+    position: relative;
+  }
+}
+
+:local(.container) .ui-card-header {
+  color: #fff;
+  .header-title {
+    padding: 14px 18px;
+    font-weight: $font-weight-semibold;
+    font-size: 16px;
+  }
+  .header-bg {
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    position: absolute;
+    z-index: -1;
+    border-radius: inherit;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+  }
+  // Disable the dropdown caret from bootstrap
+  .dropdown-toggle:after {
+    display: none;
+  }
+
+  .dropdown-toggle {
+    padding: 14px 18px;
+    text-align: center;
+  }
+  .dropdown-item {
+    cursor: pointer;
+    user-select: none;
+  }
+  .dropdown-menu {
+    left: initial;
+    right: 9px;
+    top: 36px;
+  }
+  .dropdown {
+    &:hover {
+      .dropdown-menu {
+        display: block;
+        animation: fadeIn 0.12s ease-in-out;
+      }
+    }
+  }
+}
+
+:local(.container) {
+  .ui-card-header-tabs {
+    display: flex;
+    align-items: flex-end;
+  }
+  .ui-card-header-tab {
+    cursor: pointer;
+    padding: 8px 18px;
+    position: relative;
+    &:after {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background-color: $primary;
+      max-height: 0px;
+      height: 3px;
+      content: '';
+      transition: max-height 0.12s ease;
+    }
+    &.is-active {
+      &:after {
+        max-height: 3px;
+      }
+    }
+  }
+}
