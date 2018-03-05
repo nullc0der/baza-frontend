@@ -70,6 +70,11 @@ module.exports = [
         name: 'Distribution SignUp',
         href: '/admin/distribution-signup',
         icon: 'fa fa-fw fa-user'
+      },
+      {
+        name: 'Member Profile',
+        href: '/admin/member-profile',
+        icon: 'fa fa-fw fa-user'
       }
     ]
   },
