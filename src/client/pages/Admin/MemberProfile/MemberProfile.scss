@@ -2,6 +2,9 @@
 $profile-card-tint: #9013fe;
 $documents-card-tint: #4a90e2;
 $details-card-tint: #01d5a6;
+$my-selection-card-tint: #bd10e0;
+$settings-card-tint: #f01363;
+$references-card-tint: #f5a623;
 
 :local(.container) {
   color: inherit;
@@ -19,6 +22,15 @@ $details-card-tint: #01d5a6;
   }
   .details-card .ui-card-header {
     background-color: rgba($details-card-tint, 0.75);
+  }
+  .my-selection-card .ui-card-header {
+    background-color: rgba($my-selection-card-tint, 0.75);
+  }
+  .settings-card .ui-card-header {
+    background-color: rgba($settings-card-tint, 0.75);
+  }
+  .references-card .ui-card-header {
+    background-color: rgba($references-card-tint, 0.75);
   }
 }
 
@@ -65,13 +77,18 @@ $details-card-tint: #01d5a6;
 
 :local(.container) .documents-card {
   .ui-card-content {
-    height: 511px;
-    overflow-y: auto;
+    max-height: 511px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    margin-right: 18px;
   }
   .profile-images {
     display: grid;
     grid-gap: 18px;
-    grid-template-columns: repeat(auto-fit, minmax(120px, auto));
+    grid-template-rows: repeat(3, minmax(120px, auto));
+    grid-auto-flow: column;
+    grid-auto-columns: 120px;
+    margin-right: 18px;
   }
   .profile-image {
     width: 100%;

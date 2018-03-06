@@ -6,6 +6,9 @@ import s from './MemberProfile.scss'
 import ProfileCard from './ProfileCard'
 import DocumentsCard from './DocumentsCard'
 import DetailsCard from './DetailsCard'
+import MySelectionCard from './MySelectionCard'
+import SettingsCard from './SettingsCard'
+import ReferencesCard from './ReferencesCard'
 
 export default class MemberProfile extends Component {
   render() {
@@ -16,17 +19,26 @@ export default class MemberProfile extends Component {
           <div className="col-md-4">
             <ProfileCard />
           </div>
-          <div className="col-md-8">
+          <div className="col-md-8 mt-3 mt-md-0 mt-lg-0 mt-xl-0">
             <DocumentsCard />
           </div>
         </div>
-        <div className="row mt-2 align-stretch">
+        <div className="row mt-3 align-stretch">
           <div className="col-md-4">
             <DetailsCard />
           </div>
-          <div className="col-md-8" />
+          <div className="col-md-8 mt-3 mt-md-0 mt-lg-0 mt-xl-0">
+            <MySelectionCard />
+          </div>
         </div>
-        <h3>Things</h3>
+        <div className="row mt-3 align-stretch">
+          <div className="col-md-7">
+            <SettingsCard />
+          </div>
+          <div className="col-md-5 mt-3 mt-md-0 mt-lg-0 mt-xl-0">
+            <ReferencesCard />
+          </div>
+        </div>
       </div>
     )
   }
