@@ -12,7 +12,10 @@ export const CardHeader = props => {
   return (
     <div className={cx}>
       <div className="header-title">{props.title}</div>
-      <div className='header-bg'/>
+      {!!props.subtitle && (
+        <div className="header-subtitle">{props.subtitle}</div>
+      )}
+      <div className="header-bg" />
       {props.children}
     </div>
   )
