@@ -139,3 +139,156 @@ $references-card-tint: #f5a623;
     font-size: 12px;
   }
 }
+
+:local(.container) .my-selection-card {
+  .my-groups-content {
+    margin-right: 18px;
+  }
+  .groups-list {
+    display: grid;
+    grid-gap: 18px;
+    grid-template-rows: repeat(3, minmax(100px, auto));
+    grid-auto-flow: column;
+    grid-auto-columns: 205px;
+    margin-right: 18px;
+  }
+  .group-item {
+    display: flex;
+    align-items: center;
+    padding: 15px;
+    border-radius: 2px;
+    background-color: #22d4a7;
+    &:nth-child(2n) {
+      background-color: #f3a536;
+    }
+    &:nth-child(3n) {
+      background-color: #4e92df;
+    }
+    &:nth-child(4n) {
+      background-color: #ce0a24;
+    }
+  }
+  .group-image {
+    height: 70px;
+    width: 70px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 3px #fff solid;
+  }
+  .group-details {
+    flex: 1;
+    align-self: stretch;
+    text-align: right;
+    color: #fff;
+  }
+  .group-name {
+    font-weight: $font-weight-bold;
+    font-size: 16px;
+    line-height: 20px;
+  }
+  .group-category {
+    font-size: 12px;
+    line-height: 15px;
+  }
+  .group-delete-btn {
+    cursor: pointer;
+  }
+}
+
+:local(.container) .settings-card {
+  .settings-section {
+    color: #9b9b9b;
+    margin-bottom: map-get($spacers, 3);
+  }
+  .section-title {
+    font-weight: $font-weight-semibold;
+    margin-bottom: map-get($spacers, 2);
+  }
+  .email-item {
+    font-size: 12px;
+  }
+  .badge {
+    padding: 5px 16px;
+    border-radius: 12px;
+    margin-left: 12px;
+    color: #fff;
+    &.badge-light {
+      background-color: #d6d6d6;
+    }
+  }
+
+  .social-accounts-list {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  .social-account {
+    display: flex;
+    align-items: center;
+    height: 37px;
+    border-radius: 2px;
+    cursor: pointer;
+    color: #fff;
+    margin-right: map-get($spacers, 2);
+    @include _shadow-0();
+    transition: box-shadow 0.16s ease;
+    &:hover {
+      @include _shadow-1();
+    }
+  }
+  .social-account-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 42px;
+    font-size: 18px;
+    height: inherit;
+    border-radius: 2px 0 0 2px;
+    background-color: #eaeaea;
+  }
+  .social-account-name {
+    padding: 0 26px;
+    font-size: 13px;
+  }
+
+  .social-account.account-new {
+    background-color: #cecece;
+  }
+  .social-account.account-facebook {
+    background-color: #23417e;
+    .social-account-icon {
+      background-color: #3d5a96;
+    }
+  }
+  .social-account.account-google {
+    background-color: #af3d32;
+    .social-account-icon {
+      background-color: #db4c3f;
+    }
+  }
+}
+
+:local(.container) .references-card {
+  .references-list {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  .reference-item {
+    display: flex;
+    width: 100px;
+    height: 100px;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    margin-top: map-get($spacers, 2);
+  }
+  .reference-image {
+    height: 60px;
+    width: 60px;
+    flex-shrink: 0;
+    border-radius: 50%;
+    overflow: hidden;
+  }
+  .reference-name {
+    margin-top: map-get($spacers, 1);
+  }
+}
