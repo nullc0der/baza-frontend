@@ -1,6 +1,7 @@
 @import 'ui';
 $profile-card-tint: #9013fe;
 $documents-card-tint: #4a90e2;
+$details-card-tint: #01d5a6;
 
 :local(.container) {
   color: inherit;
@@ -15,6 +16,9 @@ $documents-card-tint: #4a90e2;
   }
   .documents-card .ui-card-header {
     background-color: rgba($documents-card-tint, 0.75);
+  }
+  .details-card .ui-card-header {
+    background-color: rgba($details-card-tint, 0.75);
   }
 }
 
@@ -100,5 +104,21 @@ $documents-card-tint: #4a90e2;
         }
       }
     }
+  }
+}
+
+:local(.container) .details-card {
+  .ui-card-body {
+    color: #9b9b9b;
+  }
+  .details-section .title {
+    font-weight: $font-weight-bold;
+  }
+  .detail-item {
+    margin-top: map-get($spacers, 2);
+  }
+  .detail-item .label {
+    font-weight: $font-weight-bold;
+    font-size: 12px;
   }
 }
