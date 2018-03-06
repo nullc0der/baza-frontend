@@ -8,6 +8,12 @@ $ui-card-radius: 3px;
   display: flex;
   flex-direction: column;
   border-radius: $ui-card-radius;
+  @include _shadow-1();
+  transition: box-shadow 0.24s ease;
+  will-change: box-shadow;
+  &:hover {
+    @include _shadow-2();
+  }
   .ui-card-header {
     display: flex;
     flex-direction: column;
@@ -88,11 +94,14 @@ $ui-card-radius: 3px;
   .ui-card-header-tabs {
     display: flex;
     align-items: flex-end;
+    overflow-x: auto;
+    width: 100%;
   }
   .ui-card-header-tab {
     cursor: pointer;
     padding: 8px 18px;
     position: relative;
+    flex-shrink: 0;
     &:after {
       position: absolute;
       bottom: 0;
@@ -109,5 +118,30 @@ $ui-card-radius: 3px;
         max-height: 3px;
       }
     }
+  }
+}
+
+:local(.container) {
+  .ui-card-search-bar {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    width: 240px;
+    .search-icon {
+      position: absolute;
+      right: 8px;
+      top: 4px;
+      color: rgba($dark, 0.45);
+      cursor: pointer;
+    }
+  }
+  .ui-card-search-bar-input {
+    width: 100%;
+    box-shadow: 0px 2px 4px 0 rgba(0, 0, 0, 0.25);
+    border-radius: 2px;
+    border: none;
+    height: 28px;
+    font-size: 12px;
+    padding: 0 10px;
   }
 }

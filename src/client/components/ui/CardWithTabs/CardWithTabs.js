@@ -22,11 +22,29 @@ export const CardHeader = props => {
 }
 
 export const CardBody = props => {
-  const cx = classnames('ui-card-body')
+  const cx = classnames('ui-card-body', props.className)
   return <div className={cx}>{props.children}</div>
 }
 
 export const CardContent = props => {
-  const cx = classnames('ui-card-content')
+  const cx = classnames('ui-card-content', props.className)
   return <div className={cx}>{props.children}</div>
+}
+
+export const CardSearchBar = props => {
+  const cx = classnames('ui-card-search-bar', props.className)
+  return (
+    <div className={cx}>
+      <input
+        type="text"
+        placeholder={props.placeholder}
+        value={props.value}
+        className="ui-card-search-bar-input"
+        onChange={props.onChange}
+      />
+      <div className="search-icon" onClick={props.onSearchClick}>
+        <i className="fa fa-search" />
+      </div>
+    </div>
+  )
 }
