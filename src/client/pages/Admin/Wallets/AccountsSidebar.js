@@ -41,6 +41,11 @@ class AccountsSidebar extends Component {
             onClick={e => this.props.onRequestReceive(wallet, index, e)}>
             Receive <i className="material-icons">arrow_downward</i>
           </div>
+          <div
+            className="action-btn show-details-btn"
+            onClick={e => this.props.onRequestDetails(wallet, index, e)}>
+            DETAILS <i className="material-icons">format_align_left</i>
+          </div>
         </div>
       </div>
     )

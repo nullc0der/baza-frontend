@@ -25,6 +25,15 @@ $sidebar-width: 210px;
     display: flex;
     flex-direction: column;
   }
+
+  @include media-breakpoint-down(md, $grid-breakpoints) {
+    .transanctions-table {
+      display: none;
+    }
+    .accounts-sidebar {
+      width: 100%;
+    }
+  }
 }
 
 :local(.container) .accounts-sidebar {
@@ -43,17 +52,35 @@ $sidebar-width: 210px;
   }
   .account-sidebar-item {
     cursor: pointer;
-    margin: map-get($spacers, 2);
-    border: 1px $dark solid;
+    border-bottom: 1px $light solid;
     border-radius: 1px;
+    position: relative;
     @include _shadow-0();
     transition: all 0.24s ease;
+    &:before {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      width: 0px;
+      transition: width 0.2s ease;
+      content: '';
+      background-color: $dark;
+      z-index: 1;
+    }
     &:hover:not(.is-selected) {
-      @include _shadow-1();
+      background-color: $light;
     }
     &.is-selected {
-      border-left-width: 17px;
-      margin-left: 0px;
+      &:before {
+        width: 17px;
+      }
+      .account-actions-wrap {
+        margin-left: 17px;
+        &:after {
+          width: 48px;
+        }
+      }
     }
     &:not(.is-selected) .account-actions-wrap {
       display: none;
@@ -61,18 +88,26 @@ $sidebar-width: 210px;
   }
   .account-actions-wrap {
     position: relative;
+    display: flex;
     &:after {
       position: absolute;
       left: 0;
       top: 0;
       content: '';
       height: 2px;
-      width: 48px;
+      width: 0px;
+      transition: width 0.2s ease;
+      transition-delay: 0.2s;
       background-color: $dark;
+    }
+    @include media-breakpoint-up(md, $grid-breakpoints) {
+      .show-details-btn {
+        display: none;
+      }
     }
   }
   .action-btn {
-    width: 50%;
+    flex: 1;
     display: inline-block;
     text-align: center;
     padding: 9px;
@@ -91,8 +126,7 @@ $sidebar-width: 210px;
   .account-details-wrap {
     display: flex;
     align-items: center;
-    padding-top: $pad-y;
-    padding-bottom: $pad-y;
+    padding: $pad-y map-get($spacers, 2);
   }
   .wallet-account-img {
     object-fit: contain;

@@ -24,6 +24,10 @@ export default class WalletsPage extends Component {
     this.setState({ isPaymentDialogOpen: false })
   }
 
+  showDetailsDialog = (wallet, index) => {
+    console.log('will show details for: ', wallet, index)
+  }
+
   render() {
     const cx = classnames(s.container)
     return (
@@ -31,6 +35,7 @@ export default class WalletsPage extends Component {
         <AccountsSidebar
           onRequestReceive={this.openReceiveDialog}
           onRequestSend={this.openSendDialog}
+          onRequestDetails={this.showDetailsDialog}
         />
         <TransanctionsTable />
         <PaymentDialog
