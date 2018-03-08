@@ -88,10 +88,14 @@ export default class CoinSalePage extends Component {
     // console.log('setting countdown: ', countdown, countdownProgress)
   }
 
-  componentWillUnmount = () => {
+  stopTimer = () => {
     if (this.interval) {
       window.clearInterval(this.interval)
     }
+  }
+
+  componentWillUnmount = () => {
+    this.stopTimer()
   }
 
   openPurchaseDialog = () => {

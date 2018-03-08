@@ -13,6 +13,10 @@ export default class DocumentsSection extends Component {
     this.fileInput.click()
   }
 
+  removeImage = () => {
+    this.setState({ fileName: 'Choose a File', filePreview: '' })
+  }
+
   onFileChange = e => {
     const file = e.target.files[0]
     if (!file) {
@@ -39,7 +43,16 @@ export default class DocumentsSection extends Component {
     return (
       <div className="signup-section documents-section">
         <div className="section-title my-2">PROFILE IMAGE</div>
-        <div className="image-preview-container" style={imgStyles} />
+        <div className="image-preview-container" style={imgStyles}>
+          {!!filePreview && (
+            <div
+              className="image-remove-btn"
+              title="Remove Image"
+              onClick={this.removeImage}>
+              <i className="fa fa-times-circle" />
+            </div>
+          )}
+        </div>
         <div className="input-file-control flex-horizontal a-center my-2">
           <input
             ref={node => (this.fileInput = node)}

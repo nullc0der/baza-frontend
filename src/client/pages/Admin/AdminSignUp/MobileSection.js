@@ -10,6 +10,7 @@ export default class MobileSection extends Component {
         <div className="mobile-verification-box">
           <TextField
             center
+            type="tel"
             className="is-textbox my-1"
             placeholder="+XX - XXXX-XXX-XXX"
           />
@@ -21,16 +22,21 @@ export default class MobileSection extends Component {
         <div className="section-title mb-3">ENTER VERIFICATION CODE</div>
         <div className="row mb-3">
           <div className="col-md-7">
-            <TextField className="is-textbox" placeholder="verification code" />
+            <TextField
+              center
+              className="is-textbox text-center"
+              placeholder="verification code"
+              type="number"
+            />
           </div>
-          <div className="col-md-5 pl-0">
+          <div className="col-md-5 pl-2 pl-md-0 pl-xl-0 pl-lg-0 pt-1 pt-md-0 pt-xl-0 pt-lg-0">
             <button className="btn btn-primary btn-block verification-submit-btn">
               SUBMIT
             </button>
           </div>
         </div>
         <div className="section-title">Didn't get the code?</div>
-        <div className="text-center"> Try Again </div>
+        <div className="btn btn-link try-again-button"> Try Again </div>
         <br />
       </div>
     )

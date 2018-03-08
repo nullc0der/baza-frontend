@@ -17,6 +17,7 @@ import NameAddressSection from './NameAddressSection'
 import EmailSection from './EmailSection'
 import MobileSection from './MobileSection'
 import DocumentsSection from './DocumentsSection'
+import FinishSection from './FinishSection'
 
 class AdminSignUpDialog extends Component {
   static propTypes = {
@@ -26,7 +27,8 @@ class AdminSignUpDialog extends Component {
   state = {
     selectedIndex: 0,
     completedTabs: '',
-    errorTabs: ''
+    errorTabs: '',
+    isDonor: false
   }
 
   closeAdminSignUpDialog = () => {
@@ -38,8 +40,20 @@ class AdminSignUpDialog extends Component {
     this.setState({ selectedIndex })
   }
 
-  changeSwipeIndex = index => {
-    this.setState({ index })
+  changeSwipeIndex = selectedIndex => {
+    this.setState({ selectedIndex })
+  }
+
+  onSkipClick = () => {
+    const { selectedIndex } = this.state
+    this.setState({ selectedIndex: selectedIndex + 1 })
+  }
+
+  onSubmitClick = () => {
+    console.log('handle submit logic here')
+  }
+  toggleDonorStatus = () => {
+    this.setState({ isDonor: !this.state.isDonor })
   }
 
   render() {
@@ -63,8 +77,15 @@ class AdminSignUpDialog extends Component {
           <EmailSection />
           <MobileSection />
           <DocumentsSection />
+          <FinishSection />
         </SwipeableViews>
-        <AdminSignUpFooter />
+        <AdminSignUpFooter
+          isDonor={this.state.isDonor}
+          showSkip={this.state.selectedIndex < 4}
+          toggleDonorStatus={this.toggleDonorStatus}
+          onSkipClick={this.onSkipClick}
+          onSubmitClick={this.onSubmitClick}
+        />
       </Dialog>
     )
   }

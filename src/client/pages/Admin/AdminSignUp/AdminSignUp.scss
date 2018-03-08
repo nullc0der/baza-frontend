@@ -30,6 +30,12 @@ $footer-btn-color: $admin-active-tab-color;
     border-radius: 0;
     color: #fff;
   }
+  .try-again-button {
+    color: inherit;
+    height: 32px;
+    width: 120px;
+    margin: 0 auto;
+  }
 }
 
 :local(.container) .admin-signup-tabs {
@@ -49,14 +55,23 @@ $footer-btn-color: $admin-active-tab-color;
     &.has-error {
       color: $error-tab-color;
     }
+    @include media-breakpoint-down(sm, $grid-breakpoints) {
+      padding-left: 4px;
+      padding-right: 4px;
+      &:not(:first-child) {
+        margin-left: 0.5rem;
+      }
+    }
   }
 }
 
 :local(.container) .admin-signup-footer {
-  margin: 0 -18px;
   font-size: 18px;
   font-weight: $font-weight-semibold;
   color: #fff;
+  @include media-breakpoint-up(md, $grid-breakpoints) {
+    margin: 0 -18px;
+  }
   .become-donor-check {
     padding: 0 18px;
     height: 48px;
@@ -64,6 +79,7 @@ $footer-btn-color: $admin-active-tab-color;
     display: flex;
     align-items: center;
     justify-content: center;
+    cursor: pointer;
   }
   .bottom-buttons {
     position: relative;
@@ -114,6 +130,10 @@ $footer-btn-color: $admin-active-tab-color;
   .verification-submit-btn {
     height: 60px;
   }
+
+  @include media-breakpoint-down(sm, $grid-breakpoints) {
+    padding: 30px;
+  }
 }
 
 :local(.container) .documents-section {
@@ -123,10 +143,23 @@ $footer-btn-color: $admin-active-tab-color;
     width: 128px;
     height: 128px;
     margin: 10px auto;
+    position: relative;
     background-color: $light;
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center center;
+  }
+  .image-remove-btn {
+    cursor: pointer;
+    position: absolute;
+    right: 0px;
+    top: 0px;
+    width: 24px;
+    height: 24px;
+    font-size: 20px;
+    text-align: center;
+    color: #fff;
+    text-shadow: 0 0px 4px rgba(0, 0, 0, 0.4);
   }
   .file-input-container {
     position: relative;
@@ -172,5 +205,25 @@ $footer-btn-color: $admin-active-tab-color;
         content: ':';
       }
     }
+  }
+}
+:local(.container) .finish-section {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  .attention-btn {
+    border-radius: 32px;
+    font-weight: $font-weight-semibold;
+  }
+  .finish-bottom-message {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+
+    background-color: $light;
   }
 }
