@@ -16,7 +16,7 @@ import AdminRoutes from './AdminRoutes'
 
 // var debug = require('debug')('baza:client:app')
 
-class App extends Component {
+class AdminContainer extends Component {
   state = {
     isLeftNavOpen: false,
     isRightNavOpen: false
@@ -89,4 +89,4 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({})
 
-export default connect(mapStateToProps, mapDispatchToProps)(App)
+export default connect(mapStateToProps, mapDispatchToProps)(AdminContainer)
