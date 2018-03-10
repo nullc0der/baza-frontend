@@ -42,10 +42,13 @@ $menu-icon-inter-spacing: -10px;
 
   .donate-button {
     position: absolute;
+    top: 20px;
     right: map-get($spacers, 2);
     border-width: 3px;
     color: $light;
     border-color: $light;
+    will-change: top, margin, position;
+    transition: all 0.24s ease;
     &:hover {
       color: $dark;
       border-color: $primary;

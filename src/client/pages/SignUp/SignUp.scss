@@ -1,82 +1,100 @@
-@import "ui";
+@import 'ui';
 
 :local(.container) {
-    color: inherit;
-    .app-header {
-        z-index: $zindex-fixed;
+  color: inherit;
+  .app-header {
+    z-index: $zindex-fixed;
+    .menu-icon {
+      color: $dark;
+      border: none;
     }
-
-    .app-header + .page-layer {
-        padding-top: $header-height;
+    .navbar-toggler {
+      border-color: transparent;
     }
+  }
 
+  .app-header + .page-layer {
+    padding-top: $header-height;
+  }
+
+  @include media-breakpoint-down(sm, $grid-breakpoints) {
+    .page-layer {
+      overflow-y: auto;
+    }
     .signup-container {
-        min-height: 100px;
-        overflow-y: auto;
+      overflow: initial;
     }
+  }
 
-    .signup-form {
-        width: 270px;
-        margin: 0 auto;
-    }
-    .form-check {
-        margin-right: 0;
-        width: 100%;
-    }
+  .signup-container {
+    min-height: 100px;
+    overflow-y: auto;
+  }
 
+  .signup-form {
+    width: 270px;
+    margin: 0 auto;
+  }
+  .form-check {
+    margin-right: 0;
+    width: 100%;
+  }
 
-    
-    .carousel-container {
-        color: #fff;
-    }
-    .carousel-indicators li {
-        width: 10px;
-        height: 10px;
-        border-radius: 50%;
-    }
-    .carousel-item-content {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        height: 100%;
-        width: 60%;
-        margin: 0 auto;
-        text-align: center;
-        position: relative;
-    }
-    .carousel-item, .carousel-inner {
-        height: 100%;
-    }
+  .carousel-container {
+    color: #fff;
+  }
+  .carousel-indicators li {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+  }
+  .carousel-item-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    width: 60%;
+    margin: 0 auto;
+    text-align: center;
+    position: relative;
+  }
+  .carousel-item,
+  .carousel-inner {
+    height: 100%;
+  }
 
+  @include media-breakpoint-down(sm, $grid-breakpoints) {
+    .carousel-item {
+      padding-top: map-get($spacers, 4);
+      padding-bottom: map-get($spacers, 4);
+    }
+  }
 }
 
-
 :local(.loginDialog) {
+  .modal-dialog {
+    width: 370px;
+  }
 
-    .modal-dialog {
-        width: 370px;
-    }
+  input[type='checkbox'] + label {
+    margin: 1px 0 0 map-get($spacers, 1);
+  }
 
-    input[type='checkbox'] + label {
-        margin: 1px 0 0 map-get($spacers, 1);
+  .social-login-list {
+    font-size: 22px;
+    margin-bottom: map-get($spacers, 1);
+    .list-inline-item {
+      width: 24px;
+      height: 24px;
+      &:not(:last-child) {
+        margin-right: map-get($spacers, 2);
+      }
     }
-    
-    .social-login-list {
-        font-size: 22px;
-        margin-bottom: map-get($spacers, 1);
-        .list-inline-item {
-            width: 24px;
-            height: 24px;
-            &:not(:last-child) {
-                margin-right: map-get($spacers, 2);
-            }
-        }
-    }
+  }
 
-    .bottom-content {
-        margin-top: map-get($spacers, 2);
-        line-height: 22px;
-    }
-
+  .bottom-content {
+    margin-top: map-get($spacers, 2);
+    line-height: 22px;
+  }
 }
