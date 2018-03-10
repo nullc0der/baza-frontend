@@ -142,12 +142,14 @@ export default class CoinSalePage extends Component {
           isSaleWaiting={isSaleWaiting}
           onClick={this.openPurchaseDialog}
         />
-        <PurchaseDialog
-          selectedCurrency={selectedCurrency}
-          onCurrencySelect={this.onCurrencySelect}
-          isOpen={this.state.isPurchaseDialogOpen}
-          onRequestClose={this.closePurchaseDialog}
-        />
+        {this.state.isPurchaseDialogOpen && (
+          <PurchaseDialog
+            selectedCurrency={selectedCurrency}
+            onCurrencySelect={this.onCurrencySelect}
+            isOpen={this.state.isPurchaseDialogOpen}
+            onRequestClose={this.closePurchaseDialog}
+          />
+        )}
       </div>
     )
   }

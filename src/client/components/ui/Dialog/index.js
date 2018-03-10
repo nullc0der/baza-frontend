@@ -2,25 +2,25 @@ import React, { Component } from 'react'
 import ReactDOM from 'react-dom'
 import classnames from 'classnames'
 
+import isBoolean from 'lodash/isBoolean'
+
 import s from './Dialog.scss'
 
 export default class Dialog extends Component {
   componentDidMount = () => {
     document.addEventListener('keydown', this.closeOnEscapeKey, false)
-    document.addEventListener('mousedown', this.handleClick, false)
-
-    this.toggleBodyScroll(this.props.isOpen)
+    if (this.props.isOpen) {
+      this.toggleBodyScroll(true)
+    }
   }
 
   componentWillUnmount = () => {
     document.removeEventListener('keydown', this.closeOnEscapeKey, false)
-    document.removeEventListener('mousedown', this.handleClick, false)
-
     this.toggleBodyScroll(false)
   }
 
-  componentWillReceiveProps = nextProps => {
-    this.toggleBodyScroll(nextProps.isOpen)
+  componentDidUpdate = () => {
+    this.toggleBodyScroll(this.props.isOpen)
   }
 
   onRequestClose = () => {
@@ -30,19 +30,20 @@ export default class Dialog extends Component {
     }
   }
 
-  handleClick = e => {
-    if (this.modalContent.contains(e.target)) return
-
-    // Close the dialog if outside click is detected
-    this.onRequestClose()
+  closeOnEscapeKey = e => {
+    if (e.which === 27) {
+      this.onRequestClose(false)
+    }
   }
 
   toggleBodyScroll = force => {
-    document.body.classList.toggle('modal-open', force)
-  }
+    if (isBoolean(force)) {
+      return document.body.classList.toggle('modal-open', force)
+    }
 
-  closeOnEscapeKey = e => {
-    if (e.which === 27) this.onRequestClose()
+    document.body.classList.contains('modal-open')
+      ? document.body.classList.remove('modal-open')
+      : document.body.classList.add('modal-open')
   }
 
   render() {
@@ -62,7 +63,7 @@ export default class Dialog extends Component {
         role="dialog"
         aria-labelledby="userLoginModal"
         aria-hidden="true">
-        <div className={backdropClass} />
+        <div className={backdropClass} onClick={this.onRequestClose} />
         <div className="modal-dialog modal-dialog-centered" role="document">
           <div
             className="modal-content"
