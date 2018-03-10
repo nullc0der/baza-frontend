@@ -17,6 +17,19 @@ class DonationDialog extends Component {
     this.props.navigate(pathname + (hash || '').replace('#!donate', ''))
   }
 
+  onOtherInputBlur = e => {
+    const isValueNumber = Number.isInteger(Number(e.target.value))
+    if (e.target.value === '' || !isValueNumber) {
+      e.target.value = 'Other'
+    }
+  }
+
+  onOtherInputFocus = e => {
+    if (e.target.value === 'Other') {
+      e.target.value = ''
+    }
+  }
+
   render() {
     const cx = classnames(s.donationDialog, 'donation-dialog')
     const _dialogTitle = (
@@ -39,6 +52,9 @@ class DonationDialog extends Component {
           <button className="btn btn-outline-dark other-donation-button">
             <input
               type="text"
+              ref={node => (this.otherButtonInput = node)}
+              onFocus={this.onOtherInputFocus}
+              onBlur={this.onOtherInputBlur}
               className="other-button-input"
               defaultValue="Other"
             />
