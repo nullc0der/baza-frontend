@@ -35,16 +35,49 @@ export default class Header extends Component {
   }
 
   componentDidMount = () => {
-    if (this.props.scrollspy) this.startListeningToScroll()
+    if (this.props.scrollspy) {
+      this.startListeningToScroll()
+    }
+    $('#navbarContentContainer').on('show.bs.collapse', this.handleCollapseShow)
+    $('#navbarContentContainer').on(
+      'hidden.bs.collapse',
+      this.handleCollapseHidden
+    )
   }
 
   componentWillUnmount = () => {
-    if (this._handleScroll) this.stopListeningToScroll()
+    if (this._handleScroll) {
+      this.stopListeningToScroll()
+    }
+    $('#navbarContentContainer').off(
+      'show.bs.collapse',
+      this.handleCollapseShow
+    )
+    $('#navbarContentContainer').off(
+      'hidden.bs.collapse',
+      this.handleCollapseHidden
+    )
+  }
+
+  handleCollapseShow = () => {
+    this.navbarWasLight = $('.app-header').hasClass(
+      'navbar-light bg-white fixed-top'
+    )
+    if (!this.navbarWasLight) {
+      $('.app-header').addClass('navbar-light bg-white fixed-top')
+    }
+  }
+
+  handleCollapseHidden = () => {
+    if (!this.navbarWasLight) {
+      $('.app-header').removeClass('navbar-light bg-white fixed-top')
+    }
   }
 
   startListeningToScroll = () => {
-    if (!this._handleScroll)
+    if (!this._handleScroll) {
       this._handleScroll = debounce(this.handleScroll, 60)
+    }
 
     window.addEventListener('scroll', this._handleScroll, false)
   }

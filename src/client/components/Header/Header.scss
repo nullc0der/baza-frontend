@@ -117,6 +117,7 @@ $menu-icon-inter-spacing: -10px;
       position: absolute;
       left: 0;
       right: 0;
+      z-index: 10;
       top: $header-height;
       background-color: $light;
       @include _shadow-2();
