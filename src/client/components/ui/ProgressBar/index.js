@@ -18,12 +18,14 @@ export default class ProgressBar extends Component {
       <div className={cx}>
         <div className="ui-progress-end-text">{endText}</div>
         <div className="ui-progress-bar" style={{ width: `${percentage}%` }}>
-          {!!currentTooltipText && (
-            <div className="ui-progress-tooltip current-tooltip">
-              {currentTooltipText}
-            </div>
-          )}
-          <span className="ui-progress-active-text">{activeText}</span>
+          <span className="ui-progress-active-text">
+            {!!currentTooltipText && (
+              <div className="ui-progress-tooltip current-tooltip">
+                {currentTooltipText}
+              </div>
+            )}
+            {activeText}
+          </span>
         </div>
         {!!endTooltipText && (
           <div className="ui-progress-tooltip end-tooltip">
