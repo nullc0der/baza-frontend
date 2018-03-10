@@ -78,6 +78,11 @@ $menu-icon-inter-spacing: -10px;
     }
   }
 
+  .navbar-nav {
+    margin-left: auto;
+    margin-right: auto;
+  }
+
   .navbar-toggler {
     position: absolute;
     left: map-get($spacers, 2);
@@ -85,7 +90,7 @@ $menu-icon-inter-spacing: -10px;
     outline: none;
     padding-top: 10px;
     font-size: 32px;
-    margin-left: -1*map-get($spacers, 2);
+    margin-left: -1 * map-get($spacers, 2);
   }
 
   &.navbar-light.fixed-top {
@@ -129,5 +134,23 @@ $menu-icon-inter-spacing: -10px;
         }
       }
     }
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1014px) {
+  .app-header .navbar-nav {
+    margin-left: -16px;
+  }
+}
+@media (min-width: 768px) and (max-width: 991px) {
+  .app-header {
+    & > .container {
+      margin-left: -16px;
+    }
+  }
+}
+@media (max-width: 991px) {
+  .app-header .center-icon {
+    display: none;
   }
 }
