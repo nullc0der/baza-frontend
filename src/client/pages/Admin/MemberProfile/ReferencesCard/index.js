@@ -2,8 +2,7 @@ import React, { Component } from 'react'
 import {
   Card,
   CardHeader,
-  CardBody,
-  CardContent
+  CardBody
 } from 'components/ui/CardWithTabs'
 
 const REFERENCES_LIST = [
