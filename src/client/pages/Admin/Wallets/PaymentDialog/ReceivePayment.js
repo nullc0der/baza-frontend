@@ -32,11 +32,11 @@ const ReceivePayment = props => {
         </div>
       </div>
       <div className="flex-1" />
-      <button
+      {/* <button
         className="btn btn-info bottom-submit-btn mt-3"
         onClick={props.onReceiveSubmitClick}>
         SUBMIT
-      </button>
+        </button> */}
     </div>
   )
 }
