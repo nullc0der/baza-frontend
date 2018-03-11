@@ -9,9 +9,9 @@ const createDateText = (title, date) => {
   return (
     <Fragment>
       <span className="date-title">{title}</span>
-      <span className="time-item">{date.days} d</span>
-      <span className="time-item">{date.hours} hr</span>
-      <span className="time-item">{date.minutes} min</span>
+      {!!date.days && <span className="time-item">{date.days} d</span>}
+      {!!date.hours && <span className="time-item">{date.hours} hr</span>}
+      {!!date.minutes && <span className="time-item">{date.minutes} min</span>}
       <span className="time-item">{date.seconds} sec</span>
     </Fragment>
   )

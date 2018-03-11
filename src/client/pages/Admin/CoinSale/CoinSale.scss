@@ -67,6 +67,9 @@ $purchase-button-height: 50px;
     @include media-breakpoint-down(sm, $grid-breakpoints) {
       font-size: 14px;
     }
+    @include media-breakpoint-down(xs, $grid-breakpoints) {
+      font-size: 11px;
+    }
   }
   .date-title {
     padding: 0 40px 0 20px;

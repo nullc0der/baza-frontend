@@ -18,11 +18,12 @@ const START_TIME = DateTime.fromObject({
   minutes: 0,
   seconds: 0
 })
+
 const END_TIME = DateTime.fromObject({
   year: 2018,
-  month: 3,
+  month: 4,
   days: 11,
-  hours: 0,
+  hours: 8,
   minutes: 0,
   seconds: 0
 })
