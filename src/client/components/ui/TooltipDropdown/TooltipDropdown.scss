@@ -1,55 +1,51 @@
 @import 'ui';
 
 :local(.container) {
-    color: inherit;
+  color: inherit;
 
-    .ui-tooltip-dropdown-btn {
-        background-color: rgba($dark, 0.07);
-        .icon {
-            margin-left: map-get($spacers, 2);
-        }
+  .ui-tooltip-dropdown-btn {
+    background-color: rgba($dark, 0.07);
+    .icon {
+      margin-left: map-get($spacers, 2);
     }
+  }
 
-    .ui-tooltip-dropdown-item {
-        padding: 4px 16px;
-        opacity: 0.8;
-        cursor: pointer;
-        &:hover,
-        &:active {
-            background-color: $light;
-            opacity: 1;
-        }
+  .ui-tooltip-dropdown-item {
+    padding: 4px 16px;
+    opacity: 0.8;
+    cursor: pointer;
+    &:hover,
+    &:active {
+      background-color: $light;
+      opacity: 1;
     }
+  }
 
-    .ui-tooltip-dropdown-menu {
-        opacity: 0;
-        margin-top: 0;
-        padding-top: map-get($spacers, 3);
-        will-change: opacity, transform;
-        transform: translate3d(0, -12px, 0);
-        transition: transform 0.24s ease,
-            opacity 0.24s ease;
-    }
+  .ui-tooltip-dropdown-menu {
+    opacity: 0;
+    margin-top: 0;
+    padding-top: map-get($spacers, 3);
+    will-change: opacity, transform;
+    transform: translate3d(0, -12px, 0);
+    transition: transform 0.24s ease, opacity 0.24s ease;
+  }
 
-    .bs-tooltip-bottom .arrow {
-        top: 22px;
-    }
+  .bs-tooltip-bottom .arrow {
+    top: 22px;
+  }
 
-    .ui-tooltip-dropdown-menu.show {
-        opacity: 1;
-        transform: translate3d(0, 0px, 0);
-    }
+  .ui-tooltip-dropdown-menu.show {
+    opacity: 1;
+    transform: translate3d(0, 0px, 0);
+  }
 
-    .ui-tooltip-dropdown-menu:not(.show) {
-        pointer-events: none;
-    }
+  .ui-tooltip-dropdown-menu:not(.show) {
+    pointer-events: none;
+  }
 
-    @include media-breakpoint-down(md, $grid-breakpoints) {
-        .ui-tooltip-dropdown-menu {
-            padding-top: map-get($spacers, 1);
-            .arrow { display: none; }
-        }
-    }
-
+  // @include media-breakpoint-down(md, $grid-breakpoints) {
+  //   .ui-tooltip-dropdown-menu {
+  //     padding-top: map-get($spacers, 1);
+  //   }
+  // }
 }
-

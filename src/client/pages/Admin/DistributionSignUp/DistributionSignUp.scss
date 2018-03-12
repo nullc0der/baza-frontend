@@ -253,7 +253,14 @@
   .profile-detail {
     margin-top: map-get($spacers, 2);
   }
+  .section-title {
+    display: flex;
+    align-items: center;
+  }
   @include media-breakpoint-down(sm, $grid-breakpoints) {
+    .section-title {
+      display: block;
+    }
     .title-text {
       display: block;
       & + .badge {

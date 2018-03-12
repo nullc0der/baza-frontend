@@ -56,6 +56,10 @@ $references-card-tint: #f5a623;
       font-size: 12px;
     }
   }
+  .ui-card-body {
+    display: flex;
+    flex-direction: column;
+  }
   .btn-profile-edit {
     height: 50px;
     background-color: $profile-card-tint;

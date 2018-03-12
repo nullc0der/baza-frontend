@@ -54,12 +54,12 @@ module.exports = [
       {
         name: 'Coin Sale',
         href: '/admin/coinsale',
-        icon: 'fa fa-fw fa-bitcoin'
+        icon: 'fa fa-fw fa-tag'
       },
       {
         name: 'Admin SignUp',
         href: '#!admin-signup',
-        icon: 'fa fa-fw fa-user'
+        icon: 'fa fa-fw fa-clipboard'
       },
       {
         name: 'Wallets Page',
@@ -69,7 +69,7 @@ module.exports = [
       {
         name: 'Distribution SignUp',
         href: '/admin/distribution-signup',
-        icon: 'fa fa-fw fa-user'
+        icon: 'fa fa-fw fa-list'
       },
       {
         name: 'Member Profile',

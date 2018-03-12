@@ -25,6 +25,7 @@ export default class ProfileCard extends Component {
         </CardHeader>
         <CardBody>
           <ProfileCardContent />
+          <div className="flex-1" />
           <button className="btn btn-primary btn-profile-edit btn-block">
             EDIT
           </button>
