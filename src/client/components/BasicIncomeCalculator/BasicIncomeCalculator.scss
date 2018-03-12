@@ -1,68 +1,66 @@
-@import "ui";
+@import 'ui';
 
 $basic-income-calculator-height: 56px;
 
 :local(.container) {
-    color: inherit;
-    width: auto;
-    height: $basic-income-calculator-height;
-    border-radius: ($basic-income-calculator-height/2);
-    background-color: #fff;
-    color: $dark;
+  color: inherit;
+  width: auto;
+  height: $basic-income-calculator-height;
+  border-radius: ($basic-income-calculator-height/2);
+  background-color: #fff;
+  color: $dark;
 
-    flex: unset;
-    flex-grow: 0;
+  flex: unset;
+  flex-grow: 0;
 
-    transition: all 0.2s ease;
-    
-    @include _shadow-2();
+  transition: all 0.2s ease;
 
+  @include _shadow-2();
+
+  .form-inner {
+    height: 100%;
+  }
+
+  .badge {
+    width: 64px;
+    height: 32px;
+    line-height: 24px;
+    font-size: 14px;
+    font-weight: $font-weight-bold;
+  }
+
+  @include media-breakpoint-down(md, $grid-breakpoints) {
+    width: 90vw;
+    display: block;
+    height: auto;
     .form-inner {
-        height: 100%;
+      margin: 0;
+      padding: map-get($spacers, 2) 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      @include clearfix();
+      .form-text {
+        margin-top: 0;
+      }
+      .ui-tooltip-dropdown {
+        margin-left: map-get($spacers, 2);
+      }
+      .flex-horizontal {
+        justify-content: center;
+      }
+      .badge {
+        margin-left: 0 !important;
+        margin-right: map-get($spacers, 2) !important;
+      }
     }
-
-    .badge {
-        width: 64px;
-        height: 32px;
-        line-height: 24px;
-        font-size: 14px;
-        font-weight: $font-weight-bold;
+    .form-text {
+      padding-top: 10px;
+      padding-bottom: 10px;
     }
-
-    @include media-breakpoint-down(sm, $grid-breakpoints) {
-        width: 90vw;
-        display: block;
-        height: auto;
-        .form-inner {
-            margin: 0;
-            padding: map-get($spacers, 2) 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            @include clearfix();
-            .form-text {
-                margin-top: 0;
-            }
-            .ui-tooltip-dropdown {
-                margin-left: map-get($spacers, 2);
-            }
-            .flex-horizontal {
-                justify-content: center;
-            }
-            .badge {
-                margin-left: 0 !important;
-                margin-right: map-get($spacers, 2) !important; 
-            }
-        }
-        .form-text {
-            padding-top: 10px;
-            padding-bottom: 10px;
-        }
-        .ui-tooltip-dropdown {
-            display: block;
-            float: left;
-        }
+    .ui-tooltip-dropdown {
+      display: block;
+      float: left;
     }
-
+  }
 }
-

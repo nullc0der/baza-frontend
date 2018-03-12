@@ -189,7 +189,7 @@ $sidebar-menu-width: $admin-primary-sidebar-menu-width;
   }
 
   .sidebar-sub-header {
-    height: 2*$admin-subheader-height;
+    height: 2 * $admin-subheader-height;
     // ui-border bottom
     color: #fff;
     background-color: $admin-header-bg;
@@ -307,12 +307,12 @@ $sidebar-menu-width: $admin-primary-sidebar-menu-width;
     text-decoration: none;
     outline: none;
     position: relative;
-    transition: all 0.16s ease;
+    // transition: all 0.16s ease;
   }
   .menu-dropdown {
     overflow: hidden;
     max-height: 0px;
-    transition: all 0.2s ease;
+    // transition: all 0.2s ease;
     background-color: #fff;
     &.is-open {
       max-height: 999px;
@@ -330,12 +330,12 @@ $sidebar-menu-width: $admin-primary-sidebar-menu-width;
     padding: 5px 10px;
     height: 46px;
     cursor: pointer;
-    transition: all 0.1s ease;
+    // transition: all 0.1s ease;
   }
 
   .menu-icon,
   .sub-submenu-icon {
-    transition: none;
+    // transition: none;
     font-size: $icon-size;
     margin-right: 14px;
     .fa {
@@ -347,7 +347,7 @@ $sidebar-menu-width: $admin-primary-sidebar-menu-width;
   .menu-name,
   .sub-submenu-name {
     flex: 1;
-    transition: none;
+    // transition: none;
     white-space: nowrap;
   }
 
