@@ -69,9 +69,7 @@ $footer-btn-color: $admin-active-tab-color;
   font-size: 18px;
   font-weight: $font-weight-semibold;
   color: #fff;
-  @include media-breakpoint-up(md, $grid-breakpoints) {
-    margin: 0 -18px;
-  }
+  margin: 0;
   .become-donor-check {
     padding: 0 18px;
     height: 48px;
@@ -80,6 +78,9 @@ $footer-btn-color: $admin-active-tab-color;
     align-items: center;
     justify-content: center;
     cursor: pointer;
+    &.bg-success {
+      animation: fadeInUp 0.2s;
+    }
   }
   .bottom-buttons {
     position: relative;
