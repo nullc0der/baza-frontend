@@ -17,7 +17,7 @@ $ui-card-radius: 3px;
   .ui-card-header {
     display: flex;
     flex-direction: column;
-    height: $ui-card-header-height;
+    min-height: $ui-card-header-height;
     position: relative;
     border-radius: $ui-card-radius $ui-card-radius 0 0;
     background-color: #666;
@@ -99,7 +99,7 @@ $ui-card-radius: 3px;
   }
   .ui-card-header-tab {
     cursor: pointer;
-    padding: 8px 18px;
+    padding: 12px 18px;
     position: relative;
     flex-shrink: 0;
     &:after {
