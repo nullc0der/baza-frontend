@@ -20,7 +20,7 @@ class DonationDialog extends Component {
   state = {
     isOtherInputVisible: false,
     selectedCurrency: 'USD',
-    otherInputAmount: 50
+    otherInputAmount: 200
   }
 
   toggleOtherInput = force => {
@@ -71,19 +71,36 @@ class DonationDialog extends Component {
         isOpen={true}
         title={_dialogTitle}
         onRequestClose={this.closeDonationDialog}>
-        {!this.state.isOtherInputVisible && (
-          <div className="donate-buttons flex-horizontal">
-            <button className="btn btn-outline-dark"> $2 </button>
-            <button className="btn btn-outline-dark"> $5 </button>
-            <button className="btn btn-outline-dark"> $25 </button>
-            <button className="btn btn-outline-dark"> $100 </button>
+        <div className="donate-buttons flex-horizontal">
+          <button
+            className="btn btn-outline-dark"
+            onClick={e => this.toggleOtherInput(false)}>
+            $2
+          </button>
+          <button
+            className="btn btn-outline-dark"
+            onClick={e => this.toggleOtherInput(false)}>
+            $5
+          </button>
+          <button
+            className="btn btn-outline-dark"
+            onClick={e => this.toggleOtherInput(false)}>
+            $25
+          </button>
+          <button
+            className="btn btn-outline-dark"
+            onClick={e => this.toggleOtherInput(false)}>
+            $100
+          </button>
+          {!this.state.isOtherInputVisible && (
             <button
               className="btn btn-outline-dark other-donation-button"
               onClick={this.toggleOtherInput}>
               Other
             </button>
-          </div>
-        )}
+          )}
+        </div>
+
         {this.state.isOtherInputVisible && (
           <div className="other-input-container">
             <CurrencyDropdown
@@ -93,10 +110,11 @@ class DonationDialog extends Component {
             <div className="text-center">Enter Amount</div>
             <TextField
               type="number"
+              autoFocus
               plceholder="Enter custom amount"
               className="purchase-amount-input"
               onChange={this.updateOtherInputAmount}
-              value={this.otherInputAmount}
+              value={this.state.otherInputAmount}
             />
           </div>
         )}

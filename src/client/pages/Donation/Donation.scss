@@ -22,6 +22,9 @@ $dialog-padding-y: map-get($spacers, 3);
     padding-bottom: 12px;
     font-size: 21px;
     font-weight: $font-weight-bold;
+    @include media-breakpoint-up(md, $grid-breakpoints) {
+      text-align: center;
+    }
   }
   .currency-dropdown-group {
     position: absolute;
