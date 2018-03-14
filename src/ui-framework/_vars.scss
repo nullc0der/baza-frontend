@@ -1,5 +1,5 @@
 // Override Spacing used
-$spacer: 1rem; // 1rem = 16px in most browsers
+$spacer: 1rem; // 1rem = 16px in most carowsers
 // We need a scale of 8
 // 0, 8, 16, 32, 48, 64, 128
 $spacers: (
@@ -11,6 +11,14 @@ $spacers: (
   5: ($spacer * 4),
   6: ($spacer * 5)
 );
+
+$grid-breakpoints: (
+  xs: 0,
+  sm: 576px,
+  md: 768px,
+  lg: 992px,
+  xl: 1200px
+) !default;
 
 // Colors
 $primary: #fdc800;
@@ -66,7 +74,7 @@ $tooltip-arrow-width: 20px;
 $tooltip-arrow-height: 10px;
 
 // Progress
-$progress-height: 2*$font-size-base;
+$progress-height: 2 * $font-size-base;
 $progress-border-radius: $font-size-base;
 $progress-bg: rgba($dark, 0.07);
 

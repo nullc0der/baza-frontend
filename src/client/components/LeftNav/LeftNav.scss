@@ -56,7 +56,7 @@ $sidebar-menu-width: $admin-primary-sidebar-menu-width;
       left: 40px;
     }
 
-    @include media-breakpoint-up(md, $grid-breakpoints) {
+    @include media-breakpoint-up(lg, $grid-breakpoints) {
       .user-block {
         .user-image {
           margin-left: 4px;
