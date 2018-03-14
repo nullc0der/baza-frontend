@@ -2,16 +2,35 @@ import React, { Component } from 'react'
 import classnames from 'classnames'
 import { connect } from 'react-redux'
 import { push } from 'react-router-redux'
+import isBoolean from 'lodash/isBoolean'
 
+import TextField from 'components/ui/TextField'
 import Dialog from 'components/ui/Dialog'
+
 import PaymentInformation, {
   PaymentBadges
 } from 'components/PaymentInformation'
+
+import { CurrencyDropdown } from 'pages/Admin/CoinSale/CoinSale'
 
 import s from './Donation.scss'
 import ContactInformation from './ContactInformation'
 
 class DonationDialog extends Component {
+  state = {
+    isOtherInputVisible: false,
+    selectedCurrency: 'USD',
+    otherInputAmount: 50
+  }
+
+  toggleOtherInput = force => {
+    this.setState({
+      isOtherInputVisible: isBoolean(force)
+        ? force
+        : !this.state.isOtherInputVisible
+    })
+  }
+
   closeDonationDialog = () => {
     const { pathname, hash } = this.props.location
     this.props.navigate(pathname + (hash || '').replace('#!donate', ''))
@@ -30,6 +49,14 @@ class DonationDialog extends Component {
     }
   }
 
+  updateOtherInputAmount = otherInputAmount => {
+    this.setState({ otherInputAmount })
+  }
+
+  onCurrencyChange = currency => {
+    this.setState({ selectedCurrency: currency.name })
+  }
+
   render() {
     const cx = classnames(s.donationDialog, 'donation-dialog')
     const _dialogTitle = (
@@ -44,23 +71,35 @@ class DonationDialog extends Component {
         isOpen={true}
         title={_dialogTitle}
         onRequestClose={this.closeDonationDialog}>
-        <div className="donate-buttons flex-horizontal">
-          <button className="btn btn-outline-dark"> $2 </button>
-          <button className="btn btn-outline-dark"> $5 </button>
-          <button className="btn btn-outline-dark"> $25 </button>
-          <button className="btn btn-outline-dark"> $100 </button>
-          <button className="btn btn-outline-dark other-donation-button">
-            <input
-              tabIndex={0}
-              type="text"
-              ref={node => (this.otherButtonInput = node)}
-              onFocus={this.onOtherInputFocus}
-              onBlur={this.onOtherInputBlur}
-              className="other-button-input"
-              defaultValue="Other"
+        {!this.state.isOtherInputVisible && (
+          <div className="donate-buttons flex-horizontal">
+            <button className="btn btn-outline-dark"> $2 </button>
+            <button className="btn btn-outline-dark"> $5 </button>
+            <button className="btn btn-outline-dark"> $25 </button>
+            <button className="btn btn-outline-dark"> $100 </button>
+            <button
+              className="btn btn-outline-dark other-donation-button"
+              onClick={this.toggleOtherInput}>
+              Other
+            </button>
+          </div>
+        )}
+        {this.state.isOtherInputVisible && (
+          <div className="other-input-container">
+            <CurrencyDropdown
+              selectedCurrency={this.state.selectedCurrency}
+              onCurrencyChange={this.onCurrencyChange}
             />
-          </button>
-        </div>
+            <div className="text-center">Enter Amount</div>
+            <TextField
+              type="number"
+              plceholder="Enter custom amount"
+              className="purchase-amount-input"
+              onChange={this.updateOtherInputAmount}
+              value={this.otherInputAmount}
+            />
+          </div>
+        )}
         <div className="row mb-1">
           <div className="col-md-5 mt-4">
             <ContactInformation />

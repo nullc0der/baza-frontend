@@ -13,6 +13,23 @@ $dialog-padding-y: map-get($spacers, 3);
     padding-top: 0;
   }
 
+  .other-input-container {
+    position: relative;
+  }
+  .purchase-amount-input .ui-textfield-input {
+    border-bottom-width: 2px;
+    height: 65px;
+    padding-bottom: 12px;
+    font-size: 21px;
+    font-weight: $font-weight-bold;
+  }
+  .currency-dropdown-group {
+    position: absolute;
+    right: 0;
+    z-index: 1;
+    bottom: 20px;
+  }
+
   .other-donation-button {
     width: 90px;
     position: relative;
