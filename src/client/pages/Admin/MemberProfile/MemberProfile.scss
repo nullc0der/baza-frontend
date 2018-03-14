@@ -43,7 +43,7 @@ $references-card-tint: #f5a623;
     overflow: hidden;
     position: absolute;
     left: calc(50% - 46px);
-    top: 32px;
+    top: 54px;
     border: 5px #fff solid;
   }
   .profile-detail {
@@ -229,10 +229,12 @@ $references-card-tint: #f5a623;
     display: flex;
     align-items: center;
     height: 37px;
+    min-width: 150px;
     border-radius: 2px;
     cursor: pointer;
     color: #fff;
     margin-right: map-get($spacers, 2);
+    margin-bottom: map-get($spacers, 2);
     @include _shadow-0();
     transition: box-shadow 0.16s ease;
     &:hover {

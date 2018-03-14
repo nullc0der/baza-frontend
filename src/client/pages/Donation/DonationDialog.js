@@ -51,6 +51,7 @@ class DonationDialog extends Component {
           <button className="btn btn-outline-dark"> $100 </button>
           <button className="btn btn-outline-dark other-donation-button">
             <input
+              tabIndex={0}
               type="text"
               ref={node => (this.otherButtonInput = node)}
               onFocus={this.onOtherInputFocus}

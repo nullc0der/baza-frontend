@@ -31,7 +31,7 @@ export default class MemberProfile extends Component {
             <MySelectionCard />
           </div>
         </div>
-        <div className="row mt-3 align-stretch">
+        <div className="row my-3 align-stretch">
           <div className="col-md-7">
             <SettingsCard />
           </div>
