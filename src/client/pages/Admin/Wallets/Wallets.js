@@ -6,10 +6,12 @@ import s from './Wallets.scss'
 import AccountsSidebar from './AccountsSidebar'
 import TransanctionsTable from './TransanctionsTable'
 import PaymentDialog from './PaymentDialog'
+import TransanctionsDialog from './TransanctionsDialog'
 
 export default class WalletsPage extends Component {
   state = {
     isPaymentDialogOpen: false,
+    isTransanctionsDialogOpen: false,
     paymentDialogScreenIndex: 0
   }
 
@@ -25,7 +27,10 @@ export default class WalletsPage extends Component {
   }
 
   showDetailsDialog = (wallet, index) => {
-    console.log('will show details for: ', wallet, index)
+    this.setState({ isTransanctionsDialogOpen: true })
+  }
+  closeDetailsDialog = () => {
+    this.setState({ isTransanctionsDialogOpen: false })
   }
 
   render() {
@@ -38,12 +43,17 @@ export default class WalletsPage extends Component {
           onRequestDetails={this.showDetailsDialog}
         />
         <TransanctionsTable />
-        <PaymentDialog
-          id="wallet-payment-dialog"
-          selectedTab={this.state.paymentDialogScreenIndex}
-          isOpen={this.state.isPaymentDialogOpen}
-          onRequestClose={this.closeDialog}
-        />
+        {this.state.isPaymentDialogOpen && (
+          <PaymentDialog
+            id="wallet-payment-dialog"
+            selectedTab={this.state.paymentDialogScreenIndex}
+            isOpen={this.state.isPaymentDialogOpen}
+            onRequestClose={this.closeDialog}
+          />
+        )}
+        {this.state.isTransanctionsDialogOpen && (
+          <TransanctionsDialog onRequestClose={this.closeDetailsDialog} />
+        )}
       </div>
     )
   }

@@ -9,6 +9,25 @@ import capitalize from 'lodash/capitalize'
 import { actions as walletTransanctionActions } from 'store/WalletTransanctions'
 import { DateTime } from 'luxon'
 
+export const TransanctionStatus = ({ status, className }) => {
+  const cx = classnames(
+    'td-status',
+    {
+      'text-success': status === 'executed',
+      'text-danger': status === 'cancelled',
+      'text-info': status === 'pending'
+    },
+    className
+  )
+  return <div className={cx}>{capitalize(status)}</div>
+}
+
+export const TransanctionFromTo = ({ transanction }) =>
+  `${transanction.from.fullName} -> ${transanction.to.fullName}`
+
+export const TransanctionDate = ({ date }) =>
+  DateTime.fromISO(date).toFormat('D')
+
 class TransanctionsTable extends Component {
   componentDidMount = () => {
     const { selectedWalletId } = this.props
@@ -30,23 +49,6 @@ class TransanctionsTable extends Component {
     }
   }
 
-  renderOneStatus = status => {
-    const cx = classnames('td-status', {
-      'text-success': status === 'executed',
-      'text-danger': status === 'cancelled',
-      'text-info': status === 'pending'
-    })
-    return <div className={cx}>{capitalize(status)}</div>
-  }
-
-  renderOneFromTo = transanction => {
-    return `${transanction.from.fullName} -> ${transanction.to.fullName}`
-  }
-
-  renderOneDate = date => {
-    return DateTime.fromISO(date).toFormat('D')
-  }
-
   render() {
     const tableData = this.props.list || []
 
@@ -58,7 +60,7 @@ class TransanctionsTable extends Component {
       {
         id: 'from-to',
         Header: 'From -> To',
-        accessor: d => this.renderOneFromTo(d)
+        accessor: d => <TransanctionFromTo transanction={d} />
       },
       {
         Header: 'Description',
@@ -71,7 +73,7 @@ class TransanctionsTable extends Component {
       {
         id: 'status',
         Header: 'Status',
-        accessor: d => this.renderOneStatus(d.status),
+        accessor: d => <TransanctionStatus status={d.status} />,
         sortMethod: (a, b) => {
           if (a.props.children < b.props.children) {
             return -1
@@ -85,7 +87,7 @@ class TransanctionsTable extends Component {
       {
         id: 'date',
         Header: 'Date',
-        accessor: d => this.renderOneDate(d.date)
+        accessor: d => <TransanctionDate date={d.date} />
       },
       {
         id: 'amount',

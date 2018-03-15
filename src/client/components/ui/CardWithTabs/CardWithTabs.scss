@@ -127,6 +127,9 @@ $ui-card-radius: 3px;
     top: 14px;
     right: 14px;
     width: 240px;
+    @include media-breakpoint-down(sm, $grid-breakpoints) {
+      max-width: 42vw;
+    }
     .search-icon {
       position: absolute;
       right: 8px;
