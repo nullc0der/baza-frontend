@@ -36,7 +36,7 @@ class LeftNav extends Component {
           <div className="user-block flex-horizontal">
             <div className="user-image" />
             <div className="user-details flex-1">
-              <div className="name"> Sharad Kant </div>
+              <div className="name"> Mark Witham </div>
               <div className="status is-online"> Online </div>
             </div>
           </div>

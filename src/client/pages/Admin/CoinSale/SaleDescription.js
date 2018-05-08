@@ -47,26 +47,26 @@ const SaleDescription = props => {
           <div className="row sale-item-container">
             <SaleItem
               status="sold-out"
-              title="FIrst 100K BAZ Coins"
-              amount="$0.50 USD"
+              title="5M BAZ"
+              amount="0.02000 BAZ 1 USD"
             />
 
             <SaleItem
               status="almost-gone"
-              title="FIrst 100K BAZ Coins"
-              amount="$0.50 USD"
+              title="10M BAZ"
+              amount="0.01750 BAZ 1 USD"
             />
 
             <SaleItem
               status="available"
-              title="FIrst 100K BAZ Coins"
-              amount="$0.50 USD"
+              title="25M BAZ"
+              amount="0.01550 BAZ 1 USD"
             />
 
             <SaleItem
               status="available"
-              title="FIrst 100K BAZ Coins"
-              amount="$0.50 USD"
+              title="50M BAZ"
+              amount="0.01350 BAZ 1 USD"
             />
           </div>
         </div>

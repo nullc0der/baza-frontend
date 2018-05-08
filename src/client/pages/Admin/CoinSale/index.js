@@ -12,8 +12,8 @@ import s from './CoinSale.scss'
 
 const START_TIME = DateTime.fromObject({
   year: 2018,
-  month: 2,
-  days: 1,
+  month: 5,
+  days: 8,
   hours: 0,
   minutes: 0,
   seconds: 0
@@ -21,9 +21,9 @@ const START_TIME = DateTime.fromObject({
 
 const END_TIME = DateTime.fromObject({
   year: 2018,
-  month: 4,
-  days: 11,
-  hours: 8,
+  month: 6,
+  days: 22,
+  hours: 16,
   minutes: 0,
   seconds: 0
 })
@@ -41,8 +41,8 @@ const getCountdownValues = (startDate, endDate) => {
 
   const countdownProgress = Math.floor(
     (endDate.valueOf() - now.valueOf()) *
-      100 /
-      (endDate.valueOf() - startDate.valueOf())
+    100 /
+    (endDate.valueOf() - startDate.valueOf())
   )
 
   return { countdown, countdownProgress }
@@ -50,8 +50,8 @@ const getCountdownValues = (startDate, endDate) => {
 
 export default class CoinSalePage extends Component {
   state = {
-    totalAvailableCoins: 600000,
-    totalSoldCoins: 400000,
+    totalAvailableCoins: 100000000,
+    totalSoldCoins: 40000000,
     isSaleOpen: true,
     isSaleWaiting: false,
     selectedCurrency: 'USD',

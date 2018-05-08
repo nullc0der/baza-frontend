@@ -32,13 +32,13 @@ const TitleAndProgress = props => (
   <div className="row">
     <div className="col-md-8 mx-auto">
       <h4 className="title top-title">
-        BAZA FOUNDATION 1 MILLION COIN <br /> SALE
+        BAZA FOUNDATION 100 MILLION COIN <br /> SALE
       </h4>
       <ProgressBar
         activeText={props.progressCurrentText}
         percentage={props.percentage}
         endText={props.progressEndText}
-        currentTooltipText="Coin Sale"
+        currentTooltipText="Coins Sold"
         endTooltipText="Coins Remaining"
       />
     </div>
@@ -54,7 +54,7 @@ const CoinSale = props => {
   } = props
 
   const progressEndText =
-    (totalAvailableCoins || 0).toLocaleString(navigator.language) + ' BAZ'
+    (totalAvailableCoins - totalSoldCoins || 0).toLocaleString(navigator.language) + ' BAZ'
   const progressCurrentText =
     (totalSoldCoins || 0).toLocaleString(navigator.language) + ' BAZ'
   const progressPercentage = Math.floor(

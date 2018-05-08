@@ -131,7 +131,8 @@ $sidebar-width: 210px;
   .wallet-account-img {
     object-fit: contain;
     object-position: center center;
-    max-width: 100%;
+    width: 100%;
+    max-height: 100%;
   }
   .wallet-account-image {
     height: 36px;
