@@ -10,14 +10,14 @@ const INITIAL_STATE = {
   isLoading: false,
   data: {
     id: 41,
-    fullName: 'Sharad Kant',
+    fullName: 'Joe Smith',
     email: {
       value: 'someemail@comp.com',
       isVerified: true,
       error: 'This email was used for previous signups'
     },
     phone: {
-      value: '9876543210',
+      value: '9999999999',
       isVerified: false,
       error: 'No data available on twilio'
     },

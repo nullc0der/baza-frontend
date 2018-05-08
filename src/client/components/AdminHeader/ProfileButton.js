@@ -6,7 +6,7 @@ import Dropdown from 'components/ui/Dropdown'
 const SAMPLE_USER = [
   {
     image: '',
-    username: 'Mark Witham',
+    username: 'Joe Smith',
     created_at_text: 'Member since 30 days ago'
   }
 ]

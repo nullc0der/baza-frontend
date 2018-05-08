@@ -7,10 +7,10 @@ import {
 } from 'components/ui/CardWithTabs'
 
 const CONTACT_DETAILS = [
-  { label: 'Phone Office', icon: 'fa-building', value: '+91-98765432210' },
-  { label: 'Phone Home', icon: 'fa-building', value: '+91-98765432210' },
-  { label: 'Phone Mobile', icon: 'fa-building', value: '+91-98765432210' },
-  { label: 'Phone Emergency', icon: 'fa-building', value: '+91-98765432210' }
+  { label: 'Phone Office', icon: 'fa-building', value: '9999999999' },
+  { label: 'Phone Home', icon: 'fa-building', value: '9999999999' },
+  { label: 'Phone Mobile', icon: 'fa-building', value: '9999999999' },
+  { label: 'Phone Emergency', icon: 'fa-building', value: '9999999999' }
 ]
 
 const ACTIVITIES_DETAILS = [
@@ -34,7 +34,7 @@ export default class DetailsCard extends Component {
   render() {
     return (
       <Card className="details-card">
-        <CardHeader title="DETAILS" subtitle="Following users verified me" />
+        <CardHeader title="DETAILS" subtitle="" />
         <CardBody>
           <CardContent>
             <div className="details-section">

@@ -31,12 +31,12 @@ export default class SocialSettings extends Component {
         <div className="settings-section">
           <div className="section-title">Verified Emails</div>
           <div className="flex-horizontal align-items-center">
-            <div className="email-item">sharadkantcobain@gmail.com</div>
+            <div className="email-item">joesmith@gmail.com</div>
             <div className="badge badge-pull badge-info">Primary</div>
             <div className="badge badge-pull badge-success">Verified</div>
           </div>
           <div className="flex-horizontal align-items-center mt-1">
-            <div className="email-item">consult@sharadkant.com</div>
+            <div className="email-item">joe_smith@gmail.com</div>
             <div className="badge badge-pull badge-light">Unverified</div>
           </div>
         </div>

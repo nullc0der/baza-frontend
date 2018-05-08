@@ -13,12 +13,12 @@ const ProfileCardContent = props => {
     <CardContent>
       <div className="row mt-2">
         <div className="col-6">
-          <ProfileDetail label="Name" value="Sharad Kant Cobain" />
+          <ProfileDetail label="Name" value="Joe Smith" />
         </div>
         <div className="col-6">
           <ProfileDetail
             label="Username"
-            value="sharad_kant"
+            value="joe_smith"
             className="text-right"
           />
         </div>
@@ -45,12 +45,12 @@ const ProfileCardContent = props => {
       </div>
       <div className="row mt-2">
         <div className="col-6">
-          <ProfileDetail label="Website" value="https://sharadkant.com" />
+          <ProfileDetail label="Website" value="https://example.com" />
         </div>
         <div className="col-6">
           <ProfileDetail
             label="Location"
-            value="New Delhi, India"
+            value="New York, USA"
             className="text-right"
           />
         </div>
