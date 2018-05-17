@@ -4,7 +4,8 @@ import ReactDOM from 'react-dom'
 import { AppContainer } from 'react-hot-loader'
 // import { BrowserRouter } from "react-router-dom";
 
-import { configureStore, saveLocalState, loadLocalState } from './store/index'
+//import { configureStore, saveLocalState, loadLocalState } from './store/index'
+import { configureStore, loadLocalState } from './store/index'
 
 import createHistory from 'history/createBrowserHistory'
 // import {ConnectedRouter} from 'react-router-redux'
@@ -27,16 +28,17 @@ const finalState = { ...localState, ...initialState }
 const store = configureStore(finalState, history)
 
 // Save a local copy whenever store changes
-store.subscribe(() => {
-  saveLocalState(store.getState())
-})
+// Disabled until auth module is fully developed
+// store.subscribe(() => {
+//   saveLocalState(store.getState())
+// })
 
 // Usually you'd want to remove server copy of minimum css in SSR here
 // you also can do your post initialization tasks here,
 // 	 e.g. (re)initializing global libraries such as bootstrap/tooltip
 const onRenderComplete = () => {
-  console.timeEnd('react:rendered-in')
-  console.log('renderCount: ', renderCounter)
+    console.timeEnd('react:rendered-in')
+    console.log('renderCount: ', renderCounter)
 }
 
 // If you have multiple containers before actual router's <Switch> / <Route> kicks in
@@ -45,19 +47,19 @@ const onRenderComplete = () => {
 // and the default `shouldComponentUpdate()` fails
 var renderCounter = 0
 const renderApp = Component => {
-  const renderFn = !!module.hot ? ReactDOM.render : ReactDOM.hydrate
-  console.time('react:rendered-in')
-  renderFn(
-    <AppContainer>
-      <Component
-        history={history}
-        store={store}
-        renderCounter={++renderCounter}
-      />
-    </AppContainer>,
-    document.getElementById('root'),
-    onRenderComplete
-  )
+    const renderFn = !!module.hot ? ReactDOM.render : ReactDOM.hydrate
+    console.time('react:rendered-in')
+    renderFn(
+        <AppContainer>
+            <Component
+                history={history}
+                store={store}
+                renderCounter={++renderCounter}
+            />
+        </AppContainer>,
+        document.getElementById('root'),
+        onRenderComplete
+    )
 }
 
 // Render the app for first time
@@ -98,7 +100,7 @@ renderApp(Root)
 // and removes it from the final build
 // You can employ similar tactics by using proper variables in DefinePlugin in your webpack config
 if (module.hot) {
-  module.hot.accept('./containers/Root', () => {
-    renderApp(Root)
-  })
+    module.hot.accept('./containers/Root', () => {
+        renderApp(Root)
+    })
 }

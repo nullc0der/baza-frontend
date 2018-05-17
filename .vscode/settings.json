@@ -1,6 +1,6 @@
 {
   "files.eol": "\n",
-  "editor.tabSize": 2,
+  "editor.tabSize": 4,
   "search.exclude": {
     "node_modules/": true
   },
@@ -12,11 +12,10 @@
   },
   "prettier.jsxBracketSameLine": true,
   "prettier.useTabs": false,
-
   "editor.formatOnPaste": true,
   "editor.formatOnType": true,
   "editor.formatOnSave": true,
-  "prettier.tabWidth": 2,
+  "prettier.tabWidth": 4,
   "prettier.eslintIntegration": true,
   "prettier.printWidth": 80,
   "prettier.semi": false,

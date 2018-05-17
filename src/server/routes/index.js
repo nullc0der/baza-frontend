@@ -1,5 +1,4 @@
 import { Router } from 'express'
-import MockAPIRouter from 'mock/index'
 
 const router = Router()
 
@@ -10,7 +9,7 @@ const router = Router()
  */
 /*eslint-disable*/
 const StaticRenderer = (req, res, next) => {
-  return res.render('index', {})
+    return res.render('index', {})
 }
 /*eslint-enable*/
 
@@ -20,19 +19,17 @@ const StaticRenderer = (req, res, next) => {
  * @return {object} router  [express.js router with bound routes]
  */
 export default function getRouter(app) {
-  // Health check
-  router.get('/ping', (req, res) => res.status(200).send('pong'))
+    // Health check
+    router.get('/ping', (req, res) => res.status(200).send('pong'))
 
-  router.use('/api/mock', MockAPIRouter)
+    // No server rendering
+    router.get('*', StaticRenderer)
 
-  // No server rendering
-  router.get('*', StaticRenderer)
+    // Server rendering
+    // router.get(
+    //     '*',
+    //     require('../helpers/pre-renderer').default
+    // )
 
-  // Server rendering
-  // router.get(
-  //     '*',
-  //     require('../helpers/pre-renderer').default
-  // )
-
-  return router
+    return router
 }
