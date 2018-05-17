@@ -1,0 +1,6 @@
+apps:
+  script: build/server.bundle.js
+  name: baza-frontend
+  env:
+    NODE_ENV: production
+    DEBUG: baza:*
