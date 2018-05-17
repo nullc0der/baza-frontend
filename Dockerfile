@@ -8,5 +8,5 @@ WORKDIR /baza-front
 COPY package.json /baza-front
 RUN yarn install
 COPY . /baza-front
-RUN yarn build
+RUN sh ./setup.sh && yarn build
 CMD ["yarn", "prod:server"]
