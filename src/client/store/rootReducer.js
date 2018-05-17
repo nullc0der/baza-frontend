@@ -1,6 +1,8 @@
 import { combineReducers } from 'redux'
 import { routerReducer as router } from 'react-router-redux'
 
+import Auth from './Auth'
+
 import Chat from './Chat'
 import Common from './Common'
 import Groups from './Groups'
@@ -12,15 +14,17 @@ import WalletTransanctions from './WalletTransanctions'
 import DistributionSignUp from './DistributionSignUp'
 
 export default combineReducers({
-  router,
-  Runtime,
+    router,
+    Runtime,
 
-  Chat,
-  Common,
-  Groups,
-  Members,
+    Auth,
 
-  WalletAccounts,
-  WalletTransanctions,
-  DistributionSignUp
+    Chat,
+    Common,
+    Groups,
+    Members,
+
+    WalletAccounts,
+    WalletTransanctions,
+    DistributionSignUp
 })

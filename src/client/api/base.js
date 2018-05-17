@@ -1,63 +1,63 @@
 import { create } from 'apisauce'
-import { store } from 'store/index'
+
+import Auth from 'utils/authHelpers'
 
 const debug = require('debug')('baza:api:base')
 
 const api = create({
-  baseURL: '/api/mock',
-  headers: {
-    Accept: 'application/json'
-  }
+    baseURL:
+        process.env.NODE_ENV === 'development'
+            ? 'http://localhost:8000/api/v1'
+            : '/api/v1',
+    headers: {
+        Accept: 'application/json'
+    }
 })
 
 const rejectIfResponseNotOK = response => {
-  return response.ok
-    ? Promise.resolve(response)
-    : Promise.reject(new Error(response.data.message))
+    return response.ok
+        ? Promise.resolve(response)
+        : Promise.reject(response.data) // TODO: Handling error needs some improvement
 }
 
 export const formAPI = function(createRequestPromise) {
-  if (typeof createRequestPromise !== 'function') {
-    throw new Error('Callback should be a function')
-  }
+    if (typeof createRequestPromise !== 'function') {
+        throw new Error('Callback should be a function')
+    }
 
-  const authToken = store.getState().authToken
+    api.setHeader('Content-Type', 'multipart/form-data')
 
-  api.setHeader('Content-Type', 'multipart/form-data')
+    if (Auth.isAuthenticated()) {
+        api.setHeader('Authorization', `Token ${Auth.getToken()}`)
+    }
 
-  if (authToken) {
-    api.setHeader('Authorization', authToken)
-  }
-
-  debug('Loader Start')
-  return Promise.resolve(api)
-    .then(createRequestPromise)
-    .then(response => {
-      debug('Loader stop')
-      return rejectIfResponseNotOK(response)
-    })
+    debug('Loader Start')
+    return Promise.resolve(api)
+        .then(createRequestPromise)
+        .then(response => {
+            debug('Loader stop')
+            return rejectIfResponseNotOK(response)
+        })
 }
 
 export const jsonAPI = function(createRequestPromise) {
-  if (typeof createRequestPromise !== 'function') {
-    throw new Error('Callback should be a function')
-  }
+    if (typeof createRequestPromise !== 'function') {
+        throw new Error('Callback should be a function')
+    }
 
-  const authToken = store.getState().authToken
+    api.setHeader('Content-Type', 'application/json')
 
-  api.setHeader('Content-Type', 'application/json')
+    if (Auth.isAuthenticated()) {
+        api.setHeader('Authorization', `Token ${Auth.getToken()}`)
+    }
 
-  if (authToken) {
-    api.setHeader('Authorization', authToken)
-  }
-
-  debug('Loader start')
-  return Promise.resolve(api)
-    .then(createRequestPromise)
-    .then(response => {
-      debug('Loader stop')
-      return rejectIfResponseNotOK(response)
-    })
+    debug('Loader start')
+    return Promise.resolve(api)
+        .then(createRequestPromise)
+        .then(response => {
+            debug('Loader stop')
+            return rejectIfResponseNotOK(response)
+        })
 }
 
 /*
@@ -91,43 +91,43 @@ export const jsonAPI = function(createRequestPromise) {
  * 
  */
 export const DispatchAPI = (dispatchFn, promiseFn, options = {}) => {
-  if (typeof options.success !== 'function') {
-    throw new Error(`DispatchAPI: 'options.success' should be a function`)
-  }
+    if (typeof options.success !== 'function') {
+        throw new Error(`DispatchAPI: 'options.success' should be a function`)
+    }
 
-  if (typeof options.failure !== 'function') {
-    throw new Error(`DispatchAPI: 'options.failure' should be a function`)
-  }
+    if (typeof options.failure !== 'function') {
+        throw new Error(`DispatchAPI: 'options.failure' should be a function`)
+    }
 
-  // Hold the final promise here
-  var promise
+    // Hold the final promise here
+    var promise
 
-  // If promise function is an array
-  // treat the first item as function, and rest it's args
-  if (Array.isArray(promiseFn)) {
-    let [fn, ...args] = promiseFn
-    promise = fn(...args)
-  } else if (typeof promiseFn.then === 'function') {
-    // If promise function is an executed promise
-    // use it directly
-    promise = promiseFn
-  } else if (typeof promiseFn === 'function') {
-    // If promiseFn is a function, execute it
-    promise = promiseFn()
-  } else {
-    // If nothing matches, throw error
-    throw new Error(`'api' argument to 'DispatchAPI' is invalid`)
-  }
+    // If promise function is an array
+    // treat the first item as function, and rest it's args
+    if (Array.isArray(promiseFn)) {
+        let [fn, ...args] = promiseFn
+        promise = fn(...args)
+    } else if (typeof promiseFn.then === 'function') {
+        // If promise function is an executed promise
+        // use it directly
+        promise = promiseFn
+    } else if (typeof promiseFn === 'function') {
+        // If promiseFn is a function, execute it
+        promise = promiseFn()
+    } else {
+        // If nothing matches, throw error
+        throw new Error(`'api' argument to 'DispatchAPI' is invalid`)
+    }
 
-  return promise
-    .then(response => {
-      dispatchFn(options.success(response))
-      return Promise.resolve(response)
-    })
-    .catch(err => {
-      dispatchFn(options.failure(err))
-      return Promise.reject(err)
-    })
+    return promise
+        .then(response => {
+            dispatchFn(options.success(response))
+            return Promise.resolve(response)
+        })
+        .catch(err => {
+            dispatchFn(options.failure(err))
+            return Promise.reject(err)
+        })
 }
 
 export default api
