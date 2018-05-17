@@ -6,7 +6,6 @@
     "author": "Tushar Kant",
     "license": "MIT",
     "scripts": {
-        "postinstall": "sh ./setup.sh && npm run build",
         "start": "node build/server.bundle.js",
         "dev": "NODE_ENV=development gulp",
         "dev:server": "nodemon build/server.bundle.js",
