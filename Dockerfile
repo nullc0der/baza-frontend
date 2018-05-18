@@ -6,6 +6,7 @@ RUN npm install -g pm2 yarn
 RUN mkdir /baza-front
 WORKDIR /baza-front
 COPY package.json /baza-front
-RUN yarn install && yarn build
-COPY . /baza-back
+RUN yarn install
+COPY . /baza-front
+RUN sh ./setup.sh && yarn build
 CMD ["yarn", "prod:server"]
