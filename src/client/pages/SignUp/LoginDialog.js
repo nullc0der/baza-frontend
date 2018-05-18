@@ -55,19 +55,28 @@ class LoginDialog extends Component {
         e.preventDefault()
         const { username, password, rememberMe } = this.state.inputValues
         const login = Auth.login(username, password, rememberMe)
-        login.then(responseData => {
-            if (responseData.key) {
-                this.props.navigate('/admin')
-            } else {
-                this.setState({
+        login
+            .then(responseData => {
+                if (responseData.key) {
+                    this.props.navigate('/admin/member-profile')
+                } else {
+                    this.setState({
+                        errorText: {
+                            username: get(responseData, 'username', ''),
+                            password: get(responseData, 'password', ''),
+                            nonField: get(responseData, 'non_field_errors', '')
+                        }
+                    })
+                }
+            })
+            .catch(err => {
+                this.setState(prevState => ({
                     errorText: {
-                        username: get(responseData, 'username', ''),
-                        password: get(responseData, 'password', ''),
-                        nonField: get(responseData, 'non_field_errors', '')
+                        ...prevState.errorText,
+                        nonField: [err]
                     }
-                })
-            }
-        })
+                }))
+            })
     }
 
     render() {

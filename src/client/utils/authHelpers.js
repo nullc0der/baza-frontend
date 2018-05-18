@@ -39,6 +39,11 @@ export default class Auth {
                             authActions.authenticateUser(response.data.key)
                         )
                         saveLocalState(store.getState())
+                        resolve(response.data)
+                    } else if (response.problem === 'NETWORK_ERROR') {
+                        reject(
+                            'There is some problem while registering, Try again later'
+                        )
                     }
                     resolve(response.data)
                 })
@@ -61,6 +66,11 @@ export default class Auth {
                         if (rememberUser) {
                             saveLocalState(store.getState())
                         }
+                        resolve(response.data)
+                    } else if (response.problem === 'NETWORK_ERROR') {
+                        reject(
+                            'There is some problem while logging in, Try again later'
+                        )
                     }
                     resolve(response.data)
                 })

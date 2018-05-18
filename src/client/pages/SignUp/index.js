@@ -45,20 +45,33 @@ class SignUpPage extends Component {
         e.preventDefault()
         const { username, password1, password2 } = this.state.inputValues
         const register = Auth.register(username, password1, password2)
-        register.then(responseData => {
-            if (responseData.key) {
-                this.props.navigate('/admin')
-            } else {
-                this.setState({
+        register
+            .then(responseData => {
+                if (responseData.key) {
+                    this.props.navigate('/admin/member-profile')
+                } else {
+                    this.setState({
+                        errorText: {
+                            username: get(responseData, 'username', null),
+                            password1: get(responseData, 'password1', null),
+                            password2: get(responseData, 'password2', null),
+                            nonField: get(
+                                responseData,
+                                'non_field_errors',
+                                null
+                            )
+                        }
+                    })
+                }
+            })
+            .catch(err => {
+                this.setState(prevState => ({
                     errorText: {
-                        username: get(responseData, 'username', null),
-                        password1: get(responseData, 'password1', null),
-                        password2: get(responseData, 'password2', null),
-                        nonField: get(responseData, 'non_field_errors', null)
+                        ...prevState.errorText,
+                        nonField: [err]
                     }
-                })
-            }
-        })
+                }))
+            })
     }
 
     render() {

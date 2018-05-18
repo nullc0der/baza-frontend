@@ -17,7 +17,7 @@ const HEADER_ITEMS_LEFT = [
 
 const HEADER_ITEMS_RIGHT = [
     { title: 'Latest', href: '/#latest-section' },
-    { title: 'Login', href: '/admin' },
+    { title: 'Login', href: '/admin/member-profile' },
     { title: 'Contact', href: '/#contact-section' }
 ]
 
