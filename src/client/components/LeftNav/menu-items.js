@@ -100,7 +100,7 @@ module.exports = [
                 ]
             },
             {
-                name: 'Distribution SignUp',
+                name: 'Distribution SignUps',
                 href: '/admin/distribution-signup',
                 icon: 'fa fa-fw fa-list'
             },
