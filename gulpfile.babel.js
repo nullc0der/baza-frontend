@@ -126,7 +126,7 @@ gulp.task('sync:server', cb => {
 
 // Combine Tasks
 gulp.task('build', cb => {
-    run_seq('clean', ['copy', 'build:client'], 'build:server', 'gzip:size', cb)
+    run_seq('build:client', 'build:server', 'gzip:size', cb)
 })
 
 gulp.task('dist', cb => {
