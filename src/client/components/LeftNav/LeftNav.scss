@@ -186,6 +186,10 @@ $sidebar-menu-width: $admin-primary-sidebar-menu-width;
         color: #fff;
         font-weight: $font-weight-normal;
         font-size: 24px;
+        a {
+            text-decoration: none;
+            color: #fff;
+        }
     }
 
     .sidebar-sub-header {

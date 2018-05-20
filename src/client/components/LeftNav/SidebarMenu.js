@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import classnames from 'classnames'
+import startsWith from 'lodash/startsWith'
 
 import { Link } from 'react-router-dom'
 import { withRouter } from 'react-router'
@@ -10,7 +11,8 @@ const debug = require('debug')('baza:sidebar-menu')
 
 class SidebarMenu extends Component {
     state = {
-        selectedItemIndex: 0
+        selectedItemIndex: 0,
+        menuItems: MENU_ITEMS
     }
 
     componentDidMount = () => {
@@ -21,9 +23,45 @@ class SidebarMenu extends Component {
         $(document).off('click', '.is-clickable', this.setBreadCrumbs)
     }
 
+    componentDidUpdate = (prevProps, prevState) => {
+        if (prevProps.searchTerm !== this.props.searchTerm) {
+            this.setSearchedMenuItems(this.props.searchTerm)
+        }
+    }
+
     selectPrimaryItem = (item, index) => {
         debug('Selected Item: ', item, index)
         this.setState({ selectedItemIndex: index })
+    }
+
+    setSearchedMenuItems = searchTerm => {
+        if (searchTerm.length) {
+            let menuItems = {
+                name: 'Search',
+                icon: 'fa fa-fw fa-search',
+                href: '/admin/',
+                children: []
+            }
+            for (const menuItem of MENU_ITEMS) {
+                const matches = menuItem.children.filter(x =>
+                    startsWith(x.name.toLowerCase(), searchTerm)
+                )
+                menuItems = {
+                    ...menuItems,
+                    children: [...menuItems.children, ...matches]
+                }
+            }
+            if (menuItems.children.length) {
+                this.setState({
+                    selectedItemIndex: 0,
+                    menuItems: [menuItems]
+                })
+            }
+        } else {
+            this.setState({
+                menuItems: MENU_ITEMS
+            })
+        }
     }
 
     setBreadCrumbs = e => {
@@ -75,15 +113,16 @@ class SidebarMenu extends Component {
 
     render() {
         const { className } = this.props
+        const { menuItems } = this.state
 
         const cx = classnames(className, 'flex-horizontal')
 
-        const subMenuItems = MENU_ITEMS[this.state.selectedItemIndex].children
+        const subMenuItems = menuItems[this.state.selectedItemIndex].children
 
         return (
             <div className={cx}>
                 <div className="primary-menu">
-                    {MENU_ITEMS.map((x, i) => {
+                    {menuItems.map((x, i) => {
                         const cx = classnames(
                             'primary-menu-item',
                             'no-outline',

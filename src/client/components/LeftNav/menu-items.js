@@ -2,7 +2,7 @@ module.exports = [
     {
         name: 'Home',
         icon: 'fa fa-fw fa-home',
-        href: '/admin',
+        href: '/admin/',
         children: [
             {
                 name: 'Profile',
@@ -110,7 +110,7 @@ module.exports = [
                 icon: 'fa fa-fw fa-tag'
             },
             {
-                name: 'Profile',
+                name: 'Group Profile',
                 href: '/admin/',
                 icon: 'fa fa-fw fa-cog'
             }

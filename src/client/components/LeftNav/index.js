@@ -3,6 +3,7 @@ import get from 'lodash/get'
 import classnames from 'classnames'
 import { connect } from 'react-redux'
 import { push } from 'react-router-redux'
+import { Link } from 'react-router-dom'
 import s from './LeftNav.scss'
 
 import SidebarMenu from './SidebarMenu'
@@ -10,6 +11,10 @@ import SidebarMenu from './SidebarMenu'
 import { actions as commonActions } from 'store/Common'
 
 class LeftNav extends Component {
+    state = {
+        searchTerm: ''
+    }
+
     toggleIfThin = () => {
         var w = $(window).width()
         if (!this.props.open || w < 769) return
@@ -31,7 +36,7 @@ class LeftNav extends Component {
                     onClick={this.props.onRequestToggle}
                 />
                 <div className="sidebar-header flex-horizontal a-center j-center">
-                    BAZA
+                    <Link to="/">BAZA</Link>
                 </div>
                 <div className="sidebar-sub-header">
                     <div className="user-block flex-horizontal">
@@ -48,6 +53,9 @@ class LeftNav extends Component {
                         <input
                             className="search-input no-outline"
                             placeholder="Search..."
+                            onChange={e =>
+                                this.setState({ searchTerm: e.target.value })
+                            }
                         />
                         <span className="search-icon">
                             <i className="material-icons">search</i>
@@ -57,6 +65,7 @@ class LeftNav extends Component {
                 <SidebarMenu
                     navigateTo={this.props.navigateTo}
                     className="sidebar-menu"
+                    searchTerm={this.state.searchTerm}
                 />
             </div>
         )

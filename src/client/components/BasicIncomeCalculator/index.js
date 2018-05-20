@@ -13,7 +13,7 @@ import * as bsutils from 'utils/bsutils'
 const ENTITIES = [
     { label: 'Coffee', value: 'coffee', cost: 2, price: 4 },
     { label: 'Wine', value: 'wine', cost: 3.5, price: 7 },
-    { label: 'Dinner', value: 'dinner', cost: 14.5, price: 25 },
+    { label: 'Dinner', value: 'dinner', cost: 14.5, price: 27 },
     {
         label: 'Travel Ticket',
         value: 'travel-ticket',
