@@ -20,14 +20,22 @@ class DonationDialog extends Component {
     state = {
         isOtherInputVisible: false,
         selectedCurrency: 'USD',
-        otherInputAmount: 200
+        otherInputAmount: 200,
+        selectedAmount: 0
     }
 
-    toggleOtherInput = force => {
+    toggleOtherInput = (force, amount) => {
         this.setState({
             isOtherInputVisible: isBoolean(force)
                 ? force
                 : !this.state.isOtherInputVisible
+        })
+        this.setSelectedAmount(amount)
+    }
+
+    setSelectedAmount = amount => {
+        this.setState({
+            selectedAmount: amount
         })
     }
 
@@ -60,6 +68,7 @@ class DonationDialog extends Component {
     render() {
         const cx = classnames(s.donationDialog, 'donation-dialog')
         const { selectedDonation } = this.props
+        const { selectedAmount } = this.state
         const _dialogTitle = (
             <p className="text-center">
                 We Thank You for Your
@@ -74,38 +83,46 @@ class DonationDialog extends Component {
                 onRequestClose={this.closeDonationDialog}>
                 <div className="donate-buttons flex-horizontal">
                     <button
-                        className="btn btn-outline-dark"
-                        onClick={e => this.toggleOtherInput(false)}>
+                        className={`btn btn-outline-dark ${
+                            selectedAmount === 4 ? 'active' : ''
+                        }`}
+                        onClick={e => this.toggleOtherInput(false, 4)}>
                         {selectedDonation && selectedDonation.value === 'coffee'
                             ? `$${selectedDonation.price}`
-                            : '$2'}
+                            : '$4'}
                     </button>
                     <button
-                        className="btn btn-outline-dark"
-                        onClick={e => this.toggleOtherInput(false)}>
+                        className={`btn btn-outline-dark ${
+                            selectedAmount === 7 ? 'active' : ''
+                        }`}
+                        onClick={e => this.toggleOtherInput(false, 7)}>
                         {selectedDonation && selectedDonation.value === 'wine'
                             ? `$${selectedDonation.price}`
-                            : '$5'}
+                            : '$7'}
                     </button>
                     <button
-                        className="btn btn-outline-dark"
-                        onClick={e => this.toggleOtherInput(false)}>
+                        className={`btn btn-outline-dark ${
+                            selectedAmount === 27 ? 'active' : ''
+                        }`}
+                        onClick={e => this.toggleOtherInput(false, 27)}>
                         {selectedDonation && selectedDonation.value === 'dinner'
                             ? `$${selectedDonation.price}`
-                            : '$25'}
+                            : '$27'}
                     </button>
                     <button
-                        className="btn btn-outline-dark"
-                        onClick={e => this.toggleOtherInput(false)}>
+                        className={`btn btn-outline-dark ${
+                            selectedAmount === 120 ? 'active' : ''
+                        }`}
+                        onClick={e => this.toggleOtherInput(false, 120)}>
                         {selectedDonation &&
                         selectedDonation.value === 'travel-ticket'
                             ? `$${selectedDonation.price}`
-                            : '$100'}
+                            : '$120'}
                     </button>
                     {!this.state.isOtherInputVisible && (
                         <button
                             className="btn btn-outline-dark other-donation-button"
-                            onClick={this.toggleOtherInput}>
+                            onClick={e => this.toggleOtherInput(true, 0)}>
                             Other
                         </button>
                     )}

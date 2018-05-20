@@ -11,11 +11,11 @@ import TooltipDropdown from 'components/ui/TooltipDropdown'
 import * as bsutils from 'utils/bsutils'
 
 const ENTITIES = [
-    { label: 'Coffee - $4', value: 'coffee', cost: 2, price: 4 },
-    { label: 'Wine - $7', value: 'wine', cost: 3.5, price: 7 },
-    { label: 'Dinner - $25', value: 'dinner', cost: 14.5, price: 25 },
+    { label: 'Coffee', value: 'coffee', cost: 2, price: 4 },
+    { label: 'Wine', value: 'wine', cost: 3.5, price: 7 },
+    { label: 'Dinner', value: 'dinner', cost: 14.5, price: 25 },
     {
-        label: 'Travel Ticket - $120',
+        label: 'Travel Ticket',
         value: 'travel-ticket',
         cost: 60,
         price: 120
