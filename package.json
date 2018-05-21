@@ -6,6 +6,7 @@
     "author": "Tushar Kant",
     "license": "MIT",
     "scripts": {
+        "postinstall": "",
         "start": "node build/server.bundle.js",
         "dev": "NODE_ENV=development gulp",
         "dev:server": "nodemon build/server.bundle.js",
@@ -13,8 +14,10 @@
         "build": "NODE_ENV=production gulp build",
         "prod:server": "pm2-runtime process.yml",
         "generate-docs": "jsdoc --configure .jsdoc.json --verbose",
-        "profile": "NODE_ENV=production webpack --config tools/webpack.config.client --profile --json > stats.json",
-        "analyze": "npm run profile && webpack-bundle-analyzer stats.json build/public -s gzip"
+        "profile":
+            "NODE_ENV=production webpack --config tools/webpack.config.client --profile --json > stats.json",
+        "analyze":
+            "npm run profile && webpack-bundle-analyzer stats.json build/public -s gzip"
     },
     "dependencies": {
         "animate.css": "3.6.1",
