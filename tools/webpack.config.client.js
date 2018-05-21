@@ -93,7 +93,7 @@ config.plugins = [
     new webpack.DefinePlugin({
         __DEV__: envOption(false, true, false),
         __TEST__: envOption(false, false, true),
-        __SERVER__: false,
+        __SERVER__: IS_PROD,
         'process.env': {
             NODE_ENV: JSON.stringify(envOption('production', 'development', 'test'))
         }
