@@ -1,6 +1,3 @@
-echo "Cleanup Build dirs"
-node tools/clean.js
-
 echo "Copy vendors"
 node tools/copy.js
 
