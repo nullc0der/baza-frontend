@@ -2,6 +2,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { AppContainer } from 'react-hot-loader'
+import Raven from 'raven-js'
 // import { BrowserRouter } from "react-router-dom";
 
 //import { configureStore, saveLocalState, loadLocalState } from './store/index'
@@ -39,6 +40,7 @@ const store = configureStore(finalState, history)
 const onRenderComplete = () => {
     console.timeEnd('react:rendered-in')
     console.log('renderCount: ', renderCounter)
+    if (process.env.NODE_ENV === 'production') window.Raven = Raven
 }
 
 // If you have multiple containers before actual router's <Switch> / <Route> kicks in
@@ -64,6 +66,13 @@ const renderApp = Component => {
 
 // Render the app for first time
 renderApp(Root)
+
+// Configure Raven in production
+if (process.env.NODE_ENV === 'production') {
+    Raven.config(
+        'https://71a017bc7bc94c0b859a265b55294e5f@sentry.io/1210544'
+    ).install()
+}
 
 // [TODO: Add service worker support,
 // 			partial work has been done,
