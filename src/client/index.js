@@ -40,7 +40,7 @@ const store = configureStore(finalState, history)
 const onRenderComplete = () => {
     console.timeEnd('react:rendered-in')
     console.log('renderCount: ', renderCounter)
-    if (process.env.NODE_ENV === 'production') window.Raven = Raven
+    // if (process.env.NODE_ENV === 'production') window.Raven = Raven
 }
 
 // If you have multiple containers before actual router's <Switch> / <Route> kicks in
