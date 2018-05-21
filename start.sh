@@ -1,8 +1,8 @@
 echo "Cleanup Build dirs"
-node tools/gulp/clean.js
+node tools/clean.js
 
 echo "Copy vendors"
-node tools/gulp/copy.js
+node tools/copy.js
 
 echo "Building bundles"
 yarn build
