@@ -22,24 +22,6 @@ module.exports = [
         href: '/admin/',
         children: [
             {
-                name: 'Baza',
-                icon_type: 'image',
-                icon: '/public/img/baza_logo_gs.svg',
-                href: '',
-                children: [
-                    {
-                        name: 'Groups',
-                        href: '/admin/community/groups',
-                        icon: 'fa fa-fw fa-cubes'
-                    },
-                    {
-                        name: 'Members',
-                        href: '',
-                        icon: 'fa fa-fw fa-users'
-                    }
-                ]
-            },
-            {
                 name: 'Ekata Social',
                 icon_type: 'image',
                 icon: '/public/img/ekata.png',
