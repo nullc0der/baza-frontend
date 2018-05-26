@@ -17,7 +17,7 @@ const api = create({
 const rejectIfResponseNotOK = response => {
     return response.ok
         ? Promise.resolve(response)
-        : Promise.reject(response.data) // TODO: Handling error needs some improvement
+        : Promise.reject(response.data)
 }
 
 export const formAPI = function(createRequestPromise) {

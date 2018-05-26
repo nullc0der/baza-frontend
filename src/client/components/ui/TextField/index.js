@@ -30,6 +30,7 @@ export default class TextField extends Component {
     }
 
     onInputChange = e => {
+        e.stopPropagation()
         const value = e.target.value
         const id = e.target.id
         this.setState({ value })

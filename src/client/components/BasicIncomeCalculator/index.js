@@ -50,7 +50,7 @@ class BasicIncomeCalculator extends Component {
             <div className={cx}>
                 <div className={formInnerClasses}>
                     <div className={columnClasses}>
-                        <span className="form-text"> Your 1 times </span>
+                        <span className="form-text"> Your 1 </span>
                         <TooltipDropdown
                             className="entity-dropdown"
                             items={ENTITIES}
