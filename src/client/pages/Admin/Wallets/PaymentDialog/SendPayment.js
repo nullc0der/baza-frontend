@@ -1,8 +1,10 @@
 import React, { Component } from 'react'
 import classnames from 'classnames'
 import PropTypes from 'prop-types'
-import TextField from 'components/ui/TextField'
 
+import { jsonAPI } from 'api/base'
+
+import TextField from 'components/ui/TextField'
 import SelectDropdown from 'components/ui/SelectDropdown'
 
 const calcTotal = (amount, txfee) => {
@@ -16,7 +18,8 @@ class SendPayment extends Component {
             username: '',
             message: ''
         },
-        inputError: {}
+        inputError: {},
+        userList: []
     }
 
     componentWillReceiveProps = nextProps => {
@@ -35,7 +38,39 @@ class SendPayment extends Component {
         }
     }
 
+    setUserList = list => {
+        this.setState({
+            userList: list
+        })
+    }
+
+    clearUserList = () => {
+        this.setState({
+            userList: []
+        })
+    }
+
+    fetchProxcUserList = value => {
+        if (value.length) {
+            const url = '/proxc/users/'
+            jsonAPI(api => api.get(url, { username: value }))
+                .then(response => {
+                    this.setUserList(response.data)
+                })
+                .catch(err => {
+                    this.clearUserList()
+                })
+        } else {
+            this.clearUserList()
+        }
+    }
+
     onInputChange = (id, value) => {
+        if (id === 'username') {
+            this.fetchProxcUserList(value)
+        } else {
+            this.clearUserList()
+        }
         this.setState(prevState => ({
             inputValues: {
                 ...prevState.inputValues,
@@ -44,7 +79,19 @@ class SendPayment extends Component {
         }))
     }
 
+    onDDItemClick = (e, value) => {
+        e.preventDefault()
+        e.stopPropagation()
+        this.setState(prevState => ({
+            inputValues: {
+                ...prevState.inputValues,
+                username: value
+            }
+        }))
+    }
+
     onSendSubmitClick = e => {
+        this.clearUserList()
         this.props.onSendSubmitClick(this.state.inputValues)
     }
 
@@ -60,6 +107,12 @@ class SendPayment extends Component {
                         value={this.state.inputValues.username}
                         id="username"
                         errorState={this.state.inputError.nonField || null}
+                        items={this.state.userList}
+                        onDDItemClick={this.onDDItemClick}
+                        itemRenderer={(item, index) => {
+                            return <span>{item.label}</span>
+                        }}
+                        autoComplete="off"
                     />
 
                     <div className="row align-items-center">

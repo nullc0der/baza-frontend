@@ -31,7 +31,10 @@ export default class SelectDropdown extends Component {
 
     renderOneDropdownItem = (item, index) => {
         return (
-            <div className="ui-select-dropdown-item" key={index}>
+            <div
+                className="ui-select-dropdown-item"
+                key={index}
+                onClick={e => this.props.onDDItemClick(e, item.value)}>
                 {this.props.itemRenderer(item, index)}
             </div>
         )
@@ -45,7 +48,8 @@ export default class SelectDropdown extends Component {
             onChange,
             value,
             id,
-            errorState
+            errorState,
+            autoComplete
         } = this.props
         const cx = classnames(s.container, 'ui-select-dropdown', className)
         return (
@@ -57,6 +61,7 @@ export default class SelectDropdown extends Component {
                     value={value}
                     id={id}
                     errorState={errorState}
+                    autoComplete={autoComplete}
                 />
                 <div className="ui-select-dropdown-menu">
                     {items.map(this.renderOneDropdownItem)}

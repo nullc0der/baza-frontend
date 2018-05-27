@@ -31,7 +31,7 @@ const FETCH_PROFILE_FAILURE = createAction('FETCH_PROFILE_FAILURE')
 const fetchProfileFailure = err => {
     return {
         type: FETCH_PROFILE_FAILURE,
-        error: err.message
+        error: err
     }
 }
 

@@ -38,7 +38,7 @@ const FETCH_TRANSANCTIONS_FAILURE = createAction('FETCH_TRANSANCTIONS_FAILURE')
 const fetchTransanctionsFailure = err => {
     return {
         type: FETCH_TRANSANCTIONS_FAILURE,
-        error: err.message
+        error: err
     }
 }
 

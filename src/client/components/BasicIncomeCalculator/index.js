@@ -50,7 +50,7 @@ class BasicIncomeCalculator extends Component {
             <div className={cx}>
                 <div className={formInnerClasses}>
                     <div className={columnClasses}>
-                        <span className="form-text"> Your 1 </span>
+                        <span className="form-text"> Your </span>
                         <TooltipDropdown
                             className="entity-dropdown"
                             items={ENTITIES}
@@ -61,14 +61,14 @@ class BasicIncomeCalculator extends Component {
                     <div className={columnClasses}>
                         <span className="form-text">
                             {' '}
-                            is Basic Income of 1 person for{' '}
+                            is basic income for a person for{' '}
                         </span>
                     </div>
                     <div className={columnClasses}>
                         <span className="badge badge-pill badge-dark mx-3">
                             {selectedItem.cost}
                         </span>
-                        <span className="form-text"> Days </span>
+                        <span className="form-text"> days </span>
                     </div>
                 </div>
             </div>

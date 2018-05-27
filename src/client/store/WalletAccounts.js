@@ -33,7 +33,7 @@ const FETCH_ACCOUNTS_FAILURE = createAction('FETCH_ACCOUNTS_FAILURE')
 const fetchAccountsFailure = err => {
     return {
         type: FETCH_ACCOUNTS_FAILURE,
-        error: err.message
+        error: err
     }
 }
 
