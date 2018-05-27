@@ -86,7 +86,8 @@ class SendPayment extends Component {
             inputValues: {
                 ...prevState.inputValues,
                 username: value
-            }
+            },
+            userList: []
         }))
     }
 

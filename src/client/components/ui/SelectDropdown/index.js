@@ -63,9 +63,11 @@ export default class SelectDropdown extends Component {
                     errorState={errorState}
                     autoComplete={autoComplete}
                 />
-                <div className="ui-select-dropdown-menu">
-                    {items.map(this.renderOneDropdownItem)}
-                </div>
+                {items.length ? (
+                    <div className="ui-select-dropdown-menu">
+                        {items.map(this.renderOneDropdownItem)}
+                    </div>
+                ) : null}
             </div>
         )
     }
