@@ -14,12 +14,13 @@ const calcTotal = (amount, txfee) => {
 class SendPayment extends Component {
     state = {
         inputValues: {
-            amount: 0,
+            amount: '',
             username: '',
             message: ''
         },
         inputError: {},
-        userList: []
+        userList: [],
+        txfee: 0.01
     }
 
     componentWillReceiveProps = nextProps => {
@@ -93,11 +94,18 @@ class SendPayment extends Component {
 
     onSendSubmitClick = e => {
         this.clearUserList()
-        this.props.onSendSubmitClick(this.state.inputValues)
+        this.props.onSendSubmitClick({
+            ...this.state.inputValues,
+            amount: calcTotal(this.state.inputValues.amount, this.state.txfee)
+        })
     }
 
     render() {
         const cx = classnames('send-payment payment-tab-content flex-vertical')
+        const amount =
+            this.state.inputValues.amount !== ''
+                ? parseFloat(this.state.inputValues.amount)
+                : 0
         return (
             <div className={cx}>
                 <div className="tab-content-inner">
@@ -150,20 +158,17 @@ class SendPayment extends Component {
                         </div>
                     )} */}
                     <div className="row align-items-center justify-content-between mt-3">
-                        <div className="col-md-6">
+                        <div className="col-6">
                             <div className="transanction-info">
                                 <div className="label">Tx Fee</div>
-                                <div className="value">0.01</div>
+                                <div className="value">{this.state.txfee}</div>
                             </div>
                         </div>
-                        <div className="col-md-6">
+                        <div className="col-6">
                             <div className="transanction-info total-info">
                                 <div className="label">Total</div>
                                 <div className="value">
-                                    {calcTotal(
-                                        this.state.inputValues.amount,
-                                        0.01
-                                    )}
+                                    {calcTotal(amount, this.state.txfee)}
                                 </div>
                             </div>
                         </div>

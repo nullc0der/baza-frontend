@@ -14,7 +14,7 @@ const CurrentStatusSection = props => {
       <div className="container page-section">
         <h3 className="text-center mb-3"> Current Status </h3>
         <div className="row mb-5">
-          <div className="col-8 mx-auto">
+          <div className="col-12 col-md-8 mx-auto">
             <div className="embed-responsive embed-responsive-21by9">
               <iframe
                 title="status-video"

@@ -6,6 +6,10 @@ $text-color: rgba($dark, 0.5);
     color: inherit;
     .modal-dialog {
         width: 450px;
+        @include media-breakpoint-down(sm, $grid-breakpoints) {
+            width: unset;
+            max-width: 100vw;
+        }
     }
     .modal-content {
         border-radius: 3px;
@@ -36,6 +40,9 @@ $text-color: rgba($dark, 0.5);
     }
     .tab-content-inner {
         padding: map-get($spacers, 2) map-get($spacers, 5);
+        @include media-breakpoint-down(sm, $grid-breakpoints) {
+            padding: map-get($spacers, 2) map-get($spacers, 3);
+        }
     }
     .ui-textfield-input {
         border-bottom-color: $text-color;
