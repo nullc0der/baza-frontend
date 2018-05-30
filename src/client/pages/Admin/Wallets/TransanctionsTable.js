@@ -60,31 +60,30 @@ class TransanctionsTable extends Component {
 
         const columns = [
             {
+                id: 'id',
+                Header: 'ID',
+                accessor: 'id',
+                show: false
+            },
+            {
                 id: 'from-to',
                 Header: 'From -> To',
                 accessor: d => <TransanctionFromTo transanction={d} />
             },
             {
+                id: 'message',
                 Header: 'Description',
                 accessor: 'message'
             },
             {
+                id: 'txid',
                 Header: 'TransanctionID',
                 accessor: 'txid'
             },
             {
                 id: 'status',
                 Header: 'Status',
-                accessor: d => <TransanctionStatus status={d.status} />,
-                sortMethod: (a, b) => {
-                    if (a.props.children < b.props.children) {
-                        return -1
-                    }
-                    if (a.props.children > b.props.children) {
-                        return 1
-                    }
-                    return 0
-                }
+                accessor: d => <TransanctionStatus status={d.status} />
             },
             {
                 id: 'date',
@@ -103,7 +102,13 @@ class TransanctionsTable extends Component {
             showPagination: false,
             showPageSizeOptions: false,
             minRows: 0,
-            multisort: false
+            multisort: false,
+            defaultSorted: [
+                {
+                    id: 'id',
+                    desc: true
+                }
+            ]
         }
 
         return (

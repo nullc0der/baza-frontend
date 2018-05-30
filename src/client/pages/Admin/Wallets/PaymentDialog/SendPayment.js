@@ -94,10 +94,7 @@ class SendPayment extends Component {
 
     onSendSubmitClick = e => {
         this.clearUserList()
-        this.props.onSendSubmitClick({
-            ...this.state.inputValues,
-            amount: calcTotal(this.state.inputValues.amount, this.state.txfee)
-        })
+        this.props.onSendSubmitClick(this.state.inputValues)
     }
 
     render() {
