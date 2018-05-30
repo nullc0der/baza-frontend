@@ -77,7 +77,7 @@ class HeaderProfileButton extends Component {
                         Landing
                     </Link>
                 </div>
-                <div className="profile-menu-footer flex-horizontal j-between">
+                <div className="profile-menu-footer flex-horizontal j-around">
                     <a className="btn footer-btn" href="#">
                         Profile
                     </a>
