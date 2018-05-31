@@ -10,6 +10,7 @@ import { push } from 'react-router-redux'
 import { connect } from 'react-redux'
 
 import TextField from 'components/ui/TextField'
+import EnhancedPasswordField from 'components/ui/EnhancedPasswordField'
 import Auth from 'utils/authHelpers'
 
 import s from './SignUp.scss'
@@ -109,9 +110,8 @@ class LoginDialog extends Component {
                                 : null
                         }
                     />
-                    <TextField
+                    <EnhancedPasswordField
                         id="password"
-                        type="password"
                         label="Password"
                         className="mb-3"
                         icon={<i className="material-icons">lock_outline</i>}

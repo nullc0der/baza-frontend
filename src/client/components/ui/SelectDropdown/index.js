@@ -49,7 +49,8 @@ export default class SelectDropdown extends Component {
             value,
             id,
             errorState,
-            autoComplete
+            autoComplete,
+            ...others
         } = this.props
         const cx = classnames(s.container, 'ui-select-dropdown', className)
         return (
@@ -62,6 +63,7 @@ export default class SelectDropdown extends Component {
                     id={id}
                     errorState={errorState}
                     autoComplete={autoComplete}
+                    {...others}
                 />
                 {items.length ? (
                     <div className="ui-select-dropdown-menu">

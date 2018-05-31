@@ -119,6 +119,7 @@ class SendPayment extends Component {
                             return <span>{item.label}</span>
                         }}
                         autoComplete="off"
+                        data-lpignore="true"
                     />
 
                     <div className="row align-items-center">

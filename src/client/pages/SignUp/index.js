@@ -11,6 +11,7 @@ import Header from 'components/Header'
 
 import TextField from 'components/ui/TextField'
 import Carousel from 'components/ui/Carousel'
+import EnhancedPasswordField from 'components/ui/EnhancedPasswordField'
 
 import s from './SignUp.scss'
 
@@ -104,10 +105,9 @@ class SignUpPage extends Component {
                                             </i>
                                         }
                                     />
-                                    <TextField
+                                    <EnhancedPasswordField
                                         id="password1"
                                         label="Password"
-                                        type="password"
                                         className="mt-3"
                                         errorState={
                                             this.state.errorText.password1
@@ -118,11 +118,11 @@ class SignUpPage extends Component {
                                                 lock_outline
                                             </i>
                                         }
+                                        checkStrength={true}
                                     />
-                                    <TextField
+                                    <EnhancedPasswordField
                                         id="password2"
                                         label="Confirm Password"
-                                        type="password"
                                         className="mt-3"
                                         errorState={
                                             this.state.errorText.password2
