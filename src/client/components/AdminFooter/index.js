@@ -29,7 +29,7 @@ export default class Footer extends Component {
                         {' '}
                         beta{' '}
                     </div>
-                    <b> v0.7.5 </b>
+                    <b> v0.1.1 </b> {// TODO: Implement a method to fetch version from git tag}
                 </div>
             </div>
         )
