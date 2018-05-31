@@ -4,7 +4,7 @@ import get from 'lodash/get'
 
 import Dialog from 'components/ui/Dialog'
 
-import { Link } from 'react-router-dom'
+import { Link, Redirect } from 'react-router-dom'
 
 import { push } from 'react-router-redux'
 import { connect } from 'react-redux'
@@ -25,7 +25,8 @@ class LoginDialog extends Component {
             username: '',
             password: '',
             nonField: ''
-        }
+        },
+        redirectToOrigin: false
     }
 
     closeLoginModal = () => {
@@ -58,7 +59,9 @@ class LoginDialog extends Component {
         login
             .then(responseData => {
                 if (responseData.key) {
-                    this.props.navigate('/admin/member-profile')
+                    this.setState({
+                        redirectToOrigin: true
+                    })
                 } else {
                     this.setState({
                         errorText: {
@@ -81,8 +84,13 @@ class LoginDialog extends Component {
 
     render() {
         const cx = classnames(s.loginDialog, 'login-dialog')
+        const { originURL } = this.props.location.state || {
+            originURL: '/admin/member-profile'
+        }
 
-        return (
+        return this.state.redirectToOrigin ? (
+            <Redirect to={originURL} />
+        ) : (
             <Dialog
                 className={cx}
                 isOpen={true}
