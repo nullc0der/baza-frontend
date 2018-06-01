@@ -36,7 +36,7 @@ export default class EnhancedPasswordField extends Component {
                     break
                 case 3: // safely unguessable
                     strengthBar.progressWidth = 75
-                    strengthBar.pogressClassName = 'bg-info'
+                    strengthBar.progressClassName = 'bg-info'
                     strengthBar.text = 'safely unguessable'
                     strengthBar.textClassName = 'text-info'
                     strengthBar.feedBack = result.feedback.suggestions[0]
