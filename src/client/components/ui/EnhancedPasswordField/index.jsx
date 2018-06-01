@@ -21,24 +21,39 @@ export default class EnhancedPasswordField extends Component {
             switch (result.score) {
                 case 0: // too guessable
                 case 1: // very guessable
-                    strengthBar.width = 25
-                    strengthBar.className = 'bg-danger'
+                    strengthBar.progressWidth = 25
+                    strengthBar.progressClassName = 'bg-danger'
+                    strengthBar.text = 'very guessable'
+                    strengthBar.textClassName = 'text-danger'
+                    strengthBar.feedBack = result.feedback.suggestions[0]
                     break
                 case 2: // somewhat guessable
-                    strengthBar.width = 50
-                    strengthBar.className = 'bg-warning'
+                    strengthBar.progressWidth = 50
+                    strengthBar.progressClassName = 'bg-warning'
+                    strengthBar.text = 'somewhat guessable'
+                    strengthBar.textClassName = 'text-warning'
+                    strengthBar.feedBack = result.feedback.suggestions[0]
                     break
                 case 3: // safely unguessable
-                    strengthBar.width = 75
-                    strengthBar.className = 'bg-info'
+                    strengthBar.progressWidth = 75
+                    strengthBar.pogressClassName = 'bg-info'
+                    strengthBar.text = 'safely unguessable'
+                    strengthBar.textClassName = 'text-info'
+                    strengthBar.feedBack = result.feedback.suggestions[0]
                     break
                 case 4: // very unguessable
-                    strengthBar.width = 100
-                    strengthBar.className = 'bg-success'
+                    strengthBar.progressWidth = 100
+                    strengthBar.progressClassName = 'bg-success'
+                    strengthBar.text = 'very unguessable'
+                    strengthBar.textClassName = 'text-success'
+                    strengthBar.feedBack = result.feedback.suggestions[0]
                     break
                 default:
-                    strengthBar.width = 0
-                    strengthBar.className = 'bg-danger'
+                    strengthBar.progressWidth = 0
+                    strengthBar.progressClassName = 'bg-danger'
+                    strengthBar.text = 'too guessable'
+                    strengthBar.textClassName = 'text-danger'
+                    strengthBar.feedBack = result.feedback.suggestions[0]
             }
             this.setState({
                 strengthBar: strengthBar
@@ -54,6 +69,7 @@ export default class EnhancedPasswordField extends Component {
 
     render() {
         const { className, id, label, icon, errorState, value } = this.props
+        const { strengthBar } = this.state
 
         const cx = classnames(
             s.container,
@@ -84,18 +100,28 @@ export default class EnhancedPasswordField extends Component {
                             : 'visibility'}
                     </i>
                 </div>
-                {!isEmpty(this.state.strengthBar) && (
-                    <div className="password-strength mt-1">
+                {!isEmpty(strengthBar) && (
+                    <div className="password-strength text-left mt-1">
+                        <p className="password-strength-info">
+                            Password strength:{' '}
+                            <span
+                                className={`strength ${
+                                    strengthBar.textClassName
+                                }`}>
+                                {strengthBar.text}
+                            </span>
+                        </p>
                         <div className="progress">
                             <div
                                 className={`progress-bar ${
-                                    this.state.strengthBar.className
+                                    strengthBar.progressClassName
                                 }`}
                                 style={{
-                                    width: `${this.state.strengthBar.width}%`
+                                    width: `${strengthBar.progressWidth}%`
                                 }}
                             />
                         </div>
+                        <p className="feedback">{strengthBar.feedBack}</p>
                     </div>
                 )}
             </div>
