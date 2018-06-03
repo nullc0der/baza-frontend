@@ -68,10 +68,19 @@ const sendPaymentFailure = err => ({
     error: err
 })
 
+const RECEIVED_TXDATA_ON_WEBSOCKET = createAction(
+    'RECEIVED_TXDATA_ON_WEBSOCKET'
+)
+const receivedTxdataOnWebsocket = transanction => ({
+    type: RECEIVED_TXDATA_ON_WEBSOCKET,
+    transanction
+})
+
 export const actions = {
     fetchTransanctions,
     clearTransanctions,
-    sendPayment
+    sendPayment,
+    receivedTxdataOnWebsocket
 }
 
 export default function WalletAccountsReducer(state = INITIAL_STATE, action) {
@@ -101,6 +110,11 @@ export default function WalletAccountsReducer(state = INITIAL_STATE, action) {
                 ...state,
                 isPaymentSending: false,
                 hasPaymentSendError: false,
+                list: [...state.list, action.transanction]
+            }
+        case RECEIVED_TXDATA_ON_WEBSOCKET:
+            return {
+                ...state,
                 list: [...state.list, action.transanction]
             }
         default:

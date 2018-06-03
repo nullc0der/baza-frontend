@@ -2612,6 +2612,12 @@ dir-glob@^2.0.0:
     arrify "^1.0.1"
     path-type "^3.0.0"
 
+django-channels@^1.1.6:
+  version "1.1.6"
+  resolved "https://registry.yarnpkg.com/django-channels/-/django-channels-1.1.6.tgz#51cdf9d818be3d098ef49a49356f2a7a78499180"
+  dependencies:
+    reconnecting-websocket "^3.0.3"
+
 dns-equal@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/dns-equal/-/dns-equal-1.0.0.tgz#b39e7f1da6eb0a75ba9c17324b34753c47e0654d"
@@ -7793,6 +7799,10 @@ rechoir@^0.6.2:
   resolved "https://registry.yarnpkg.com/rechoir/-/rechoir-0.6.2.tgz#85204b54dba82d5742e28c96756ef43af50e3384"
   dependencies:
     resolve "^1.1.6"
+
+reconnecting-websocket@^3.0.3:
+  version "3.2.2"
+  resolved "https://registry.yarnpkg.com/reconnecting-websocket/-/reconnecting-websocket-3.2.2.tgz#8097514e926e9855e03c39e76efa2e3d1f371bee"
 
 recursive-readdir@2.2.1:
   version "2.2.1"

@@ -50,6 +50,8 @@ export default class SelectDropdown extends Component {
             id,
             errorState,
             autoComplete,
+            itemRenderer,
+            onDDItemClick,
             ...others
         } = this.props
         const cx = classnames(s.container, 'ui-select-dropdown', className)
