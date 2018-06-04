@@ -7,8 +7,16 @@ import Auth from 'utils/authHelpers'
 export default class WebSocketWrapper extends Component {
     componentDidMount = () => {
         if (Auth.isAuthenticated()) {
+            let _url = ''
+            const scheme = window.location.protocol === 'https:' ? 'wss' : 'ws'
+            const baseURL = `${scheme}://${window.location.host}`
             const { url, onWebSocketData } = this.props
-            this.initializeWebSocket(url, onWebSocketData)
+            if (url[0] === '/') {
+                _url = `${baseURL}${url}`
+            } else {
+                _url = url
+            }
+            this.initializeWebSocket(_url, onWebSocketData)
         }
     }
 
