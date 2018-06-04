@@ -30,6 +30,9 @@ class AccountsSidebar extends Component {
                         />
                     </div>
                     <div className="wallet-account-details">
+                        <div className="wallet-download-transactions">
+                            <i className="material-icons">cloud_download</i>
+                        </div>
                         <div className="wallet-name">{wallet.name}</div>
                         <div className="wallet-conversion-rate">
                             {wallet.balance}
@@ -96,4 +99,7 @@ const mapDispatchToProps = dispatch => ({
     }
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(AccountsSidebar)
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(AccountsSidebar)

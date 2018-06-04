@@ -138,4 +138,7 @@ const mapDispatchToProps = dispatch => ({
     }
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(TransanctionsTable)
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(TransanctionsTable)

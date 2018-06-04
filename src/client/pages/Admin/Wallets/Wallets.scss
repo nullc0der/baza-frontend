@@ -81,6 +81,9 @@ $sidebar-width: 210px;
                     width: 48px;
                 }
             }
+            .wallet-download-transactions {
+                visibility: visible;
+            }
         }
         &:not(.is-selected) .account-actions-wrap {
             display: none;
@@ -143,6 +146,12 @@ $sidebar-width: 210px;
     }
     .wallet-account-details {
         flex: 1;
+        position: relative;
+    }
+    .wallet-download-transactions {
+        position: absolute;
+        right: 0;
+        visibility: hidden;
     }
     .wallet-name {
         font-weight: $font-weight-semibold;
@@ -161,6 +170,7 @@ $sidebar-width: 210px;
     }
     .ReactTable {
         border: none;
+        height: 100%;
         .rt-thead.-header {
             box-shadow: none;
         }
