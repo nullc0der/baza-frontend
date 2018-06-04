@@ -1,6 +1,6 @@
 import { Component } from 'react'
 
-import { WebSocketBridge } from 'django-channels'
+import Sockette from 'sockette'
 
 import Auth from 'utils/authHelpers'
 
@@ -8,18 +8,21 @@ export default class WebSocketWrapper extends Component {
     componentDidMount = () => {
         if (Auth.isAuthenticated()) {
             const { url, onWebSocketData } = this.props
-            this.websocketBridge = new WebSocketBridge()
-            this.websocketBridge.connect(url, `Token-${Auth.getToken()}`)
-            this.websocketBridge.listen((action, stream) => {
-                onWebSocketData(action)
-            })
+            this.initializeWebSocket(url, onWebSocketData)
         }
     }
 
     componentWillUnmount = () => {
-        if (this.websocketBridge) {
-            this.websocketBridge.socket.close()
-        }
+        this.ws.close(1000)
+    }
+
+    initializeWebSocket = (url, onWebSocketData) => {
+        this.ws = new Sockette(url, {
+            protocols: `Token-${Auth.getToken()}`,
+            timeout: 5e3,
+            maxAttempts: 10,
+            onmessage: e => onWebSocketData(JSON.parse(e.data))
+        })
     }
 
     render() {
