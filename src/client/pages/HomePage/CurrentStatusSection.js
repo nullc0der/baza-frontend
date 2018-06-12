@@ -20,7 +20,6 @@ const CurrentStatusSection = props => {
                                 title="status-video"
                                 className="embed-responsive-item"
                                 src="/public/videos/baza-main.mp4"
-                                preload="auto"
                                 controls
                             />
                             {/* <iframe
