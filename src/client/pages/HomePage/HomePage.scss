@@ -1,122 +1,120 @@
 @import 'ui';
 
 .home-page {
-	position: relative;
-	
-	.top-parallax-section {
-		height: 100vh;
-		color: #fff;
-	}
-	
-	.page-section {
-		padding-top: map-get($spacers, 5);
-		padding-bottom: map-get($spacers, 5);
-	}
-	
-	.hero-subtitle {
-		font-weight: $font-weight-normal;
-	}
-	.tooltip {
-		z-index: 10;
-	}
+    position: relative;
 
-	.app-header.fixed-top {
-		animation: fadeInDown 0.24s;
-		@include _shadow-2();
-	}
-	
-	.app-header.fixed-top + .container {
-		margin-top: $header-height;
-	}
+    .top-parallax-section {
+        height: 100vh;
+        color: #fff;
+    }
 
-	.donation-list {
-		@include media-breakpoint-down(sm, $grid-breakpoints) {
-			.donation-list-inner {
-				overflow: hidden;
-			}
-		}
-	}
+    .page-section {
+        padding-top: map-get($spacers, 5);
+        padding-bottom: map-get($spacers, 5);
+    }
+
+    .hero-subtitle {
+        font-weight: $font-weight-normal;
+    }
+    .tooltip {
+        z-index: 10;
+    }
+
+    .app-header.fixed-top {
+        animation: fadeInDown 0.24s;
+        @include _shadow-2();
+    }
+
+    .app-header.fixed-top + .container {
+        margin-top: $header-height;
+    }
+
+    .donation-list {
+        @include media-breakpoint-down(sm, $grid-breakpoints) {
+            .donation-list-inner {
+                overflow: hidden;
+            }
+        }
+    }
 }
 
 .home-page .hero-donate-wrapper {
-	height: 96px;
-	background-color: $dark;
-	user-select: none;
-	cursor: pointer;
-	transition: all 0.2s ease;
+    height: 96px;
+    background-color: $dark;
+    user-select: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
 
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: center;
-	color: inherit;
-	text-decoration: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: inherit;
+    text-decoration: none;
 
-	h3 {
-		line-height: 33px;
-		margin-bottom: 0;
-	}
-	p {
-		line-height: 22px;
-		margin-bottom: 0;
-	}
+    h3 {
+        line-height: 33px;
+        margin-bottom: 0;
+    }
+    p {
+        line-height: 22px;
+        margin-bottom: 0;
+    }
 
-	&:hover {
-		background-color: $primary;
-		color: $dark;
-	}
+    &:hover {
+        background-color: $primary;
+        color: $dark;
+    }
 }
 
 .home-page .features-section {
-	.feature-item {
-		text-align: center;
-		i {
-			font-size: 56px;
-			margin-bottom: map-get($spacers, 3)
-		}
-	}
+    .feature-item {
+        text-align: center;
+        i {
+            font-size: 56px;
+            margin-bottom: map-get($spacers, 3);
+        }
+    }
 }
 
-
 .home-page .latest-distribution-section {
-	.content-row + .content-row {
-		border-top: 1px $dark solid;
-	}
-	.info-block {
-		padding: 40px 15px;
-		&:not(:first-child) {
-			border-left: 1px $dark solid;
-		}
-	}
-	.info-title,
-	.info-subtitle {
-		margin-bottom: map-get($spacers, 1);
-	}
-	.info-title {
-		@include _typography-h2();
-	}
-	.info-subtitle {
-		font-weight: $font-weight-bold;
-	}
+    .content-row + .content-row {
+        border-top: 1px solid rgba(39, 57, 81, 0.15);
+    }
+    .info-block {
+        padding: 40px 15px;
+        &:not(:first-child) {
+            border-left: 1px solid rgba(39, 57, 81, 0.15);
+        }
+    }
+    .info-title,
+    .info-subtitle {
+        margin-bottom: map-get($spacers, 1);
+    }
+    .info-title {
+        @include _typography-h2();
+    }
+    .info-subtitle {
+        font-weight: $font-weight-bold;
+    }
 
-	@include media-breakpoint-down(sm, $grid-breakpoints) {
-		.info-block {
-			border-bottom: 1px $dark solid;
-			margin-left: map-get($spacers, 2);
-			margin-right: map-get($spacers, 2);
-			&:not(:first-child) {
-				border-left: none;
-			}
-		}
-		.content-row + .content-row {
-			border-top: none;
-		}
-	}
-
+    @include media-breakpoint-down(sm, $grid-breakpoints) {
+        .info-block {
+            border-bottom: 1px $dark solid;
+            margin-left: map-get($spacers, 2);
+            margin-right: map-get($spacers, 2);
+            &:not(:first-child) {
+                border-left: none;
+            }
+        }
+        .content-row + .content-row {
+            border-top: none;
+        }
+    }
 }
 
 .home-page .contact-section {
-	.ui-textfield {
-		margin-top: map-get($spacers, 3);
-	}
+    .ui-textfield {
+        margin-top: map-get($spacers, 3);
+    }
 }
