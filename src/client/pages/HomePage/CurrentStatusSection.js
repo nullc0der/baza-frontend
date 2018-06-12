@@ -15,7 +15,7 @@ const CurrentStatusSection = props => {
                 <h3 className="text-center mb-3"> Current Status </h3>
                 <div className="row mb-5">
                     <div className="col-12 col-md-8 mx-auto">
-                        <div className="embed-responsive embed-responsive-21by9">
+                        <div className="embed-responsive embed-responsive-16by9">
                             <video
                                 title="status-video"
                                 className="embed-responsive-item"
