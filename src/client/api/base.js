@@ -28,7 +28,7 @@ export const formAPI = function(createRequestPromise) {
     api.setHeader('Content-Type', 'multipart/form-data')
 
     if (Auth.isAuthenticated()) {
-        api.setHeader('Authorization', `Token ${Auth.getToken()}`)
+        api.setHeader('Authorization', `Bearer ${Auth.getToken()}`)
     }
 
     debug('Loader Start')
@@ -48,7 +48,7 @@ export const jsonAPI = function(createRequestPromise) {
     api.setHeader('Content-Type', 'application/json')
 
     if (Auth.isAuthenticated()) {
-        api.setHeader('Authorization', `Token ${Auth.getToken()}`)
+        api.setHeader('Authorization', `Bearer ${Auth.getToken()}`)
     }
 
     debug('Loader start')

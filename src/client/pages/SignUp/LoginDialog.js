@@ -27,7 +27,8 @@ class LoginDialog extends Component {
             password: '',
             nonField: ''
         },
-        redirectToOrigin: false
+        redirectToOrigin: false,
+        emailVerificationRequired: false
     }
 
     closeLoginModal = () => {
@@ -59,10 +60,19 @@ class LoginDialog extends Component {
         const login = Auth.login(username, password, rememberMe)
         login
             .then(responseData => {
-                if (responseData.key) {
-                    this.setState({
-                        redirectToOrigin: true
-                    })
+                if (responseData.access_token) {
+                    if (
+                        responseData.email_verification === 'mandatory' &&
+                        !responseData.email_verified
+                    ) {
+                        this.setState({
+                            emailVerificationRequired: true
+                        })
+                    } else {
+                        this.setState({
+                            redirectToOrigin: true
+                        })
+                    }
                 } else {
                     this.setState({
                         errorText: {
@@ -129,6 +139,12 @@ class LoginDialog extends Component {
                             ))}
                         </div>
                     )}
+                    {!!this.state.emailVerificationRequired && (
+                        <div className="well mb-2 error-div">
+                            You can't access user section until email is
+                            verified
+                        </div>
+                    )}
                     <button
                         className="btn btn-dark btn-block"
                         onClick={this.onLoginClick}>
@@ -146,12 +162,15 @@ class LoginDialog extends Component {
                         <label htmlFor="remember_me_check"> Remember Me </label>
                     </div>
                     <div className="col-md-6 mt-3 text-right">
-                        <a
-                            href="#"
+                        <Link
+                            to={{
+                                pathname: 'resetpassword',
+                                state: { fromLogin: true }
+                            }}
                             className="font-weight-bold text-dark forgot-password-link">
                             {' '}
                             Forgot Password{' '}
-                        </a>
+                        </Link>
                     </div>
                 </div>
                 <div className="well text-center mt-3">
@@ -192,4 +211,7 @@ const mapDispatchToProps = dispatch => ({
     }
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(LoginDialog)
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(LoginDialog)

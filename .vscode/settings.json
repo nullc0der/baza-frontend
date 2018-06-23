@@ -19,6 +19,5 @@
     "prettier.eslintIntegration": true,
     "prettier.printWidth": 80,
     "prettier.semi": false,
-    "prettier.singleQuote": true,
-    "python.linting.pylintEnabled": false
+    "prettier.singleQuote": true
 }
