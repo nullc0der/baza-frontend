@@ -61,7 +61,8 @@ export default class Auth {
                         authActions.authenticateUser(
                             response.data.access_token,
                             response.data.email_verification,
-                            response.data.email_verified
+                            response.data.email_verified,
+                            response.data.expires_in
                         )
                     )
                     if (rememberUser) {
@@ -136,5 +137,21 @@ export default class Auth {
                 reject(response.data)
             })
         })
+    }
+
+    static isTokenNotExpired() {
+        const auth = store.getState().Auth
+        if (auth.expiresIn !== '') {
+            if (new Date(auth.expiresIn) < new Date()) {
+                store.dispatch(authActions.deauthenticateUser())
+                removeLocalState()
+                return false
+            }
+        } else {
+            store.dispatch(authActions.deauthenticateUser())
+            removeLocalState()
+            return false
+        }
+        return true
     }
 }

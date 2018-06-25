@@ -2,15 +2,22 @@ const INITIAL_STATE = {
     isAuthenticated: false,
     authToken: '',
     emailVerification: 'mandatory',
-    emailVerified: false
+    emailVerified: false,
+    expiresIn: ''
 }
 
 const AUTHENTICATE_USER = 'AUTHENTICATE_USER'
-const authenticateUser = (authToken, emailVerification, emailVerified) => ({
+const authenticateUser = (
+    authToken,
+    emailVerification,
+    emailVerified,
+    expiresIn
+) => ({
     type: AUTHENTICATE_USER,
     authToken,
     emailVerification,
-    emailVerified
+    emailVerified,
+    expiresIn
 })
 
 const DEAUTHENTICATE_USER = 'DEAUTHENTICATE_USER'
@@ -31,7 +38,8 @@ export default function authReducer(state = INITIAL_STATE, action) {
                 isAuthenticated: true,
                 authToken: action.authToken,
                 emailVerification: action.emailVerification,
-                emailVerified: action.emailVerified
+                emailVerified: action.emailVerified,
+                expiresIn: action.expiresIn
             }
         case DEAUTHENTICATE_USER:
             return {
@@ -39,7 +47,8 @@ export default function authReducer(state = INITIAL_STATE, action) {
                 isAuthenticated: false,
                 authToken: '',
                 emailVerification: 'mandatory',
-                emailVerified: false
+                emailVerified: false,
+                expiresIn: ''
             }
         default:
             return state

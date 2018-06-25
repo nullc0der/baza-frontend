@@ -13,7 +13,10 @@ import HeaderProfileButton from './ProfileButton'
 
 class AdminHeader extends Component {
     componentDidMount() {
-        this.props.fetchProfile()
+        this.props
+            .fetchProfile()
+            .then(res => {})
+            .catch(res => {})
     }
 
     render() {
@@ -58,4 +61,7 @@ const mapDispatchToProps = dispatch => ({
     }
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(AdminHeader)
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(AdminHeader)

@@ -26,7 +26,7 @@ export default class WebSocketWrapper extends Component {
 
     initializeWebSocket = (url, onWebSocketData) => {
         this.ws = new Sockette(url, {
-            protocols: `Token-${Auth.getToken()}`,
+            protocols: `Bearer-${Auth.getToken()}`,
             timeout: 5e3,
             maxAttempts: 10,
             onmessage: e => onWebSocketData(JSON.parse(e.data))

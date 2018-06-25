@@ -53,7 +53,7 @@ class AdminContainer extends Component {
     }
 
     render() {
-        return Auth.isAuthenticated() ? (
+        return Auth.isAuthenticated() && Auth.isTokenNotExpired() ? (
             <section className={s.container}>
                 <Helmet titleTemplate="%s | Baza" defaultTitle="Baza" />
                 <MiniChat />
@@ -102,4 +102,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({})
 
-export default connect(mapStateToProps, mapDispatchToProps)(AdminContainer)
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(AdminContainer)
