@@ -119,6 +119,7 @@
         .list-inline-item {
             width: 24px;
             height: 24px;
+            cursor: pointer;
             &:not(:last-child) {
                 margin-right: map-get($spacers, 2);
             }
@@ -212,6 +213,52 @@
         @include media-breakpoint-down(sm, $grid-breakpoints) {
             .email-section,
             .password-section {
+                width: 80%;
+                margin-left: 10%;
+            }
+        }
+    }
+}
+
+:local(.addSocialEmail) {
+    .app-header {
+        z-index: $zindex-fixed;
+        .menu-icon {
+            color: $dark;
+            border: none;
+        }
+        .navbar-toggler {
+            border-color: transparent;
+        }
+    }
+
+    .app-header + .page-layer {
+        padding-top: $header-height;
+    }
+
+    @include media-breakpoint-down(sm, $grid-breakpoints) {
+        .page-layer {
+            overflow-y: auto;
+        }
+        .addsocialemail-container {
+            overflow: initial;
+        }
+    }
+
+    .addsocialemail-container {
+        background: url('/public/img/hero_image.jpg') no-repeat center center
+            fixed;
+        background-size: cover;
+        .card-title {
+            font-size: 16px;
+            font-weight: bold;
+        }
+        .email-section {
+            width: 50%;
+            margin-left: 25%;
+        }
+        @include media-breakpoint-down(sm, $grid-breakpoints) {
+            .email-section {
                 width: 80%;
                 margin-left: 10%;
             }

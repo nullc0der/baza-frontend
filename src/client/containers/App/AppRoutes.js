@@ -6,6 +6,7 @@ import SignUpPage from 'pages/SignUp'
 import NotFoundPage from 'pages/NotFoundPage'
 import EmailVerificationPage from 'pages/SignUp/EmailVerification'
 import ForgotPasswordPage from 'pages/SignUp/ForgotPasswordPage'
+import AddSocialEmailPage from 'pages/SignUp/AddSocialEmailPage'
 
 import AdminContainer from 'containers/AdminContainer'
 
@@ -26,6 +27,7 @@ const AppRoutes = location => (
             exact
             component={ForgotPasswordPage}
         />
+        <Route path="/addemail/" exact component={AddSocialEmailPage} />
         <Route component={NotFoundPage} />
     </Switch>
 )

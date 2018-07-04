@@ -12,6 +12,7 @@ import { connect } from 'react-redux'
 import TextField from 'components/ui/TextField'
 import EnhancedPasswordField from 'components/ui/EnhancedPasswordField'
 import Auth from 'utils/authHelpers'
+import FacebookLogin from 'components/FacebookLogin'
 
 import s from './SignUp.scss'
 
@@ -27,8 +28,11 @@ class LoginDialog extends Component {
             password: '',
             nonField: ''
         },
+        shouldRedirect: false,
         redirectToOrigin: false,
-        emailVerificationRequired: false
+        email: '',
+        emailVerificationRequired: false,
+        redirectToSocialEmailPage: false
     }
 
     closeLoginModal = () => {
@@ -66,10 +70,12 @@ class LoginDialog extends Component {
                         !responseData.email_verified
                     ) {
                         this.setState({
+                            email: get(responseData, 'email', ''),
                             emailVerificationRequired: true
                         })
                     } else {
                         this.setState({
+                            shouldRedirect: true,
                             redirectToOrigin: true
                         })
                     }
@@ -93,14 +99,65 @@ class LoginDialog extends Component {
             })
     }
 
+    handleFacebookLogin = response => {
+        const convertToken = Auth.convertToken(
+            response.authResponse.accessToken,
+            'facebook'
+        )
+        convertToken
+            .then(responseData => {
+                if (responseData.access_token) {
+                    if (responseData.email_exist) {
+                        if (
+                            responseData.email_verification === 'mandatory' &&
+                            !responseData.email_verified
+                        ) {
+                            this.setState({
+                                email: get(responseData, 'email', ''),
+                                emailVerificationRequired: true
+                            })
+                        } else {
+                            this.setState({
+                                shouldRedirect: true,
+                                redirectToOrigin: true
+                            })
+                        }
+                    } else {
+                        this.setState({
+                            shouldRedirect: true,
+                            redirectToSocialEmailPage: true
+                        })
+                    }
+                } else {
+                    this.setState({
+                        errorText: {
+                            nonField: get(responseData, 'non_field_errors', '')
+                        }
+                    })
+                }
+            })
+            .catch(err => {
+                this.setState(prevState => ({
+                    errorText: {
+                        ...prevState.errorText,
+                        nonField: [err]
+                    }
+                }))
+            })
+    }
+
     render() {
         const cx = classnames(s.loginDialog, 'login-dialog')
         const { originURL } = this.props.location.state || {
             originURL: '/admin/member-profile'
         }
 
-        return this.state.redirectToOrigin ? (
-            <Redirect to={originURL} />
+        return this.state.shouldRedirect ? (
+            this.state.redirectToOrigin ? (
+                <Redirect to={originURL} />
+            ) : (
+                <Redirect to="/addemail/" />
+            )
         ) : (
             <Dialog
                 className={cx}
@@ -141,8 +198,8 @@ class LoginDialog extends Component {
                     )}
                     {!!this.state.emailVerificationRequired && (
                         <div className="well mb-2 error-div">
-                            You can't access user section until email is
-                            verified
+                            Please verify your email id, We have sent an email
+                            containing verification url at {this.state.email}
                         </div>
                     )}
                     <button
@@ -150,6 +207,7 @@ class LoginDialog extends Component {
                         onClick={this.onLoginClick}>
                         SUBMIT
                     </button>
+                    <Link to="/addemail/">Add email</Link>
                 </form>
                 <div className="row">
                     <div className="col-md-6 mt-3 flex-horizontal align-items-center">
@@ -180,7 +238,9 @@ class LoginDialog extends Component {
                             <i className="fa fa-google-plus" />
                         </li>
                         <li className="list-inline-item">
-                            <i className="fa fa-facebook" />
+                            <FacebookLogin
+                                handleFacebookLogin={this.handleFacebookLogin}
+                            />
                         </li>
                         <li className="list-inline-item">
                             <i className="fa fa-twitter" />

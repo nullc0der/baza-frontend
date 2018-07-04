@@ -154,4 +154,42 @@ export default class Auth {
         }
         return true
     }
+
+    static convertToken(token, backend) {
+        return new Promise((resolve, reject) => {
+            api.setHeader('Content-Type', 'application/json')
+            api.post('converttoken/', {
+                token: token,
+                backend: backend
+            }).then(response => {
+                if (response.ok) {
+                    store.dispatch(
+                        authActions.authenticateUser(
+                            response.data.access_token,
+                            response.data.email_verification,
+                            response.data.email_verified,
+                            response.data.expires_in
+                        )
+                    )
+                    resolve(response.data)
+                }
+                reject(response.data)
+            })
+        })
+    }
+
+    static addEmail(email) {
+        return new Promise((resolve, reject) => {
+            api.setHeader('Content-Type', 'application/json')
+            api.post('addemail/', {
+                email: email,
+                access_token: this.getToken()
+            }).then(response => {
+                if (response.ok) {
+                    resolve(response.data)
+                }
+                reject(response.data)
+            })
+        })
+    }
 }
