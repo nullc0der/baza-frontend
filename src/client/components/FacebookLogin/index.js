@@ -13,7 +13,8 @@ export default class FacebookLogin extends Component {
         })(document, 'script', 'facebook-jssdk')
         window.fbAsyncInit = function() {
             window.FB.init({
-                appId: '238327430291512',
+                // TODO: Add an env variable
+                appId: '468956423553849',
                 version: 'v3.0'
             })
         }
