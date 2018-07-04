@@ -207,7 +207,6 @@ class LoginDialog extends Component {
                         onClick={this.onLoginClick}>
                         SUBMIT
                     </button>
-                    <Link to="/addemail/">Add email</Link>
                 </form>
                 <div className="row">
                     <div className="col-md-6 mt-3 flex-horizontal align-items-center">
