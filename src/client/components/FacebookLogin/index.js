@@ -1,6 +1,10 @@
 import React, { Component } from 'react'
 
 export default class FacebookLogin extends Component {
+    state = {
+        fb: {}
+    }
+
     componentDidMount = () => {
         ;(function(d, s, id) {
             var js,
@@ -13,29 +17,32 @@ export default class FacebookLogin extends Component {
         })(document, 'script', 'facebook-jssdk')
         window.fbAsyncInit = function() {
             window.FB.init({
-                // TODO: Add an env variable
-                appId: '468956423553849',
+                appId:
+                    process.env.NODE_ENV === 'development'
+                        ? '238327430291512'
+                        : '468956423553849',
                 version: 'v3.0'
             })
-        }
+            window.FB.getLoginStatus(response => {
+                this.setState({ fb: response })
+            })
+        }.bind(this)
     }
 
     facebookLogin = () => {
         const { handleFacebookLogin } = this.props
-        window.FB.getLoginStatus(response => {
-            if (response.status === 'connected') {
-                handleFacebookLogin(response)
-            } else {
-                window.FB.login(
-                    function(response) {
-                        if (response.authResponse) {
-                            handleFacebookLogin(response)
-                        }
-                    },
-                    { scope: 'email' }
-                )
-            }
-        })
+        if (this.state.fb.status === 'connected') {
+            handleFacebookLogin(this.state.fb)
+        } else {
+            window.FB.login(
+                function(response) {
+                    if (response.authResponse) {
+                        handleFacebookLogin(response)
+                    }
+                },
+                { scope: 'email' }
+            )
+        }
     }
 
     render() {

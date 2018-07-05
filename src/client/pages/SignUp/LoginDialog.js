@@ -140,7 +140,7 @@ class LoginDialog extends Component {
                 this.setState(prevState => ({
                     errorText: {
                         ...prevState.errorText,
-                        nonField: [err]
+                        nonField: get(err, 'non_field_errors', '')
                     }
                 }))
             })
