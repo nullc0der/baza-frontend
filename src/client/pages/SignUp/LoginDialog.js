@@ -13,6 +13,7 @@ import TextField from 'components/ui/TextField'
 import EnhancedPasswordField from 'components/ui/EnhancedPasswordField'
 import Auth from 'utils/authHelpers'
 import FacebookLogin from 'components/FacebookLogin'
+import GoogleLogin from 'components/GoogleLogin'
 
 import s from './SignUp.scss'
 
@@ -99,11 +100,8 @@ class LoginDialog extends Component {
             })
     }
 
-    handleFacebookLogin = response => {
-        const convertToken = Auth.convertToken(
-            response.authResponse.accessToken,
-            'facebook'
-        )
+    handleSocialLogin = (token, backend) => {
+        const convertToken = Auth.convertToken(token, backend)
         convertToken
             .then(responseData => {
                 if (responseData.access_token) {
@@ -234,11 +232,13 @@ class LoginDialog extends Component {
                     <p> or login with </p>
                     <ul className="list-inline social-login-list">
                         <li className="list-inline-item">
-                            <i className="fa fa-google-plus" />
+                            <GoogleLogin
+                                handleGoogleLogin={this.handleSocialLogin}
+                            />
                         </li>
                         <li className="list-inline-item">
                             <FacebookLogin
-                                handleFacebookLogin={this.handleFacebookLogin}
+                                handleFacebookLogin={this.handleSocialLogin}
                             />
                         </li>
                         <li className="list-inline-item">

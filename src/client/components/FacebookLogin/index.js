@@ -32,12 +32,18 @@ export default class FacebookLogin extends Component {
     facebookLogin = () => {
         const { handleFacebookLogin } = this.props
         if (this.state.fb.status === 'connected') {
-            handleFacebookLogin(this.state.fb)
+            handleFacebookLogin(
+                this.state.fb.authResponse.accessToken,
+                'facebook'
+            )
         } else {
             window.FB.login(
                 function(response) {
                     if (response.authResponse) {
-                        handleFacebookLogin(response)
+                        handleFacebookLogin(
+                            response.authResponse.accessToken,
+                            'facebook'
+                        )
                     }
                 },
                 { scope: 'email' }
