@@ -95,6 +95,7 @@
         font-size: 22px;
         margin-bottom: map-get($spacers, 1);
         .list-inline-item {
+            cursor: pointer;
             width: 24px;
             height: 24px;
             &:not(:last-child) {

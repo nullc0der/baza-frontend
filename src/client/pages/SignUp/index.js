@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import classnames from 'classnames'
 import get from 'lodash/get'
+import { Redirect } from 'react-router-dom'
 
 import { push } from 'react-router-redux'
 import { connect } from 'react-redux'
@@ -12,6 +13,8 @@ import Header from 'components/Header'
 import TextField from 'components/ui/TextField'
 import Carousel from 'components/ui/Carousel'
 import EnhancedPasswordField from 'components/ui/EnhancedPasswordField'
+import FacebookLogin from 'components/FacebookLogin'
+import GoogleLogin from 'components/GoogleLogin'
 
 import s from './SignUp.scss'
 
@@ -30,7 +33,9 @@ class SignUpPage extends Component {
             password1: null,
             nonField: null
         },
-        registerSuccessText: ''
+        registerSuccessText: '',
+        shouldRedirect: false,
+        redirectToSocialEmailPage: false
     }
 
     onInputChange = (id, value) => {
@@ -87,10 +92,63 @@ class SignUpPage extends Component {
             })
     }
 
+    handleSocialLogin = (token, backend) => {
+        const convertToken = Auth.convertToken(token, backend)
+        convertToken
+            .then(responseData => {
+                if (responseData.access_token) {
+                    if (responseData.email_exist) {
+                        if (
+                            responseData.email_verification === 'mandatory' &&
+                            !responseData.email_verified
+                        ) {
+                            this.setState({
+                                registerSuccessText:
+                                    'Registration is successful \n' +
+                                    'We have sent an email to ' +
+                                    get(responseData, 'email', '') +
+                                    '\n' +
+                                    'Please verify your email to continue.'
+                            })
+                        } else {
+                            this.setState({
+                                shouldRedirect: true
+                            })
+                        }
+                    } else {
+                        this.setState({
+                            shouldRedirect: true,
+                            redirectToSocialEmailPage: true
+                        })
+                    }
+                } else {
+                    this.setState({
+                        errorText: {
+                            nonField: get(responseData, 'non_field_errors', '')
+                        }
+                    })
+                }
+            })
+            .catch(err => {
+                this.setState(prevState => ({
+                    errorText: {
+                        ...prevState.errorText,
+                        nonField: get(err, 'non_field_errors', '')
+                    }
+                }))
+            })
+    }
+
     render() {
         const cx = classnames(s.container, 'signup-page')
 
-        return (
+        return this.state.shouldRedirect ? (
+            this.state.redirectToSocialEmailPage ? (
+                <Redirect to="/addemail/" />
+            ) : (
+                <Redirect to="/admin/member-profile/" />
+            )
+        ) : (
             <div className={cx}>
                 <Header invert inCenter />
                 <div className="container-fluid page-layer px-0">
@@ -175,10 +233,20 @@ class SignUpPage extends Component {
                                             <p> or signup with </p>
                                             <ul className="list-inline social-login-list">
                                                 <li className="list-inline-item">
-                                                    <i className="fa fa-google-plus" />
+                                                    <GoogleLogin
+                                                        handleGoogleLogin={
+                                                            this
+                                                                .handleSocialLogin
+                                                        }
+                                                    />
                                                 </li>
                                                 <li className="list-inline-item">
-                                                    <i className="fa fa-facebook" />
+                                                    <FacebookLogin
+                                                        handleFacebookLogin={
+                                                            this
+                                                                .handleSocialLogin
+                                                        }
+                                                    />
                                                 </li>
                                                 <li className="list-inline-item">
                                                     <i className="fa fa-twitter" />
