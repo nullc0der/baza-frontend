@@ -9,9 +9,13 @@ import { Link, Redirect } from 'react-router-dom'
 import { push } from 'react-router-redux'
 import { connect } from 'react-redux'
 
+import TwitterLogin from 'react-twitter-auth'
+
+import { actions as authActions } from 'store/Auth'
+import Auth from 'utils/authHelpers'
+
 import TextField from 'components/ui/TextField'
 import EnhancedPasswordField from 'components/ui/EnhancedPasswordField'
-import Auth from 'utils/authHelpers'
 import FacebookLogin from 'components/FacebookLogin'
 import GoogleLogin from 'components/GoogleLogin'
 
@@ -100,39 +104,49 @@ class LoginDialog extends Component {
             })
     }
 
+    handleSocialLoginResponse = (responseData, isTwitter = false) => {
+        if (responseData.access_token) {
+            if (responseData.email_exist) {
+                if (
+                    responseData.email_verification === 'mandatory' &&
+                    !responseData.email_verified
+                ) {
+                    this.setState({
+                        email: get(responseData, 'email', ''),
+                        emailVerificationRequired: true
+                    })
+                } else {
+                    this.props.authenticateUser(
+                        responseData.access_token,
+                        responseData.email_verification,
+                        responseData.email_verified,
+                        responseData.expires_in
+                    )
+                    this.setState({
+                        shouldRedirect: true,
+                        redirectToOrigin: true
+                    })
+                }
+            } else {
+                this.setState({
+                    shouldRedirect: true,
+                    redirectToSocialEmailPage: true
+                })
+            }
+        } else {
+            this.setState({
+                errorText: {
+                    nonField: get(responseData, 'non_field_errors', '')
+                }
+            })
+        }
+    }
+
     handleSocialLogin = (token, backend) => {
         const convertToken = Auth.convertToken(token, backend)
         convertToken
             .then(responseData => {
-                if (responseData.access_token) {
-                    if (responseData.email_exist) {
-                        if (
-                            responseData.email_verification === 'mandatory' &&
-                            !responseData.email_verified
-                        ) {
-                            this.setState({
-                                email: get(responseData, 'email', ''),
-                                emailVerificationRequired: true
-                            })
-                        } else {
-                            this.setState({
-                                shouldRedirect: true,
-                                redirectToOrigin: true
-                            })
-                        }
-                    } else {
-                        this.setState({
-                            shouldRedirect: true,
-                            redirectToSocialEmailPage: true
-                        })
-                    }
-                } else {
-                    this.setState({
-                        errorText: {
-                            nonField: get(responseData, 'non_field_errors', '')
-                        }
-                    })
-                }
+                this.handleSocialLoginResponse(responseData)
             })
             .catch(err => {
                 this.setState(prevState => ({
@@ -144,11 +158,36 @@ class LoginDialog extends Component {
             })
     }
 
+    handleTwitterLogin = res => {
+        if (res.status === 200) {
+            res.json().then(data => {
+                this.handleSocialLoginResponse(data, true)
+            })
+        } else {
+            res.json().then(data => {
+                this.setState(prevState => ({
+                    errorText: {
+                        ...prevState.errorText,
+                        nonField: get(data, 'non_field_errors', '')
+                    }
+                }))
+            })
+        }
+    }
+
     render() {
         const cx = classnames(s.loginDialog, 'login-dialog')
         const { originURL } = this.props.location.state || {
             originURL: '/admin/member-profile'
         }
+        const twitterLoginUrl =
+            process.env.NODE_ENV === 'development'
+                ? 'http://localhost:8000/api/v1/auth/twitter/login/'
+                : '/api/v1/auth/twitter/login/'
+        const twitterRequestTokenUrl =
+            process.env.NODE_ENV === 'development'
+                ? 'http://localhost:8000/api/v1/auth/twitter/getrequesttoken/'
+                : '/api/v1/auth/twitter/getrequesttoken/'
 
         return this.state.shouldRedirect ? (
             this.state.redirectToOrigin ? (
@@ -242,7 +281,14 @@ class LoginDialog extends Component {
                             />
                         </li>
                         <li className="list-inline-item">
-                            <i className="fa fa-twitter" />
+                            <TwitterLogin
+                                tag="div"
+                                loginUrl={twitterLoginUrl}
+                                requestTokenUrl={twitterRequestTokenUrl}
+                                onSuccess={this.handleTwitterLogin}
+                                onFailure={err => console.log(err)}>
+                                <i className="fa fa-twitter" />
+                            </TwitterLogin>
                         </li>
                     </ul>
                 </div>
@@ -267,6 +313,16 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
     navigate(...args) {
         return dispatch(push(...args))
+    },
+    authenticateUser(authToken, emailVerification, emailVerified, expiresIn) {
+        return dispatch(
+            authActions.authenticateUser(
+                authToken,
+                emailVerification,
+                emailVerified,
+                expiresIn
+            )
+        )
     }
 })
 

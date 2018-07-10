@@ -99,6 +99,7 @@
         "react-swipeable-views": "0.12.13",
         "react-table": "^6.8.0",
         "react-transition-group": "2.2.1",
+        "react-twitter-auth": "^0.0.12",
         "redux": "^3.7.2",
         "redux-thunk": "^2.2.0",
         "reselect": "^3.0.1",

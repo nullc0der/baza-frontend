@@ -6,6 +6,9 @@ import { Redirect } from 'react-router-dom'
 import { push } from 'react-router-redux'
 import { connect } from 'react-redux'
 
+import TwitterLogin from 'react-twitter-auth'
+
+import { actions as authActions } from 'store/Auth'
 import Auth from 'utils/authHelpers'
 
 import Header from 'components/Header'
@@ -92,42 +95,52 @@ class SignUpPage extends Component {
             })
     }
 
+    handleSocialResponse = responseData => {
+        if (responseData.access_token) {
+            if (responseData.email_exist) {
+                if (
+                    responseData.email_verification === 'mandatory' &&
+                    !responseData.email_verified
+                ) {
+                    this.setState({
+                        registerSuccessText:
+                            'Registration is successful \n' +
+                            'We have sent an email to ' +
+                            get(responseData, 'email', '') +
+                            '\n' +
+                            'Please verify your email to continue.'
+                    })
+                } else {
+                    this.props.authenticateUser(
+                        responseData.access_token,
+                        responseData.email_verification,
+                        responseData.email_verified,
+                        responseData.expires_in
+                    )
+                    this.setState({
+                        shouldRedirect: true
+                    })
+                }
+            } else {
+                this.setState({
+                    shouldRedirect: true,
+                    redirectToSocialEmailPage: true
+                })
+            }
+        } else {
+            this.setState({
+                errorText: {
+                    nonField: get(responseData, 'non_field_errors', '')
+                }
+            })
+        }
+    }
+
     handleSocialLogin = (token, backend) => {
         const convertToken = Auth.convertToken(token, backend)
         convertToken
             .then(responseData => {
-                if (responseData.access_token) {
-                    if (responseData.email_exist) {
-                        if (
-                            responseData.email_verification === 'mandatory' &&
-                            !responseData.email_verified
-                        ) {
-                            this.setState({
-                                registerSuccessText:
-                                    'Registration is successful \n' +
-                                    'We have sent an email to ' +
-                                    get(responseData, 'email', '') +
-                                    '\n' +
-                                    'Please verify your email to continue.'
-                            })
-                        } else {
-                            this.setState({
-                                shouldRedirect: true
-                            })
-                        }
-                    } else {
-                        this.setState({
-                            shouldRedirect: true,
-                            redirectToSocialEmailPage: true
-                        })
-                    }
-                } else {
-                    this.setState({
-                        errorText: {
-                            nonField: get(responseData, 'non_field_errors', '')
-                        }
-                    })
-                }
+                this.handleSocialResponse(responseData)
             })
             .catch(err => {
                 this.setState(prevState => ({
@@ -139,8 +152,33 @@ class SignUpPage extends Component {
             })
     }
 
+    handleTwitterLogin = res => {
+        if (res.status === 200) {
+            res.json().then(data => {
+                this.handleSocialResponse(data, true)
+            })
+        } else {
+            res.json().then(data => {
+                this.setState(prevState => ({
+                    errorText: {
+                        ...prevState.errorText,
+                        nonField: get(data, 'non_field_errors', '')
+                    }
+                }))
+            })
+        }
+    }
+
     render() {
         const cx = classnames(s.container, 'signup-page')
+        const twitterLoginUrl =
+            process.env.NODE_ENV === 'development'
+                ? 'http://localhost:8000/api/v1/auth/twitter/login/'
+                : '/api/v1/auth/twitter/login/'
+        const twitterRequestTokenUrl =
+            process.env.NODE_ENV === 'development'
+                ? 'http://localhost:8000/api/v1/auth/twitter/getrequesttoken/'
+                : '/api/v1/auth/twitter/getrequesttoken/'
 
         return this.state.shouldRedirect ? (
             this.state.redirectToSocialEmailPage ? (
@@ -249,7 +287,23 @@ class SignUpPage extends Component {
                                                     />
                                                 </li>
                                                 <li className="list-inline-item">
-                                                    <i className="fa fa-twitter" />
+                                                    <TwitterLogin
+                                                        tag="div"
+                                                        loginUrl={
+                                                            twitterLoginUrl
+                                                        }
+                                                        requestTokenUrl={
+                                                            twitterRequestTokenUrl
+                                                        }
+                                                        onSuccess={
+                                                            this
+                                                                .handleTwitterLogin
+                                                        }
+                                                        onFailure={err =>
+                                                            console.log(err)
+                                                        }>
+                                                        <i className="fa fa-twitter" />
+                                                    </TwitterLogin>
                                                 </li>
                                             </ul>
                                         </div>
@@ -389,6 +443,16 @@ const mapStateToProps = state => ({})
 const mapDispatchToProps = dispatch => ({
     navigate(...args) {
         return dispatch(push(...args))
+    },
+    authenticateUser(authToken, emailVerification, emailVerified, expiresIn) {
+        return dispatch(
+            authActions.authenticateUser(
+                authToken,
+                emailVerification,
+                emailVerified,
+                expiresIn
+            )
+        )
     }
 })
 
