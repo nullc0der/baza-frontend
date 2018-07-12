@@ -11,147 +11,146 @@ import { DateTime } from 'luxon'
 import s from './CoinSale.scss'
 
 const START_TIME = DateTime.fromObject({
-  year: 2018,
-  month: 5,
-  days: 8,
-  hours: 0,
-  minutes: 0,
-  seconds: 0
+    year: 2018,
+    month: 7,
+    days: 12,
+    hours: 0,
+    minutes: 0,
+    seconds: 0
 })
 
 const END_TIME = DateTime.fromObject({
-  year: 2018,
-  month: 6,
-  days: 22,
-  hours: 16,
-  minutes: 0,
-  seconds: 0
+    year: 2018,
+    month: 8,
+    days: 26,
+    hours: 16,
+    minutes: 0,
+    seconds: 0
 })
 
 const getCountdownValues = (startDate, endDate) => {
-  const now = DateTime.local()
-  const duration = endDate.diff(now, ['days', 'hours', 'minutes', 'seconds'])
+    const now = DateTime.local()
+    const duration = endDate.diff(now, ['days', 'hours', 'minutes', 'seconds'])
 
-  const diff = duration.toObject()
-  const countdown = Object.keys(diff).reduce((result, key) => {
-    var v = Math.floor(diff[key])
-    result[key] = v.toString().length === 1 ? `0${v}` : v
-    return result
-  }, {})
+    const diff = duration.toObject()
+    const countdown = Object.keys(diff).reduce((result, key) => {
+        var v = Math.floor(diff[key])
+        result[key] = v.toString().length === 1 ? `0${v}` : v
+        return result
+    }, {})
 
-  const countdownProgress = Math.floor(
-    (endDate.valueOf() - now.valueOf()) *
-    100 /
-    (endDate.valueOf() - startDate.valueOf())
-  )
+    const countdownProgress = Math.floor(
+        ((endDate.valueOf() - now.valueOf()) * 100) /
+            (endDate.valueOf() - startDate.valueOf())
+    )
 
-  return { countdown, countdownProgress }
+    return { countdown, countdownProgress }
 }
 
 export default class CoinSalePage extends Component {
-  state = {
-    totalAvailableCoins: 100000000,
-    totalSoldCoins: 40000000,
-    isSaleOpen: true,
-    isSaleWaiting: false,
-    selectedCurrency: 'USD',
-    startTime: START_TIME,
-    endTime: END_TIME,
-    isPurchaseDialogOpen: false,
-    countdownPercentage: 0,
-    countdown: {
-      days: 0,
-      hours: 0,
-      minutes: 0,
-      seconds: 0
+    state = {
+        totalAvailableCoins: 100000000,
+        totalSoldCoins: 40000000,
+        isSaleOpen: true,
+        isSaleWaiting: false,
+        selectedCurrency: 'USD',
+        startTime: START_TIME,
+        endTime: END_TIME,
+        isPurchaseDialogOpen: false,
+        countdownPercentage: 0,
+        countdown: {
+            days: 0,
+            hours: 0,
+            minutes: 0,
+            seconds: 0
+        }
     }
-  }
 
-  static propTypes = {
-    className: PropTypes.string
-  }
-
-  componentDidMount = () => {
-    this.startIntervalTimer()
-  }
-
-  startIntervalTimer = () => {
-    this.interval = window.setInterval(this.startTimer, 1000)
-  }
-
-  startTimer = () => {
-    const { startTime, endTime } = this.state
-    const { countdown, countdownProgress } = getCountdownValues(
-      startTime,
-      endTime
-    )
-    this.setState({ countdown, countdownProgress })
-    // console.log('setting countdown: ', countdown, countdownProgress)
-  }
-
-  stopTimer = () => {
-    if (this.interval) {
-      window.clearInterval(this.interval)
+    static propTypes = {
+        className: PropTypes.string
     }
-  }
 
-  componentWillUnmount = () => {
-    this.stopTimer()
-  }
+    componentDidMount = () => {
+        this.startIntervalTimer()
+    }
 
-  openPurchaseDialog = () => {
-    this.setState({ isPurchaseDialogOpen: true })
-  }
-  closePurchaseDialog = () => {
-    this.setState({ isPurchaseDialogOpen: false })
-  }
+    startIntervalTimer = () => {
+        this.interval = window.setInterval(this.startTimer, 1000)
+    }
 
-  onCurrencySelect = currency => {
-    this.setState({ selectedCurrency: currency.name })
-    console.log('selected currency: ', currency)
-  }
+    startTimer = () => {
+        const { startTime, endTime } = this.state
+        const { countdown, countdownProgress } = getCountdownValues(
+            startTime,
+            endTime
+        )
+        this.setState({ countdown, countdownProgress })
+        // console.log('setting countdown: ', countdown, countdownProgress)
+    }
 
-  render() {
-    const cx = classnames(s.container, this.props.className)
+    stopTimer = () => {
+        if (this.interval) {
+            window.clearInterval(this.interval)
+        }
+    }
 
-    const {
-      totalAvailableCoins,
-      totalSoldCoins,
-      isSaleOpen,
-      countdown,
-      selectedCurrency,
-      countdownProgress,
-      isSaleWaiting
-    } = this.state
+    componentWillUnmount = () => {
+        this.stopTimer()
+    }
 
-    return (
-      <div className={cx}>
-        <div className="page-inner container-fluid flex-vertical">
-          <CoinSale
-            totalAvailableCoins={totalAvailableCoins}
-            totalSoldCoins={totalSoldCoins}
-            isSaleWaiting={isSaleWaiting}
-            selectedCurrency={selectedCurrency}
-            onCurrencySelect={this.onCurrencySelect}
-          />
-        </div>
-        <PurchaseButton
-          buttonText="PURCHASE"
-          isSaleOpen={isSaleOpen}
-          percentage={countdownProgress}
-          endTime={countdown}
-          isSaleWaiting={isSaleWaiting}
-          onClick={this.openPurchaseDialog}
-        />
-        {this.state.isPurchaseDialogOpen && (
-          <PurchaseDialog
-            selectedCurrency={selectedCurrency}
-            onCurrencySelect={this.onCurrencySelect}
-            isOpen={this.state.isPurchaseDialogOpen}
-            onRequestClose={this.closePurchaseDialog}
-          />
-        )}
-      </div>
-    )
-  }
+    openPurchaseDialog = () => {
+        this.setState({ isPurchaseDialogOpen: true })
+    }
+    closePurchaseDialog = () => {
+        this.setState({ isPurchaseDialogOpen: false })
+    }
+
+    onCurrencySelect = currency => {
+        this.setState({ selectedCurrency: currency.name })
+        console.log('selected currency: ', currency)
+    }
+
+    render() {
+        const cx = classnames(s.container, this.props.className)
+
+        const {
+            totalAvailableCoins,
+            totalSoldCoins,
+            isSaleOpen,
+            countdown,
+            selectedCurrency,
+            countdownProgress,
+            isSaleWaiting
+        } = this.state
+
+        return (
+            <div className={cx}>
+                <div className="page-inner container-fluid flex-vertical">
+                    <CoinSale
+                        totalAvailableCoins={totalAvailableCoins}
+                        totalSoldCoins={totalSoldCoins}
+                        isSaleWaiting={isSaleWaiting}
+                        selectedCurrency={selectedCurrency}
+                        onCurrencySelect={this.onCurrencySelect}
+                    />
+                </div>
+                <PurchaseButton
+                    buttonText="PURCHASE"
+                    isSaleOpen={isSaleOpen}
+                    percentage={countdownProgress}
+                    endTime={countdown}
+                    isSaleWaiting={isSaleWaiting}
+                    onClick={this.openPurchaseDialog}
+                />
+                {this.state.isPurchaseDialogOpen && (
+                    <PurchaseDialog
+                        selectedCurrency={selectedCurrency}
+                        onCurrencySelect={this.onCurrencySelect}
+                        isOpen={this.state.isPurchaseDialogOpen}
+                        onRequestClose={this.closePurchaseDialog}
+                    />
+                )}
+            </div>
+        )
+    }
 }
