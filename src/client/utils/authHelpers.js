@@ -192,4 +192,15 @@ export default class Auth {
             })
         })
     }
+
+    static checkRegistrationEnabled() {
+        return new Promise((resolve, reject) => {
+            api.setHeader('Content-Type', 'application/json')
+            api.get('registrationenabled/').then(response => {
+                if (response.ok) {
+                    resolve(response.data)
+                }
+            })
+        })
+    }
 }

@@ -41,6 +41,18 @@ class SignUpPage extends Component {
         redirectToSocialEmailPage: false
     }
 
+    componentDidMount = () => {
+        const checkRegEnabled = Auth.checkRegistrationEnabled()
+        checkRegEnabled.then(responseData => {
+            if (!responseData.is_registration_enabled) {
+                this.setState({
+                    registerSuccessText:
+                        'Registration is disabled on this site'
+                })
+            }
+        })
+    }
+
     onInputChange = (id, value) => {
         this.setState(prevState => ({
             inputValues: {
@@ -56,32 +68,39 @@ class SignUpPage extends Component {
         const register = Auth.register(username, email, password, password1)
         register
             .then(responseData => {
-                if (responseData.status === 'success') {
-                    if (responseData.email_verification === 'mandatory') {
-                        this.setState({
-                            registerSuccessText:
-                                'Registration is successful \n' +
-                                'We have sent an email to your provided email.\n' +
-                                'Please verify your email to continue.'
-                        })
+                if (responseData.is_registration_enabled) {
+                    if (responseData.status === 'success') {
+                        if (responseData.email_verification === 'mandatory') {
+                            this.setState({
+                                registerSuccessText:
+                                    'Registration is successful \n' +
+                                    'We have sent an email to your provided email.\n' +
+                                    'Please verify your email to continue.'
+                            })
+                        } else {
+                            this.setState({
+                                registerSuccessText: 'Please login to continue'
+                            })
+                        }
                     } else {
                         this.setState({
-                            registerSuccessText: 'Please login to continue'
+                            errorText: {
+                                username: get(responseData, 'username', null),
+                                email: get(responseData, 'email', null),
+                                password: get(responseData, 'password', null),
+                                password1: get(responseData, 'password1', null),
+                                nonField: get(
+                                    responseData,
+                                    'non_field_errors',
+                                    null
+                                )
+                            }
                         })
                     }
                 } else {
                     this.setState({
-                        errorText: {
-                            username: get(responseData, 'username', null),
-                            email: get(responseData, 'email', null),
-                            password: get(responseData, 'password', null),
-                            password1: get(responseData, 'password1', null),
-                            nonField: get(
-                                responseData,
-                                'non_field_errors',
-                                null
-                            )
-                        }
+                        registerSuccessText:
+                            'Registration is disabled on this site'
                     })
                 }
             })
