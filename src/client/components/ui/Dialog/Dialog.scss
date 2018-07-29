@@ -4,6 +4,13 @@ $dialog-title-padding-y: map-get($spacers, 5);
 $dialog-title-padding-x: 50px;
 
 :local(.container) {
+    .fade-appear {
+        opacity: 0.01;
+        &.fade-appear-active {
+            opacity: 1;
+            transition: opacity 0.5s ease;
+        }
+    }
     &.show {
         display: block;
     }
