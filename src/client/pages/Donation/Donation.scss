@@ -105,4 +105,10 @@ $dialog-padding-y: map-get($spacers, 3);
     .form-check-input + .form-check-label {
         margin-left: map-get($spacers, 2);
     }
+
+    .error-well {
+        p {
+            margin: 0;
+        }
+    }
 }

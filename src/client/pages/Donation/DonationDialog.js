@@ -3,13 +3,17 @@ import classnames from 'classnames'
 import { connect } from 'react-redux'
 import { push } from 'react-router-redux'
 import isBoolean from 'lodash/isBoolean'
+import get from 'lodash/get'
+import { Elements, StripeProvider } from 'react-stripe-elements'
+import { create } from 'apisauce'
+
+import Auth from 'utils/authHelpers'
 
 import TextField from 'components/ui/TextField'
 import Dialog from 'components/ui/Dialog'
 
-import PaymentInformation, {
-    PaymentBadges
-} from 'components/PaymentInformation'
+import { PaymentBadges } from 'components/PaymentInformation'
+import StripePaymentForm from 'components/StripePaymentForm'
 
 import { CurrencyDropdown } from 'pages/Admin/CoinSale/CoinSale'
 
@@ -21,7 +25,20 @@ class DonationDialog extends Component {
         isOtherInputVisible: false,
         selectedCurrency: 'USD',
         otherInputAmount: 200,
-        selectedAmount: 0
+        selectedAmount: 0,
+        inputValues: {
+            name: '',
+            email: '',
+            phoneNumber: ''
+        },
+        errorValues: {
+            name: null,
+            email: null,
+            phoneNumber: null,
+            amount: '',
+            nonField: ''
+        },
+        paymentSuccess: false
     }
 
     toggleOtherInput = (force, amount) => {
@@ -57,12 +74,64 @@ class DonationDialog extends Component {
         }
     }
 
-    updateOtherInputAmount = otherInputAmount => {
-        this.setState({ otherInputAmount })
+    updateOtherInputAmount = (id, otherInputAmount) => {
+        this.setState({
+            otherInputAmount: otherInputAmount,
+            selectedAmount: otherInputAmount
+        })
     }
 
     onCurrencyChange = currency => {
         this.setState({ selectedCurrency: currency.name })
+    }
+
+    onInputChange = (id, value) => {
+        this.setState(prevState => ({
+            inputValues: {
+                ...prevState.inputValues,
+                [id]: value
+            }
+        }))
+    }
+
+    submitDonation = token => {
+        const api = create({
+            baseURL:
+                process.env.NODE_ENV === 'development'
+                    ? 'http://localhost:8000/api/v1'
+                    : '/api/v1',
+            headers: {
+                Accept: 'application/json'
+            }
+        })
+        let url = '/donate/anon/'
+        if (Auth.isAuthenticated()) {
+            api.setHeader('Authorization', `Bearer ${Auth.getToken()}`)
+            url = '/donate/'
+        }
+        api.post(url, {
+            stripe_token: token,
+            amount: this.state.selectedAmount,
+            name: this.state.inputValues.name,
+            email: this.state.inputValues.email,
+            phone_no: this.state.inputValues.phoneNumber
+        }).then(response => {
+            if (response.ok) {
+                this.setState({
+                    paymentSuccess: true
+                })
+            } else {
+                this.setState({
+                    errorValues: {
+                        name: get(response.data, 'name', null),
+                        email: get(response.data, 'email', null),
+                        phoneNumber: get(response.data, 'phone_no', null),
+                        nonField: get(response.data, 'non_field_errors', null),
+                        amount: get(response.data, 'amount', null)
+                    }
+                })
+            }
+        })
     }
 
     render() {
@@ -136,37 +205,50 @@ class DonationDialog extends Component {
                         />
                         <div className="text-center">Enter Amount</div>
                         <TextField
+                            id="amount"
                             type="number"
                             autoFocus
-                            plceholder="Enter custom amount"
+                            placeholder="Enter custom amount"
                             className="purchase-amount-input"
                             onChange={this.updateOtherInputAmount}
                             value={this.state.otherInputAmount}
                         />
                     </div>
                 )}
-                <div className="row mb-1">
-                    <div className="col-md-5 mt-4">
-                        <ContactInformation />
-                    </div>
-                    <div className="col-md-7 mt-3">
-                        <PaymentInformation />
-                    </div>
-                </div>
-                <div className="mt-3 mb-2 button-submit-wrap d-md-none d-lg-none d-xl-none">
-                    <button className="btn btn-dark btn-block">SUBMIT</button>
-                    <div className="form-check form-check-inline mt-2 mb-2">
-                        <input
-                            className="form-check-input"
-                            type="checkbox"
-                            id="add_to_newsletter"
-                            value="add_to_newsletter"
+                <div className="row mb-1 justify-content-center">
+                    <div className="col-md-11 mt-4">
+                        {this.state.errorValues.nonField && (
+                            <div className="well mb-2 mt-2 error-well">
+                                {this.state.errorText.nonField.map((x, i) => (
+                                    <p key={i}>{x}</p>
+                                ))}
+                            </div>
+                        )}
+                        {this.state.errorValues.amount && (
+                            <div className="well mb-2 mt-2 error-well">
+                                <p>{this.state.errorValues.amount}</p>
+                            </div>
+                        )}
+                        <ContactInformation
+                            onInputChange={this.onInputChange}
+                            values={this.state.inputValues}
+                            errors={this.state.errorValues}
                         />
-                        <label
-                            className="form-check-label"
-                            htmlFor="add_to_newsletter">
-                            Yes! Add me to your newsletter list
-                        </label>
+                        <StripeProvider apiKey="pk_test_brOdNv1xxyyZ8GiqvRF9H9ID">
+                            <Elements>
+                                <StripePaymentForm
+                                    submitDonation={this.submitDonation}
+                                />
+                            </Elements>
+                        </StripeProvider>
+                        {this.state.paymentSuccess && (
+                            <div className="well mb-2 mt-2 error-well text-center">
+                                <p>
+                                    Thank you for your support, your payment
+                                    processed successfully
+                                </p>
+                            </div>
+                        )}
                     </div>
                 </div>
                 <PaymentBadges />
@@ -186,4 +268,7 @@ const mapDispatchToProps = dispatch => ({
     }
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(DonationDialog)
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(DonationDialog)
