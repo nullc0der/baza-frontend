@@ -1,0 +1,9 @@
+@import 'ui';
+
+:local(.container) {
+    .ui-textfield-error {
+        font-size: 12px;
+        color: $danger;
+        margin-top: 3px;
+    }
+}

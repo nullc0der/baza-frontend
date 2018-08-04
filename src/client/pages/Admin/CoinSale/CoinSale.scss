@@ -3,186 +3,194 @@
 $purchase-button-height: 50px;
 
 :local(.container) {
-  display: flex;
-  flex-direction: column;
-  background-color: #fff;
-  position: relative;
-  @include _shadow-1();
-  .page-inner {
-    padding: $admin-gutter/2;
-  }
-  .title {
-    font-size: 16px;
-    font-weight: $font-weight-semibold;
-    text-align: center;
-    &.top-title {
-      padding-bottom: map-get($spacers, 3);
+    display: flex;
+    flex-direction: column;
+    background-color: #fff;
+    position: relative;
+    @include _shadow-1();
+    .page-inner {
+        padding: $admin-gutter/2;
     }
-  }
-  @include media-breakpoint-down(sm, $grid-breakpoints) {
-    padding-top: map-get($spacers, 4);
-  }
+    .title {
+        font-size: 16px;
+        font-weight: $font-weight-semibold;
+        text-align: center;
+        &.top-title {
+            padding-bottom: map-get($spacers, 3);
+        }
+    }
+    @include media-breakpoint-down(sm, $grid-breakpoints) {
+        padding-top: map-get($spacers, 4);
+    }
 }
 
 :local(.purchaseButton) {
-  height: $purchase-button-height;
-  background-color: $success;
-  background-size: 16px $purchase-button-height;
-  transition: all 0.24s ease;
-  position: relative;
-  cursor: pointer;
-  @include thin-gradient();
-  &:hover {
-    background-color: darken($success, 5%);
-  }
-  .ui-progress {
-    margin: 0;
-    height: 100%;
-    border-radius: 0;
-    &.is-hidden {
-      opacity: 0;
-    }
-  }
-  .ui-progress-bar {
-    height: 100%;
-    border-radius: 0;
-    background-size: 22px $purchase-button-height;
-    background-image: none;
-    background-color: rgba(0, 0, 0, 0.2);
-    border-radius: 0 36px 36px 0;
-  }
-  .purchase-button-text {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    z-index: 1;
-    font-size: 18px;
-    font-weight: $font-weight-bold;
-    color: #fff;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    @include media-breakpoint-down(sm, $grid-breakpoints) {
-      font-size: 14px;
-    }
-    @include media-breakpoint-down(xs, $grid-breakpoints) {
-      font-size: 11px;
-    }
-  }
-  .date-title {
-    padding: 0 40px 0 20px;
+    height: $purchase-button-height;
+    background-color: $success;
+    background-size: 16px $purchase-button-height;
+    transition: all 0.24s ease;
     position: relative;
-    &:after {
-      position: absolute;
-      right: 20px;
-      content: ' : ';
+    cursor: pointer;
+    @include thin-gradient();
+    &:hover {
+        background-color: darken($success, 5%);
     }
-  }
-  .time-item {
-    padding: 0 10px;
-  }
+    .ui-progress {
+        margin: 0;
+        height: 100%;
+        border-radius: 0;
+        &.is-hidden {
+            opacity: 0;
+        }
+    }
+    .ui-progress-bar {
+        height: 100%;
+        border-radius: 0;
+        background-size: 22px $purchase-button-height;
+        background-image: none;
+        background-color: rgba(0, 0, 0, 0.2);
+        border-radius: 0 36px 36px 0;
+    }
+    .purchase-button-text {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 1;
+        font-size: 18px;
+        font-weight: $font-weight-bold;
+        color: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        @include media-breakpoint-down(sm, $grid-breakpoints) {
+            font-size: 14px;
+        }
+        @include media-breakpoint-down(xs, $grid-breakpoints) {
+            font-size: 11px;
+        }
+    }
+    .date-title {
+        padding: 0 40px 0 20px;
+        position: relative;
+        &:after {
+            position: absolute;
+            right: 20px;
+            content: ' : ';
+        }
+    }
+    .time-item {
+        padding: 0 10px;
+    }
 }
 
 :local(.container) .sale-description-container {
-  margin-top: 48px;
-  background-color: rgba($dark, 0.08);
-  padding: 48px;
-  text-align: center;
-  .sale-item-container {
-    margin-top: 44px;
-  }
-  .sale-item-title {
-    margin-bottom: 30px;
-    color: rgba($dark, 0.5);
-    position: relative;
-    &:after {
-      position: absolute;
-      left: 50%;
-      bottom: -12px;
-      width: 50px;
-      margin-left: -25px;
-      content: '';
-      height: 2px;
-      background-color: rgba($dark, 0.1);
+    margin-top: 48px;
+    background-color: rgba($dark, 0.08);
+    padding: 48px;
+    text-align: center;
+    .sale-item-container {
+        margin-top: 44px;
     }
-  }
-  .sale-item-amount {
-    color: $dark;
-    font-size: 16px;
-    font-weight: $font-weight-semibold;
-  }
-  .btn {
-    height: 22px;
-    padding: 1px 14px;
-    border-radius: 22px;
-    font-size: 12px;
-  }
-  .btn-warning {
-    color: #fff;
-  }
+    .sale-item-title {
+        margin-bottom: 30px;
+        color: rgba($dark, 0.5);
+        position: relative;
+        &:after {
+            position: absolute;
+            left: 50%;
+            bottom: -12px;
+            width: 50px;
+            margin-left: -25px;
+            content: '';
+            height: 2px;
+            background-color: rgba($dark, 0.1);
+        }
+    }
+    .sale-item-amount {
+        color: $dark;
+        font-size: 16px;
+        font-weight: $font-weight-semibold;
+    }
+    .btn {
+        height: 22px;
+        padding: 1px 14px;
+        border-radius: 22px;
+        font-size: 12px;
+    }
+    .btn-warning {
+        color: #fff;
+    }
 }
 
 :local(.purchaseDialog) {
-  .purchase-amount-input .ui-textfield-input {
-    border-bottom-width: 2px;
-    height: 65px;
-    padding-bottom: 12px;
-    font-size: 21px;
-    font-weight: $font-weight-bold;
-  }
-  .currency-dropdown-group.btn-group {
-    top: 12px;
-    z-index: 1;
-  }
-  .modal-footer {
-    padding: map-get($spacers, 2) map-get($spacers, 3);
-    justify-content: center;
-    background-color: $light;
-  }
-  .baz-conversion {
-    height: 128px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 28px;
-    line-height: 33px;
-    color: $dark;
-    font-weight: $font-weight-bold;
-  }
-  .baz-unit {
-    opacity: 0.5;
-    margin-left: 8px;
-  }
-  .button-purchase-wrap .btn {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    .material-icons {
-      margin-left: 8px;
-      font-size: 20px;
+    .modal-dialog {
+        width: 370px;
     }
-  }
+    .purchase-amount-input .ui-textfield-input {
+        border-bottom-width: 2px;
+        height: 65px;
+        padding-bottom: 12px;
+        font-size: 21px;
+        font-weight: $font-weight-bold;
+    }
+    .currency-dropdown-group.btn-group {
+        top: 12px;
+        z-index: 1;
+    }
+    .modal-footer {
+        padding: map-get($spacers, 2) map-get($spacers, 3);
+        justify-content: center;
+        background-color: $light;
+    }
+    .baz-conversion {
+        height: 128px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 28px;
+        line-height: 33px;
+        color: $dark;
+        font-weight: $font-weight-bold;
+    }
+    .baz-unit {
+        opacity: 0.5;
+        margin-left: 8px;
+    }
+    .button-purchase-wrap .btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        .material-icons {
+            margin-left: 8px;
+            font-size: 20px;
+        }
+    }
+    .error-well {
+        p {
+            margin: 0;
+        }
+    }
 }
 
 :local(.container),
 :local(.purchaseDialog) {
-  .currency-dropdown-group {
-    position: absolute;
-    right: 0;
-    top: 0;
-    z-index: 1;
-    margin: 20px;
-    .dropdown-toggle:after {
-      margin-bottom: -2px;
-      margin-left: 8px;
+    .currency-dropdown-group {
+        position: absolute;
+        right: 0;
+        top: 0;
+        z-index: 1;
+        margin: 20px;
+        .dropdown-toggle:after {
+            margin-bottom: -2px;
+            margin-left: 8px;
+        }
+        .dropdown-menu {
+            background-color: $light;
+        }
+        .dropdown-item {
+            cursor: pointer;
+        }
     }
-    .dropdown-menu {
-      background-color: $light;
-    }
-    .dropdown-item {
-      cursor: pointer;
-    }
-  }
 }

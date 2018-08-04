@@ -237,7 +237,7 @@ class DonationDialog extends Component {
                         <StripeProvider apiKey="pk_test_brOdNv1xxyyZ8GiqvRF9H9ID">
                             <Elements>
                                 <StripePaymentForm
-                                    submitDonation={this.submitDonation}
+                                    onTokenReceive={this.submitDonation}
                                 />
                             </Elements>
                         </StripeProvider>
