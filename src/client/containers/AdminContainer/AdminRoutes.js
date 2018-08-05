@@ -8,15 +8,12 @@ import DistributionSignUpPage from 'pages/Admin/DistributionSignUp'
 import MemberProfilePage from 'pages/Admin/MemberProfile'
 const AdminRoutes = location => (
     <Switch location={location}>
-        <Route path="/admin" exact component={AdminHome} />
-        <Route path="/admin/coinsale" component={CoinSalePage} />
-        <Route path="/admin/wallets" component={WalletsPage} />
-        <Route
-            path="/admin/distribution-signup"
-            component={DistributionSignUpPage}
-        />
-        <Route path="/admin/member-profile" component={MemberProfilePage} />
-        <Redirect to="/admin" />
+        <Route path="/dashboard" exact component={AdminHome} />
+        <Route path="/coinsale" component={CoinSalePage} />
+        <Route path="/wallets" component={WalletsPage} />
+        <Route path="/distribution-signup" component={DistributionSignUpPage} />
+        <Route path="/member-profile" component={MemberProfilePage} />
+        <Redirect to="/dashboard" />
     </Switch>
 )
 

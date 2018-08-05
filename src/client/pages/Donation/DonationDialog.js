@@ -245,7 +245,7 @@ class DonationDialog extends Component {
                             <div className="well mb-2 mt-2 error-well text-center">
                                 <p>
                                     Thank you for your support, your payment
-                                    processed successfully
+                                    processed successfully.
                                 </p>
                             </div>
                         )}

@@ -203,7 +203,7 @@ class SignUpPage extends Component {
             this.state.redirectToSocialEmailPage ? (
                 <Redirect to="/addemail/" />
             ) : (
-                <Redirect to="/admin/member-profile/" />
+                <Redirect to="/member-profile/" />
             )
         ) : (
             <div className={cx}>

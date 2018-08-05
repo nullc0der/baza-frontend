@@ -178,7 +178,7 @@ class LoginDialog extends Component {
     render() {
         const cx = classnames(s.loginDialog, 'login-dialog')
         const { originURL } = this.props.location.state || {
-            originURL: '/admin/member-profile'
+            originURL: '/member-profile'
         }
         const twitterLoginUrl =
             process.env.NODE_ENV === 'development'

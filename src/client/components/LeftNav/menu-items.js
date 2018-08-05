@@ -2,16 +2,16 @@ module.exports = [
     {
         name: 'Home',
         icon: 'fa fa-fw fa-home',
-        href: '/admin/',
+        href: '/dashboard',
         children: [
             {
                 name: 'Profile',
-                href: '/admin/member-profile',
+                href: '/member-profile',
                 icon: 'fa fa-fw fa-user'
             },
             {
                 name: 'Wallets',
-                href: '/admin/wallets',
+                href: '/wallets',
                 icon: 'fa fa-fw fa-credit-card'
             }
         ]
@@ -19,7 +19,7 @@ module.exports = [
     {
         name: 'Community',
         icon: 'fa fa-fw fa-compass',
-        href: '/admin/',
+        href: '/dashboard',
         children: [
             {
                 name: 'Ekata Social',
@@ -29,7 +29,7 @@ module.exports = [
                 children: [
                     {
                         name: 'Groups',
-                        href: '/admin/community/groups',
+                        href: '/community/groups',
                         icon: 'fa fa-fw fa-cubes'
                     },
                     {
@@ -44,7 +44,7 @@ module.exports = [
     {
         name: 'Applications',
         icon: 'fa fa-fw fa-futbol-o',
-        href: '/admin/',
+        href: '/dashboard',
         children: [
             {
                 name: 'Hashtag Banner',
@@ -62,11 +62,11 @@ module.exports = [
         name: 'Baza',
         icon_type: 'image',
         icon: '/public/img/baza_logo_gs.svg',
-        href: '/admin/',
+        href: '/dashboard',
         children: [
             {
                 name: 'Posts',
-                href: '/admin/',
+                href: '/dashboard',
                 icon: 'fa fa-fw fa-life-ring'
             },
             {
@@ -76,24 +76,24 @@ module.exports = [
                 children: [
                     {
                         name: 'Management',
-                        href: `/admin/`,
+                        href: `/dashboard`,
                         icon: 'fa fa-fw fa-users'
                     }
                 ]
             },
             {
                 name: 'Distribution SignUps',
-                href: '/admin/distribution-signup',
+                href: '/distribution-signup',
                 icon: 'fa fa-fw fa-list'
             },
             {
                 name: 'Coin Sale',
-                href: '/admin/coinsale',
+                href: '/coinsale',
                 icon: 'fa fa-fw fa-tag'
             },
             {
                 name: 'Group Profile',
-                href: '/admin/',
+                href: '/dashboard',
                 icon: 'fa fa-fw fa-cog'
             }
         ]

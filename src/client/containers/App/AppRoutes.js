@@ -15,7 +15,6 @@ const AppRoutes = location => (
         <Route path="/" exact component={HomePage} />
         <Route path="/signup" exact component={SignUpPage} />
         <Route path="/404" exact component={NotFoundPage} />
-        <Route path="/admin" component={AdminContainer} />
         <Route
             path="/validateemail/:validationKey/"
             exact
@@ -28,6 +27,11 @@ const AppRoutes = location => (
             component={ForgotPasswordPage}
         />
         <Route path="/addemail/" exact component={AddSocialEmailPage} />
+        <Route path="/member-profile" component={AdminContainer} />
+        <Route path="/coinsale" component={AdminContainer} />
+        <Route path="/wallets" component={AdminContainer} />
+        <Route path="/distribution-signup" component={AdminContainer} />
+        <Route path="/dashboard" component={AdminContainer} />
         <Route component={NotFoundPage} />
     </Switch>
 )
