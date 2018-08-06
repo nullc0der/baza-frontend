@@ -1,5 +1,6 @@
 import React, { Fragment } from 'react'
 import TextField from 'components/ui/TextField'
+import PhoneNumberField from 'components/ui/PhoneNumberField'
 
 const ContactInformation = props => {
     return (
@@ -23,13 +24,9 @@ const ContactInformation = props => {
                 value={props.values.email}
                 errorState={props.errors.email}
             />
-            <TextField
-                id="phoneNumber"
-                label="Phone no."
-                className="mb-3"
-                icon={<i className="material-icons">phone</i>}
+            <PhoneNumberField
+                className="phone-number-field mb-3"
                 onChange={props.onInputChange}
-                value={props.values.phoneNumber}
                 errorState={props.errors.phoneNumber}
             />
         </Fragment>

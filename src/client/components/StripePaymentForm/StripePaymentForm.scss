@@ -6,4 +6,10 @@
         color: $danger;
         margin-top: 3px;
     }
+    .payment-processing-icon {
+        visibility: hidden;
+        &.show {
+            visibility: visible;
+        }
+    }
 }

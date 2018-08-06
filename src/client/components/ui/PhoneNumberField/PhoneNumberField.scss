@@ -1,0 +1,9 @@
+:local(.container) {
+    .btn {
+        padding: 5px 15px;
+    }
+    .dropdown-menu {
+        max-height: 100px;
+        overflow-y: auto;
+    }
+}

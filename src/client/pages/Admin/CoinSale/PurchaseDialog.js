@@ -24,7 +24,8 @@ export default class PurchaseDialog extends Component {
         perDollarCost: 0,
         purchaseAmountError: null,
         nonFieldErrors: null,
-        coinPurchaseDone: false
+        coinPurchaseDone: false,
+        paymentProcessing: false
     }
 
     componentDidMount = () => {
@@ -75,6 +76,9 @@ export default class PurchaseDialog extends Component {
     }
 
     purchaseCoin = token => {
+        this.setState({
+            paymentProcessing: true
+        })
         const api = create({
             baseURL:
                 process.env.NODE_ENV === 'development'
@@ -101,6 +105,9 @@ export default class PurchaseDialog extends Component {
                     nonFieldErrors: get(response.data, 'non_field_errors', null)
                 })
             }
+            this.setState({
+                paymentProcessing: false
+            })
         })
     }
 
@@ -170,6 +177,9 @@ export default class PurchaseDialog extends Component {
                                 <StripePaymentForm
                                     onTokenReceive={this.purchaseCoin}
                                     className="mt-3"
+                                    paymentProcessing={
+                                        this.state.paymentProcessing
+                                    }
                                 />
                             </Elements>
                         </StripeProvider>

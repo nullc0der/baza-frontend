@@ -38,7 +38,8 @@ class DonationDialog extends Component {
             amount: '',
             nonField: ''
         },
-        paymentSuccess: false
+        paymentSuccess: false,
+        paymentProcessing: false
     }
 
     toggleOtherInput = (force, amount) => {
@@ -86,6 +87,18 @@ class DonationDialog extends Component {
     }
 
     onInputChange = (id, value) => {
+        if (id === 'name') {
+            const values = value.split(' ')
+            const newValues = values.map(x => {
+                if (x.length) {
+                    let letters = x.split('')
+                    letters[0] = letters[0].toUpperCase()
+                    return letters.join('')
+                }
+                return x
+            })
+            value = newValues.join(' ')
+        }
         this.setState(prevState => ({
             inputValues: {
                 ...prevState.inputValues,
@@ -95,6 +108,9 @@ class DonationDialog extends Component {
     }
 
     submitDonation = token => {
+        this.setState({
+            paymentProcessing: true
+        })
         const api = create({
             baseURL:
                 process.env.NODE_ENV === 'development'
@@ -131,6 +147,9 @@ class DonationDialog extends Component {
                     }
                 })
             }
+            this.setState({
+                paymentProcessing: false
+            })
         })
     }
 
@@ -238,6 +257,7 @@ class DonationDialog extends Component {
                             <Elements>
                                 <StripePaymentForm
                                     onTokenReceive={this.submitDonation}
+                                    paymentProcessing={this.state.paymentProcessing}
                                 />
                             </Elements>
                         </StripeProvider>

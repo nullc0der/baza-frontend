@@ -35,8 +35,13 @@ class StripePaymentForm extends Component {
                 )}
                 <button
                     onClick={this.handleSubmit}
-                    className="btn btn-dark btn-block mt-3">
-                    SUBMIT
+                    className="btn btn-dark btn-block mt-3"
+                    disabled={this.props.paymentProcessing}>
+                    SUBMIT&nbsp;
+                    <i
+                        className={`fa fa-spin fa-spinner payment-processing-icon ${!!this
+                            .props.paymentProcessing && 'show'}`}
+                    />
                 </button>
             </div>
         )

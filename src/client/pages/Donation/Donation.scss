@@ -111,4 +111,12 @@ $dialog-padding-y: map-get($spacers, 3);
             margin: 0;
         }
     }
+
+    @include media-breakpoint-down(sm, $grid-breakpoints) {
+        .phone-number-field {
+            .ui-textfield-error {
+                bottom: -35px;
+            }
+        }
+    }
 }
