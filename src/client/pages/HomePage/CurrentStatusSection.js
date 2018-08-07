@@ -19,17 +19,9 @@ const CurrentStatusSection = props => {
                             <video
                                 title="status-video"
                                 className="embed-responsive-item"
-                                src="/public/videos/baza-main.mp4"
+                                src="/public/videos/Baza Intro.mp4"
                                 controls
                             />
-                            {/* <iframe
-                                title="status-video"
-                                className="embed-responsive-item"
-                                src="https://www.youtube.com/embed/FWoYfcSZzzY?rel=0&amp;controls=0&amp;showinfo=0"
-                                frameBorder="0"
-                                allow="encrypted-media"
-                                allowFullScreen
-                            /> */}
                         </div>
                     </div>
                 </div>
