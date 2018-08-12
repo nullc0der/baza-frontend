@@ -17,7 +17,7 @@ const CurrentStatusSection = props => {
                     <div className="col-12 col-md-8 mx-auto">
                         <div className="embed-responsive embed-responsive-16by9">
                             <video
-                                title="status-video"
+                                title="Baza Intro"
                                 className="embed-responsive-item"
                                 src="/public/videos/Baza Intro.mp4"
                                 controls
