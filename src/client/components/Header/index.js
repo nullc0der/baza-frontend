@@ -113,7 +113,7 @@ export default class Header extends Component {
             active: item.active
         })
         if (item.title === 'Login') {
-            if (Auth.isAuthenticated()) {
+            if (Auth.isAuthenticated() && Auth.isTokenNotExpired()) {
                 item.title = 'Profile'
             }
         }
