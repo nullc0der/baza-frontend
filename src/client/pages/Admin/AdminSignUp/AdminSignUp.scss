@@ -116,6 +116,11 @@ $footer-btn-color: $admin-active-tab-color;
     color: $text-color;
   }
 
+  .ui-textfield-error {
+        font-size: 12px;
+        color: #ff3232;
+    }
+
   .section-title {
     font-weight: $font-weight-semibold;
     text-align: center;
@@ -135,6 +140,25 @@ $footer-btn-color: $admin-active-tab-color;
   @include media-breakpoint-down(sm, $grid-breakpoints) {
     padding: 30px;
   }
+  .country-dropdown-group {
+        width: 100%;
+        .dropdown-menu {
+            background-color: $light;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        .dropdown-item {
+            cursor: pointer;
+        }
+        .btn {
+            color: inherit;
+            justify-content: left;
+            background-color: #f6f6f6;
+            &:focus {
+                box-shadow: none;
+            }
+        }
+    }
 }
 
 :local(.container) .documents-section {
@@ -215,9 +239,13 @@ $footer-btn-color: $admin-active-tab-color;
   align-items: center;
   justify-content: center;
   position: relative;
+  .infos {
+      height: 300px;
+  }
   .attention-btn {
     border-radius: 32px;
     font-weight: $font-weight-semibold;
+    text-transform: capitalize;
   }
   .finish-bottom-message {
     position: absolute;

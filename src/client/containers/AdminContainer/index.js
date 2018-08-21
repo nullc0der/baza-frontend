@@ -16,6 +16,7 @@ import Footer from 'components/AdminFooter'
 import MiniChat from 'components/HeaderMiniChat/MiniChat'
 
 import AdminRoutes from './AdminRoutes'
+import AdminOverlays from './AdminOverlays'
 
 // var debug = require('debug')('baza:client:app')
 
@@ -72,6 +73,7 @@ class AdminContainer extends Component {
                     <SubHeader className={s.subHeader} />
                     <section className="content-inner">
                         {AdminRoutes(this.props.location)}
+                        {AdminOverlays(this.props.location)}
                     </section>
                     <Footer />
                 </section>
@@ -83,16 +85,16 @@ class AdminContainer extends Component {
                 />
             </section>
         ) : (
-            <Redirect
-                to={{
-                    pathname: '/',
-                    hash: '#!login',
-                    state: {
-                        originURL: this.props.location.pathname
-                    }
-                }}
-            />
-        )
+                <Redirect
+                    to={{
+                        pathname: '/',
+                        hash: '#!login',
+                        state: {
+                            originURL: this.props.location.pathname
+                        }
+                    }}
+                />
+            )
     }
 }
 

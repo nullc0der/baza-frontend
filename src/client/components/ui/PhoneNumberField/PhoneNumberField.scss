@@ -2,8 +2,11 @@
     .btn {
         padding: 5px 15px;
     }
+    .dropdown-item {
+        cursor: pointer;
+    }
     .dropdown-menu {
-        max-height: 100px;
+        max-height: 300px;
         overflow-y: auto;
     }
 }

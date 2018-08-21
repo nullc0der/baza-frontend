@@ -1,0 +1,22 @@
+:local(.container) {
+    position: relative;
+    .daypicker-container {
+        position: absolute;
+        bottom: 30px;
+        display: none;
+        background-color: #fff;
+        box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.23);
+        &.show {
+            display: block;
+        }
+        .DayPicker-Caption {
+            select {
+                background: transparent;
+                border: none;
+                &:focus {
+                    outline: none;
+                }
+            }
+        }
+    }
+}
