@@ -12,7 +12,11 @@ import Dialog from 'components/ui/Dialog'
 
 import {
     checkCompletedSteps,
-    submitNameAddress
+    submitNameAddress,
+    skipEmail,
+    sendVerificationCode,
+    validateEmailCode,
+    sendVerificationCodeAgain
 } from 'api/distribution-signup'
 
 import s from './AdminSignUp.scss'
@@ -71,13 +75,22 @@ class AdminSignUpDialog extends Component {
 
     onSkipClick = () => {
         const { selectedIndex } = this.state
-        this.setState({ selectedIndex: selectedIndex + 1 })
+        switch (selectedIndex) {
+            case 1:
+                this.skipEmail()
+                break
+            default:
+                console.log("Nothing matched")
+        }
     }
 
     onSubmitClick = () => {
         switch (this.state.selectedIndex) {
             case 0:
                 this.submitNameAddress()
+                break
+            case 1:
+                this.submitVerificationCode()
                 break
             default:
                 console.log("Nothing matched")
@@ -139,6 +152,52 @@ class AdminSignUpDialog extends Component {
         })
     }
 
+    skipEmail = () => {
+        skipEmail().then(response => {
+            this.setState({
+                completedTabs: response.data.completed_steps.map(x => Number(x)),
+                status: response.data.status,
+                selectedIndex: response.data.next_step.index,
+                isSkippable: response.data.next_step.is_skippable
+            })
+        }).catch((responseData => { console.log(responseData) }))
+    }
+
+    sendVerificationCode = () => {
+        sendVerificationCode(this.state.inputValues.email).then(response => {
+            console.log("Verification email sent")
+        }).catch(responseData => {
+            this.setState({
+                errorState: {
+                    email: get(responseData, 'email', null)
+                }
+            })
+        })
+    }
+
+    sendVerificationCodeAgain = () => {
+        sendVerificationCodeAgain().then(response => {
+            console.log("Verification email sent")
+        }).catch(responseData => console.log(responseData))
+    }
+
+    submitVerificationCode = () => {
+        validateEmailCode(this.state.inputValues.verificationCode).then(response => {
+            this.setState({
+                completedTabs: response.data.completed_steps.map(x => Number(x)),
+                status: response.data.status,
+                selectedIndex: response.data.next_step.index,
+                isSkippable: response.data.next_step.is_skippable
+            })
+        }).catch((responseData => {
+            this.setState({
+                errorState: {
+                    verificationCode: get(responseData, 'code', null)
+                }
+            })
+        }))
+    }
+
     render() {
         const { className } = this.props
         const cx = classnames(s.container, className)
@@ -168,7 +227,12 @@ class AdminSignUpDialog extends Component {
                                     onInputChange={this.onInputChange}
                                     errorState={this.state.errorState}
                                 />
-                                <EmailSection />
+                                <EmailSection
+                                    onInputChange={this.onInputChange}
+                                    errorState={this.state.errorState}
+                                    sendCode={this.sendVerificationCode}
+                                    sendCodeAgain={this.sendVerificationCodeAgain}
+                                />
                                 <MobileSection />
                                 <DocumentsSection />
                             </SwipeableViews>

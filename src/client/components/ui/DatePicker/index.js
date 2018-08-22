@@ -88,6 +88,7 @@ export default class DatePicker extends Component {
                     value={this.state.dateValue}
                     errorState={errorState}
                     onClick={this.toggleDatePicker}
+                    onFocus={this.toggleDatePicker}
                 />
                 <div className={`daypicker-container ${this.state.datePickerShown ? 'show' : ''}`}>
                     <DayPicker

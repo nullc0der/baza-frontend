@@ -78,3 +78,23 @@ export const submitNameAddress = (
         'birthdate': birthDate
     }))
 }
+
+export const skipEmail = () => {
+    return jsonAPI(api => api.post('/bazasignup/skipemail/'))
+}
+
+export const sendVerificationCode = (email) => {
+    return jsonAPI(api => api.post('/bazasignup/sendverificationcode/', {
+        email: email
+    }))
+}
+
+export const validateEmailCode = (code) => {
+    return jsonAPI(api => api.post('/bazasignup/validateemailcode/', {
+        code: code
+    }))
+}
+
+export const sendVerificationCodeAgain = () => {
+    return jsonAPI(api => api.post('/bazasignup/sendverificationcodeagain/'))
+}
