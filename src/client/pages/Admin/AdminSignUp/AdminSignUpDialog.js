@@ -44,7 +44,11 @@ class AdminSignUpDialog extends Component {
         isSkippable: false,
         selectedCountry: '',
         inputValues: {},
-        errorState: {}
+        errorState: {},
+        infoText: {
+            'message': '',
+            'type': 'success'
+        }
     }
 
     componentDidMount = () => {
@@ -115,6 +119,19 @@ class AdminSignUpDialog extends Component {
         }))
     }
 
+    setStepData = (data) => {
+        this.setState({
+            completedTabs: data.completed_steps.map(x => Number(x)),
+            status: data.status,
+            selectedIndex: data.next_step.index,
+            isSkippable: data.next_step.is_skippable,
+            infoText: {
+                'message': '',
+                'type': 'success'
+            }
+        })
+    }
+
     submitNameAddress = () => {
         submitNameAddress(
             this.state.inputValues.firstName,
@@ -128,12 +145,7 @@ class AdminSignUpDialog extends Component {
             this.state.inputValues.zipCode,
             this.state.inputValues.birthDate
         ).then(response => {
-            this.setState({
-                completedTabs: response.data.completed_steps.map(x => Number(x)),
-                status: response.data.status,
-                selectedIndex: response.data.next_step.index,
-                isSkippable: response.data.next_step.is_skippable
-            })
+            this.setStepData(response.data)
         }).catch(responseData => {
             this.setState({
                 errorState: {
@@ -154,18 +166,25 @@ class AdminSignUpDialog extends Component {
 
     skipEmail = () => {
         skipEmail().then(response => {
+            this.setStepData(response.data)
+        }).catch((responseData => {
             this.setState({
-                completedTabs: response.data.completed_steps.map(x => Number(x)),
-                status: response.data.status,
-                selectedIndex: response.data.next_step.index,
-                isSkippable: response.data.next_step.is_skippable
+                infoText: {
+                    'message': 'Unknown error occured',
+                    'type': 'danger'
+                }
             })
-        }).catch((responseData => { console.log(responseData) }))
+        }))
     }
 
     sendVerificationCode = () => {
         sendVerificationCode(this.state.inputValues.email).then(response => {
-            console.log("Verification email sent")
+            this.setState({
+                infoText: {
+                    'message': 'Verfication email sent, please check inbox',
+                    'type': 'success'
+                }
+            })
         }).catch(responseData => {
             this.setState({
                 errorState: {
@@ -177,18 +196,23 @@ class AdminSignUpDialog extends Component {
 
     sendVerificationCodeAgain = () => {
         sendVerificationCodeAgain().then(response => {
-            console.log("Verification email sent")
-        }).catch(responseData => console.log(responseData))
+            this.setState({
+                infoText: {
+                    'message': 'Verfication email sent, please check inbox',
+                    'type': 'success'
+                }
+            })
+        }).catch(responseData => this.setState({
+            infoText: {
+                'message': 'Unknown error occured',
+                'type': 'danger'
+            }
+        }))
     }
 
     submitVerificationCode = () => {
         validateEmailCode(this.state.inputValues.verificationCode).then(response => {
-            this.setState({
-                completedTabs: response.data.completed_steps.map(x => Number(x)),
-                status: response.data.status,
-                selectedIndex: response.data.next_step.index,
-                isSkippable: response.data.next_step.is_skippable
-            })
+            this.setStepData(response.data)
         }).catch((responseData => {
             this.setState({
                 errorState: {
@@ -237,6 +261,7 @@ class AdminSignUpDialog extends Component {
                                 <DocumentsSection />
                             </SwipeableViews>
                             <AdminSignUpFooter
+                                infoText={this.state.infoText}
                                 isDonor={this.state.isDonor}
                                 showSkip={this.state.isSkippable}
                                 toggleDonorStatus={this.toggleDonorStatus}

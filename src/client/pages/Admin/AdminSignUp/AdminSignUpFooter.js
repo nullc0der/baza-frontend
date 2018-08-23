@@ -10,8 +10,15 @@ const AdminSignUpFooter = props => {
         'bg-success': props.isDonor
     })
 
+    const infoSectionClassName = classnames('info-text-section', `bg-${props.infoText.type}`)
+
     return (
         <div className="admin-signup-footer">
+            {
+                props.infoText.message && (
+                    <div className={infoSectionClassName}>{props.infoText.message}</div>
+                )
+            }
             <div className={donorCheckClassName} onClick={props.toggleDonorStatus}>
                 {donorCheckText}
             </div>

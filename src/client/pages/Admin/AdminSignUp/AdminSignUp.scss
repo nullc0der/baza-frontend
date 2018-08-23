@@ -70,7 +70,8 @@ $footer-btn-color: $admin-active-tab-color;
   font-weight: $font-weight-semibold;
   color: #fff;
   margin: 0;
-  .become-donor-check {
+  .become-donor-check,
+  .info-text-section {
     padding: 0 18px;
     height: 48px;
     background-color: $primary;
@@ -81,6 +82,10 @@ $footer-btn-color: $admin-active-tab-color;
     &.bg-success {
       animation: fadeInUp 0.2s;
     }
+  }
+  .info-text-section {
+    font-size: 12px;
+    height: 30px;
   }
   .bottom-buttons {
     position: relative;
