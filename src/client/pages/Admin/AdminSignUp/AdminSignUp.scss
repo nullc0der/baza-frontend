@@ -1,3 +1,4 @@
+//TODO: Fix identation
 @import 'ui';
 
 $active-tab-color: $admin-active-tab-color;
@@ -8,144 +9,144 @@ $error-tab-color: $danger;
 $footer-btn-color: $admin-active-tab-color;
 
 :local(.container) {
-  color: inherit;
-  .modal-dialog {
-    max-width: 550px;
-  }
-  .modal-content {
-    border-radius: 3px;
-  }
-  .modal-body {
-    padding: 30px 0 0;
-  }
-
-  .btn {
-    height: 50px;
-    font-size: inherit;
-    font-weight: inherit;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border: none;
-    border-radius: 0;
-    color: #fff;
-  }
-  .try-again-button {
     color: inherit;
-    height: 32px;
-    width: 120px;
-    margin: 0 auto;
-  }
+    .modal-dialog {
+        max-width: 550px;
+    }
+    .modal-content {
+        border-radius: 3px;
+    }
+    .modal-body {
+        padding: 30px 0 0;
+    }
+
+    .btn {
+        height: 50px;
+        font-size: inherit;
+        font-weight: inherit;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: none;
+        border-radius: 0;
+        color: #fff;
+    }
+    .try-again-button {
+        color: inherit;
+        height: 32px;
+        width: 120px;
+        margin: 0 auto;
+    }
 }
 
 :local(.container) .admin-signup-tabs {
-  margin: 0 18px;
-  .admin-signup-tab {
-    &.is-completed,
-    &.has-error {
-      opacity: 1;
-    }
+    margin: 0 18px;
+    .admin-signup-tab {
+        &.is-completed,
+        &.has-error {
+        opacity: 1;
+        }
 
-    &.is-selected {
-      color: $active-tab-color;
+        &.is-selected {
+        color: $active-tab-color;
+        }
+        &.is-completed {
+        color: $completed-tab-color;
+        }
+        &.has-error {
+        color: $error-tab-color;
+        }
+        @include media-breakpoint-down(sm, $grid-breakpoints) {
+        padding-left: 4px;
+        padding-right: 4px;
+        &:not(:first-child) {
+            margin-left: 0.5rem;
+        }
+        }
     }
-    &.is-completed {
-      color: $completed-tab-color;
-    }
-    &.has-error {
-      color: $error-tab-color;
-    }
-    @include media-breakpoint-down(sm, $grid-breakpoints) {
-      padding-left: 4px;
-      padding-right: 4px;
-      &:not(:first-child) {
-        margin-left: 0.5rem;
-      }
-    }
-  }
 }
 
 :local(.container) .admin-signup-footer {
-  font-size: 18px;
-  font-weight: $font-weight-semibold;
-  color: #fff;
-  margin: 0;
-  .become-donor-check,
-  .info-text-section {
-    padding: 0 18px;
-    height: 48px;
-    background-color: $primary;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    &.bg-success {
-      animation: fadeInUp 0.2s;
-    }
-  }
-  .info-text-section {
-    font-size: 12px;
-    height: 30px;
-  }
-  .bottom-buttons {
-    position: relative;
-  }
-  .btn {
-    background-color: $footer-btn-color;
-    border: none;
-    height: 50px;
+    font-size: 18px;
+    font-weight: $font-weight-semibold;
     color: #fff;
-  }
-  .submit-button {
-    border-radius: 0;
-  }
-  .skip-button {
-    position: absolute;
-    z-index: 1;
-    font-weight: $font-weight-bold;
-    left: 0;
-    top: 0;
-    background-color: darken($footer-btn-color, 10%);
-    border-radius: 0 24px 24px 0;
-  }
+    margin: 0;
+    .become-donor-check,
+    .info-text-section {
+        padding: 0 18px;
+        height: 48px;
+        background-color: $primary;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        &.bg-success {
+        animation: fadeInUp 0.2s;
+        }
+    }
+    .info-text-section {
+        font-size: 12px;
+        height: 30px;
+    }
+    .bottom-buttons {
+        position: relative;
+    }
+    .btn {
+        background-color: $footer-btn-color;
+        border: none;
+        height: 50px;
+        color: #fff;
+    }
+    .submit-button {
+        border-radius: 0;
+    }
+    .skip-button {
+        position: absolute;
+        z-index: 1;
+        font-weight: $font-weight-bold;
+        left: 0;
+        top: 0;
+        background-color: darken($footer-btn-color, 10%);
+        border-radius: 0 24px 24px 0;
+    }
 }
 
 :local(.container) .signup-section {
-  $text-color: rgba($dark, 0.5);
-  padding: 30px 65px;
-  color: $text-color;
-  .ui-textfield-input {
-    border-bottom-color: $text-color;
-  }
-  .ui-textfield-label {
+    $text-color: rgba($dark, 0.5);
+    padding: 30px 65px;
     color: $text-color;
-  }
-
-  .ui-textfield-error {
-        font-size: 12px;
-        color: #ff3232;
+    .ui-textfield-input {
+        border-bottom-color: $text-color;
+    }
+    .ui-textfield-label {
+        color: $text-color;
     }
 
-  .section-title {
-    font-weight: $font-weight-semibold;
-    text-align: center;
-  }
+    .ui-textfield-error {
+            font-size: 12px;
+            color: #ff3232;
+        }
 
-  .send-verification-btn {
-    border-radius: 0;
-    color: #fff;
-    height: 50px;
-    font-weight: $font-weight-bold;
-  }
+    .section-title {
+        font-weight: $font-weight-semibold;
+        text-align: center;
+    }
 
-  .verification-submit-btn {
-    height: 60px;
-  }
+    .send-verification-btn {
+        border-radius: 0;
+        color: #fff;
+        height: 50px;
+        font-weight: $font-weight-bold;
+    }
 
-  @include media-breakpoint-down(sm, $grid-breakpoints) {
-    padding: 30px;
-  }
-  .country-dropdown-group {
+    .verification-submit-btn {
+        height: 60px;
+    }
+
+    @include media-breakpoint-down(sm, $grid-breakpoints) {
+        padding: 30px;
+    }
+    .country-dropdown-group {
         width: 100%;
         .dropdown-menu {
             background-color: $light;
@@ -164,100 +165,112 @@ $footer-btn-color: $admin-active-tab-color;
             }
         }
     }
+
+    .incode-dropdown-group {
+        .dropdown-toggle {
+            color: inherit;
+            background-color: #f6f6f6;
+            height: 38px;
+            border-radius: 3px;
+        }
+        .dropdown-item {
+            cursor: pointer;
+        }
+    }
 }
 
 :local(.container) .documents-section {
-  height: 100%;
-  position: relative;
-  .image-preview-container {
-    width: 128px;
-    height: 128px;
-    margin: 10px auto;
+    height: 100%;
     position: relative;
-    background-color: $light;
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-position: center center;
-  }
-  .image-remove-btn {
-    cursor: pointer;
-    position: absolute;
-    right: 0px;
-    top: 0px;
-    width: 24px;
-    height: 24px;
-    font-size: 20px;
-    text-align: center;
-    color: #fff;
-    text-shadow: 0 0px 4px rgba(0, 0, 0, 0.4);
-  }
-  .file-input-container {
-    position: relative;
-  }
-  .file-input {
-    display: none;
-  }
-  .selected-file-name {
-    background-color: $light;
-    margin-right: 15px;
-    padding: 16px 20px 15px 20px;
-  }
-  .upload-guidelines {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    background-color: $light;
-    padding: 16px 65px;
-  }
-  .guideline-dashed {
-    position: relative;
-    margin-bottom: map-get($spacers, 2);
-    &:after {
-      position: absolute;
-      content: '';
-      left: 0;
-      bottom: -8px;
-      height: 2px;
-      width: 44px;
-      background-color: rgba(0, 0, 0, 0.12);
+    .image-preview-container {
+        width: 128px;
+        height: 128px;
+        margin: 10px auto;
+        position: relative;
+        background-color: $light;
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-position: center center;
     }
-  }
-  .guideline {
-    display: flex;
-    align-items: center;
-    .label {
-      width: 100px;
-      position: relative;
-      &:after {
+    .image-remove-btn {
+        cursor: pointer;
         position: absolute;
-        right: 10px;
-        content: ':';
-      }
+        right: 0px;
+        top: 0px;
+        width: 24px;
+        height: 24px;
+        font-size: 20px;
+        text-align: center;
+        color: #fff;
+        text-shadow: 0 0px 4px rgba(0, 0, 0, 0.4);
     }
-  }
+    .file-input-container {
+        position: relative;
+    }
+    .file-input {
+        display: none;
+    }
+    .selected-file-name {
+        background-color: $light;
+        margin-right: 15px;
+        padding: 16px 20px 15px 20px;
+    }
+    .upload-guidelines {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background-color: $light;
+        padding: 16px 65px;
+    }
+    .guideline-dashed {
+        position: relative;
+        margin-bottom: map-get($spacers, 2);
+        &:after {
+        position: absolute;
+        content: '';
+        left: 0;
+        bottom: -8px;
+        height: 2px;
+        width: 44px;
+        background-color: rgba(0, 0, 0, 0.12);
+        }
+    }
+    .guideline {
+        display: flex;
+        align-items: center;
+        .label {
+        width: 100px;
+        position: relative;
+        &:after {
+            position: absolute;
+            right: 10px;
+            content: ':';
+        }
+        }
+    }
 }
 :local(.container) .finish-section {
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-  .infos {
-      height: 300px;
-  }
-  .attention-btn {
-    border-radius: 32px;
-    font-weight: $font-weight-semibold;
-    text-transform: capitalize;
-  }
-  .finish-bottom-message {
-    position: absolute;
-    left: 0;
-    right: 0;
-    bottom: 0;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    .infos {
+        height: 300px;
+    }
+    .attention-btn {
+        border-radius: 32px;
+        font-weight: $font-weight-semibold;
+        text-transform: capitalize;
+    }
+    .finish-bottom-message {
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
 
-    background-color: $light;
-  }
+        background-color: $light;
+    }
 }

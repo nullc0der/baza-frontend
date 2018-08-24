@@ -11,7 +11,7 @@ const InternationalCodeDropDown = props => {
         <div className="incode-dropdown-group btn-group col-4 col-md-2">
             <button
                 type="button"
-                className="btn btn-light dropdown-toggle"
+                className="btn dropdown-toggle"
                 data-toggle="dropdown"
                 aria-haspopup="true"
                 aria-expanded="false">
@@ -67,7 +67,7 @@ class PhoneNumberField extends Component {
     }
 
     render() {
-        const { className } = this.props
+        const { className, showIcon = true } = this.props
         const cx = classnames(s.container, className, 'row', 'no-gutters')
         return (
             <div className={cx}>
@@ -79,7 +79,7 @@ class PhoneNumberField extends Component {
                     id="phoneNumber"
                     label="Phone no."
                     className="col-8 col-md-10"
-                    icon={<i className="material-icons">phone</i>}
+                    icon={showIcon ? <i className="material-icons">phone</i> : ''}
                     onChange={this.onInputChange}
                     value={this.state.phoneNumber}
                     errorState={this.props.errorState}

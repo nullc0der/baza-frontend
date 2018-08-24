@@ -16,7 +16,11 @@ import {
     skipEmail,
     sendVerificationCode,
     validateEmailCode,
-    sendVerificationCodeAgain
+    sendVerificationCodeAgain,
+    skipPhone,
+    sendPhoneVerificationCode,
+    validatePhoneCode,
+    sendPhoneVerificationCodeAgain
 } from 'api/distribution-signup'
 
 import s from './AdminSignUp.scss'
@@ -83,6 +87,9 @@ class AdminSignUpDialog extends Component {
             case 1:
                 this.skipEmail()
                 break
+            case 2:
+                this.skipPhone()
+                break
             default:
                 console.log("Nothing matched")
         }
@@ -95,6 +102,9 @@ class AdminSignUpDialog extends Component {
                 break
             case 1:
                 this.submitVerificationCode()
+                break
+            case 2:
+                this.submitPhoneVerificationCode()
                 break
             default:
                 console.log("Nothing matched")
@@ -222,6 +232,64 @@ class AdminSignUpDialog extends Component {
         }))
     }
 
+    skipPhone = () => {
+        skipPhone().then(response => {
+            this.setStepData(response.data)
+        }).catch((responseData => {
+            this.setState({
+                infoText: {
+                    'message': 'Unknown error occured',
+                    'type': 'danger'
+                }
+            })
+        }))
+    }
+
+    sendPhoneVerificationCode = () => {
+        sendPhoneVerificationCode(this.state.inputValues.phoneNumber).then(response => {
+            this.setState({
+                infoText: {
+                    'message': 'Verfication sms sent, please check inbox',
+                    'type': 'success'
+                }
+            })
+        }).catch(responseData => {
+            this.setState({
+                errorState: {
+                    phoneNumber: get(responseData, 'phone', null)
+                }
+            })
+        })
+    }
+
+    sendPhoneVerificationCodeAgain = () => {
+        sendPhoneVerificationCodeAgain().then(response => {
+            this.setState({
+                infoText: {
+                    'message': 'Verfication sms sent, please check inbox',
+                    'type': 'success'
+                }
+            })
+        }).catch(responseData => this.setState({
+            infoText: {
+                'message': 'Unknown error occured',
+                'type': 'danger'
+            }
+        }))
+    }
+
+    submitPhoneVerificationCode = () => {
+        validatePhoneCode(this.state.inputValues.smsVerificationCode).then(response => {
+            this.setStepData(response.data)
+        }).catch((responseData => {
+            this.setState({
+                errorState: {
+                    smsVerificationCode: get(responseData, 'code', null)
+                }
+            })
+        }))
+    }
+
     render() {
         const { className } = this.props
         const cx = classnames(s.container, className)
@@ -257,7 +325,12 @@ class AdminSignUpDialog extends Component {
                                     sendCode={this.sendVerificationCode}
                                     sendCodeAgain={this.sendVerificationCodeAgain}
                                 />
-                                <MobileSection />
+                                <MobileSection
+                                    onInputChange={this.onInputChange}
+                                    errorState={this.state.errorState}
+                                    sendCode={this.sendPhoneVerificationCode}
+                                    sendCodeAgain={this.sendPhoneVerificationCodeAgain}
+                                />
                                 <DocumentsSection />
                             </SwipeableViews>
                             <AdminSignUpFooter

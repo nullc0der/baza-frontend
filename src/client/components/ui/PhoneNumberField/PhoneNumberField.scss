@@ -1,6 +1,9 @@
 :local(.container) {
     .btn {
         padding: 5px 15px;
+        &:focus {
+            box-shadow: none;
+        }
     }
     .dropdown-item {
         cursor: pointer;

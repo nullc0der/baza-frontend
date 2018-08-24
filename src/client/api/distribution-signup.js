@@ -98,3 +98,23 @@ export const validateEmailCode = (code) => {
 export const sendVerificationCodeAgain = () => {
     return jsonAPI(api => api.post('/bazasignup/sendverificationcodeagain/'))
 }
+
+export const skipPhone = () => {
+    return jsonAPI(api => api.post('/bazasignup/skipphone/'))
+}
+
+export const sendPhoneVerificationCode = (phone) => {
+    return jsonAPI(api => api.post('/bazasignup/sendphoneverificationcode/', {
+        phone
+    }))
+}
+
+export const validatePhoneCode = (code) => {
+    return jsonAPI(api => api.post('/bazasignup/validatesmscode/', {
+        code
+    }))
+}
+
+export const sendPhoneVerificationCodeAgain = () => {
+    return jsonAPI(api => api.post('/bazasignup/sendphoneverificationcodeagain/'))
+}
