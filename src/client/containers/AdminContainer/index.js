@@ -14,6 +14,7 @@ import RightNav from 'components/RightNav'
 import SubHeader from 'components/SubHeader'
 import Footer from 'components/AdminFooter'
 import MiniChat from 'components/HeaderMiniChat/MiniChat'
+import NotificationBar from 'components/NotificationBar'
 
 import AdminRoutes from './AdminRoutes'
 import AdminOverlays from './AdminOverlays'
@@ -71,6 +72,7 @@ class AdminContainer extends Component {
                         onSettingsToggle={this.toggleRightNav}
                     />
                     <SubHeader className={s.subHeader} />
+                    <NotificationBar />
                     <section className="content-inner">
                         {AdminRoutes(this.props.location)}
                         {AdminOverlays(this.props.location)}

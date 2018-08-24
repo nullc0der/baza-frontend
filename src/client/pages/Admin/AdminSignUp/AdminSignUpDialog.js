@@ -20,7 +20,8 @@ import {
     skipPhone,
     sendPhoneVerificationCode,
     validatePhoneCode,
-    sendPhoneVerificationCodeAgain
+    sendPhoneVerificationCodeAgain,
+    uploadSignupImage
 } from 'api/distribution-signup'
 
 import s from './AdminSignUp.scss'
@@ -52,7 +53,8 @@ class AdminSignUpDialog extends Component {
         infoText: {
             'message': '',
             'type': 'success'
-        }
+        },
+        signupImage: null
     }
 
     componentDidMount = () => {
@@ -105,6 +107,9 @@ class AdminSignUpDialog extends Component {
                 break
             case 2:
                 this.submitPhoneVerificationCode()
+                break
+            case 3:
+                this.submitSignupImage()
                 break
             default:
                 console.log("Nothing matched")
@@ -290,6 +295,31 @@ class AdminSignUpDialog extends Component {
         }))
     }
 
+    addSignupImage = (image) => {
+        this.setState({
+            signupImage: image
+        })
+    }
+
+    removeSignupImage = () => {
+        this.setState({
+            signupImage: null
+        })
+    }
+
+    submitSignupImage = () => {
+        uploadSignupImage(this.state.signupImage).then(response => {
+            this.setStepData(response.data)
+        }).catch(responseData => {
+            this.setState({
+                infoText: {
+                    'message': 'Unknown error occured',
+                    'type': 'danger'
+                }
+            })
+        })
+    }
+
     render() {
         const { className } = this.props
         const cx = classnames(s.container, className)
@@ -331,7 +361,10 @@ class AdminSignUpDialog extends Component {
                                     sendCode={this.sendPhoneVerificationCode}
                                     sendCodeAgain={this.sendPhoneVerificationCodeAgain}
                                 />
-                                <DocumentsSection />
+                                <DocumentsSection
+                                    addSignupImage={this.addSignupImage}
+                                    removeSignupImage={this.removeSignupImage}
+                                />
                             </SwipeableViews>
                             <AdminSignUpFooter
                                 infoText={this.state.infoText}

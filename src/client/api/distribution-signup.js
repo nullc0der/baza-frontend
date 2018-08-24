@@ -1,4 +1,4 @@
-import { jsonAPI } from './base' //eslint-disable-line no-unused-vars
+import { jsonAPI, formAPI } from './base' //eslint-disable-line no-unused-vars
 
 export const saveAccount = data => {
     // mock api
@@ -117,4 +117,10 @@ export const validatePhoneCode = (code) => {
 
 export const sendPhoneVerificationCodeAgain = () => {
     return jsonAPI(api => api.post('/bazasignup/sendphoneverificationcodeagain/'))
+}
+
+export const uploadSignupImage = (image) => {
+    const data = new FormData()
+    data.append('image', image)
+    return formAPI(api => api.post('/bazasignup/uploadsignupimage/', data))
 }
