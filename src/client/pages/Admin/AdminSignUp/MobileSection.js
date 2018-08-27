@@ -27,7 +27,7 @@ export default class MobileSection extends Component {
                             center
                             className="is-textbox text-center"
                             placeholder="verification code"
-                            type="number"
+                            type="text"
                             id="smsVerificationCode"
                             onChange={this.props.onInputChange}
                             errorState={this.props.errorState.smsVerificationCode}

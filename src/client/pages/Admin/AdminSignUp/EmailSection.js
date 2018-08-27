@@ -32,7 +32,7 @@ export default class EmailSection extends Component {
                 <div className="row mb-3">
                     <div className="col-md-12">
                         <TextField
-                            type="number"
+                            type="text"
                             center
                             className="is-textbox"
                             placeholder="verification code"
