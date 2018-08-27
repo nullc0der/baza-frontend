@@ -54,7 +54,9 @@ class AdminSignUpDialog extends Component {
             'message': '',
             'type': 'success'
         },
-        signupImage: null
+        signupImage: null,
+        showEmailTryAgain: false,
+        showPhoneTryAgain: false
     }
 
     componentDidMount = () => {
@@ -198,7 +200,8 @@ class AdminSignUpDialog extends Component {
                 infoText: {
                     'message': 'Verfication email sent, please check inbox',
                     'type': 'success'
-                }
+                },
+                showEmailTryAgain: true
             })
         }).catch(responseData => {
             this.setState({
@@ -213,7 +216,7 @@ class AdminSignUpDialog extends Component {
         sendVerificationCodeAgain().then(response => {
             this.setState({
                 infoText: {
-                    'message': 'Verfication email sent, please check inbox',
+                    'message': 'Verfication email sent again, please check inbox',
                     'type': 'success'
                 }
             })
@@ -256,7 +259,8 @@ class AdminSignUpDialog extends Component {
                 infoText: {
                     'message': 'Verfication sms sent, please check inbox',
                     'type': 'success'
-                }
+                },
+                showPhoneTryAgain: true
             })
         }).catch(responseData => {
             this.setState({
@@ -271,7 +275,7 @@ class AdminSignUpDialog extends Component {
         sendPhoneVerificationCodeAgain().then(response => {
             this.setState({
                 infoText: {
-                    'message': 'Verfication sms sent, please check inbox',
+                    'message': 'Verfication sms sent again, please check inbox',
                     'type': 'success'
                 }
             })
@@ -354,12 +358,14 @@ class AdminSignUpDialog extends Component {
                                     errorState={this.state.errorState}
                                     sendCode={this.sendVerificationCode}
                                     sendCodeAgain={this.sendVerificationCodeAgain}
+                                    showEmailTryAgain={this.state.showEmailTryAgain}
                                 />
                                 <MobileSection
                                     onInputChange={this.onInputChange}
                                     errorState={this.state.errorState}
                                     sendCode={this.sendPhoneVerificationCode}
                                     sendCodeAgain={this.sendPhoneVerificationCodeAgain}
+                                    showPhoneTryAgain={this.state.showPhoneTryAgain}
                                 />
                                 <DocumentsSection
                                     addSignupImage={this.addSignupImage}

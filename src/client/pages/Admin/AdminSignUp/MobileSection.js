@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 
 import TextField from 'components/ui/TextField'
 import PhoneNumberField from 'components/ui/PhoneNumberField'
@@ -39,8 +39,14 @@ export default class MobileSection extends Component {
                         </button>
                     </div> */}
                 </div>
-                <div className="section-title">Didn't get the code?</div>
-                <div className="btn btn-link try-again-button" onClick={this.props.sendCodeAgain}> Try Again </div>
+                {
+                    this.props.showPhoneTryAgain && (
+                        <Fragment>
+                            <div className="section-title">Didn't get the code or code is expired?</div>
+                            <div className="btn btn-link try-again-button" onClick={this.props.sendCodeAgain}> Send SMS again </div>
+                        </Fragment>
+                    )
+                }
                 <br />
             </div>
         )

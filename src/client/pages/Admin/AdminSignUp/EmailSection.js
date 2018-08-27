@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 
 import TextField from 'components/ui/TextField'
 
@@ -8,7 +8,8 @@ export default class EmailSection extends Component {
             errorState,
             onInputChange,
             sendCode,
-            sendCodeAgain
+            sendCodeAgain,
+            showEmailTryAgain
         } = this.props
         return (
             <div className="signup-section email-section">
@@ -49,8 +50,14 @@ export default class EmailSection extends Component {
                         </button>
                     </div> */}
                 </div>
-                <div className="section-title">Didn't get the code?</div>
-                <div className="btn btn-link try-again-button" onClick={sendCodeAgain}> Try Again </div>
+                {
+                    showEmailTryAgain && (
+                        <Fragment>
+                            <div className="section-title">Didn't get the code or code is expired?</div>
+                            <div className="btn btn-link try-again-button" onClick={sendCodeAgain}> Send email again </div>
+                        </Fragment>
+                    )
+                }
                 <br />
             </div>
         )
