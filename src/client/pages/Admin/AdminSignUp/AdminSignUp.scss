@@ -167,6 +167,9 @@ $footer-btn-color: $admin-active-tab-color;
                 box-shadow: none;
             }
         }
+        .search-input {
+            padding: $dropdown-item-padding-y $dropdown-item-padding-x;
+        }
     }
 
     .incode-dropdown-group {

@@ -18,7 +18,10 @@ const CountryDropdown = props => {
                     {props.selectedCountry ? props.selectedCountry : 'Country'}
                 </button>
                 <div className="dropdown-menu dropdown-menu-right">
-                    {COUNTRIES.map((item, i) => (
+                    <div className='search-input'>
+                        <TextField id='countrySearch' label='Search here' onChange={props.onSearchInputChange} />
+                    </div>
+                    {props.countries.map((item, i) => (
                         <div
                             key={i}
                             className="dropdown-item"
@@ -34,6 +37,16 @@ const CountryDropdown = props => {
 }
 
 export default class NameAndAddressSection extends Component {
+    state = {
+        countries: COUNTRIES
+    }
+
+    onSearchInputChange = (id, value) => {
+        this.setState({
+            countries: COUNTRIES.filter(x => x.toLowerCase().startsWith(value.toLowerCase()))
+        })
+    }
+
     render() {
         const {
             errorState,
@@ -76,6 +89,8 @@ export default class NameAndAddressSection extends Component {
                             selectedCountry={this.props.selectedCountry}
                             onCountrySelect={this.props.onCountrySelect}
                             errorState={errorState.country}
+                            countries={this.state.countries}
+                            onSearchInputChange={this.onSearchInputChange}
                         />
                     </div>
                 </div>
