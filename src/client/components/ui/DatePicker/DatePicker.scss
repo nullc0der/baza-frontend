@@ -19,4 +19,13 @@
             }
         }
     }
+    .calendar-toggle {
+        position: absolute;
+        top: 15px;
+        right: 0;
+        cursor: pointer;
+        i {
+            font-size: 14px;
+        }
+    }
 }
