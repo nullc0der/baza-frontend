@@ -99,6 +99,9 @@ $footer-btn-color: $admin-active-tab-color;
     }
     .submit-button {
         border-radius: 0;
+        &:active {
+            background-color: darken($footer-btn-color, 10%);
+        }
     }
     .skip-button {
         position: absolute;
