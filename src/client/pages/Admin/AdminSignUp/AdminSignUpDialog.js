@@ -5,6 +5,7 @@ import { connect } from 'react-redux'
 import { push } from 'react-router-redux'
 import isEqual from 'lodash/isEqual'
 import get from 'lodash/get'
+import includes from 'lodash/includes'
 
 import SwipeableViews from 'react-swipeable-views'
 
@@ -78,11 +79,15 @@ class AdminSignUpDialog extends Component {
     }
 
     switchTab = (tab, selectedIndex) => {
-        this.setState({ selectedIndex })
+        if (includes(this.state.completedTabs, 0)) {
+            this.setState({ selectedIndex })
+        }
     }
 
     changeSwipeIndex = selectedIndex => {
-        this.setState({ selectedIndex })
+        if (includes(this.state.completedTabs, 0)) {
+            this.setState({ selectedIndex })
+        }
     }
 
     onSkipClick = () => {
@@ -346,7 +351,8 @@ class AdminSignUpDialog extends Component {
                             />
                             <SwipeableViews
                                 index={this.state.selectedIndex}
-                                onChangeIndex={this.changeSwipeIndex}>
+                                onChangeIndex={this.changeSwipeIndex}
+                                disabled={!(includes(this.state.completedTabs, 0))}>
                                 <NameAddressSection
                                     selectedCountry={this.state.selectedCountry}
                                     onCountrySelect={this.onCountrySelect}
