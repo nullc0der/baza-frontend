@@ -338,7 +338,7 @@ class AdminSignUpDialog extends Component {
                 className={cx}
                 onRequestClose={this.closeAdminSignUpDialog}>
                 {
-                    isEqual(this.state.completedTabs, [0, 1, 2, 3]) ?
+                    isEqual(this.state.completedTabs.sort(), [0, 1, 2, 3]) ?
                         <FinishSection
                             status={this.state.status}
                         /> :
