@@ -111,6 +111,9 @@ $footer-btn-color: $admin-active-tab-color;
         top: 0;
         background-color: darken($footer-btn-color, 10%);
         border-radius: 0 24px 24px 0;
+        &:active {
+            background-color: $footer-btn-color;
+        }
     }
 }
 
@@ -264,7 +267,7 @@ $footer-btn-color: $admin-active-tab-color;
     justify-content: center;
     position: relative;
     .infos {
-        height: 300px;
+        min-height: 300px;
     }
     .attention-btn {
         border-radius: 32px;
