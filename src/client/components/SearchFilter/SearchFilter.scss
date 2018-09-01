@@ -1,0 +1,141 @@
+@import 'ui';
+
+:local(.container) {
+    .header-search-wrapper {
+        ::placeholder {
+            color: $dark;
+        }
+	    margin-right: 10px;
+	    position: relative;
+        width: 450px;
+        @include media-breakpoint-down(md, $grid-breakpoints) {
+            width: 300px;
+        }
+	    .header-search-input {
+            position: absolute;
+            right: 0;
+		    width: 75%;
+		    height: 33px;
+		    padding: 10px;
+		    background-color: #fff;
+		    color: $dark;
+		    border: 1px solid $dark;
+		    border-radius: 20px;
+		    box-shadow: none;
+		    font-size: 12px;
+		    transition: width 0.3s ease-in-out;
+            &:focus {
+                outline: none;
+                width: 100%;
+            }
+	    }
+	    .header-search-button {
+		    background: none;
+		    border: none;
+            color: $dark;
+            position: absolute;
+            top: 3px;
+            right: 5px;
+	    }
+    }
+    .header-button {
+	    width: 55px;
+	    height: 33px;
+	    color: $dark;
+	    margin-right: 5px;
+	    background: none;
+	    border: 1px solid $dark;
+    	border-radius: 20px;
+        box-shadow: none;
+        cursor: pointer;
+	    &:focus {
+		    outline: none;
+	    }
+    }
+    .filter-options {
+	    background: $lighter;
+	    height: 100%;
+	    width: 230px;
+	    position: fixed;
+	    right: -230px;
+	    top: 110px;
+	    box-shadow: 0 2px 3px 0 rgba(0,0,0,0.09);
+	    z-index: 1000;
+	    transition: right 0.3s ease-in-out;
+	    .filter-options-header {
+		    padding: 10px;
+		    text-align: center;
+		    border-bottom: 1px solid $light;
+		    color: $dark;
+	    }
+	    .filter-button {
+		    font-size: 11px;
+		    font-weight: bold;
+		    line-height: 2.5;
+		    float: left;
+		    width: 95px;
+		    height: 28.5px;
+		    margin: 5px;
+		    background-color: $dark;
+		    text-align: center;
+		    color: $light;
+		    border-radius: 28px;
+		    text-transform: capitalize;
+		    transition: all 0.3s ease;
+		    cursor: pointer;
+		    transform: translate(0, 0);
+		    &:active {
+			    outline: none;
+		    }
+		    &:hover {
+			    box-shadow: 1px 1px 10px rgba(0,0,0,0.23);
+            }
+            &.single {
+                width: 200px;
+            }
+            &.is-disabled {
+                background-color: $light;
+		        color: $dark;
+            }
+            &.over {
+                background-color: $success;
+            }
+	    }
+	    .selected-filters {
+		    padding: 20px 10px;
+		    &:hover {
+			    &~.arrows-wrapper {
+				    .arrows {
+					    transform: rotate(180deg);
+				    }
+			    }
+		    }
+	    }
+	    .not-selected-filters {
+		    padding: 20px 10px;
+	    }
+	    .arrows-wrapper {
+		    width: 100%;
+		    position: relative;
+		    border-bottom: 1px solid $light;
+	    }
+	    .arrows {
+            position: absolute;
+            top: -15px;
+            left: 100px;
+		    height: 30px;
+	    	width: 30px;
+		    border-radius: 50%;
+		    font-size: 20px;
+		    background-color: $light;
+		    color: $dark;
+		    text-align: center;
+		    line-height: 1.5;
+		    transition: all 0.5s ease;
+		    box-shadow: 1px 1px 10px rgba(0,0,0,0.23);
+        }
+        &.is-open {
+            right: 0;
+        }
+    }
+}
