@@ -14,12 +14,8 @@ export const saveAccount = data => {
 }
 
 export const fetchAccount = id => {
-    // mock api
-    return Promise.resolve({ data: id })
-
-    // real api
-    // const url = `/distribution-signup/${id}`
-    // return jsonAPI(api => api.get(url))
+    const url = `/bazasignup/signup/${id}/`
+    return jsonAPI(api => api.get(url))
 }
 
 export const deletePhoto = photoId => {
@@ -48,7 +44,6 @@ export const deleteDocument = documentId => {
     // return jsonAPI(api => api.delete(url))
 }
 
-
 export const checkCompletedSteps = () => {
     return jsonAPI(api => api.get('/bazasignup/checksteps/'))
 }
@@ -65,34 +60,40 @@ export const submitNameAddress = (
     zipCode,
     birthDate
 ) => {
-    return jsonAPI(api => api.post('/bazasignup/userinfotab/', {
-        'first_name': firstName,
-        'last_name': lastName,
-        'referral_code': referralCode,
-        'country': country,
-        'city': city,
-        'state': state,
-        'house_number': houseNumber,
-        'street_name': streetName,
-        'zip_code': zipCode,
-        'birthdate': birthDate
-    }))
+    return jsonAPI(api =>
+        api.post('/bazasignup/userinfotab/', {
+            first_name: firstName,
+            last_name: lastName,
+            referral_code: referralCode,
+            country: country,
+            city: city,
+            state: state,
+            house_number: houseNumber,
+            street_name: streetName,
+            zip_code: zipCode,
+            birthdate: birthDate
+        })
+    )
 }
 
 export const skipEmail = () => {
     return jsonAPI(api => api.post('/bazasignup/skipemail/'))
 }
 
-export const sendVerificationCode = (email) => {
-    return jsonAPI(api => api.post('/bazasignup/sendverificationcode/', {
-        email: email
-    }))
+export const sendVerificationCode = email => {
+    return jsonAPI(api =>
+        api.post('/bazasignup/sendverificationcode/', {
+            email: email
+        })
+    )
 }
 
-export const validateEmailCode = (code) => {
-    return jsonAPI(api => api.post('/bazasignup/validateemailcode/', {
-        code: code
-    }))
+export const validateEmailCode = code => {
+    return jsonAPI(api =>
+        api.post('/bazasignup/validateemailcode/', {
+            code: code
+        })
+    )
 }
 
 export const sendVerificationCodeAgain = () => {
@@ -103,24 +104,34 @@ export const skipPhone = () => {
     return jsonAPI(api => api.post('/bazasignup/skipphone/'))
 }
 
-export const sendPhoneVerificationCode = (phone) => {
-    return jsonAPI(api => api.post('/bazasignup/sendphoneverificationcode/', {
-        phone
-    }))
+export const sendPhoneVerificationCode = phone => {
+    return jsonAPI(api =>
+        api.post('/bazasignup/sendphoneverificationcode/', {
+            phone
+        })
+    )
 }
 
-export const validatePhoneCode = (code) => {
-    return jsonAPI(api => api.post('/bazasignup/validatesmscode/', {
-        code
-    }))
+export const validatePhoneCode = code => {
+    return jsonAPI(api =>
+        api.post('/bazasignup/validatesmscode/', {
+            code
+        })
+    )
 }
 
 export const sendPhoneVerificationCodeAgain = () => {
-    return jsonAPI(api => api.post('/bazasignup/sendphoneverificationcodeagain/'))
+    return jsonAPI(api =>
+        api.post('/bazasignup/sendphoneverificationcodeagain/')
+    )
 }
 
-export const uploadSignupImage = (image) => {
+export const uploadSignupImage = image => {
     const data = new FormData()
     data.append('image', image)
     return formAPI(api => api.post('/bazasignup/uploadsignupimage/', data))
+}
+
+export const fetchSignupsList = () => {
+    return jsonAPI(api => api.get('/bazasignup/signups/'))
 }

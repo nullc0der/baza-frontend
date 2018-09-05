@@ -9,87 +9,111 @@ import s from './DistributionSignUp.scss'
 
 import ProfileDetails from './ProfileDetails'
 import ProfilePhotos from './ProfilePhotos'
-import ProfileDocuments from './ProfileDocuments'
+// import ProfileDocuments from './ProfileDocuments'
 import DatabaseInformation from './DatabaseInformation'
 import AccountDetails from './AccountDetails'
-import EditModeBar from './EditModeBar'
+// import EditModeBar from './EditModeBar'
+import DistributionSignUpHeader from './DistributionSignupHeader'
 
 import { actions as distributionActions } from 'store/DistributionSignUp'
 
 class DistributionSignUpPage extends Component {
-  toggleEditMode = force => {
-    this.props.toggleEditMode(force)
-  }
+    state = {
+        data: null
+    }
 
-  onSaveEdits = () => {
-    // save the store
-    console.log('will save edits now')
-    this.props.saveAccount().then(this.props.toggleEditMode)
-  }
+    componentDidUpdate(prevProps, prevState) {
+        if (
+            prevProps.selectedID !== this.props.selectedID ||
+            prevProps.datas !== this.props.datas
+        ) {
+            const hasData = this.props.datas.filter(
+                x => x.id_ === this.props.selectedID
+            )
+            if (!hasData.length) {
+                this.props.fetchAccount(this.props.selectedID)
+            } else {
+                this.setState({
+                    data: hasData[0]
+                })
+            }
+        }
+    }
 
-  onDiscardEdits = () => {
-    // discard the edits
-    console.log('will discard the edits')
-    this.props.discardEdits().then(this.props.toggleEditMode)
-  }
+    // toggleEditMode = force => {
+    //     this.props.toggleEditMode(force)
+    // }
 
-  render() {
-    const { editMode } = this.props
+    // onSaveEdits = () => {
+    //     // save the store
+    //     console.log('will save edits now')
+    //     this.props.saveAccount().then(this.props.toggleEditMode)
+    // }
 
-    const cx = classnames(s.container)
+    // onDiscardEdits = () => {
+    //     // discard the edits
+    //     console.log('will discard the edits')
+    //     this.props.discardEdits().then(this.props.toggleEditMode)
+    // }
 
-    return (
-      <div className={cx}>
-        {editMode && (
-          <EditModeBar
-            onEditClick={this.onSaveEdits}
-            onDiscardClick={this.onDiscardEdits}
-          />
-        )}
-        <ProfileDetails
-          editMode={editMode}
-          onRequestRefresh={this.props.fetchAccount}
-          showEditMode={e => this.props.toggleEditMode(true)}
-        />
-        <ProfilePhotos editMode={editMode} />
-        <ProfileDocuments editMode={editMode} />
-        <DatabaseInformation
-          editMode={editMode}
-          title="USER DATABASE INFORMATION"
-          primary
-          valid
-          geoIPValid
-        />
-        <DatabaseInformation
-          editMode={editMode}
-          title="INFORMATION FROM GEOIP DATABASE"
-          geoIPValid
-        />
-        <AccountDetails editMode={editMode} />
-      </div>
-    )
-  }
+    render() {
+        const { editMode } = this.props
+
+        const cx = classnames(s.signupdetails)
+
+        const ADDRESSES_TITLES = {
+            user_input: 'USER_INPUTED_ADDRESS',
+            twilio_db: 'ADDRESS_FETCHED_FROM_TWILIO',
+            geoip_db: 'ADDRESS_FETCHED_FROM_GEOIP'
+        }
+
+        return this.state.data ? (
+            <div className={cx}>
+                {/* {editMode && (
+                    <EditModeBar
+                        onEditClick={this.onSaveEdits}
+                        onDiscardClick={this.onDiscardEdits}
+                    />
+                )} */}
+                <DistributionSignUpHeader data={this.state.data} />
+                <ProfileDetails editMode={editMode} data={this.state.data} />
+                <ProfilePhotos editMode={editMode} data={this.state.data} />
+                {/* <ProfileDocuments editMode={editMode} /> */}
+                {this.state.data.user_addresses.map((item, i) => (
+                    <DatabaseInformation
+                        key={i}
+                        editMode={editMode}
+                        title={ADDRESSES_TITLES[item.address_type]}
+                        address={item}
+                    />
+                ))}
+                <AccountDetails editMode={editMode} data={this.state.data} />
+            </div>
+        ) : null
+    }
 }
 
 const mapStateToProps = state => ({
-  editMode: state.DistributionSignUp.editMode
+    datas: state.DistributionSignUp.datas,
+    selectedID: state.DistributionSignUp.selectedID
 })
 
 const mapDispatchToProps = dispatch => ({
-  toggleEditMode(force) {
-    return dispatch(distributionActions.toggleEditMode(force))
-  },
-  fetchAccount() {
-    return dispatch(distributionActions.fetchAccount())
-  },
-  saveAccount() {
-    return dispatch(distributionActions.saveAccount())
-  },
-  discardEdits() {
-    return dispatch(distributionActions.discardEdits())
-  }
+    // toggleEditMode(force) {
+    //     return dispatch(distributionActions.toggleEditMode(force))
+    // },
+    fetchAccount(id) {
+        return dispatch(distributionActions.fetchAccount(id))
+    }
+    // saveAccount() {
+    //     return dispatch(distributionActions.saveAccount())
+    // },
+    // discardEdits() {
+    //     return dispatch(distributionActions.discardEdits())
+    // }
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(
-  DistributionSignUpPage
-)
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(DistributionSignUpPage)
