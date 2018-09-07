@@ -12,7 +12,7 @@ class NotificationBar extends Component {
         const cx = classnames(s.container, 'flex-horizontal', 'a-center', className)
         return (
             <div className={cx}>
-                <Link to="#!baza-signup">Signup for baza distribution or check your application status</Link>
+                <Link to="#!baza-signup">Signup for baza distribution or check your application status <i className="fa fa-arrow-right"></i></Link>
             </div>
         )
     }

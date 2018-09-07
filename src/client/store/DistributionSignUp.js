@@ -23,10 +23,10 @@ const toggleEditMode = force => ({
 })
 
 const SAVE_ACCOUNT = createAction('SAVE_ACCOUNT')
-const saveAccount = () => (dispatch, getState) => {
+const saveAccount = (id, data) => dispatch => {
     dispatch({ type: SAVE_ACCOUNT })
-    const data = getState().DistributionSignUp.data
-    return DispatchAPI(dispatch, DistributionSignUpAPI.saveAccount(data), {
+
+    return DispatchAPI(dispatch, DistributionSignUpAPI.saveAccount(id, data), {
         success: saveAccountSuccess,
         failure: saveAccountFailure
     })
@@ -202,12 +202,36 @@ export default function DistributionSignUpReducer(
             return { ...state, isLoading: true, hasError: false }
 
         case FETCH_ACCOUNT_SUCCESS:
-        case SAVE_ACCOUNT_SUCCESS:
             return {
                 ...state,
                 isLoading: false,
                 datas: [...state.datas, action.data],
-                _fetchedData: [...state.datas, ...action.data]
+                _fetchedData: [...state.datas, action.data]
+            }
+        case SAVE_ACCOUNT_SUCCESS:
+            return {
+                ...state,
+                isLoading: false,
+                datas: state.datas.map(
+                    x =>
+                        x.id_ === action.data.id_ ? { ...x, ...action.data } : x
+                ),
+                _fetchedData: state.datas.map(
+                    x =>
+                        x.id_ === action.data.id_ ? { ...x, ...action.data } : x
+                ),
+                signupList: state.signupList.map(
+                    x =>
+                        x.id_ === action.data.id_
+                            ? {
+                                  ...x,
+                                  status:
+                                      'status' in action.data
+                                          ? action.data.status
+                                          : x.status
+                              }
+                            : x
+                )
             }
 
         case FETCH_ACCOUNT_FAILURE:

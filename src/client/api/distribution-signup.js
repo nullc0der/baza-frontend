@@ -1,16 +1,8 @@
 import { jsonAPI, formAPI } from './base' //eslint-disable-line no-unused-vars
 
-export const saveAccount = data => {
-    // mock api
-    return Promise.resolve({ data })
-
-    // real api
-    // const { id, accountData } = data
-
-    // const method = id ? 'put' : 'post'
-    // const url = '/distribution-signup' + (id ? `/${id}` : '')
-
-    // return jsonAPI(api => api[method](url, accountData))
+export const saveAccount = (id, data) => {
+    const url = `/bazasignup/signup/${id}/`
+    return jsonAPI(api => api.post(url, data))
 }
 
 export const fetchAccount = id => {

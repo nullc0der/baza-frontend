@@ -8,5 +8,15 @@
     a {
         color: $light;
         text-decoration: none;
+        i {
+            margin-left: 2px;
+            font-size: 12px;
+        }
+        @include media-breakpoint-down(md, $grid-breakpoints) {
+            font-size: 12px;
+            i {
+                font-size: 10px;
+            }
+        }
     }
 }

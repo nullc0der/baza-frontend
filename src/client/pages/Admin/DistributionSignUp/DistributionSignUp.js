@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import classnames from 'classnames'
 
 import { connect } from 'react-redux'
@@ -23,10 +23,7 @@ class DistributionSignUpPage extends Component {
     }
 
     componentDidUpdate(prevProps, prevState) {
-        if (
-            prevProps.selectedID !== this.props.selectedID ||
-            prevProps.datas !== this.props.datas
-        ) {
+        if (prevProps.selectedID !== this.props.selectedID) {
             const hasData = this.props.datas.filter(
                 x => x.id_ === this.props.selectedID
             )
@@ -38,6 +35,18 @@ class DistributionSignUpPage extends Component {
                 })
             }
         }
+        if (prevProps.datas !== this.props.datas) {
+            const data = this.props.datas.filter(
+                x => x.id_ === this.props.selectedID
+            )
+            this.setState({
+                data: data[0]
+            })
+        }
+    }
+
+    onBackButtonClick = () => {
+        $('.' + s.signupdetails).removeClass('is-open')
     }
 
     // toggleEditMode = force => {
@@ -56,6 +65,13 @@ class DistributionSignUpPage extends Component {
     //     this.props.discardEdits().then(this.props.toggleEditMode)
     // }
 
+    onChangeToggles = (toggleName, value) => {
+        const data = {
+            [toggleName]: value.toLowerCase()
+        }
+        this.props.saveAccount(this.props.selectedID, data)
+    }
+
     render() {
         const { editMode } = this.props
 
@@ -67,29 +83,46 @@ class DistributionSignUpPage extends Component {
             geoip_db: 'ADDRESS_FETCHED_FROM_GEOIP'
         }
 
-        return this.state.data ? (
+        return (
             <div className={cx}>
-                {/* {editMode && (
+                {this.state.data && (
+                    <Fragment>
+                        {/* {editMode && (
                     <EditModeBar
                         onEditClick={this.onSaveEdits}
                         onDiscardClick={this.onDiscardEdits}
                     />
                 )} */}
-                <DistributionSignUpHeader data={this.state.data} />
-                <ProfileDetails editMode={editMode} data={this.state.data} />
-                <ProfilePhotos editMode={editMode} data={this.state.data} />
-                {/* <ProfileDocuments editMode={editMode} /> */}
-                {this.state.data.user_addresses.map((item, i) => (
-                    <DatabaseInformation
-                        key={i}
-                        editMode={editMode}
-                        title={ADDRESSES_TITLES[item.address_type]}
-                        address={item}
-                    />
-                ))}
-                <AccountDetails editMode={editMode} data={this.state.data} />
+                        <DistributionSignUpHeader
+                            data={this.state.data}
+                            onBackButtonClick={this.onBackButtonClick}
+                        />
+                        <ProfileDetails
+                            editMode={editMode}
+                            data={this.state.data}
+                        />
+                        <ProfilePhotos
+                            editMode={editMode}
+                            data={this.state.data}
+                        />
+                        {/* <ProfileDocuments editMode={editMode} /> */}
+                        {this.state.data.user_addresses.map((item, i) => (
+                            <DatabaseInformation
+                                key={i}
+                                editMode={editMode}
+                                title={ADDRESSES_TITLES[item.address_type]}
+                                address={item}
+                            />
+                        ))}
+                        <AccountDetails
+                            editMode={editMode}
+                            data={this.state.data}
+                            onChangeToggles={this.onChangeToggles}
+                        />
+                    </Fragment>
+                )}
             </div>
-        ) : null
+        )
     }
 }
 
@@ -104,10 +137,10 @@ const mapDispatchToProps = dispatch => ({
     // },
     fetchAccount(id) {
         return dispatch(distributionActions.fetchAccount(id))
+    },
+    saveAccount(id, data) {
+        return dispatch(distributionActions.saveAccount(id, data))
     }
-    // saveAccount() {
-    //     return dispatch(distributionActions.saveAccount())
-    // },
     // discardEdits() {
     //     return dispatch(distributionActions.discardEdits())
     // }

@@ -9,7 +9,7 @@ const AccountDetail = ({ label, children }) => (
 
 export default class AccountDetails extends Component {
     render() {
-        const { data } = this.props
+        const { data, onChangeToggles } = this.props
         const STATUS = ['PENDING', 'APPROVED', 'DECLINED', 'INCOMPLETE']
         return (
             <div className="signup-details-section account-details-section">
@@ -28,7 +28,12 @@ export default class AccountDetails extends Component {
                         </a>
                         <div className="dropdown-menu dropdown-menu-right">
                             {STATUS.map((item, i) => (
-                                <div key={i} className="dropdown-item">
+                                <div
+                                    key={i}
+                                    className="dropdown-item"
+                                    onClick={() =>
+                                        onChangeToggles('status', item)
+                                    }>
                                     {item}
                                 </div>
                             ))}
@@ -64,7 +69,12 @@ export default class AccountDetails extends Component {
                         </a>
                         <div className="dropdown-menu dropdown-menu-right">
                             {['TRUE', 'FALSE'].map((item, i) => (
-                                <div key={i} className="dropdown-item">
+                                <div
+                                    key={i}
+                                    className="dropdown-item"
+                                    onClick={() =>
+                                        onChangeToggles('on_distribution', item)
+                                    }>
                                     {item}
                                 </div>
                             ))}

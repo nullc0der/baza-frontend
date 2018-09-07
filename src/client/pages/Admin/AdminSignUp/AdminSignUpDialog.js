@@ -52,8 +52,8 @@ class AdminSignUpDialog extends Component {
         inputValues: {},
         errorState: {},
         infoText: {
-            'message': '',
-            'type': 'success'
+            message: '',
+            type: 'success'
         },
         signupImage: null,
         showEmailTryAgain: false,
@@ -64,18 +64,24 @@ class AdminSignUpDialog extends Component {
         checkCompletedSteps()
             .then(response => {
                 this.setState({
-                    completedTabs: response.data.completed_steps.map(x => Number(x)),
+                    completedTabs: response.data.completed_steps.map(x =>
+                        Number(x)
+                    ),
                     status: response.data.status,
                     selectedIndex: response.data.next_step.index,
                     isSkippable: response.data.next_step.is_skippable
                 })
             })
-            .catch(responseData => { console.log(responseData) })
+            .catch(responseData => {
+                console.log(responseData)
+            })
     }
 
     closeAdminSignUpDialog = () => {
         const { pathname, hash } = this.props.location
-        this.props.navigate(pathname + (hash || '').replace('#!baza-signup', ''))
+        this.props.navigate(
+            pathname + (hash || '').replace('#!baza-signup', '')
+        )
     }
 
     switchTab = (tab, selectedIndex) => {
@@ -100,7 +106,7 @@ class AdminSignUpDialog extends Component {
                 this.skipPhone()
                 break
             default:
-                console.log("Nothing matched")
+                console.log('Nothing matched')
         }
     }
 
@@ -119,14 +125,14 @@ class AdminSignUpDialog extends Component {
                 this.submitSignupImage()
                 break
             default:
-                console.log("Nothing matched")
+                console.log('Nothing matched')
         }
     }
     toggleDonorStatus = () => {
         this.setState({ isDonor: !this.state.isDonor })
     }
 
-    onCountrySelect = (item) => {
+    onCountrySelect = item => {
         this.setState({
             selectedCountry: item
         })
@@ -141,15 +147,15 @@ class AdminSignUpDialog extends Component {
         }))
     }
 
-    setStepData = (data) => {
+    setStepData = data => {
         this.setState({
             completedTabs: data.completed_steps.map(x => Number(x)),
             status: data.status,
             selectedIndex: data.next_step.index,
             isSkippable: data.next_step.is_skippable,
             infoText: {
-                'message': '',
-                'type': 'success'
+                message: '',
+                type: 'success'
             }
         })
     }
@@ -166,145 +172,169 @@ class AdminSignUpDialog extends Component {
             this.state.inputValues.streetName,
             this.state.inputValues.zipCode,
             this.state.inputValues.birthDate
-        ).then(response => {
-            this.setStepData(response.data)
-        }).catch(responseData => {
-            this.setState({
-                errorState: {
-                    firstName: get(responseData, 'first_name', null),
-                    lastName: get(responseData, 'last_name', null),
-                    refCode: get(responseData, 'referral_code', null),
-                    country: get(responseData, 'country', null),
-                    city: get(responseData, 'city', null),
-                    state: get(responseData, 'state', null),
-                    houseNo: get(responseData, 'house_number', null),
-                    streetName: get(responseData, 'street_name', null),
-                    zipCode: get(responseData, 'zip_code', null),
-                    birthDate: get(responseData, 'birthdate', null)
-                }
+        )
+            .then(response => {
+                this.setStepData(response.data)
             })
-        })
+            .catch(responseData => {
+                this.setState({
+                    errorState: {
+                        firstName: get(responseData, 'first_name', null),
+                        lastName: get(responseData, 'last_name', null),
+                        refCode: get(responseData, 'referral_code', null),
+                        country: get(responseData, 'country', null),
+                        city: get(responseData, 'city', null),
+                        state: get(responseData, 'state', null),
+                        houseNo: get(responseData, 'house_number', null),
+                        streetName: get(responseData, 'street_name', null),
+                        zipCode: get(responseData, 'zip_code', null),
+                        birthDate: get(responseData, 'birthdate', null)
+                    }
+                })
+            })
     }
 
     skipEmail = () => {
-        skipEmail().then(response => {
-            this.setStepData(response.data)
-        }).catch((responseData => {
-            this.setState({
-                infoText: {
-                    'message': 'Unknown error occured',
-                    'type': 'danger'
-                }
+        skipEmail()
+            .then(response => {
+                this.setStepData(response.data)
             })
-        }))
+            .catch(responseData => {
+                this.setState({
+                    infoText: {
+                        message: 'Unknown error occured',
+                        type: 'danger'
+                    }
+                })
+            })
     }
 
     sendVerificationCode = () => {
-        sendVerificationCode(this.state.inputValues.email).then(response => {
-            this.setState({
-                infoText: {
-                    'message': 'Verfication email sent, please check inbox',
-                    'type': 'success'
-                },
-                showEmailTryAgain: true
+        sendVerificationCode(this.state.inputValues.email)
+            .then(response => {
+                this.setState({
+                    infoText: {
+                        message: 'Verfication email sent, please check inbox',
+                        type: 'success'
+                    },
+                    showEmailTryAgain: true
+                })
             })
-        }).catch(responseData => {
-            this.setState({
-                errorState: {
-                    email: get(responseData, 'email', null)
-                }
+            .catch(responseData => {
+                this.setState({
+                    errorState: {
+                        email: get(responseData, 'email', null)
+                    }
+                })
             })
-        })
     }
 
     sendVerificationCodeAgain = () => {
-        sendVerificationCodeAgain().then(response => {
-            this.setState({
-                infoText: {
-                    'message': 'Verfication email sent again, please check inbox',
-                    'type': 'success'
-                }
+        sendVerificationCodeAgain()
+            .then(response => {
+                this.setState({
+                    infoText: {
+                        message:
+                            'Verfication email sent again, please check inbox',
+                        type: 'success'
+                    }
+                })
             })
-        }).catch(responseData => this.setState({
-            infoText: {
-                'message': 'Unknown error occured',
-                'type': 'danger'
-            }
-        }))
+            .catch(responseData =>
+                this.setState({
+                    infoText: {
+                        message: 'Unknown error occured',
+                        type: 'danger'
+                    }
+                })
+            )
     }
 
     submitVerificationCode = () => {
-        validateEmailCode(this.state.inputValues.verificationCode).then(response => {
-            this.setStepData(response.data)
-        }).catch((responseData => {
-            this.setState({
-                errorState: {
-                    verificationCode: get(responseData, 'code', null)
-                }
+        validateEmailCode(this.state.inputValues.verificationCode)
+            .then(response => {
+                this.setStepData(response.data)
             })
-        }))
+            .catch(responseData => {
+                this.setState({
+                    errorState: {
+                        verificationCode: get(responseData, 'code', null)
+                    }
+                })
+            })
     }
 
     skipPhone = () => {
-        skipPhone().then(response => {
-            this.setStepData(response.data)
-        }).catch((responseData => {
-            this.setState({
-                infoText: {
-                    'message': 'Unknown error occured',
-                    'type': 'danger'
-                }
+        skipPhone()
+            .then(response => {
+                this.setStepData(response.data)
             })
-        }))
+            .catch(responseData => {
+                this.setState({
+                    infoText: {
+                        message: 'Unknown error occured',
+                        type: 'danger'
+                    }
+                })
+            })
     }
 
     sendPhoneVerificationCode = () => {
-        sendPhoneVerificationCode(this.state.inputValues.phoneNumber).then(response => {
-            this.setState({
-                infoText: {
-                    'message': 'Verfication sms sent, please check inbox',
-                    'type': 'success'
-                },
-                showPhoneTryAgain: true
+        sendPhoneVerificationCode(this.state.inputValues.phoneNumber)
+            .then(response => {
+                this.setState({
+                    infoText: {
+                        message: 'Verfication sms sent, please check inbox',
+                        type: 'success'
+                    },
+                    showPhoneTryAgain: true
+                })
             })
-        }).catch(responseData => {
-            this.setState({
-                errorState: {
-                    phoneNumber: get(responseData, 'phone', null)
-                }
+            .catch(responseData => {
+                this.setState({
+                    errorState: {
+                        phoneNumber: get(responseData, 'phone', null)
+                    }
+                })
             })
-        })
     }
 
     sendPhoneVerificationCodeAgain = () => {
-        sendPhoneVerificationCodeAgain().then(response => {
-            this.setState({
-                infoText: {
-                    'message': 'Verfication sms sent again, please check inbox',
-                    'type': 'success'
-                }
+        sendPhoneVerificationCodeAgain()
+            .then(response => {
+                this.setState({
+                    infoText: {
+                        message:
+                            'Verfication sms sent again, please check inbox',
+                        type: 'success'
+                    }
+                })
             })
-        }).catch(responseData => this.setState({
-            infoText: {
-                'message': 'Unknown error occured',
-                'type': 'danger'
-            }
-        }))
+            .catch(responseData =>
+                this.setState({
+                    infoText: {
+                        message: 'Unknown error occured',
+                        type: 'danger'
+                    }
+                })
+            )
     }
 
     submitPhoneVerificationCode = () => {
-        validatePhoneCode(this.state.inputValues.smsVerificationCode).then(response => {
-            this.setStepData(response.data)
-        }).catch((responseData => {
-            this.setState({
-                errorState: {
-                    smsVerificationCode: get(responseData, 'code', null)
-                }
+        validatePhoneCode(this.state.inputValues.smsVerificationCode)
+            .then(response => {
+                this.setStepData(response.data)
             })
-        }))
+            .catch(responseData => {
+                this.setState({
+                    errorState: {
+                        smsVerificationCode: get(responseData, 'code', null)
+                    }
+                })
+            })
     }
 
-    addSignupImage = (image) => {
+    addSignupImage = image => {
         this.setState({
             signupImage: image
         })
@@ -317,16 +347,18 @@ class AdminSignUpDialog extends Component {
     }
 
     submitSignupImage = () => {
-        uploadSignupImage(this.state.signupImage).then(response => {
-            this.setStepData(response.data)
-        }).catch(responseData => {
-            this.setState({
-                infoText: {
-                    'message': 'Unknown error occured',
-                    'type': 'danger'
-                }
+        uploadSignupImage(this.state.signupImage)
+            .then(response => {
+                this.setStepData(response.data)
             })
-        })
+            .catch(responseData => {
+                this.setState({
+                    infoText: {
+                        message: 'Unknown error occured',
+                        type: 'danger'
+                    }
+                })
+            })
     }
 
     render() {
@@ -337,57 +369,61 @@ class AdminSignUpDialog extends Component {
                 isOpen={true}
                 className={cx}
                 onRequestClose={this.closeAdminSignUpDialog}>
-                {
-                    isEqual(this.state.completedTabs.sort(), [0, 1, 2, 3]) ?
-                        <FinishSection
-                            status={this.state.status}
-                        /> :
-                        <Fragment>
-                            <AdminSignUpTabs
-                                completedTabs={this.state.completedTabs}
-                                errorTabs={this.state.errorTabs}
-                                selectedIndex={this.state.selectedIndex}
-                                onTabClick={this.switchTab}
+                {isEqual(this.state.completedTabs.sort(), [0, 1, 2, 3]) ? (
+                    <FinishSection
+                        status={this.state.status}
+                        isDonor={this.state.isDonor}
+                        toggleDonorStatus={this.toggleDonorStatus}
+                    />
+                ) : (
+                    <Fragment>
+                        <AdminSignUpTabs
+                            completedTabs={this.state.completedTabs}
+                            errorTabs={this.state.errorTabs}
+                            selectedIndex={this.state.selectedIndex}
+                            onTabClick={this.switchTab}
+                        />
+                        <SwipeableViews
+                            index={this.state.selectedIndex}
+                            onChangeIndex={this.changeSwipeIndex}
+                            disabled={!includes(this.state.completedTabs, 0)}>
+                            <NameAddressSection
+                                selectedCountry={this.state.selectedCountry}
+                                onCountrySelect={this.onCountrySelect}
+                                onInputChange={this.onInputChange}
+                                errorState={this.state.errorState}
                             />
-                            <SwipeableViews
-                                index={this.state.selectedIndex}
-                                onChangeIndex={this.changeSwipeIndex}
-                                disabled={!(includes(this.state.completedTabs, 0))}>
-                                <NameAddressSection
-                                    selectedCountry={this.state.selectedCountry}
-                                    onCountrySelect={this.onCountrySelect}
-                                    onInputChange={this.onInputChange}
-                                    errorState={this.state.errorState}
-                                />
-                                <EmailSection
-                                    onInputChange={this.onInputChange}
-                                    errorState={this.state.errorState}
-                                    sendCode={this.sendVerificationCode}
-                                    sendCodeAgain={this.sendVerificationCodeAgain}
-                                    showEmailTryAgain={this.state.showEmailTryAgain}
-                                />
-                                <MobileSection
-                                    onInputChange={this.onInputChange}
-                                    errorState={this.state.errorState}
-                                    sendCode={this.sendPhoneVerificationCode}
-                                    sendCodeAgain={this.sendPhoneVerificationCodeAgain}
-                                    showPhoneTryAgain={this.state.showPhoneTryAgain}
-                                />
-                                <DocumentsSection
-                                    addSignupImage={this.addSignupImage}
-                                    removeSignupImage={this.removeSignupImage}
-                                />
-                            </SwipeableViews>
-                            <AdminSignUpFooter
-                                infoText={this.state.infoText}
-                                isDonor={this.state.isDonor}
-                                showSkip={this.state.isSkippable}
-                                toggleDonorStatus={this.toggleDonorStatus}
-                                onSkipClick={this.onSkipClick}
-                                onSubmitClick={this.onSubmitClick}
+                            <EmailSection
+                                onInputChange={this.onInputChange}
+                                errorState={this.state.errorState}
+                                sendCode={this.sendVerificationCode}
+                                sendCodeAgain={this.sendVerificationCodeAgain}
+                                showEmailTryAgain={this.state.showEmailTryAgain}
                             />
-                        </Fragment>
-                }
+                            <MobileSection
+                                onInputChange={this.onInputChange}
+                                errorState={this.state.errorState}
+                                sendCode={this.sendPhoneVerificationCode}
+                                sendCodeAgain={
+                                    this.sendPhoneVerificationCodeAgain
+                                }
+                                showPhoneTryAgain={this.state.showPhoneTryAgain}
+                            />
+                            <DocumentsSection
+                                addSignupImage={this.addSignupImage}
+                                removeSignupImage={this.removeSignupImage}
+                            />
+                        </SwipeableViews>
+                        <AdminSignUpFooter
+                            infoText={this.state.infoText}
+                            isDonor={this.state.isDonor}
+                            showSkip={this.state.isSkippable}
+                            toggleDonorStatus={this.toggleDonorStatus}
+                            onSkipClick={this.onSkipClick}
+                            onSubmitClick={this.onSubmitClick}
+                        />
+                    </Fragment>
+                )}
             </Dialog>
         )
     }
@@ -403,4 +439,7 @@ const mapDispatchToProps = dispatch => ({
     }
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(AdminSignUpDialog)
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(AdminSignUpDialog)
