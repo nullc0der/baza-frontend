@@ -37,15 +37,9 @@ class ProfileDetails extends Component {
     }
 
     render() {
-        // const emailVerifiedText =
-        //     this.props.isEmailVerified && !this.props.emailError
-        //         ? 'Verified'
-        //         : 'Non-Verifiable Email'
+        const emailVerifiedText = this.props.data.email ? 'Verified' : ''
 
-        // const phoneVerifiedText =
-        //     this.props.isPhoneVerified && !this.props.phoneError
-        //         ? 'Verified'
-        //         : 'Non-Verifiable No.'
+        const phoneVerifiedText = this.props.data.phone_number ? 'Verified' : ''
 
         // const dropdownClass = classnames('profile-dropdown dropdown', {
         //     show: this.state.isDropdownVisible
@@ -110,15 +104,18 @@ class ProfileDetails extends Component {
                                     isEditing={this.props.editMode}
                                     onChange={this.setEmail}
                                 />
-                                {/* <div className="badge badge-pill badge-success">
-                                    {emailVerifiedText}
-                                </div> */}
-                                {/* {!!this.props.emailError && (
+                                {emailVerifiedText && (
+                                    <div className="badge badge-pill badge-success">
+                                        {emailVerifiedText}
+                                    </div>
+                                )}
+                                {this.props.data.email_used_before && (
                                     <div className="badge badge-pill badge-light">
                                         <i className="fa fa-exclamation-triangle text-danger" />
-                                        {this.props.emailError}
+                                        This email address was used on previous
+                                        signups
                                     </div>
-                                )} */}
+                                )}
                             </div>
                         </div>
                         <div className="profile-detail mb-1">
@@ -137,15 +134,18 @@ class ProfileDetails extends Component {
                                 {/* <div className="badge badge-pill badge-warning text-white">
                                     Mobile
                                 </div> */}
-                                {/* <div className="badge badge-pill badge-danger">
-                                    {phoneVerifiedText}
-                                </div> */}
-                                {/* {!!this.props.phoneError && (
+                                {phoneVerifiedText && (
+                                    <div className="badge badge-pill badge-success">
+                                        {phoneVerifiedText}
+                                    </div>
+                                )}
+                                {this.props.data.phone_used_before && (
                                     <div className="badge badge-pill badge-light">
                                         <i className="fa fa-exclamation-triangle text-danger" />
-                                        {this.props.phoneError}
+                                        This phone number was used on previous
+                                        signups
                                     </div>
-                                )} */}
+                                )}
                             </div>
                         </div>
                         {/* <div className="profile-detail">

@@ -51,7 +51,7 @@ export default class AccountDetails extends Component {
                 <AccountDetail label="BIRTHDATE">
                     {new Date(data.birthdate).toLocaleDateString()}
                 </AccountDetail>
-                <AccountDetail label="REFERRAL CODE">5kbvnh</AccountDetail>
+                <AccountDetail label="REFERRAL CODE">{data.referral_code}</AccountDetail>
 
                 <AccountDetail label="WALLET ADDRESS" />
                 <AccountDetail label="ON DISTRIBUTION">
