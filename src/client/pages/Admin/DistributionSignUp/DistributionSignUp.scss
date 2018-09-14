@@ -344,12 +344,12 @@ $signuplist-width: 230px;
         .account-detail {
             display: flex;
             align-items: center;
-            height: map-get($spacers, 4);
+            min-height: map-get($spacers, 4);
             padding: 3px 0;
             font-size: 13px;
             border-top: 1px $light solid;
             .label {
-                width: 120px;
+                width: 150px;
                 font-weight: $font-weight-bold;
                 position: relative;
                 &:after {

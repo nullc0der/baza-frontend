@@ -37,9 +37,17 @@ class ProfileDetails extends Component {
     }
 
     render() {
-        const emailVerifiedText = this.props.data.email ? 'Verified' : ''
+        const emailVerifiedPill = {
+            text: this.props.data.email ? 'Verified' : 'Skipped',
+            className: this.props.data.email ? 'badge-success' : 'badge-danger'
+        }
 
-        const phoneVerifiedText = this.props.data.phone_number ? 'Verified' : ''
+        const phoneVerifiedPill = {
+            text: this.props.data.phone_number ? 'Verified' : 'Skipped',
+            className: this.props.data.phone_number
+                ? 'badge-success'
+                : 'badge-danger'
+        }
 
         // const dropdownClass = classnames('profile-dropdown dropdown', {
         //     show: this.state.isDropdownVisible
@@ -96,19 +104,16 @@ class ProfileDetails extends Component {
                             <div className="value">
                                 <EditableInputField
                                     className="value-text"
-                                    value={
-                                        this.props.data.email
-                                            ? this.props.data.email
-                                            : 'Email Skipped'
-                                    }
+                                    value={this.props.data.email}
                                     isEditing={this.props.editMode}
                                     onChange={this.setEmail}
                                 />
-                                {emailVerifiedText && (
-                                    <div className="badge badge-pill badge-success">
-                                        {emailVerifiedText}
-                                    </div>
-                                )}
+                                <div
+                                    className={`badge badge-pill ${
+                                        emailVerifiedPill.className
+                                    }`}>
+                                    {emailVerifiedPill.text}
+                                </div>
                                 {this.props.data.email_used_before && (
                                     <div className="badge badge-pill badge-light">
                                         <i className="fa fa-exclamation-triangle text-danger" />
@@ -123,22 +128,19 @@ class ProfileDetails extends Component {
                             <div className="value">
                                 <EditableInputField
                                     className="value-text"
-                                    value={
-                                        this.props.data.phone_number
-                                            ? this.props.data.phone_number
-                                            : 'Phone Skipped'
-                                    }
+                                    value={this.props.data.phone_number}
                                     isEditing={this.props.editMode}
                                     onChange={this.setPhone}
                                 />
                                 {/* <div className="badge badge-pill badge-warning text-white">
                                     Mobile
                                 </div> */}
-                                {phoneVerifiedText && (
-                                    <div className="badge badge-pill badge-success">
-                                        {phoneVerifiedText}
-                                    </div>
-                                )}
+                                <div
+                                    className={`badge badge-pill ${
+                                        phoneVerifiedPill.className
+                                    }`}>
+                                    {phoneVerifiedPill.text}
+                                </div>
                                 {this.props.data.phone_used_before && (
                                     <div className="badge badge-pill badge-light">
                                         <i className="fa fa-exclamation-triangle text-danger" />

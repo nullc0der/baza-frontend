@@ -51,7 +51,9 @@ export default class AccountDetails extends Component {
                 <AccountDetail label="BIRTHDATE">
                     {new Date(data.birthdate).toLocaleDateString()}
                 </AccountDetail>
-                <AccountDetail label="REFERRAL CODE">{data.referral_code}</AccountDetail>
+                <AccountDetail label="REFERRAL CODE">
+                    {data.referral_code}
+                </AccountDetail>
 
                 <AccountDetail label="WALLET ADDRESS" />
                 <AccountDetail label="ON DISTRIBUTION">
@@ -80,6 +82,11 @@ export default class AccountDetails extends Component {
                             ))}
                         </div>
                     </div>
+                </AccountDetail>
+                <AccountDetail label="AUTO APPROVAL FAIL REASONS">
+                    {data.auto_approval_fail_reasons.map((x, i) => (
+                        <p key={i}>{x.reason}</p>
+                    ))}
                 </AccountDetail>
             </div>
         )
