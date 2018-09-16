@@ -1,81 +1,183 @@
-import React from 'react'
+import React, { Component } from 'react'
 import classnames from 'classnames'
+import get from 'lodash/get'
+
+import { landingContact } from 'api/landing-contact'
 
 import TextField from 'components/ui/TextField'
 
-const ContactSection = props => {
-    const cx = classnames('contact-section bg-light', props.className)
-    return (
-        <div className={cx} id={props.id}>
-            <div className="page-section container">
-                <h3 className="text-center mb-3"> Contact </h3>
-                <div className="row">
-                    <div className="col-10 col-md-6 mx-auto">
-                        <form className="form contact-form">
-                            <div className="row">
-                                <div className="col-md-6">
-                                    <TextField
-                                        className="input-contact-name"
-                                        label="Name"
-                                        icon={
-                                            <i className="material-icons">
-                                                perm_identity
-                                            </i>
-                                        }
-                                    />
+class ContactSection extends Component {
+    state = {
+        inputValues: {
+            name: '',
+            email: '',
+            subject: '',
+            message: ''
+        },
+        errorState: {
+            name: null,
+            email: null,
+            subject: null,
+            message: null,
+            nonField: null
+        },
+        sentMessage: false
+    }
+
+    onInputChange = (id, value) => {
+        this.setState(prevState => ({
+            inputValues: {
+                ...prevState.inputValues,
+                [id]: value
+            }
+        }))
+    }
+
+    onSubmitClick = e => {
+        e.preventDefault()
+        landingContact(this.state.inputValues)
+            .then(response => {
+                this.setState({
+                    sentMessage: true,
+                    inputValues: {
+                        name: '',
+                        email: '',
+                        subject: '',
+                        message: ''
+                    },
+                    errorState: {
+                        name: null,
+                        email: null,
+                        subject: null,
+                        message: null,
+                        nonField: null
+                    }
+                })
+            })
+            .catch(responseData => {
+                this.setState({
+                    errorState: {
+                        name: get(responseData, 'name', null),
+                        email: get(responseData, 'email', null),
+                        subject: get(responseData, 'subject', null),
+                        message: get(responseData, 'message', null),
+                        nonField: get(responseData, 'non_field_errors', null)
+                    }
+                })
+            })
+    }
+
+    render() {
+        const { className, id } = this.props
+        const cx = classnames('contact-section bg-light', className)
+        return (
+            <div className={cx} id={id}>
+                <div className="page-section container">
+                    <h3 className="text-center mb-3"> Contact </h3>
+                    <div className="row">
+                        <div className="col-10 col-md-6 mx-auto">
+                            <form className="form contact-form">
+                                <div className="row">
+                                    <div className="col-md-6">
+                                        <TextField
+                                            className="input-contact-name"
+                                            label="Name"
+                                            id="name"
+                                            errorState={
+                                                this.state.errorState.name
+                                            }
+                                            value={this.state.inputValues.name}
+                                            onChange={this.onInputChange}
+                                            icon={
+                                                <i className="material-icons">
+                                                    perm_identity
+                                                </i>
+                                            }
+                                        />
+                                    </div>
+                                    <div className="col-md-6">
+                                        <TextField
+                                            className="input-contact-email"
+                                            label="Email"
+                                            id="email"
+                                            errorState={
+                                                this.state.errorState.email
+                                            }
+                                            value={this.state.inputValues.email}
+                                            onChange={this.onInputChange}
+                                            icon={
+                                                <i className="material-icons">
+                                                    mail_outline
+                                                </i>
+                                            }
+                                        />
+                                    </div>
                                 </div>
-                                <div className="col-md-6">
-                                    <TextField
-                                        className="input-contact-email"
-                                        label="Email"
-                                        icon={
-                                            <i className="material-icons">
-                                                mail_outline
-                                            </i>
-                                        }
-                                    />
+                                <div className="row">
+                                    <div className="col-md-12">
+                                        <TextField
+                                            className="input-contact-subject"
+                                            label="Subject"
+                                            id="subject"
+                                            errorState={
+                                                this.state.errorState.subject
+                                            }
+                                            value={
+                                                this.state.inputValues.subject
+                                            }
+                                            onChange={this.onInputChange}
+                                            icon={
+                                                <i className="material-icons">
+                                                    create
+                                                </i>
+                                            }
+                                        />
+                                    </div>
                                 </div>
-                            </div>
-                            <div className="row">
-                                <div className="col-md-12">
-                                    <TextField
-                                        className="input-contact-subject"
-                                        label="Subject"
-                                        icon={
-                                            <i className="material-icons">
-                                                create
-                                            </i>
-                                        }
-                                    />
+                                <div className="row">
+                                    <div className="col-md-12">
+                                        <TextField
+                                            className="input-contact-message"
+                                            label="Message"
+                                            id="message"
+                                            errorState={
+                                                this.state.errorState.message
+                                            }
+                                            value={
+                                                this.state.inputValues.message
+                                            }
+                                            onChange={this.onInputChange}
+                                            icon={
+                                                <i className="material-icons">
+                                                    drafts
+                                                </i>
+                                            }
+                                        />
+                                    </div>
                                 </div>
-                            </div>
-                            <div className="row">
-                                <div className="col-md-12">
-                                    <TextField
-                                        className="input-contact-message"
-                                        label="Message"
-                                        icon={
-                                            <i className="material-icons">
-                                                drafts
-                                            </i>
-                                        }
-                                    />
+                                <div className="row mt-4 justify-content-end">
+                                    <div className="col-md-6">
+                                        {this.state.sentMessage && (
+                                            <p>
+                                                Thank you for contacting us, we
+                                                will get back to you shortly
+                                            </p>
+                                        )}
+                                        <button
+                                            className="btn btn-block btn-dark"
+                                            onClick={this.onSubmitClick}>
+                                            {' '}
+                                            SEND{' '}
+                                        </button>
+                                    </div>
                                 </div>
-                            </div>
-                            <div className="row mt-4 justify-content-end">
-                                <div className="col-md-6">
-                                    <button className="btn btn-block btn-dark">
-                                        {' '}
-                                        SEND{' '}
-                                    </button>
-                                </div>
-                            </div>
-                        </form>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    )
+        )
+    }
 }
 
 export default ContactSection
