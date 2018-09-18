@@ -73,8 +73,8 @@ export default class TextField extends Component {
                 ) : errorState === 'loading' ? (
                     <i className="material-icons text-info">cached</i>
                 ) : (
-                            <i className="material-icons text-danger">close</i>
-                        )}
+                    <i className="material-icons text-danger">close</i>
+                )}
             </div>
         )
 
@@ -84,7 +84,7 @@ export default class TextField extends Component {
                     type={type}
                     className={inputClass}
                     onChange={this.onInputChange}
-                    value={value || this.state.value || ''}
+                    value={value || ''}
                     {...others}
                 />
                 {_Label}

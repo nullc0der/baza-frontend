@@ -22,7 +22,8 @@ class IssueCreator extends Component {
             description: null,
             attachment: null,
             nonField: null
-        }
+        },
+        submitDisabled: false
     }
 
     onInputChange = (id, value) => {
@@ -59,6 +60,9 @@ class IssueCreator extends Component {
 
     onSubmitClick = e => {
         e.preventDefault()
+        this.setState({
+            submitDisabled: true
+        })
         const data = new FormData()
         data.append('subject', this.state.inputValues.subject)
         data.append('description', this.state.inputValues.description)
@@ -68,7 +72,25 @@ class IssueCreator extends Component {
             }
         }
         issueCreator(data)
-            .then(response => this.props.onRequestClose())
+            .then(response =>
+                this.setState(
+                    {
+                        inputValues: {
+                            subject: '',
+                            description: '',
+                            attachment: null
+                        },
+                        formErrors: {
+                            subject: null,
+                            description: null,
+                            attachment: null,
+                            nonField: null
+                        },
+                        submitDisabled: false
+                    },
+                    () => this.props.onRequestClose()
+                )
+            )
             .catch(responseData => {
                 this.setState({
                     formErrors: {
@@ -76,7 +98,8 @@ class IssueCreator extends Component {
                         description: get(responseData, 'description', null),
                         attachment: get(responseData, 'attachments', null),
                         nonField: get(responseData, 'non_field_errors', null)
-                    }
+                    },
+                    submitDisabled: false
                 })
             })
     }
@@ -90,38 +113,35 @@ class IssueCreator extends Component {
                 isOpen={isOpen}
                 title="Post an issue"
                 onRequestClose={onRequestClose}>
-                <form
-                    className="form-horizontal issue-form"
-                    onSubmit={this.onSubmitClick}>
-                    <TextField
-                        id="subject"
-                        label="Subject"
-                        className="mb-3"
-                        value={this.state.inputValues.subject}
-                        onChange={this.onInputChange}
-                        errorState={this.state.formErrors.subject}
-                    />
-                    <TextField
-                        id="description"
-                        label="Description"
-                        className="mb-3"
-                        value={this.state.inputValues.description}
-                        onChange={this.onInputChange}
-                        errorState={this.state.formErrors.description}
-                    />
-                    <DropZoneWrapper
-                        files={this.state.inputValues.attachment}
-                        onDrop={this.onDrop}
-                        onTrashClick={this.onTrashClick}
-                        maxFile={5}
-                        hasError={this.state.formErrors.attachment}
-                    />
-                    <button
-                        className="btn btn-block btn-dark"
-                        onClick={this.onSubmitClick}>
-                        SUBMIT
-                    </button>
-                </form>
+                <TextField
+                    id="subject"
+                    label="Subject"
+                    className="mb-3"
+                    value={this.state.inputValues.subject}
+                    onChange={this.onInputChange}
+                    errorState={this.state.formErrors.subject}
+                />
+                <TextField
+                    id="description"
+                    label="Description"
+                    className="mb-3"
+                    value={this.state.inputValues.description}
+                    onChange={this.onInputChange}
+                    errorState={this.state.formErrors.description}
+                />
+                <DropZoneWrapper
+                    files={this.state.inputValues.attachment}
+                    onDrop={this.onDrop}
+                    onTrashClick={this.onTrashClick}
+                    maxFile={5}
+                    hasError={this.state.formErrors.attachment}
+                />
+                <button
+                    className="btn btn-block btn-dark"
+                    onClick={this.onSubmitClick}
+                    disabled={this.state.submitDisabled}>
+                    SUBMIT
+                </button>
             </Dialog>
         )
     }

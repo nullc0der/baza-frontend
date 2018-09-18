@@ -1,2 +1,10 @@
+@import 'ui';
+
 :local(.container) {
+    .modal-dialog {
+        width: 35vw;
+        @include media-breakpoint-down(sm, $grid-breakpoints) {
+            width: auto;
+        }
+    }
 }
