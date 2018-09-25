@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import classnames from 'classnames'
 import { Link } from 'react-router-dom'
+import get from 'lodash/get'
 
 import { push } from 'react-router-redux'
 import { connect } from 'react-redux'
@@ -102,7 +103,10 @@ class HeaderProfileButton extends Component {
                 <div className="profile-icon no-overflow">
                     <img alt="" className="img-fluid" src="" />
                 </div>
-                <div className="profile-username"> {user.username} </div>
+                <div className="profile-username">
+                    {' '}
+                    {get(user.user, 'username', '')}{' '}
+                </div>
             </div>
         )
 
@@ -111,7 +115,7 @@ class HeaderProfileButton extends Component {
                 id="id-header-profile-dropdown"
                 className={cx}
                 label={label}
-                items={[user]}
+                items={[get(user, 'user', {})]}
                 itemRenderer={this.renderProfile}
             />
         )
@@ -126,4 +130,7 @@ const mapDispatchToProps = dispatch => ({
     }
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(HeaderProfileButton)
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(HeaderProfileButton)

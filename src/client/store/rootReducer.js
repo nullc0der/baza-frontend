@@ -7,7 +7,7 @@ import Chat from './Chat'
 import Common from './Common'
 import Groups from './Groups'
 import Members from './Members'
-import Runtime from './Runtime'
+import UserProfile from './UserProfile'
 
 import WalletAccounts from './WalletAccounts'
 import WalletTransanctions from './WalletTransanctions'
@@ -15,7 +15,7 @@ import DistributionSignUp from './DistributionSignUp'
 
 export default combineReducers({
     router,
-    Runtime,
+    UserProfile,
 
     Auth,
 

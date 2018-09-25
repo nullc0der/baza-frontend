@@ -44,7 +44,7 @@ class LeftNav extends Component {
                         <div className="user-details flex-1">
                             <div className="name">
                                 {' '}
-                                {get(profile, 'username', '')}{' '}
+                                {get(profile.user, 'username', '')}{' '}
                             </div>
                             <div className="status is-online"> Online </div>
                         </div>
@@ -74,7 +74,7 @@ class LeftNav extends Component {
 
 const mapStateToProps = state => ({
     breadcrumbs: state.Common.breadcrumbs,
-    profile: state.Runtime.profile
+    profile: state.UserProfile.profile
 })
 
 const mapDispatchToProps = dispatch => ({
@@ -86,4 +86,7 @@ const mapDispatchToProps = dispatch => ({
     }
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(LeftNav)
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(LeftNav)

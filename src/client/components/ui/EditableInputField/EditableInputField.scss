@@ -1,14 +1,14 @@
 :local(.container) {
-  .ui-editableinput-input {
-    color: inherit;
-    background-color: #fff;
-    border: 1px rgba(0, 0, 0, 0.12) solid;
-    width: auto;
-    min-width: 220px;
-  }
-  &:not(.is-editing) {
     .ui-editableinput-input {
-      display: none;
+        color: inherit;
+        background-color: #fff;
+        border: 1px rgba(0, 0, 0, 0.12) solid;
+        width: 100%;
+        min-width: 220px;
     }
-  }
+    &:not(.is-editing) {
+        .ui-editableinput-input {
+            display: none;
+        }
+    }
 }

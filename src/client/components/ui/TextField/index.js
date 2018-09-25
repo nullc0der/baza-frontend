@@ -84,7 +84,7 @@ export default class TextField extends Component {
                     type={type}
                     className={inputClass}
                     onChange={this.onInputChange}
-                    value={value || ''}
+                    value={value || this.state.value || ''}
                     {...others}
                 />
                 {_Label}

@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 // import PropTypes from 'prop-types'
 import classnames from 'classnames'
 
-import { actions as runTimeActions } from 'store/Runtime'
+import { actions as userProfileActions } from 'store/UserProfile'
 
 import s from './AdminHeader.scss'
 
@@ -52,12 +52,12 @@ class AdminHeader extends Component {
 }
 
 const mapStateToProps = state => ({
-    profile: state.Runtime.profile
+    profile: state.UserProfile.profile
 })
 
 const mapDispatchToProps = dispatch => ({
     fetchProfile() {
-        return dispatch(runTimeActions.fetchProfile())
+        return dispatch(userProfileActions.fetchProfile())
     }
 })
 
