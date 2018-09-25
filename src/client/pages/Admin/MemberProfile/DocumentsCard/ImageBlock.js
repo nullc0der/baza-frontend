@@ -1,7 +1,14 @@
 import React from 'react'
 
 const ImageBlock = props => {
-    const { className, image, isActive, deleteFn, setActiveFn } = props
+    const {
+        className,
+        imageUrl,
+        isActive = false,
+        imageId,
+        deleteFn,
+        setActiveFn
+    } = props
     return (
         <div className={className}>
             <img
@@ -9,8 +16,8 @@ const ImageBlock = props => {
                 alt=""
                 src={
                     process.env.NODE_ENV === 'development'
-                        ? 'http://localhost:8000' + image.userphoto.photo
-                        : image.userphoto.photo
+                        ? 'http://localhost:8000' + imageUrl
+                        : imageUrl
                 }
             />
             <div className="overlay">
@@ -18,13 +25,13 @@ const ImageBlock = props => {
                     <i
                         className="fa fa-check"
                         title="Make profile image"
-                        onClick={() => setActiveFn(image.id)}
+                        onClick={() => setActiveFn(imageId)}
                     />
                 )}
                 <i
                     className="fa fa-trash-o"
                     title="Delete"
-                    onClick={() => deleteFn(image.id)}
+                    onClick={() => deleteFn(imageId)}
                 />
             </div>
         </div>

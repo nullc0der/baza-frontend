@@ -123,6 +123,20 @@ $references-card-tint: #f5a623;
                 display: none;
             }
         }
+        &.is-file {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            font-size: 30px;
+            p {
+                font-size: 14px;
+                margin: 0;
+            }
+            .overlay {
+                top: 70%;
+            }
+        }
         .overlay {
             display: flex;
             align-items: center;
