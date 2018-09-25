@@ -352,14 +352,27 @@ export default function UserProfileReducer(state = INITIAL_STATE, action) {
                     }),
                     action.profileImage
                 ],
+                profile: {
+                    ...state.profile,
+                    profile_photo: action.profileImage.userphoto.photo
+                },
                 isLoading: false
             }
         case DELETE_PROFILE_IMAGE_SUCCESS:
+            const deletedProfilePhoto = state.profileImages.filter(
+                x => x.id === action.profileImageID
+            )[0]
             return {
                 ...state,
                 profileImages: state.profileImages.filter(
                     x => x.id !== action.profileImageID
                 ),
+                profile: {
+                    ...state.profile,
+                    profile_photo: deletedProfilePhoto.is_active
+                        ? null
+                        : state.profile.profile_photo
+                },
                 isLoading: false
             }
         case UPDATE_PROFILE_IMAGE_SUCCESS:
@@ -373,6 +386,12 @@ export default function UserProfileReducer(state = INITIAL_STATE, action) {
                         return x
                     })
                 ],
+                profile: {
+                    ...state.profile,
+                    profile_photo: state.profileImages.filter(
+                        x => x.is_active
+                    )[0].userphoto.photo
+                },
                 isLoading: false
             }
         case FETCH_USER_IMAGES_SUCCESS:

@@ -100,7 +100,7 @@ class ProfileImages extends Component {
                         <ImageBlock
                             className="profile-image"
                             key={i}
-                            image={x.userphoto.photo}
+                            imageUrl={x.userphoto.photo}
                             imageId={x.id}
                             deleteFn={this.onProfileImageDeleteClick}
                             setActiveFn={this.onProfileImageSetActiveClick}

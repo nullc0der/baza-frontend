@@ -30,6 +30,7 @@
     margin-left: 8px;
 
     .profile-username {
+        margin-left: 10px;
         @include media-breakpoint-down(md, $grid-breakpoints) {
             display: none;
         }
@@ -78,6 +79,8 @@
 
     .profile-link {
         padding: 10px 12px;
+        color: $dark;
+        text-decoration: none;
     }
 
     .profile-menu-footer {

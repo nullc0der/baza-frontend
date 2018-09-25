@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
 import { Card, CardHeader, CardBody } from 'components/ui/CardWithTabs'
+import Avatar from 'components/Avatar'
 
 import { actions as userProfileActions } from 'store/UserProfile'
 
@@ -102,11 +103,7 @@ class ProfileCard extends Component {
             <Card className="profile-card">
                 <CardHeader title="PROFILE">
                     <div className="profile-image-circle">
-                        <img
-                            className="img-fluid"
-                            alt=""
-                            src="https://api.adorable.io/avatars/256/nanu@adorable.io.png"
-                        />
+                        <Avatar size={80} />
                     </div>
                 </CardHeader>
                 <CardBody>

@@ -8,6 +8,7 @@ import { connect } from 'react-redux'
 
 import Auth from 'utils/authHelpers'
 import Dropdown from 'components/ui/Dropdown'
+import Avatar from 'components/Avatar'
 
 const SAMPLE_USER = [
     {
@@ -59,9 +60,10 @@ class HeaderProfileButton extends Component {
         return (
             <div className="profile-menu">
                 <div className="flex-vertical a-center j-center blue-container">
-                    <div className="profile-icon big no-overflow black-bg">
+                    {/* <div className="profile-icon big no-overflow black-bg">
                         <img alt="" className="img-responsive" src="" />
-                    </div>
+                    </div> */}
+                    <Avatar size={92} />
                     <div className="text-center">
                         {' '}
                         {this.getCreatedText(user.date_joined)}{' '}
@@ -100,9 +102,7 @@ class HeaderProfileButton extends Component {
 
         const label = (
             <div className="profile-button flex-horizontal a-center">
-                <div className="profile-icon no-overflow">
-                    <img alt="" className="img-fluid" src="" />
-                </div>
+                <Avatar size={30} />
                 <div className="profile-username">
                     {' '}
                     {get(user.user, 'username', '')}{' '}

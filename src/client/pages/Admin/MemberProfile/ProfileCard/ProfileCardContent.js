@@ -184,7 +184,7 @@ const ProfileCardContent = props => {
                         alt="Location"
                         src={`https://maps.googleapis.com/maps/api/staticmap?center=${
                             profile.location
-                        }&zoom=11&scale=1&size=600x150&maptype=roadmap&format=png&visual_refresh=true&key=AIzaSyDqsDgAvVSeYBL2Q7p8x-kAB0lLuwlNW7c`}
+                        }&zoom=11&scale=1&size=600x250&maptype=roadmap&format=png&visual_refresh=true&key=AIzaSyDqsDgAvVSeYBL2Q7p8x-kAB0lLuwlNW7c`}
                     />
                 </div>
             </div>

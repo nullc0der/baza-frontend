@@ -10,6 +10,8 @@ import SidebarMenu from './SidebarMenu'
 
 import { actions as commonActions } from 'store/Common'
 
+import Avatar from 'components/Avatar'
+
 class LeftNav extends Component {
     state = {
         searchTerm: ''
@@ -40,7 +42,7 @@ class LeftNav extends Component {
                 </div>
                 <div className="sidebar-sub-header">
                     <div className="user-block flex-horizontal">
-                        <div className="user-image" />
+                        <Avatar size={48} />
                         <div className="user-details flex-1">
                             <div className="name">
                                 {' '}
