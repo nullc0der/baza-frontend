@@ -9,7 +9,8 @@ import ImageBlock from './ImageBlock'
 
 class MyPhotos extends Component {
     state = {
-        imageUploading: false
+        imageUploading: false,
+        uploadDonePercent: 0
     }
 
     componentDidMount() {
@@ -32,7 +33,7 @@ class MyPhotos extends Component {
             const data = new FormData()
             data.append('photo', image)
             this.props
-                .saveUserImage(data)
+                .saveUserImage(data, this.onImageUpload)
                 .then(res =>
                     this.setState({
                         imageUploading: false
@@ -53,6 +54,16 @@ class MyPhotos extends Component {
         this.props.deleteUserImage(datas)
     }
 
+    onImageUpload = value => {
+        let uploadDonePercent = 0
+        if (value.lengthComputable) {
+            uploadDonePercent = (value.loaded / value.total) * 100
+        }
+        this.setState({
+            uploadDonePercent
+        })
+    }
+
     render() {
         return (
             <CardContent>
@@ -68,7 +79,15 @@ class MyPhotos extends Component {
                             onChange={this.onFileInputChange}
                         />
                         {this.state.imageUploading ? (
-                            <i className="fa fa-spin fa-refresh" />
+                            <div className="progress-bar">
+                                <div
+                                    className="progress"
+                                    style={{
+                                        width:
+                                            this.state.uploadDonePercent + '%'
+                                    }}
+                                />
+                            </div>
                         ) : (
                             <i className="fa fa-plus" />
                         )}
@@ -97,8 +116,10 @@ const mapDispatchToProps = dispatch => ({
     fetchUserImages() {
         return dispatch(userProfileActions.fetchUserImages())
     },
-    saveUserImage(datas) {
-        return dispatch(userProfileActions.saveUserImage(datas))
+    saveUserImage(datas, uploadProgressFn) {
+        return dispatch(
+            userProfileActions.saveUserImage(datas, uploadProgressFn)
+        )
     },
     deleteUserImage(datas) {
         return dispatch(userProfileActions.deleteUserImage(datas))

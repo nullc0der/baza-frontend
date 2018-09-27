@@ -9,7 +9,8 @@ import DocumentBlock from './DocumentBlock'
 
 class MyDocuments extends Component {
     state = {
-        documentUploading: false
+        documentUploading: false,
+        uploadDonePercent: 0
     }
 
     componentDidMount() {
@@ -32,7 +33,7 @@ class MyDocuments extends Component {
             const data = new FormData()
             data.append('document', document)
             this.props
-                .saveUserDocument(data)
+                .saveUserDocument(data, this.onDocumentUpload)
                 .then(res =>
                     this.setState({
                         documentUploading: false
@@ -55,6 +56,16 @@ class MyDocuments extends Component {
         this.props.deleteUserDocument(datas)
     }
 
+    onDocumentUpload = value => {
+        let uploadDonePercent = 0
+        if (value.lengthComputable) {
+            uploadDonePercent = (value.loaded / value.total) * 100
+        }
+        this.setState({
+            uploadDonePercent
+        })
+    }
+
     render() {
         return (
             <CardContent>
@@ -70,7 +81,15 @@ class MyDocuments extends Component {
                             onChange={this.onFileInputChange}
                         />
                         {this.state.documentUploading ? (
-                            <i className="fa fa-spin fa-refresh" />
+                            <div className="progress-bar">
+                                <div
+                                    className="progress"
+                                    style={{
+                                        width:
+                                            this.state.uploadDonePercent + '%'
+                                    }}
+                                />
+                            </div>
                         ) : (
                             <i className="fa fa-plus" />
                         )}
@@ -98,8 +117,10 @@ const mapDispatchToProps = dispatch => ({
     fetchUserDocuments() {
         return dispatch(userProfileActions.fetchUserDocuments())
     },
-    saveUserDocument(datas) {
-        return dispatch(userProfileActions.saveUserDocument(datas))
+    saveUserDocument(datas, uploadProgressFn) {
+        return dispatch(
+            userProfileActions.saveUserDocument(datas, uploadProgressFn)
+        )
     },
     deleteUserDocument(datas) {
         return dispatch(userProfileActions.deleteUserDocument(datas))

@@ -87,11 +87,15 @@ const fetchProfileImagesFailure = err => {
 }
 
 const SAVE_PROFILE_IMAGE = createAction('SAVE_PROFILE_IMAGE')
-const saveProfileImage = datas => dispatch => {
-    return DispatchAPI(dispatch, ProfileAPI.saveProfileImage(datas), {
-        success: saveProfileImageSuccess,
-        failure: saveProfileImageFailure
-    })
+const saveProfileImage = (datas, uploadProgressFn) => dispatch => {
+    return DispatchAPI(
+        dispatch,
+        ProfileAPI.saveProfileImage(datas, uploadProgressFn),
+        {
+            success: saveProfileImageSuccess,
+            failure: saveProfileImageFailure
+        }
+    )
 }
 
 const SAVE_PROFILE_IMAGE_SUCCESS = createAction('SAVE_PROFILE_IMAGE_SUCCESS')
@@ -179,11 +183,15 @@ const fetchUserImagesFailure = err => {
 }
 
 const SAVE_USER_IMAGE = createAction('SAVE_USER_IMAGE')
-const saveUserImage = datas => dispatch => {
-    return DispatchAPI(dispatch, ProfileAPI.saveUserImage(datas), {
-        success: saveUserImageSuccess,
-        failure: saveUserImageFailure
-    })
+const saveUserImage = (datas, uploadProgressFn) => dispatch => {
+    return DispatchAPI(
+        dispatch,
+        ProfileAPI.saveUserImage(datas, uploadProgressFn),
+        {
+            success: saveUserImageSuccess,
+            failure: saveUserImageFailure
+        }
+    )
 }
 
 const SAVE_USER_IMAGE_SUCCESS = createAction('SAVE_USER_IMAGE_SUCCESS')
@@ -247,11 +255,15 @@ const fetchUserDocumentsFailure = err => {
 }
 
 const SAVE_USER_DOCUMENT = createAction('SAVE_USER_DOCUMENT')
-const saveUserDocument = datas => dispatch => {
-    return DispatchAPI(dispatch, ProfileAPI.saveUserDocument(datas), {
-        success: saveUserDocumentSuccess,
-        failure: saveUserDocumentFailure
-    })
+const saveUserDocument = (datas, uploadProgressFn) => dispatch => {
+    return DispatchAPI(
+        dispatch,
+        ProfileAPI.saveUserDocument(datas, uploadProgressFn),
+        {
+            success: saveUserDocumentSuccess,
+            failure: saveUserDocumentFailure
+        }
+    )
 }
 
 const SAVE_USER_DOCUMENT_SUCCESS = createAction('SAVE_USER_DOCUMENT_SUCCESS')

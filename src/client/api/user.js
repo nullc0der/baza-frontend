@@ -15,9 +15,13 @@ export const fetchProfileImages = () => {
     return jsonAPI(api => api.get(url))
 }
 
-export const saveProfileImage = datas => {
+export const saveProfileImage = (datas, upLoadProgressFn) => {
     const url = '/profile/profilephotos/'
-    return formAPI(api => api.post(url, datas))
+    return formAPI(api =>
+        api.post(url, datas, {
+            onUploadProgress: value => upLoadProgressFn(value)
+        })
+    )
 }
 
 export const deleteProfileImage = datas => {
@@ -35,9 +39,13 @@ export const fetchUserImages = () => {
     return jsonAPI(api => api.get(url))
 }
 
-export const saveUserImage = datas => {
+export const saveUserImage = (datas, upLoadProgressFn) => {
     const url = '/profile/photos/'
-    return formAPI(api => api.post(url, datas))
+    return formAPI(api =>
+        api.post(url, datas, {
+            onUploadProgress: value => upLoadProgressFn(value)
+        })
+    )
 }
 
 export const deleteUserImage = datas => {
@@ -50,9 +58,13 @@ export const fetchUserDocuments = () => {
     return jsonAPI(api => api.get(url))
 }
 
-export const saveUserDocument = datas => {
+export const saveUserDocument = (datas, upLoadProgressFn) => {
     const url = '/profile/documents/'
-    return formAPI(api => api.post(url, datas))
+    return formAPI(api =>
+        api.post(url, datas, {
+            onUploadProgress: value => upLoadProgressFn(value)
+        })
+    )
 }
 
 export const deleteUserDocument = datas => {

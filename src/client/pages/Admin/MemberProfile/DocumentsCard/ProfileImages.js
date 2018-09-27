@@ -9,7 +9,8 @@ import ImageBlock from './ImageBlock'
 
 class ProfileImages extends Component {
     state = {
-        imageUploading: false
+        imageUploading: false,
+        uploadDonePercent: 0
     }
 
     componentDidMount() {
@@ -32,7 +33,7 @@ class ProfileImages extends Component {
             const data = new FormData()
             data.append('photo', image)
             this.props
-                .saveProfileImage(data)
+                .saveProfileImage(data, this.onProfileImageUpload)
                 .then(res =>
                     this.setState({
                         imageUploading: false
@@ -59,6 +60,16 @@ class ProfileImages extends Component {
             profile_photo_id: imageID
         }
         this.props.deleteProfileImage(datas)
+    }
+
+    onProfileImageUpload = value => {
+        let uploadDonePercent = 0
+        if (value.lengthComputable) {
+            uploadDonePercent = (value.loaded / value.total) * 100
+        }
+        this.setState({
+            uploadDonePercent
+        })
     }
 
     render() {
@@ -91,7 +102,15 @@ class ProfileImages extends Component {
                             onChange={this.onFileInputChange}
                         />
                         {this.state.imageUploading ? (
-                            <i className="fa fa-spin fa-refresh" />
+                            <div className="progress-bar">
+                                <div
+                                    className="progress"
+                                    style={{
+                                        width:
+                                            this.state.uploadDonePercent + '%'
+                                    }}
+                                />
+                            </div>
                         ) : (
                             <i className="fa fa-plus" />
                         )}
@@ -120,8 +139,10 @@ const mapDispatchToProps = dispatch => ({
     fetchProfileImages() {
         return dispatch(userProfileActions.fetchProfileImages())
     },
-    saveProfileImage(datas) {
-        return dispatch(userProfileActions.saveProfileImage(datas))
+    saveProfileImage(datas, uploadProgressFn) {
+        return dispatch(
+            userProfileActions.saveProfileImage(datas, uploadProgressFn)
+        )
     },
     deleteProfileImage(datas) {
         return dispatch(userProfileActions.deleteProfileImage(datas))

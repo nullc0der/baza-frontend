@@ -120,6 +120,20 @@ $references-card-tint: #f5a623;
             .input-field {
                 display: none;
             }
+            .progress-bar {
+                width: 80%;
+                height: 10px;
+                background-color: darken($light, 10);
+                border-radius: 5px;
+                .progress {
+                    height: inherit;
+                    background-color: darken($light, 20);
+                    border-radius: 5px;
+                    width: 0;
+                    transition: width ease 0.5s;
+                    overflow: hidden;
+                }
+            }
         }
         &.is-file {
             display: flex;
