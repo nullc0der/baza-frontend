@@ -46,7 +46,8 @@ class LeftNav extends Component {
                         <div className="user-details flex-1">
                             <div className="name">
                                 {' '}
-                                {get(profile.user, 'username', '')}{' '}
+                                {get(profile, 'username', '') ||
+                                    get(profile.user, 'username', '')}{' '}
                             </div>
                             <div className="status is-online"> Online </div>
                         </div>

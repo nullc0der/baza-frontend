@@ -34,7 +34,7 @@ class ProfileCard extends Component {
         this.setState({
             inputValues: {
                 name: `${profile.user.first_name} ${profile.user.last_name}`,
-                username: profile.user.username,
+                username: profile.username || profile.user.username,
                 gender: profile.gender,
                 aboutMe: profile.about_me,
                 website: profile.website,
@@ -84,9 +84,9 @@ class ProfileCard extends Component {
                 last_name:
                     splited_name.length > 1
                         ? splited_name[splited_name.length - 1]
-                        : '',
-                username: this.state.inputValues.username
+                        : ''
             },
+            username: this.state.inputValues.username,
             gender: this.state.inputValues.gender,
             about_me: this.state.inputValues.aboutMe,
             location: this.state.inputValues.location,

@@ -8,7 +8,9 @@ import s from './Avatar.scss'
 class Avatar extends Component {
     render() {
         const { className, size = 24, userProfile } = this.props
-        const userName = get(userProfile.user, 'username', '')
+        const userName =
+            get(userProfile, 'username', '') ||
+            get(userProfile.user, 'username', '')
         const cx = classnames(s.container, 'ui-avatar', className)
         return userProfile.profile_photo ? (
             <img
@@ -31,9 +33,13 @@ class Avatar extends Component {
                 style={{
                     width: size + 'px',
                     height: size + 'px',
+                    fontSize: size / 12 + 'px',
                     backgroundColor: userProfile.default_avatar_color
                 }}>
-                <div className="avatar-name"> {userName[0]} </div>
+                <div className="avatar-name">
+                    {' '}
+                    {userName && userName[0].toUpperCase()}{' '}
+                </div>
             </div>
         )
     }

@@ -7,11 +7,12 @@
     overflow: hidden;
     background-color: $admin-secondary;
     color: #fff;
-    font-size: 1vw;
     text-align: center;
     flex-shrink: 0;
     display: flex;
     align-items: center;
     justify-content: center;
-    line-height: 1;
+    .avatar-name {
+        font-size: 8em;
+    }
 }

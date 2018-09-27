@@ -105,7 +105,8 @@ class HeaderProfileButton extends Component {
                 <Avatar size={30} />
                 <div className="profile-username">
                     {' '}
-                    {get(user.user, 'username', '')}{' '}
+                    {get(user, 'username', '') ||
+                        get(user.user, 'username', '')}{' '}
                 </div>
             </div>
         )
