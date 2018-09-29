@@ -203,6 +203,58 @@ $references-card-tint: #f5a623;
         font-weight: $font-weight-bold;
         font-size: 12px;
     }
+    .phone-section {
+        max-height: 300px;
+        overflow-y: auto;
+        min-height: 200px;
+        .badge {
+            padding: 5px 16px;
+            border-radius: 12px;
+            margin-left: 10px;
+            color: #fff;
+            font-size: 14px;
+            font-weight: normal;
+            cursor: pointer;
+            transition: background-color 0.3s ease-in-out;
+            i {
+                line-height: 1;
+            }
+            &.badge-light {
+                background-color: #d6d6d6;
+                color: $dark;
+            }
+        }
+        .phone-number,
+        .phone-input {
+            margin-bottom: 20px;
+        }
+        .phone-input {
+            .incode-dropdown-group {
+                height: 30px;
+                margin-top: 5px;
+            }
+            .dropdown-menu {
+                max-height: 185px;
+            }
+        }
+        .add-new {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 40px;
+            width: auto;
+            background-color: $light;
+            cursor: pointer;
+            &:hover {
+                i {
+                    color: $dark;
+                }
+            }
+            i {
+                font-size: 20px;
+            }
+        }
+    }
 }
 
 :local(.container) .my-selection-card {

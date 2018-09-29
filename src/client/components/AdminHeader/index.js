@@ -13,10 +13,11 @@ import HeaderProfileButton from './ProfileButton'
 
 class AdminHeader extends Component {
     componentDidMount() {
-        this.props
-            .fetchProfile()
-            .then(res => {})
-            .catch(res => {})
+        // TODO: this is disabled until dashboard page is done
+        // this.props
+        //     .fetchProfile()
+        //     .then(res => {})
+        //     .catch(res => {})
     }
 
     render() {

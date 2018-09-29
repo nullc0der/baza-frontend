@@ -71,3 +71,18 @@ export const deleteUserDocument = datas => {
     const url = '/profile/documents/'
     return jsonAPI(api => api.delete(url, datas))
 }
+
+export const fetchProfilePhoneNumbers = () => {
+    const url = '/profile/phonenumbers/'
+    return jsonAPI(api => api.get(url))
+}
+
+export const saveProfilePhoneNumber = datas => {
+    const url = '/profile/phonenumbers/'
+    return jsonAPI(api => api.post(url, datas))
+}
+
+export const deleteProfilePhoneNumber = datas => {
+    const url = '/profile/phonenumbers/'
+    return jsonAPI(api => api.delete(url, datas))
+}

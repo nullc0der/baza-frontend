@@ -6,7 +6,7 @@ module.exports = [
         children: [
             {
                 name: 'Profile',
-                href: '/member-profile',
+                href: '/profile',
                 icon: 'fa fa-fw fa-user'
             },
             {

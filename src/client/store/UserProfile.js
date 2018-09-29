@@ -9,7 +9,8 @@ const INITIAL_STATE = {
     profile: {},
     profileImages: [],
     userImages: [],
-    userDocuments: []
+    userDocuments: [],
+    phoneNumbers: []
 }
 
 const createAction = str => `USER_PROFILE_${str}`
@@ -302,6 +303,82 @@ const deleteUserDocumentFailure = err => ({
     error: err
 })
 
+const FETCH_PROFILE_PHONE_NUMBERS = createAction('FETCH_PROFILE_PHONE_NUMBERS')
+const fetchProfilePhoneNumbers = () => dispatch => {
+    return DispatchAPI(dispatch, ProfileAPI.fetchProfilePhoneNumbers, {
+        success: fetchProfilePhoneNumbersSuccess,
+        failure: fetchProfilePhoneNumbersFailure
+    })
+}
+
+const FETCH_PROFILE_PHONE_NUMBERS_SUCCESS = createAction(
+    'FETCH_PROFILE_PHONE_NUMBERS_SUCCESS'
+)
+const fetchProfilePhoneNumbersSuccess = response => {
+    return {
+        type: FETCH_PROFILE_PHONE_NUMBERS_SUCCESS,
+        phoneNumbers: get(response, 'data', [])
+    }
+}
+
+const FETCH_PROFILE_PHONE_NUMBERS_FAILURE = createAction(
+    'FETCH_PROFILE_PHONE_NUMBERS_FAILURE'
+)
+const fetchProfilePhoneNumbersFailure = err => {
+    return {
+        type: FETCH_PROFILE_PHONE_NUMBERS_FAILURE,
+        error: err
+    }
+}
+
+const SAVE_PROFILE_PHONE_NUMBER = createAction('SAVE_PROFILE_PHONE_NUMBER')
+const saveProfilePhoneNumber = datas => dispatch => {
+    return DispatchAPI(dispatch, ProfileAPI.saveProfilePhoneNumber(datas), {
+        success: saveProfilePhoneNumbersuccess,
+        failure: saveProfilePhoneNumberFailure
+    })
+}
+
+const SAVE_PROFILE_PHONE_NUMBER_SUCCESS = createAction(
+    'SAVE_PROFILE_PHONE_NUMBER_SUCCESS'
+)
+const saveProfilePhoneNumbersuccess = response => ({
+    type: SAVE_PROFILE_PHONE_NUMBER_SUCCESS,
+    phoneNumber: get(response, 'data', {})
+})
+
+const SAVE_PROFILE_PHONE_NUMBER_FAILURE = createAction(
+    'SAVE_PROFILE_PHONE_NUMBER_FAILURE'
+)
+const saveProfilePhoneNumberFailure = err => ({
+    type: SAVE_PROFILE_PHONE_NUMBER_FAILURE,
+    error: err
+})
+
+const DELETE_PROFILE_PHONE_NUMBER = createAction('DELETE_PROFILE_PHONE_NUMBER')
+const deleteProfilePhoneNumber = datas => dispatch => {
+    return DispatchAPI(dispatch, ProfileAPI.deleteProfilePhoneNumber(datas), {
+        success: deleteProfilePhoneNumbersuccess,
+        failure: deleteProfilePhoneNumberFailure
+    })
+}
+
+const DELETE_PROFILE_PHONE_NUMBER_SUCCESS = createAction(
+    'DELETE_PROFILE_PHONE_NUMBER_SUCCESS'
+)
+const deleteProfilePhoneNumbersuccess = response => ({
+    type: DELETE_PROFILE_PHONE_NUMBER_SUCCESS,
+    phoneNumberID: Number(get(response, 'data', null))
+})
+
+const DELETE_PROFILE_PHONE_NUMBER_FAILURE = createAction(
+    'DELETE_PROFILE_PHONE_NUMBER_FAILURE'
+)
+const deleteProfilePhoneNumberFailure = err => ({
+    type: DELETE_PROFILE_PHONE_NUMBER_FAILURE,
+    error: err
+})
+
 export const actions = {
     fetchProfile,
     saveProfile,
@@ -314,7 +391,10 @@ export const actions = {
     deleteUserImage,
     fetchUserDocuments,
     saveUserDocument,
-    deleteUserDocument
+    deleteUserDocument,
+    fetchProfilePhoneNumbers,
+    saveProfilePhoneNumber,
+    deleteProfilePhoneNumber
 }
 
 export default function UserProfileReducer(state = INITIAL_STATE, action) {
@@ -331,6 +411,9 @@ export default function UserProfileReducer(state = INITIAL_STATE, action) {
         case FETCH_USER_DOCUMENTS:
         case SAVE_USER_DOCUMENT:
         case DELETE_USER_DOCUMENT:
+        case FETCH_PROFILE_PHONE_NUMBERS:
+        case SAVE_PROFILE_PHONE_NUMBER:
+        case DELETE_PROFILE_PHONE_NUMBER:
             return { ...state, isLoading: true, hasError: false }
         case FETCH_PROFILE_FAILURE:
         case SAVE_PROFILE_FAILURE:
@@ -344,6 +427,9 @@ export default function UserProfileReducer(state = INITIAL_STATE, action) {
         case FETCH_USER_DOCUMENTS_FAILURE:
         case SAVE_USER_DOCUMENT_FAILURE:
         case DELETE_USER_DOCUMENT_FAILURE:
+        case SAVE_PROFILE_PHONE_NUMBER_FAILURE:
+        case DELETE_PROFILE_PHONE_NUMBER_FAILURE:
+        case FETCH_PROFILE_PHONE_NUMBERS_FAILURE:
             return { ...state, isLoading: false, hasError: action.error }
         case FETCH_PROFILE_SUCCESS:
         case SAVE_PROFILE_SUCCESS:
@@ -443,6 +529,26 @@ export default function UserProfileReducer(state = INITIAL_STATE, action) {
                 ...state,
                 userDocuments: state.userDocuments.filter(
                     x => x.id !== action.userDocumentID
+                ),
+                isLoading: false
+            }
+        case FETCH_PROFILE_PHONE_NUMBERS_SUCCESS:
+            return {
+                ...state,
+                phoneNumbers: action.phoneNumbers,
+                isLoading: false
+            }
+        case SAVE_PROFILE_PHONE_NUMBER_SUCCESS:
+            return {
+                ...state,
+                phoneNumbers: [...state.phoneNumbers, action.phoneNumber],
+                isLoading: false
+            }
+        case DELETE_PROFILE_PHONE_NUMBER_SUCCESS:
+            return {
+                ...state,
+                phoneNumbers: state.phoneNumbers.filter(
+                    x => x.id !== action.phoneNumberID
                 ),
                 isLoading: false
             }

@@ -27,7 +27,7 @@ const AppRoutes = location => (
             component={ForgotPasswordPage}
         />
         <Route path="/addemail/" exact component={AddSocialEmailPage} />
-        <Route path="/member-profile" component={AdminContainer} />
+        <Route path="/profile" component={AdminContainer} />
         <Route path="/coinsale" component={AdminContainer} />
         <Route path="/wallets" component={AdminContainer} />
         <Route path="/distribution-signup" component={AdminContainer} />

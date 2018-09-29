@@ -12,7 +12,7 @@ const AdminRoutes = location => (
         <Route path="/coinsale" component={CoinSalePage} />
         <Route path="/wallets" component={WalletsPage} />
         <Route path="/distribution-signup" component={DistributionSignUpPage} />
-        <Route path="/member-profile" component={MemberProfilePage} />
+        <Route path="/profile" component={MemberProfilePage} />
         <Redirect to="/dashboard" />
     </Switch>
 )
