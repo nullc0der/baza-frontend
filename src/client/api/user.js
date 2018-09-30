@@ -86,3 +86,23 @@ export const deleteProfilePhoneNumber = datas => {
     const url = '/profile/phonenumbers/'
     return jsonAPI(api => api.delete(url, datas))
 }
+
+export const fetchProfileEmails = access_token => {
+    const url = `/profile/emails/?access_token=${access_token}`
+    return jsonAPI(api => api.get(url))
+}
+
+export const saveProfileEmail = datas => {
+    const url = '/profile/emails/'
+    return jsonAPI(api => api.post(url, datas))
+}
+
+export const updateProfileEmail = datas => {
+    const url = '/profile/emails/'
+    return jsonAPI(api => api.put(url, datas))
+}
+
+export const deleteProfileEmail = datas => {
+    const url = '/profile/emails/'
+    return jsonAPI(api => api.delete(url, datas))
+}

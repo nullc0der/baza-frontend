@@ -10,7 +10,8 @@ const INITIAL_STATE = {
     profileImages: [],
     userImages: [],
     userDocuments: [],
-    phoneNumbers: []
+    phoneNumbers: [],
+    profileEmails: []
 }
 
 const createAction = str => `USER_PROFILE_${str}`
@@ -379,6 +380,102 @@ const deleteProfilePhoneNumberFailure = err => ({
     error: err
 })
 
+const FETCH_PROFILE_EMAILS = createAction('FETCH_PROFILE_EMAILS')
+const fetchProfileEmails = access_token => dispatch => {
+    return DispatchAPI(dispatch, ProfileAPI.fetchProfileEmails(access_token), {
+        success: fetchProfileEmailsSuccess,
+        failure: fetchProfileEmailsFailure
+    })
+}
+
+const FETCH_PROFILE_EMAILS_SUCCESS = createAction(
+    'FETCH_PROFILE_EMAILS_SUCCESS'
+)
+const fetchProfileEmailsSuccess = response => {
+    return {
+        type: FETCH_PROFILE_EMAILS_SUCCESS,
+        profileEmails: get(response, 'data', [])
+    }
+}
+
+const FETCH_PROFILE_EMAILS_FAILURE = createAction(
+    'FETCH_PROFILE_EMAILS_FAILURE'
+)
+const fetchProfileEmailsFailure = err => {
+    return {
+        type: FETCH_PROFILE_EMAILS_FAILURE,
+        error: err
+    }
+}
+
+const SAVE_PROFILE_EMAIL = createAction('SAVE_PROFILE_EMAIL')
+const saveProfileEmail = datas => dispatch => {
+    return DispatchAPI(dispatch, ProfileAPI.saveProfileEmail(datas), {
+        success: saveProfileEmailSuccess,
+        failure: saveProfileEmailFailure
+    })
+}
+
+const SAVE_PROFILE_EMAIL_SUCCESS = createAction('SAVE_PROFILE_EMAIL_SUCCESS')
+const saveProfileEmailSuccess = response => ({
+    type: SAVE_PROFILE_EMAIL_SUCCESS,
+    profileEmail: get(response, 'data', {})
+})
+
+const SAVE_PROFILE_EMAIL_FAILURE = createAction('SAVE_PROFILE_EMAIL_FAILURE')
+const saveProfileEmailFailure = err => ({
+    type: SAVE_PROFILE_EMAIL_FAILURE,
+    error: err
+})
+
+const DELETE_PROFILE_EMAIL = createAction('DELETE_PROFILE_EMAIL')
+const deleteProfileEmail = datas => dispatch => {
+    return DispatchAPI(dispatch, ProfileAPI.deleteProfileEmail(datas), {
+        success: deleteProfileEmailSuccess,
+        failure: deleteProfileEmailFailure
+    })
+}
+
+const DELETE_PROFILE_EMAIL_SUCCESS = createAction(
+    'DELETE_PROFILE_EMAIL_SUCCESS'
+)
+const deleteProfileEmailSuccess = response => ({
+    type: DELETE_PROFILE_EMAIL_SUCCESS,
+    profileEmailID: Number(get(response, 'data', null))
+})
+
+const DELETE_PROFILE_EMAIL_FAILURE = createAction(
+    'DELETE_PROFILE_EMAIL_FAILURE'
+)
+const deleteProfileEmailFailure = err => ({
+    type: DELETE_PROFILE_EMAIL_FAILURE,
+    error: err
+})
+
+const UPDATE_PROFILE_EMAIL = createAction('UPDATE_PROFILE_EMAIL')
+const updateProfileEmail = datas => dispatch => {
+    return DispatchAPI(dispatch, ProfileAPI.updateProfileEmail(datas), {
+        success: updateProfileEmailSuccess,
+        failure: updateProfileEmailFailure
+    })
+}
+
+const UPDATE_PROFILE_EMAIL_SUCCESS = createAction(
+    'UPDATE_PROFILE_EMAIL_SUCCESS'
+)
+const updateProfileEmailSuccess = response => ({
+    type: UPDATE_PROFILE_EMAIL_SUCCESS,
+    profileEmailID: Number(get(response, 'data', '-1'))
+})
+
+const UPDATE_PROFILE_EMAIL_FAILURE = createAction(
+    'UPDATE_PROFILE_EMAIL_FAILURE'
+)
+const updateProfileEmailFailure = err => ({
+    type: UPDATE_PROFILE_EMAIL_FAILURE,
+    error: err
+})
+
 export const actions = {
     fetchProfile,
     saveProfile,
@@ -394,7 +491,11 @@ export const actions = {
     deleteUserDocument,
     fetchProfilePhoneNumbers,
     saveProfilePhoneNumber,
-    deleteProfilePhoneNumber
+    deleteProfilePhoneNumber,
+    fetchProfileEmails,
+    saveProfileEmail,
+    updateProfileEmail,
+    deleteProfileEmail
 }
 
 export default function UserProfileReducer(state = INITIAL_STATE, action) {
@@ -414,6 +515,10 @@ export default function UserProfileReducer(state = INITIAL_STATE, action) {
         case FETCH_PROFILE_PHONE_NUMBERS:
         case SAVE_PROFILE_PHONE_NUMBER:
         case DELETE_PROFILE_PHONE_NUMBER:
+        case FETCH_PROFILE_EMAILS:
+        case SAVE_PROFILE_EMAIL:
+        case DELETE_PROFILE_EMAIL:
+        case UPDATE_PROFILE_EMAIL:
             return { ...state, isLoading: true, hasError: false }
         case FETCH_PROFILE_FAILURE:
         case SAVE_PROFILE_FAILURE:
@@ -430,6 +535,10 @@ export default function UserProfileReducer(state = INITIAL_STATE, action) {
         case SAVE_PROFILE_PHONE_NUMBER_FAILURE:
         case DELETE_PROFILE_PHONE_NUMBER_FAILURE:
         case FETCH_PROFILE_PHONE_NUMBERS_FAILURE:
+        case FETCH_PROFILE_EMAILS_FAILURE:
+        case SAVE_PROFILE_EMAIL_FAILURE:
+        case DELETE_PROFILE_EMAIL_FAILURE:
+        case UPDATE_PROFILE_EMAIL_FAILURE:
             return { ...state, isLoading: false, hasError: action.error }
         case FETCH_PROFILE_SUCCESS:
         case SAVE_PROFILE_SUCCESS:
@@ -550,6 +659,37 @@ export default function UserProfileReducer(state = INITIAL_STATE, action) {
                 phoneNumbers: state.phoneNumbers.filter(
                     x => x.id !== action.phoneNumberID
                 ),
+                isLoading: false
+            }
+        case SAVE_PROFILE_EMAIL_SUCCESS:
+            return {
+                ...state,
+                profileEmails: [...state.profileEmails, action.profileEmail],
+                isLoading: false
+            }
+        case UPDATE_PROFILE_EMAIL_SUCCESS:
+            return {
+                ...state,
+                profileEmails: state.profileEmails.map(x => {
+                    x.id === action.profileEmailID
+                        ? (x.primary = true)
+                        : (x.primary = false)
+                    return x
+                }),
+                isLoading: false
+            }
+        case DELETE_PROFILE_EMAIL_SUCCESS:
+            return {
+                ...state,
+                profileEmails: state.profileEmails.filter(
+                    x => x.id !== action.profileEmailID
+                ),
+                isLoading: false
+            }
+        case FETCH_PROFILE_EMAILS_SUCCESS:
+            return {
+                ...state,
+                profileEmails: action.profileEmails,
                 isLoading: false
             }
         default:

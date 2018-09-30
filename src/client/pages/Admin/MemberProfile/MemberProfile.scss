@@ -321,14 +321,39 @@ $references-card-tint: #f5a623;
         font-weight: $font-weight-semibold;
         margin-bottom: map-get($spacers, 2);
     }
+    .add-new {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 40px;
+        width: auto;
+        background-color: $light;
+        cursor: pointer;
+        &:hover {
+            i {
+                color: $dark;
+            }
+        }
+        i {
+            font-size: 20px;
+        }
+    }
     .email-item {
         font-size: 12px;
+        margin-bottom: 10px;
+        p {
+            margin: 0;
+        }
+        @include media-breakpoint-up(md, $grid-breakpoints) {
+            max-width: 450px;
+        }
     }
     .badge {
         padding: 5px 16px;
         border-radius: 12px;
         margin-left: 12px;
         color: #fff;
+        cursor: pointer;
         &.badge-light {
             background-color: #d6d6d6;
         }

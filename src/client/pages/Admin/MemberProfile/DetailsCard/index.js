@@ -111,7 +111,9 @@ const PhoneAddField = props => {
                     </div>
                 )}
             </div>
-            <div className="btn btn-block btn-dark" onClick={onClickSave}>
+            <div
+                className="btn btn-block btn-sm btn-dark"
+                onClick={onClickSave}>
                 Save
             </div>
         </div>
