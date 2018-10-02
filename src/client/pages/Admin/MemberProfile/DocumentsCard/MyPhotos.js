@@ -1,5 +1,7 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import { connect } from 'react-redux'
+
+import { getImageURLFromFile } from 'utils/common'
 
 import { CardContent } from 'components/ui/CardWithTabs'
 
@@ -10,7 +12,8 @@ import ImageBlock from './ImageBlock'
 class MyPhotos extends Component {
     state = {
         imageUploading: false,
-        uploadDonePercent: 0
+        uploadDonePercent: 0,
+        filePreview: ''
     }
 
     componentDidMount() {
@@ -26,8 +29,11 @@ class MyPhotos extends Component {
 
     onFileInputChange = e => {
         if (e.target.files) {
-            this.setState({
-                imageUploading: true
+            getImageURLFromFile(e.target.files[0]).then(filePreview => {
+                this.setState({
+                    filePreview,
+                    imageUploading: true
+                })
             })
             const image = e.target.files[0]
             const data = new FormData()
@@ -36,12 +42,14 @@ class MyPhotos extends Component {
                 .saveUserImage(data, this.onImageUpload)
                 .then(res =>
                     this.setState({
-                        imageUploading: false
+                        imageUploading: false,
+                        uploadDonePercent: 0
                     })
                 )
                 .catch(res => {
                     this.setState({
-                        imageUploading: false
+                        imageUploading: false,
+                        uploadDonePercent: 0
                     })
                 })
         }
@@ -79,15 +87,23 @@ class MyPhotos extends Component {
                             onChange={this.onFileInputChange}
                         />
                         {this.state.imageUploading ? (
-                            <div className="progress-bar">
-                                <div
-                                    className="progress"
-                                    style={{
-                                        width:
-                                            this.state.uploadDonePercent + '%'
-                                    }}
+                            <Fragment>
+                                <img
+                                    className="progress-bar-bg"
+                                    src={this.state.filePreview}
+                                    alt="uploading"
                                 />
-                            </div>
+                                <div className="progress-bar">
+                                    <div
+                                        className="progress"
+                                        style={{
+                                            width:
+                                                this.state.uploadDonePercent +
+                                                '%'
+                                        }}
+                                    />
+                                </div>
+                            </Fragment>
                         ) : (
                             <i className="fa fa-plus" />
                         )}

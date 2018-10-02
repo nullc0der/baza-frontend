@@ -120,11 +120,22 @@ $references-card-tint: #f5a623;
             .input-field {
                 display: none;
             }
+            .progress-bar-bg {
+                position: absolute;
+                top: 0;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                filter: blur(2px);
+                height: inherit;
+                width: 100%;
+            }
             .progress-bar {
                 width: 80%;
                 height: 10px;
                 background-color: darken($light, 10);
                 border-radius: 5px;
+                z-index: 1;
                 .progress {
                     height: inherit;
                     background-color: darken($light, 20);
