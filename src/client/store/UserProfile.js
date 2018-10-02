@@ -380,6 +380,30 @@ const deleteProfilePhoneNumberFailure = err => ({
     error: err
 })
 
+const UPDATE_PROFILE_PHONE_NUMBER = createAction('UPDATE_PROFILE_PHONE_NUMBER')
+const updateProfilePhoneNumber = datas => dispatch => {
+    return DispatchAPI(dispatch, ProfileAPI.updateProfilePhoneNumber(datas), {
+        success: updateProfilePhoneNumbersuccess,
+        failure: updateProfilePhoneNumberFailure
+    })
+}
+
+const UPDATE_PROFILE_PHONE_NUMBER_SUCCESS = createAction(
+    'UPDATE_PROFILE_PHONE_NUMBER_SUCCESS'
+)
+const updateProfilePhoneNumbersuccess = response => ({
+    type: UPDATE_PROFILE_PHONE_NUMBER_SUCCESS,
+    phoneNumber: get(response, 'data', {})
+})
+
+const UPDATE_PROFILE_PHONE_NUMBER_FAILURE = createAction(
+    'UPDATE_PROFILE_PHONE_NUMBER_FAILURE'
+)
+const updateProfilePhoneNumberFailure = err => ({
+    type: UPDATE_PROFILE_PHONE_NUMBER_FAILURE,
+    error: err
+})
+
 const FETCH_PROFILE_EMAILS = createAction('FETCH_PROFILE_EMAILS')
 const fetchProfileEmails = access_token => dispatch => {
     return DispatchAPI(dispatch, ProfileAPI.fetchProfileEmails(access_token), {
@@ -492,6 +516,7 @@ export const actions = {
     fetchProfilePhoneNumbers,
     saveProfilePhoneNumber,
     deleteProfilePhoneNumber,
+    updateProfilePhoneNumber,
     fetchProfileEmails,
     saveProfileEmail,
     updateProfileEmail,
@@ -515,6 +540,7 @@ export default function UserProfileReducer(state = INITIAL_STATE, action) {
         case FETCH_PROFILE_PHONE_NUMBERS:
         case SAVE_PROFILE_PHONE_NUMBER:
         case DELETE_PROFILE_PHONE_NUMBER:
+        case UPDATE_PROFILE_PHONE_NUMBER:
         case FETCH_PROFILE_EMAILS:
         case SAVE_PROFILE_EMAIL:
         case DELETE_PROFILE_EMAIL:
@@ -534,6 +560,7 @@ export default function UserProfileReducer(state = INITIAL_STATE, action) {
         case DELETE_USER_DOCUMENT_FAILURE:
         case SAVE_PROFILE_PHONE_NUMBER_FAILURE:
         case DELETE_PROFILE_PHONE_NUMBER_FAILURE:
+        case UPDATE_PROFILE_PHONE_NUMBER_FAILURE:
         case FETCH_PROFILE_PHONE_NUMBERS_FAILURE:
         case FETCH_PROFILE_EMAILS_FAILURE:
         case SAVE_PROFILE_EMAIL_FAILURE:
@@ -659,6 +686,16 @@ export default function UserProfileReducer(state = INITIAL_STATE, action) {
                 phoneNumbers: state.phoneNumbers.filter(
                     x => x.id !== action.phoneNumberID
                 ),
+                isLoading: false
+            }
+        case UPDATE_PROFILE_PHONE_NUMBER_SUCCESS:
+            return {
+                ...state,
+                phoneNumbers: state.phoneNumbers.map(x => {
+                    return x.id === action.phoneNumber.id
+                        ? action.phoneNumber
+                        : { ...x, primary: false }
+                }),
                 isLoading: false
             }
         case SAVE_PROFILE_EMAIL_SUCCESS:

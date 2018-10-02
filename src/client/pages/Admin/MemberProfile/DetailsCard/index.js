@@ -13,7 +13,7 @@ import {
 import PhoneNumberField from 'components/ui/PhoneNumberField'
 
 const PhoneField = props => {
-    const { phoneNumber, onClickDelete } = props
+    const { phoneNumber, onClickDelete, onClickSetPrimary } = props
 
     const icons = {
         home: 'fa fa-home',
@@ -40,8 +40,15 @@ const PhoneField = props => {
                     <i className={icons[phoneNumber.phone_number_type]} />{' '}
                     {phoneNumber.phone_number_type}
                 </div>
+                {!phoneNumber.primary && (
+                    <div
+                        className="badge badge-info"
+                        onClick={() => onClickSetPrimary(phoneNumber.id)}>
+                        <i className="fa fa-check" title="set primary" />
+                    </div>
+                )}
                 <div
-                    className="badge badge-info"
+                    className="badge badge-warning"
                     onClick={() => onClickDelete(phoneNumber.id)}>
                     <i className="fa fa-trash" title="delete" />
                 </div>
@@ -166,6 +173,16 @@ class DetailsCard extends Component {
             .catch(res => {})
     }
 
+    onClickSetPrimary = phoneNumberID => {
+        this.props
+            .updatePhoneNumber({
+                id: phoneNumberID,
+                primary: true
+            })
+            .then(res => {})
+            .catch(res => {})
+    }
+
     onChangePhoneNumber = (id, value) => {
         this.setState({
             [id]: value
@@ -229,6 +246,9 @@ class DetailsCard extends Component {
                                         key={i}
                                         phoneNumber={x}
                                         onClickDelete={this.onClickDelete}
+                                        onClickSetPrimary={
+                                            this.onClickSetPrimary
+                                        }
                                     />
                                 ))}
                                 {this.state.addPhoneNumberShown && (
@@ -287,6 +307,9 @@ const mapDispatchToProps = dispatch => ({
     },
     deletePhoneNumber(datas) {
         return dispatch(userProfileActions.deleteProfilePhoneNumber(datas))
+    },
+    updatePhoneNumber(datas) {
+        return dispatch(userProfileActions.updateProfilePhoneNumber(datas))
     }
 })
 
