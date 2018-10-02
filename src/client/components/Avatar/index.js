@@ -11,7 +11,9 @@ class Avatar extends Component {
         const userName =
             get(userProfile, 'username', '') ||
             get(userProfile.user, 'username', '')
-        const cx = classnames(s.container, 'ui-avatar', className)
+        const cx = classnames(s.container, 'ui-avatar', className, {
+            'img-fluid': userProfile.profile_photo
+        })
         return userProfile.profile_photo ? (
             <img
                 className={cx}
@@ -23,8 +25,7 @@ class Avatar extends Component {
                 alt="profile"
                 style={{
                     width: size + 'px',
-                    height: size + 'px',
-                    objectFit: 'contain'
+                    height: size + 'px'
                 }}
             />
         ) : (

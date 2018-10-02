@@ -103,7 +103,7 @@ class ProfileCard extends Component {
             <Card className="profile-card">
                 <CardHeader title="PROFILE">
                     <div className="profile-image-circle">
-                        <Avatar size={80} />
+                        <Avatar size={85} />
                     </div>
                 </CardHeader>
                 <CardBody>
