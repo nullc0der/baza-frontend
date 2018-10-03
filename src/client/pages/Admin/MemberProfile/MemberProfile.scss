@@ -36,13 +36,18 @@ $references-card-tint: #f5a623;
 
 :local(.container) .profile-card {
     .profile-image-circle {
+        width: 95px;
+        height: 95px;
+        background-color: #fff;
+        padding: 5px;
         margin: 0 auto;
         border-radius: 50%;
         overflow: hidden;
         position: absolute;
         left: calc(50% - 46px);
         top: 54px;
-        //border: 5px #fff solid;
+        box-shadow: -1px -1px 20px 1px rgba(0, 0, 0, 0.12),
+            1px 1px 20px 1px rgba(0, 0, 0, 0.12);
     }
     .profile-detail {
         color: #9b9b9b;
