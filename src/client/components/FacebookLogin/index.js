@@ -52,6 +52,20 @@ export default class FacebookLogin extends Component {
     }
 
     render() {
-        return <i className="fa fa-facebook" onClick={this.facebookLogin} />
+        const facebookBtn = React.createElement(
+            this.props.tag,
+            {
+                onClick: this.facebookLogin,
+                style: this.props.style,
+                disabled: this.props.disabled,
+                className: this.props.className
+            },
+            this.props.children ? (
+                this.props.children
+            ) : (
+                <i className="fa fa-facebook" onClick={this.facebookLogin} />
+            )
+        )
+        return facebookBtn
     }
 }

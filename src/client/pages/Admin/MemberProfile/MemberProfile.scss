@@ -419,10 +419,16 @@ $references-card-tint: #f5a623;
             background-color: #3d5a96;
         }
     }
-    .social-account.account-google {
+    .social-account.account-google-plus {
         background-color: #af3d32;
         .social-account-icon {
             background-color: #db4c3f;
+        }
+    }
+    .social-account.account-twitter {
+        background-color: #2c99b1;
+        .social-account-icon {
+            background-color: #18cff8;
         }
     }
 }

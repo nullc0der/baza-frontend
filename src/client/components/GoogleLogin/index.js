@@ -61,8 +61,23 @@ export default class GoogleLogin extends Component {
     }
 
     render() {
-        return (
-            <i className="fa fa-google-plus" onClick={this.startGoogleSignIn} />
+        const googleBtn = React.createElement(
+            this.props.tag,
+            {
+                onClick: this.startGoogleSignIn,
+                style: this.props.style,
+                disabled: this.props.disabled,
+                className: this.props.className
+            },
+            this.props.children ? (
+                this.props.children
+            ) : (
+                <i
+                    className="fa fa-google-plus"
+                    onClick={this.startGoogleSignIn}
+                />
+            )
         )
+        return googleBtn
     }
 }

@@ -111,3 +111,13 @@ export const deleteProfileEmail = datas => {
     const url = '/profile/emails/'
     return jsonAPI(api => api.delete(url, datas))
 }
+
+export const getSocialAuths = access_token => {
+    const url = `/profile/socialauths/?access_token=${access_token}`
+    return jsonAPI(api => api.get(url))
+}
+
+export const connectOrDisconnectSocialAuth = datas => {
+    const url = '/profile/socialauths/'
+    return jsonAPI(api => api.post(url, datas))
+}
