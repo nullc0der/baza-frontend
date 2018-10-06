@@ -9,12 +9,12 @@ import {
 
 import SocialSettings from './SocialSettings'
 import PublicVisibility from './PublicVisibility'
-import LandingDropdownLinks from './LandingDropdownLinks'
+import SetPassword from './SetPassword'
 
 const CARD_TABS = [
     { label: 'Social Settings' },
     { label: 'Public Visibility' },
-    { label: 'Landing Dropdown Links' }
+    { label: 'Password' }
 ]
 export default class SettingsCard extends Component {
     state = {
@@ -42,7 +42,7 @@ export default class SettingsCard extends Component {
                         onChangeIndex={this.changeSwipeIndex}>
                         <SocialSettings />
                         <PublicVisibility />
-                        <LandingDropdownLinks />
+                        <SetPassword />
                     </SwipeableViews>
                 </CardBody>
             </Card>

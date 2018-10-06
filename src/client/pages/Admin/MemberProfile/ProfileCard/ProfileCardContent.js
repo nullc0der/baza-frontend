@@ -81,7 +81,7 @@ const ProfileCardContent = props => {
                                 value={profile.username}
                                 isEditing={isEditing}
                                 onChange={onFieldChange}
-                                hasError={get(errors.user, 'username', '')}
+                                hasError={get(errors, 'username', '')}
                             />
                         }
                         className="text-right"

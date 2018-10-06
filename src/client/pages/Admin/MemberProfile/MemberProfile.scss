@@ -431,6 +431,11 @@ $references-card-tint: #f5a623;
             background-color: #18cff8;
         }
     }
+    .password-section {
+        @include media-breakpoint-up(md, $grid-breakpoints) {
+            max-width: 450px;
+        }
+    }
 }
 
 :local(.container) .references-card {

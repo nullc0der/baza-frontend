@@ -121,3 +121,8 @@ export const connectOrDisconnectSocialAuth = datas => {
     const url = '/profile/socialauths/'
     return jsonAPI(api => api.post(url, datas))
 }
+
+export const setUserPassword = datas => {
+    const url = '/profile/setpassword/'
+    return jsonAPI(api => api.post(url, datas))
+}

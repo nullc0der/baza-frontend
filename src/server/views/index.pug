@@ -25,16 +25,22 @@ block head_styles
     if is_prod
         link(rel='stylesheet' type='text/css' href= webpack_assets['main.css'])
 
+block head_scripts
+    script("text/javascript").
+        window.googleMapCallback = function () {
+            console.log('google map loaded')
+        }
+
 block content
     section#root!= html
     section#modal-portal-root
 
+    script(defer async type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDqsDgAvVSeYBL2Q7p8x-kAB0lLuwlNW7c&libraries=places&callback=googleMapCallback")
     script(type='text/javascript' src='https://js.stripe.com/v3/')
     script(defer type='text/javascript' src='/public/vendor/jquery/jquery.js')
     script(defer type='text/javascript' src='/public/vendor/popper.js/umd/popper.js')
     script(defer type='text/javascript' src='/public/vendor/bootstrap/js/bootstrap.js')
     script(type='text/javascript' src='/public/vendor/wowjs/wow.js')
-    script(type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDqsDgAvVSeYBL2Q7p8x-kAB0lLuwlNW7c&libraries=places")
 
     script(type='text/javascript' src= webpack_assets['manifest.js'])
 

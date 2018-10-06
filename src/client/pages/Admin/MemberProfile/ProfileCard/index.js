@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import isEmpty from 'lodash/isEmpty'
 
 import { Card, CardHeader, CardBody } from 'components/ui/CardWithTabs'
 import Avatar from 'components/Avatar'
@@ -22,12 +23,16 @@ class ProfileCard extends Component {
     }
 
     componentDidMount() {
-        this.props
-            .fetchProfile()
-            .then(res => {
-                this.setInputValues(this.props.profile)
-            })
-            .catch(res => {})
+        if (isEmpty(this.props.profile)) {
+            this.props
+                .fetchProfile()
+                .then(res => {
+                    this.setInputValues(this.props.profile)
+                })
+                .catch(res => {})
+        } else {
+            this.setInputValues(this.props.profile)
+        }
     }
 
     setInputValues(profile) {
@@ -36,9 +41,9 @@ class ProfileCard extends Component {
                 name: `${profile.user.first_name} ${profile.user.last_name}`,
                 username: profile.username || profile.user.username,
                 gender: profile.gender,
-                aboutMe: profile.about_me,
-                website: profile.website,
-                location: profile.location
+                aboutMe: profile.about_me || '',
+                website: profile.website || '',
+                location: profile.location || ''
             }
         })
     }

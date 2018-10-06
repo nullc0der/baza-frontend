@@ -5,7 +5,6 @@ import { AppContainer } from 'react-hot-loader'
 import Raven from 'raven-js'
 // import { BrowserRouter } from "react-router-dom";
 
-//import { configureStore, saveLocalState, loadLocalState } from './store/index'
 import { configureStore, loadLocalState } from './store/index'
 
 import createHistory from 'history/createBrowserHistory'
@@ -28,10 +27,9 @@ const finalState = { ...localState, ...initialState }
 // Initialize our store
 const store = configureStore(finalState, history)
 
-// Save a local copy whenever store changes
-// Disabled until auth module is fully developed
+//Save a local copy whenever store changes
 // store.subscribe(() => {
-//   saveLocalState(store.getState())
+//     saveLocalState(store.getState())
 // })
 
 // Usually you'd want to remove server copy of minimum css in SSR here

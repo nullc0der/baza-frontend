@@ -57,7 +57,7 @@ const EmailEditComponent = props => {
         onClickSave
     } = props
     return (
-        <div className="flex=horizontal align-items-center email-item">
+        <div className="email-item">
             {isEditing ? (
                 <Fragment>
                     <TextField
@@ -124,7 +124,8 @@ class SocialSettings extends Component {
         }
         this.setState({
             connectedSocials: resData,
-            notConnectedSocials: notConnectedSocials
+            notConnectedSocials: notConnectedSocials,
+            socialError: ''
         })
     }
 
@@ -214,6 +215,12 @@ class SocialSettings extends Component {
             res.json().then(data => {
                 this.setConnectedAndNotConnectedSocials(data)
             })
+        } else {
+            res.json().then(data => {
+                this.setState({
+                    socialError: get(data, 'error', '')
+                })
+            })
         }
     }
 
@@ -245,7 +252,7 @@ class SocialSettings extends Component {
         return (
             <CardContent>
                 <div className="settings-section">
-                    <div className="section-title">Linked Social Accounts</div>
+                    <div className="section-title">Social Accounts</div>
                     <div className="social-accounts-list">
                         {!!this.state.connectedSocials &&
                             this.state.connectedSocials.map((x, i) => (

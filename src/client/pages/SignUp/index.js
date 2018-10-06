@@ -247,7 +247,7 @@ class SignUpPage extends Component {
                                             onChange={this.onInputChange}
                                             icon={
                                                 <i className="material-icons">
-                                                    alternate_email
+                                                    email
                                                 </i>
                                             }
                                         />
