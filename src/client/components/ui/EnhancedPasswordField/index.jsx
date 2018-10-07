@@ -68,7 +68,15 @@ export default class EnhancedPasswordField extends Component {
     }
 
     render() {
-        const { className, id, label, icon, errorState, value } = this.props
+        const {
+            className,
+            id,
+            label,
+            icon,
+            errorState,
+            value,
+            showStrength = false
+        } = this.props
         const { strengthBar } = this.state
 
         const cx = classnames(
@@ -100,7 +108,7 @@ export default class EnhancedPasswordField extends Component {
                             : 'visibility'}
                     </i>
                 </div>
-                {!isEmpty(strengthBar) && (
+                {!!(!isEmpty(strengthBar) & showStrength) && (
                     <div className="password-strength text-left mt-2">
                         <p className="password-strength-info">
                             Password strength:{' '}

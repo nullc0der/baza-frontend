@@ -29,7 +29,8 @@ export default class SubscribedGroups extends Component {
             inputValues: {
                 ...prevState.inputValues,
                 [id]: value
-            }
+            },
+            passwordChangeSuccessText: ''
         }))
     }
 
@@ -72,7 +73,8 @@ export default class SubscribedGroups extends Component {
                         newPassword1: get(err, 'new_password_1', null),
                         newPassword2: get(err, 'new_password_2', null),
                         nonField: get(err, 'non_field_errors', null)
-                    }
+                    },
+                    passwordChangeSuccessText: ''
                 })
             })
     }
@@ -102,6 +104,9 @@ export default class SubscribedGroups extends Component {
                             value={this.state.inputValues.newPassword1}
                             onChange={this.onInputChange}
                             checkStrength={true}
+                            showStrength={
+                                this.state.inputValues.newPassword1.length > 0
+                            }
                         />
                         <EnhancedPasswordField
                             id="newPassword2"
