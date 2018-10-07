@@ -164,6 +164,7 @@ const ProfileCardContent = props => {
                                             )
                                         }}
                                         defaultValue={profile.location}
+                                        data-lpignore={true}
                                     />
                                     <div className="text-danger">
                                         {get(errors, 'location', '')}
