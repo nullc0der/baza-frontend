@@ -231,6 +231,9 @@ class SignUpPage extends Component {
                                                 this.state.errorText.username
                                             }
                                             onChange={this.onInputChange}
+                                            value={
+                                                this.state.inputValues.username
+                                            }
                                             icon={
                                                 <i className="material-icons">
                                                     perm_identity
@@ -245,6 +248,7 @@ class SignUpPage extends Component {
                                                 this.state.errorText.email
                                             }
                                             onChange={this.onInputChange}
+                                            value={this.state.inputValues.email}
                                             icon={
                                                 <i className="material-icons">
                                                     email
@@ -259,6 +263,9 @@ class SignUpPage extends Component {
                                                 this.state.errorText.password
                                             }
                                             onChange={this.onInputChange}
+                                            value={
+                                                this.state.inputValues.password
+                                            }
                                             icon={
                                                 <i className="material-icons">
                                                     lock_outline
@@ -274,6 +281,9 @@ class SignUpPage extends Component {
                                                 this.state.errorText.password1
                                             }
                                             onChange={this.onInputChange}
+                                            value={
+                                                this.state.inputValues.password1
+                                            }
                                             icon={
                                                 <i className="material-icons">
                                                     lock_outline

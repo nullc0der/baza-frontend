@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import classnames from 'classnames'
 
-import debounce from 'lodash/debounce'
+//import debounce from 'lodash/debounce'
 
 import s from './TextField.scss'
 
@@ -14,7 +14,7 @@ export default class TextField extends Component {
         if (this.props.value) {
             this.setState({ value: this.props.value })
         }
-        this._onChange = debounce(this.onChange, 100, { trailing: true })
+        //this._onChange = debounce(this.onChange, 30, { trailing: true })
     }
 
     componentWillReceiveProps = nextProps => {
@@ -33,7 +33,7 @@ export default class TextField extends Component {
         const value = e.target.value
         const id = e.target.id
         this.setState({ value })
-        this._onChange(id, value)
+        this.onChange(id, value)
     }
 
     render() {

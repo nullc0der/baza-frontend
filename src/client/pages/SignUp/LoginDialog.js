@@ -209,6 +209,7 @@ class LoginDialog extends Component {
                         label="Username"
                         className="mb-3"
                         icon={<i className="material-icons">person</i>}
+                        value={this.state.inputValues.username}
                         onChange={this.onInputChange}
                         errorState={
                             this.state.errorText.username.length
@@ -221,6 +222,7 @@ class LoginDialog extends Component {
                         label="Password"
                         className="mb-3"
                         icon={<i className="material-icons">lock_outline</i>}
+                        value={this.state.inputValues.password}
                         onChange={this.onInputChange}
                         errorState={
                             this.state.errorText.password.length
