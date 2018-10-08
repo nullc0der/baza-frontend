@@ -50,6 +50,7 @@ const EmailComponent = props => {
 
 const EmailEditComponent = props => {
     const {
+        emailValue,
         isEditing,
         onClickAddNew,
         onChangeEmailInput,
@@ -66,6 +67,7 @@ const EmailEditComponent = props => {
                         className={`${emailInputError ? 'mb-3' : 'mb-1'}`}
                         onChange={onChangeEmailInput}
                         errorState={emailInputError}
+                        value={emailValue}
                     />
                     <div
                         className="btn btn-block btn-sm btn-dark"
@@ -351,6 +353,7 @@ class SocialSettings extends Component {
                         />
                     ))}
                     <EmailEditComponent
+                        emailValue={this.state.emailInput}
                         isEditing={this.state.isEditing}
                         onClickAddNew={this.onClickAddNew}
                         onChangeEmailInput={this.onChangeEmailInput}

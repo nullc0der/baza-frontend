@@ -431,11 +431,20 @@ $references-card-tint: #f5a623;
             background-color: #18cff8;
         }
     }
-    .password-section {
+    .password-section,
+    .two-factor-section {
         @include media-breakpoint-up(md, $grid-breakpoints) {
             max-width: 450px;
         }
     }
+    // .two-factor-section {
+    //     .modal-dialog {
+    //         width: 35vw;
+    //         @include media-breakpoint-down(sm, $grid-breakpoints) {
+    //             width: auto;
+    //         }
+    //     }
+    // }
 }
 
 :local(.container) .references-card {

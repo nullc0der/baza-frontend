@@ -10,11 +10,13 @@ import {
 import SocialSettings from './SocialSettings'
 import PublicVisibility from './PublicVisibility'
 import SetPassword from './SetPassword'
+import TwoFactor from './TwoFactor'
 
 const CARD_TABS = [
     { label: 'Social Settings' },
     { label: 'Public Visibility' },
-    { label: 'Password' }
+    { label: 'Password' },
+    { label: 'Two Factor Authentication' }
 ]
 export default class SettingsCard extends Component {
     state = {
@@ -43,6 +45,7 @@ export default class SettingsCard extends Component {
                         <SocialSettings />
                         <PublicVisibility />
                         <SetPassword />
+                        <TwoFactor />
                     </SwipeableViews>
                 </CardBody>
             </Card>

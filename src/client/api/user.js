@@ -126,3 +126,41 @@ export const setUserPassword = datas => {
     const url = '/profile/setpassword/'
     return jsonAPI(api => api.post(url, datas))
 }
+
+export const getTwoFactorStatus = () => {
+    const url = '/profile/twofactor/?type=status'
+    return jsonAPI(api => api.get(url))
+}
+
+export const getTwoFactorRecoveryCodes = () => {
+    const url = '/profile/twofactor/?type=getcodes'
+    return jsonAPI(api => api.get(url))
+}
+
+export const getProvisioningUri = () => {
+    const url = '/profile/twofactor/'
+    return jsonAPI(api =>
+        api.post(url, {
+            type: 'geturi'
+        })
+    )
+}
+
+export const verifyTwoFactor = otp => {
+    const url = '/profile/twofactor/'
+    return jsonAPI(api =>
+        api.post(url, {
+            type: 'verify',
+            otp: otp
+        })
+    )
+}
+
+export const disableTwoFactor = () => {
+    const url = '/profile/twofactor/'
+    return jsonAPI(api =>
+        api.post(url, {
+            type: 'disable'
+        })
+    )
+}
