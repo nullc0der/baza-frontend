@@ -65,39 +65,44 @@ export default class Dialog extends Component {
                 aria-labelledby="userLoginModal"
                 aria-hidden="true">
                 <div className={backdropClass} onClick={this.onRequestClose} />
-                <CSSTransitionGroup
-                    transitionName="fade"
-                    transitionAppear={true}
-                    transitionAppearTimeout={500}
-                    transitionEnter={false}
-                    transitionLeave={false}>
-                    <div
-                        className="modal-dialog modal-dialog-centered"
-                        role="document">
+                {!!isOpen && (
+                    <CSSTransitionGroup
+                        transitionName="fade"
+                        transitionAppear={true}
+                        transitionAppearTimeout={500}
+                        transitionEnter={false}
+                        transitionLeave={false}>
                         <div
-                            className="modal-content"
-                            ref={node => (this.modalContent = node)}>
-                            <div className="modal-header">
-                                {!!title && (
-                                    <h5 className="modal-title"> {title} </h5>
+                            className="modal-dialog modal-dialog-centered"
+                            role="document">
+                            <div
+                                className="modal-content"
+                                ref={node => (this.modalContent = node)}>
+                                <div className="modal-header">
+                                    {!!title && (
+                                        <h5 className="modal-title">
+                                            {' '}
+                                            {title}{' '}
+                                        </h5>
+                                    )}
+                                    <button
+                                        type="button"
+                                        className="close"
+                                        aria-label="Close"
+                                        onClick={this.onRequestClose}>
+                                        <i className="material-icons">close</i>
+                                    </button>
+                                </div>
+                                <div className="modal-body">
+                                    {this.props.children}
+                                </div>
+                                {!!footer && (
+                                    <div className="modal-footer">{footer}</div>
                                 )}
-                                <button
-                                    type="button"
-                                    className="close"
-                                    aria-label="Close"
-                                    onClick={this.onRequestClose}>
-                                    <i className="material-icons">close</i>
-                                </button>
                             </div>
-                            <div className="modal-body">
-                                {this.props.children}
-                            </div>
-                            {!!footer && (
-                                <div className="modal-footer">{footer}</div>
-                            )}
                         </div>
-                    </div>
-                </CSSTransitionGroup>
+                    </CSSTransitionGroup>
+                )}
             </div>
         )
 

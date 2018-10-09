@@ -45,7 +45,7 @@ $references-card-tint: #f5a623;
         overflow: hidden;
         position: absolute;
         left: calc(50% - 46px);
-        top: 54px;
+        top: 50px;
         box-shadow: -1px -1px 20px 1px rgba(0, 0, 0, 0.12),
             1px 1px 20px 1px rgba(0, 0, 0, 0.12);
     }
@@ -437,14 +437,18 @@ $references-card-tint: #f5a623;
             max-width: 450px;
         }
     }
-    // .two-factor-section {
-    //     .modal-dialog {
-    //         width: 35vw;
-    //         @include media-breakpoint-down(sm, $grid-breakpoints) {
-    //             width: auto;
-    //         }
-    //     }
-    // }
+    .two-factor-section {
+        font-weight: 600;
+    }
+}
+
+:local(.container) {
+    .modal-dialog {
+        width: 30vw;
+        @include media-breakpoint-down(sm, $grid-breakpoints) {
+            width: auto;
+        }
+    }
 }
 
 :local(.container) .references-card {
