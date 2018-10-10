@@ -7,6 +7,7 @@ import NotFoundPage from 'pages/NotFoundPage'
 import EmailVerificationPage from 'pages/SignUp/EmailVerification'
 import ForgotPasswordPage from 'pages/SignUp/ForgotPasswordPage'
 import AddSocialEmailPage from 'pages/SignUp/AddSocialEmailPage'
+import TwoFactorPage from 'pages/SignUp/TwoFactorPage'
 
 import AdminContainer from 'containers/AdminContainer'
 
@@ -27,6 +28,7 @@ const AppRoutes = location => (
             component={ForgotPasswordPage}
         />
         <Route path="/addemail/" exact component={AddSocialEmailPage} />
+        <Route path="/twofactor/" exact component={TwoFactorPage} />
         <Route path="/profile" component={AdminContainer} />
         <Route path="/coinsale" component={AdminContainer} />
         <Route path="/wallets" component={AdminContainer} />

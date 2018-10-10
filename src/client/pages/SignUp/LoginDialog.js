@@ -38,7 +38,10 @@ class LoginDialog extends Component {
         redirectToOrigin: false,
         email: '',
         emailVerificationRequired: false,
-        redirectToSocialEmailPage: false
+        redirectURL: '',
+        fromSocial: '',
+        token: '',
+        backend: ''
     }
 
     closeLoginModal = () => {
@@ -80,11 +83,28 @@ class LoginDialog extends Component {
                             emailVerificationRequired: true
                         })
                     } else {
+                        store.dispatch(
+                            authActions.authenticateUser(
+                                responseData.access_token,
+                                responseData.email_verification,
+                                responseData.email_verified,
+                                responseData.expires_in
+                            )
+                        )
+                        if (rememberMe) {
+                            saveLocalState(store.getState())
+                        }
                         this.setState({
                             shouldRedirect: true,
                             redirectToOrigin: true
                         })
                     }
+                } else if (responseData.two_factor_enabled) {
+                    this.setState({
+                        shouldRedirect: true,
+                        redirectURL: '/twofactor/',
+                        fromSocial: responseData.from_social
+                    })
                 } else {
                     this.setState({
                         errorText: {
@@ -105,7 +125,7 @@ class LoginDialog extends Component {
             })
     }
 
-    handleSocialLoginResponse = (responseData, isTwitter = false) => {
+    handleSocialLoginResponse = (responseData, token, backend) => {
         if (responseData.access_token) {
             if (responseData.email_exist) {
                 if (
@@ -132,9 +152,17 @@ class LoginDialog extends Component {
             } else {
                 this.setState({
                     shouldRedirect: true,
-                    redirectToSocialEmailPage: true
+                    redirectURL: '/addemail/'
                 })
             }
+        } else if (responseData.two_factor_enabled) {
+            this.setState({
+                shouldRedirect: true,
+                redirectURL: '/twofactor/',
+                fromSocial: responseData.from_social,
+                token: token,
+                backend: backend
+            })
         } else {
             this.setState({
                 errorText: {
@@ -148,7 +176,7 @@ class LoginDialog extends Component {
         const convertToken = Auth.convertToken(token, backend)
         convertToken
             .then(responseData => {
-                this.handleSocialLoginResponse(responseData)
+                this.handleSocialLoginResponse(responseData, token, backend)
             })
             .catch(err => {
                 this.setState(prevState => ({
@@ -163,7 +191,7 @@ class LoginDialog extends Component {
     handleTwitterLogin = res => {
         if (res.status === 200) {
             res.json().then(data => {
-                this.handleSocialLoginResponse(data, true)
+                this.handleSocialLoginResponse(data, data.token, data.backend)
             })
         } else {
             res.json().then(data => {
@@ -180,7 +208,7 @@ class LoginDialog extends Component {
     render() {
         const cx = classnames(s.loginDialog, 'login-dialog')
         const { originURL } = this.props.location.state || {
-            originURL: '/member-profile'
+            originURL: '/profile'
         }
         const twitterLoginUrl =
             process.env.NODE_ENV === 'development'
@@ -195,7 +223,19 @@ class LoginDialog extends Component {
             this.state.redirectToOrigin ? (
                 <Redirect to={originURL} />
             ) : (
-                <Redirect to="/addemail/" />
+                <Redirect
+                    to={{
+                        pathname: this.state.redirectURL,
+                        state: {
+                            username: this.state.inputValues.username,
+                            password: this.state.inputValues.password,
+                            fromSocial: this.state.fromSocial,
+                            rememberMe: this.state.inputValues.rememberMe,
+                            token: this.state.token,
+                            backend: this.state.backend
+                        }
+                    }}
+                />
             )
         ) : (
             <Dialog

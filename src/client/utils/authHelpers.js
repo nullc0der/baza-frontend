@@ -1,6 +1,6 @@
 import { create } from 'apisauce'
 
-import { store, saveLocalState, removeLocalState } from 'store'
+import { store, removeLocalState } from 'store'
 import { actions as authActions } from 'store/Auth'
 
 const baseURL =
@@ -57,17 +57,6 @@ export default class Auth {
                 password: password
             }).then(response => {
                 if (response.ok) {
-                    store.dispatch(
-                        authActions.authenticateUser(
-                            response.data.access_token,
-                            response.data.email_verification,
-                            response.data.email_verified,
-                            response.data.expires_in
-                        )
-                    )
-                    if (rememberUser) {
-                        saveLocalState(store.getState())
-                    }
                     resolve(response.data)
                 } else if (response.problem === 'NETWORK_ERROR') {
                     reject(
@@ -163,14 +152,6 @@ export default class Auth {
                 backend: backend
             }).then(response => {
                 if (response.ok) {
-                    store.dispatch(
-                        authActions.authenticateUser(
-                            response.data.access_token,
-                            response.data.email_verification,
-                            response.data.email_verified,
-                            response.data.expires_in
-                        )
-                    )
                     resolve(response.data)
                 }
                 reject(response.data)
@@ -199,6 +180,37 @@ export default class Auth {
             api.get('registrationenabled/').then(response => {
                 if (response.ok) {
                     resolve(response.data)
+                }
+            })
+        })
+    }
+
+    static twoFactorLogin(
+        code = '',
+        fromSocial = false,
+        username = '',
+        password = '',
+        token = '',
+        backend = ''
+    ) {
+        return new Promise((resolve, reject) => {
+            api.setHeader('Content-Type', 'application/json')
+            const data = {
+                from_social: fromSocial,
+                code: code
+            }
+            if (!fromSocial) {
+                data['username'] = username
+                data['password'] = password
+            } else {
+                data['token'] = token
+                data['backend'] = backend
+            }
+            api.post('twofactor/', data).then(response => {
+                if (response.ok) {
+                    resolve(response.data)
+                } else {
+                    reject(response.data)
                 }
             })
         })

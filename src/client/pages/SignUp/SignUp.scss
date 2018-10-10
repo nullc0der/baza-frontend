@@ -266,3 +266,49 @@
         }
     }
 }
+
+:local(.twoFactorPage) {
+    .app-header {
+        z-index: $zindex-fixed;
+        .menu-icon {
+            color: $dark;
+            border: none;
+        }
+        .navbar-toggler {
+            border-color: transparent;
+        }
+    }
+
+    .app-header + .page-layer {
+        padding-top: $header-height;
+    }
+
+    @include media-breakpoint-down(sm, $grid-breakpoints) {
+        .page-layer {
+            overflow-y: auto;
+        }
+        .two-factor-page-container {
+            overflow: initial;
+        }
+    }
+
+    .two-factor-page-container {
+        background: url('/public/img/hero_image.jpg') no-repeat center center
+            fixed;
+        background-size: cover;
+        .card-title {
+            font-size: 16px;
+            font-weight: bold;
+        }
+        .two-factor-section {
+            width: 50%;
+            margin-left: 25%;
+        }
+        @include media-breakpoint-down(sm, $grid-breakpoints) {
+            .two-factor-section {
+                width: 80%;
+                margin-left: 10%;
+            }
+        }
+    }
+}

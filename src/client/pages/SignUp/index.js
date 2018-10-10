@@ -39,7 +39,10 @@ class SignUpPage extends Component {
         },
         registerSuccessText: '',
         shouldRedirect: false,
-        redirectToSocialEmailPage: false
+        redirectURL: '',
+        fromSocial: '',
+        token: '',
+        backend: ''
     }
 
     componentDidMount = () => {
@@ -114,7 +117,7 @@ class SignUpPage extends Component {
             })
     }
 
-    handleSocialResponse = responseData => {
+    handleSocialResponse = (responseData, token, backend) => {
         if (responseData.access_token) {
             if (responseData.email_exist) {
                 if (
@@ -137,16 +140,25 @@ class SignUpPage extends Component {
                         responseData.expires_in
                     )
                     this.setState({
-                        shouldRedirect: true
+                        shouldRedirect: true,
+                        redirectURL: '/profile/'
                     })
                     saveLocalState(store.getState())
                 }
             } else {
                 this.setState({
                     shouldRedirect: true,
-                    redirectToSocialEmailPage: true
+                    redirectURL: '/addemail/'
                 })
             }
+        } else if (responseData.two_factor_enabled) {
+            this.setState({
+                shouldRedirect: true,
+                redirectURL: '/twofactor/',
+                fromSocial: responseData.from_social,
+                token: token,
+                backend: backend
+            })
         } else {
             this.setState({
                 errorText: {
@@ -160,7 +172,7 @@ class SignUpPage extends Component {
         const convertToken = Auth.convertToken(token, backend)
         convertToken
             .then(responseData => {
-                this.handleSocialResponse(responseData)
+                this.handleSocialResponse(responseData, token, backend)
             })
             .catch(err => {
                 this.setState(prevState => ({
@@ -175,7 +187,7 @@ class SignUpPage extends Component {
     handleTwitterLogin = res => {
         if (res.status === 200) {
             res.json().then(data => {
-                this.handleSocialResponse(data, true)
+                this.handleSocialResponse(data, data.token, data.backend)
             })
         } else {
             res.json().then(data => {
@@ -201,11 +213,16 @@ class SignUpPage extends Component {
                 : '/api/v1/auth/twitter/getrequesttoken/'
 
         return this.state.shouldRedirect ? (
-            this.state.redirectToSocialEmailPage ? (
-                <Redirect to="/addemail/" />
-            ) : (
-                <Redirect to="/member-profile/" />
-            )
+            <Redirect
+                to={{
+                    pathname: this.state.redirectURL,
+                    state: {
+                        fromSocial: this.state.fromSocial,
+                        token: this.state.token,
+                        backend: this.state.backend
+                    }
+                }}
+            />
         ) : (
             <div className={cx}>
                 <Header invert inCenter />
