@@ -36,14 +36,7 @@ class TwoFactorPage extends Component {
 
     onTwoFactorSubmit = () => {
         const locationState = this.props.location.state
-        Auth.twoFactorLogin(
-            this.state.inputValues.code,
-            locationState.fromSocial,
-            locationState.username,
-            locationState.password,
-            locationState.token,
-            locationState.backend
-        )
+        Auth.twoFactorLogin(this.state.inputValues.code, locationState.uuid)
             .then(responseData => {
                 store.dispatch(
                     authActions.authenticateUser(
@@ -53,7 +46,7 @@ class TwoFactorPage extends Component {
                         responseData.expires_in
                     )
                 )
-                if (locationState.rememberMe || locationState.fromSocial) {
+                if (locationState.rememberMe || responseData.from_social) {
                     saveLocalState(store.getState())
                 }
                 this.setState({
@@ -73,7 +66,7 @@ class TwoFactorPage extends Component {
     render() {
         const cx = classnames(s.twoFactorPage, 'two-factor-page')
         return this.state.shouldRedirect ? (
-            <Redirect to="/profile/" />
+            <Redirect to={this.props.location.state.redirectURL} />
         ) : (
             <div className={cx}>
                 <Header invert InCenter />

@@ -40,9 +40,7 @@ class SignUpPage extends Component {
         registerSuccessText: '',
         shouldRedirect: false,
         redirectURL: '',
-        fromSocial: '',
-        token: '',
-        backend: ''
+        uuid: ''
     }
 
     componentDidMount = () => {
@@ -117,7 +115,7 @@ class SignUpPage extends Component {
             })
     }
 
-    handleSocialResponse = (responseData, token, backend) => {
+    handleSocialResponse = responseData => {
         if (responseData.access_token) {
             if (responseData.email_exist) {
                 if (
@@ -156,8 +154,7 @@ class SignUpPage extends Component {
                 shouldRedirect: true,
                 redirectURL: '/twofactor/',
                 fromSocial: responseData.from_social,
-                token: token,
-                backend: backend
+                uuid: responseData.uuid
             })
         } else {
             this.setState({
@@ -172,7 +169,7 @@ class SignUpPage extends Component {
         const convertToken = Auth.convertToken(token, backend)
         convertToken
             .then(responseData => {
-                this.handleSocialResponse(responseData, token, backend)
+                this.handleSocialResponse(responseData)
             })
             .catch(err => {
                 this.setState(prevState => ({
@@ -187,7 +184,7 @@ class SignUpPage extends Component {
     handleTwitterLogin = res => {
         if (res.status === 200) {
             res.json().then(data => {
-                this.handleSocialResponse(data, data.token, data.backend)
+                this.handleSocialResponse(data)
             })
         } else {
             res.json().then(data => {
@@ -218,8 +215,8 @@ class SignUpPage extends Component {
                     pathname: this.state.redirectURL,
                     state: {
                         fromSocial: this.state.fromSocial,
-                        token: this.state.token,
-                        backend: this.state.backend
+                        uuid: this.state.uuid,
+                        redirectURL: '/profile'
                     }
                 }}
             />

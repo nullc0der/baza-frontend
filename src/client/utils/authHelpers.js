@@ -187,24 +187,13 @@ export default class Auth {
 
     static twoFactorLogin(
         code = '',
-        fromSocial = false,
-        username = '',
-        password = '',
-        token = '',
-        backend = ''
+        uuid = ''
     ) {
         return new Promise((resolve, reject) => {
             api.setHeader('Content-Type', 'application/json')
             const data = {
-                from_social: fromSocial,
+                uuid: uuid,
                 code: code
-            }
-            if (!fromSocial) {
-                data['username'] = username
-                data['password'] = password
-            } else {
-                data['token'] = token
-                data['backend'] = backend
             }
             api.post('twofactor/', data).then(response => {
                 if (response.ok) {
