@@ -14,14 +14,18 @@ import {
 import { CardContent } from 'components/ui/CardWithTabs'
 import Dialog from 'components/ui/Dialog'
 import TextField from 'components/ui/TextField'
+import EnhancedPasswordField from 'components/ui/EnhancedPasswordField'
 import s from '../MemberProfile.scss'
 
 export default class TwoFactor extends Component {
     state = {
         twoFactorEnableDialogIsOpen: false,
+        twoFactorDisableDialogIsOpen: false,
         twoFactorEnabled: false,
         error: null,
         otp: '',
+        password: '',
+        passwordError: null,
         provisioningUri: ''
     }
 
@@ -45,7 +49,9 @@ export default class TwoFactor extends Component {
                             res.data,
                             'two_factor_enabled',
                             false
-                        )
+                        ),
+                        otp: '',
+                        error: null
                     },
                     () => {
                         if (get(res.data, 'two_factor_enabled', false)) {
@@ -62,13 +68,29 @@ export default class TwoFactor extends Component {
     }
 
     onClickDisableTwoFactor = () => {
-        disableTwoFactor()
+        const toggleTwoFactorDisableDialog = this.toggleTwoFactorDisableDialog
+        disableTwoFactor(this.state.password)
             .then(res => {
-                this.setState({
-                    twoFactorEnabled: get(res.data, 'two_factor_enabled', false)
-                })
+                this.setState(
+                    {
+                        twoFactorEnabled: get(
+                            res.data,
+                            'two_factor_enabled',
+                            false
+                        ),
+                        password: '',
+                        passwordError: null
+                    },
+                    () => toggleTwoFactorDisableDialog()
+                )
             })
-            .catch(res => {})
+            .catch(res => {
+                if (!res.password_valid) {
+                    this.setState({
+                        passwordError: 'Invalid password'
+                    })
+                }
+            })
     }
 
     toggleTwoFactorEnableDialog = () => {
@@ -82,9 +104,22 @@ export default class TwoFactor extends Component {
         })
     }
 
+    toggleTwoFactorDisableDialog = () => {
+        this.setState({
+            twoFactorDisableDialogIsOpen: !this.state
+                .twoFactorDisableDialogIsOpen
+        })
+    }
+
     onTwoFactorCodeChange = (id, value) => {
         this.setState({
             otp: value
+        })
+    }
+
+    onPasswordChange = (id, value) => {
+        this.setState({
+            password: value
         })
     }
 
@@ -100,10 +135,6 @@ export default class TwoFactor extends Component {
     }
 
     render() {
-        // const recoveryCodeUrl =
-        //     process.env.NODE_ENV === 'development'
-        //         ? 'http://localhost:8000/api/v1/profile/twofactor/?type=getcodes'
-        //         : '/api/v1/profile/twofactor/?type=getcodes'
         return (
             <CardContent>
                 <div className="settings-section">
@@ -139,7 +170,7 @@ export default class TwoFactor extends Component {
                                 </button>
                                 <button
                                     className="btn btn-block btn-sm btn-dark"
-                                    onClick={this.onClickDisableTwoFactor}>
+                                    onClick={this.toggleTwoFactorDisableDialog}>
                                     Click here to disable
                                 </button>
                             </Fragment>
@@ -174,6 +205,36 @@ export default class TwoFactor extends Component {
                                     <button
                                         className="btn btn-block btn-sm btn-dark"
                                         onClick={this.onClickVerifyTwoFactor}>
+                                        Submit
+                                    </button>
+                                </div>
+                            </div>
+                        </Dialog>
+                        <Dialog
+                            className={s.container}
+                            isOpen={this.state.twoFactorDisableDialogIsOpen}
+                            title="Disable Two Factor"
+                            onRequestClose={this.toggleTwoFactorDisableDialog}>
+                            <div className="text-center">
+                                <p className="mt-3">
+                                    Type your password to disable two factor
+                                </p>
+                                <div className="ml-3 mr-3">
+                                    <EnhancedPasswordField
+                                        id="password"
+                                        label="Password"
+                                        className={`${
+                                            this.state.passwordError
+                                                ? 'mb-3'
+                                                : 'mb-1'
+                                        }`}
+                                        errorState={this.state.passwordError}
+                                        onChange={this.onPasswordChange}
+                                        value={this.state.password}
+                                    />
+                                    <button
+                                        className="btn btn-block btn-sm btn-dark"
+                                        onClick={this.onClickDisableTwoFactor}>
                                         Submit
                                     </button>
                                 </div>

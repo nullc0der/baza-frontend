@@ -156,11 +156,12 @@ export const verifyTwoFactor = otp => {
     )
 }
 
-export const disableTwoFactor = () => {
+export const disableTwoFactor = password => {
     const url = '/profile/twofactor/'
     return jsonAPI(api =>
         api.post(url, {
-            type: 'disable'
+            type: 'disable',
+            password: password
         })
     )
 }
