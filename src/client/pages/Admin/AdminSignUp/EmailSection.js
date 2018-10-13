@@ -44,7 +44,7 @@ export default class EmailSection extends Component {
                             className="is-textbox"
                             placeholder="verification code"
                             errorState={errorState.verificationCode}
-                            inputValues={inputValues.verificationCode}
+                            value={inputValues.verificationCode}
                             onChange={onInputChange}
                             id="verificationCode"
                             min="1"
