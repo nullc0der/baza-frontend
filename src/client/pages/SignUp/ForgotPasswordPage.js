@@ -19,7 +19,8 @@ const EmailSection = props => {
                     id="email"
                     label="Email"
                     className="mb-3"
-                    icon={<i className="material-icons">alternate_email</i>}
+                    icon={<i className="material-icons">email</i>}
+                    value={props.inputValues.email}
                     onChange={props.onInputChange}
                     errorState={
                         props.errorText.email.length
@@ -50,6 +51,7 @@ const PasswordSection = props => {
                     label="Password"
                     className="mb-3"
                     icon={<i className="material-icons">lock_outline</i>}
+                    value={props.inputValues.password}
                     errorState={
                         props.errorText.password.length
                             ? props.errorText.password
@@ -63,6 +65,7 @@ const PasswordSection = props => {
                     label="Confirm Password"
                     className="mb-3"
                     onChange={props.onInputChange}
+                    value={props.inputValues.password1}
                     errorState={
                         props.errorText.password1.length
                             ? props.errorText.password1
@@ -192,6 +195,7 @@ export default class ForgotPasswordPage extends Component {
                                     {this.state.showEmailPage ? (
                                         <EmailSection
                                             onInputChange={this.onInputChange}
+                                            inputValues={this.state.inputValues}
                                             errorText={this.state.errorText}
                                             emailSent={this.state.emailSent}
                                             onEmailSubmit={this.onEmailSubmit}
@@ -199,6 +203,7 @@ export default class ForgotPasswordPage extends Component {
                                     ) : (
                                         <PasswordSection
                                             onInputChange={this.onInputChange}
+                                            inputValues={this.state.inputValues}
                                             errorText={this.state.errorText}
                                             statusText={this.state.statusText}
                                             onPasswordSubmit={

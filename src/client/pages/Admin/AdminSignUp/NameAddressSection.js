@@ -18,8 +18,13 @@ const CountryDropdown = props => {
                     {props.selectedCountry ? props.selectedCountry : 'Country'}
                 </button>
                 <div className="dropdown-menu dropdown-menu-right">
-                    <div className='search-input'>
-                        <TextField id='countrySearch' label='Search here' onChange={props.onSearchInputChange} />
+                    <div className="search-input">
+                        <TextField
+                            id="countrySearch"
+                            label="Search here"
+                            onChange={props.onSearchInputChange}
+                            value={props.searchInputValue}
+                        />
                     </div>
                     {props.countries.map((item, i) => (
                         <div
@@ -31,27 +36,30 @@ const CountryDropdown = props => {
                     ))}
                 </div>
             </div>
-            {props.errorState && <div className="ui-textfield-error">{props.errorState}</div>}
+            {props.errorState && (
+                <div className="ui-textfield-error">{props.errorState}</div>
+            )}
         </Fragment>
     )
 }
 
 export default class NameAndAddressSection extends Component {
     state = {
-        countries: COUNTRIES
+        countries: COUNTRIES,
+        searchInputValue: ''
     }
 
     onSearchInputChange = (id, value) => {
         this.setState({
-            countries: COUNTRIES.filter(x => x.toLowerCase().startsWith(value.toLowerCase()))
+            searchInputValue: value,
+            countries: COUNTRIES.filter(x =>
+                x.toLowerCase().startsWith(value.toLowerCase())
+            )
         })
     }
 
     render() {
-        const {
-            errorState,
-            onInputChange
-        } = this.props
+        const { errorState, onInputChange, inputValues } = this.props
         return (
             <div className="signup-section name-address-section">
                 <div className="row">
@@ -59,6 +67,7 @@ export default class NameAndAddressSection extends Component {
                         <TextField
                             id="firstName"
                             label="First Name"
+                            value={inputValues.firstName}
                             errorState={errorState.firstName}
                             onChange={onInputChange}
                         />
@@ -67,6 +76,7 @@ export default class NameAndAddressSection extends Component {
                         <TextField
                             id="lastName"
                             label="Last Name"
+                            value={inputValues.lastName}
                             errorState={errorState.lastName}
                             onChange={onInputChange}
                         />
@@ -78,6 +88,7 @@ export default class NameAndAddressSection extends Component {
                             id="refCode"
                             className="is-textbox"
                             label="Enter your referral code here"
+                            value={inputValues.refCode}
                             errorState={errorState.refCode}
                             onChange={onInputChange}
                         />
@@ -91,6 +102,7 @@ export default class NameAndAddressSection extends Component {
                             errorState={errorState.country}
                             countries={this.state.countries}
                             onSearchInputChange={this.onSearchInputChange}
+                            searchInputValue={this.state.searchInputValue}
                         />
                     </div>
                 </div>
@@ -99,6 +111,7 @@ export default class NameAndAddressSection extends Component {
                         <TextField
                             id="city"
                             label="City"
+                            value={inputValues.city}
                             errorState={errorState.city}
                             onChange={onInputChange}
                         />
@@ -107,6 +120,7 @@ export default class NameAndAddressSection extends Component {
                         <TextField
                             id="state"
                             label="State"
+                            value={inputValues.state}
                             errorState={errorState.state}
                             onChange={onInputChange}
                         />
@@ -117,6 +131,7 @@ export default class NameAndAddressSection extends Component {
                         <TextField
                             id="houseNo"
                             label="House No."
+                            value={inputValues.houseNo}
                             errorState={errorState.houseNo}
                             onChange={onInputChange}
                         />
@@ -125,6 +140,7 @@ export default class NameAndAddressSection extends Component {
                         <TextField
                             id="streetName"
                             label="Street Name"
+                            value={inputValues.streetName}
                             errorState={errorState.streetName}
                             onChange={onInputChange}
                         />
@@ -133,6 +149,7 @@ export default class NameAndAddressSection extends Component {
                         <TextField
                             id="zipCode"
                             label="Zip Code"
+                            value={inputValues.zipCode}
                             errorState={errorState.zipCode}
                             onChange={onInputChange}
                         />

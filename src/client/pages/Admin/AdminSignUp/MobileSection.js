@@ -15,12 +15,16 @@ export default class MobileSection extends Component {
                         onChange={this.props.onInputChange}
                         errorState={this.props.errorState.phoneNumber}
                     />
-                    <div className="btn btn-primary btn-block send-verification-btn" onClick={this.props.sendCode}>
+                    <div
+                        className="btn btn-primary btn-block send-verification-btn"
+                        onClick={this.props.sendCode}>
                         SEND VERIFICATION CODE
                     </div>
                 </div>
                 <hr className="my-4" />
-                <div className="section-title mb-3">ENTER VERIFICATION CODE</div>
+                <div className="section-title mb-3">
+                    ENTER VERIFICATION CODE
+                </div>
                 <div className="row mb-3">
                     <div className="col-md-12">
                         <TextField
@@ -30,7 +34,10 @@ export default class MobileSection extends Component {
                             type="text"
                             id="smsVerificationCode"
                             onChange={this.props.onInputChange}
-                            errorState={this.props.errorState.smsVerificationCode}
+                            errorState={
+                                this.props.errorState.smsVerificationCode
+                            }
+                            value={this.props.inputValues.smsVerificationCode}
                         />
                     </div>
                     {/* <div className="col-md-5 pl-2 pl-md-0 pl-xl-0 pl-lg-0 pt-1 pt-md-0 pt-xl-0 pt-lg-0">
@@ -39,14 +46,19 @@ export default class MobileSection extends Component {
                         </button>
                     </div> */}
                 </div>
-                {
-                    this.props.showPhoneTryAgain && (
-                        <Fragment>
-                            <div className="section-title">Didn't get the code or code is expired?</div>
-                            <div className="btn btn-link try-again-button" onClick={this.props.sendCodeAgain}> Send SMS again </div>
-                        </Fragment>
-                    )
-                }
+                {this.props.showPhoneTryAgain && (
+                    <Fragment>
+                        <div className="section-title">
+                            Didn't get the code or code is expired?
+                        </div>
+                        <div
+                            className="btn btn-link try-again-button"
+                            onClick={this.props.sendCodeAgain}>
+                            {' '}
+                            Send SMS again{' '}
+                        </div>
+                    </Fragment>
+                )}
                 <br />
             </div>
         )

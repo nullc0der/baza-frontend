@@ -9,7 +9,8 @@ export default class EmailSection extends Component {
             onInputChange,
             sendCode,
             sendCodeAgain,
-            showEmailTryAgain
+            showEmailTryAgain,
+            inputValues
         } = this.props
         return (
             <div className="signup-section email-section">
@@ -21,15 +22,20 @@ export default class EmailSection extends Component {
                         className="is-textbox my-3"
                         placeholder="youremailhere@host.tld"
                         errorState={errorState.email}
+                        value={inputValues.email}
                         onChange={onInputChange}
                         id="email"
                     />
-                    <div className="btn btn-primary btn-block send-verification-btn" onClick={sendCode}>
+                    <div
+                        className="btn btn-primary btn-block send-verification-btn"
+                        onClick={sendCode}>
                         SEND VERIFICATION CODE
                     </div>
                 </div>
                 <hr className="my-4" />
-                <div className="section-title mb-3">ENTER VERIFICATION CODE</div>
+                <div className="section-title mb-3">
+                    ENTER VERIFICATION CODE
+                </div>
                 <div className="row mb-3">
                     <div className="col-md-12">
                         <TextField
@@ -38,6 +44,7 @@ export default class EmailSection extends Component {
                             className="is-textbox"
                             placeholder="verification code"
                             errorState={errorState.verificationCode}
+                            inputValues={inputValues.verificationCode}
                             onChange={onInputChange}
                             id="verificationCode"
                             min="1"
@@ -50,14 +57,19 @@ export default class EmailSection extends Component {
                         </button>
                     </div> */}
                 </div>
-                {
-                    showEmailTryAgain && (
-                        <Fragment>
-                            <div className="section-title">Didn't get the code or code is expired?</div>
-                            <div className="btn btn-link try-again-button" onClick={sendCodeAgain}> Send email again </div>
-                        </Fragment>
-                    )
-                }
+                {showEmailTryAgain && (
+                    <Fragment>
+                        <div className="section-title">
+                            Didn't get the code or code is expired?
+                        </div>
+                        <div
+                            className="btn btn-link try-again-button"
+                            onClick={sendCodeAgain}>
+                            {' '}
+                            Send email again{' '}
+                        </div>
+                    </Fragment>
+                )}
                 <br />
             </div>
         )

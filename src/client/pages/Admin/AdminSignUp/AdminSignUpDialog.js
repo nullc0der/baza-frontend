@@ -391,11 +391,13 @@ class AdminSignUpDialog extends Component {
                                 selectedCountry={this.state.selectedCountry}
                                 onCountrySelect={this.onCountrySelect}
                                 onInputChange={this.onInputChange}
+                                inputValues={this.state.inputValues}
                                 errorState={this.state.errorState}
                             />
                             <EmailSection
                                 onInputChange={this.onInputChange}
                                 errorState={this.state.errorState}
+                                inputValues={this.state.inputValues}
                                 sendCode={this.sendVerificationCode}
                                 sendCodeAgain={this.sendVerificationCodeAgain}
                                 showEmailTryAgain={this.state.showEmailTryAgain}
@@ -403,6 +405,7 @@ class AdminSignUpDialog extends Component {
                             <MobileSection
                                 onInputChange={this.onInputChange}
                                 errorState={this.state.errorState}
+                                inputValues={this.state.inputValues}
                                 sendCode={this.sendPhoneVerificationCode}
                                 sendCodeAgain={
                                     this.sendPhoneVerificationCodeAgain

@@ -77,10 +77,11 @@ export default class AddSocialEmailPage extends Component {
                                             className="mb-3"
                                             icon={
                                                 <i className="material-icons">
-                                                    alternate_email
+                                                    email
                                                 </i>
                                             }
                                             onChange={this.onInputChange}
+                                            value={this.state.inputValues.email}
                                             errorState={
                                                 this.state.errorText.email
                                                     .length
