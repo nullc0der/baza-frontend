@@ -2,9 +2,6 @@
 
 :local(.container) {
     color: inherit;
-    @include media-breakpoint-down(xs, $grid-breakpoints) {
-        justify-content: center;
-    }
     .member-tile {
         height: 180px;
         width: 140px;
@@ -14,9 +11,9 @@
         border-radius: 3px;
         background-color: #fff;
         box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.09);
-        @include media-breakpoint-down(xs, $grid-breakpoints) {
-            margin-left: 0;
-            width: 190px;
+        @include media-breakpoint-only(xs, $grid-breakpoints) {
+            margin-left: 5px;
+            width: 38vw;
         }
         &:last-child {
             &:after {
@@ -32,7 +29,7 @@
             border-top: 5px solid $warning;
         }
         &.is-busy {
-            border-top: 5px solid $danger;
+            border-top: 5px solid $color-red700;
         }
     }
     .member-image {

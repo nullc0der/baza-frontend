@@ -73,7 +73,7 @@ class LeftNav extends Component {
                                         (item, i) => (
                                             <div
                                                 key={i}
-                                                className="dropdown-item"
+                                                className="dropdown-item text-capitalize"
                                                 onClick={() =>
                                                     setUserStatus(item)
                                                 }>

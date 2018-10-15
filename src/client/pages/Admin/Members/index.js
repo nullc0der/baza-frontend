@@ -59,7 +59,7 @@ class Members extends Component {
                 finalUsers = finalUsers.filter(x => !_.isEmpty(x.status))
             }
             if (_.includes(filters, 'offline')) {
-                finalUsers = finalUsers.filter(x => !x.is_online)
+                finalUsers = finalUsers.filter(x => _.isEmpty(x.status))
             }
         }
         this.setState({

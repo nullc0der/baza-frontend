@@ -232,7 +232,7 @@ $sidebar-menu-width: $admin-primary-sidebar-menu-width;
             background-color: $warning;
         }
         &.is-busy:after {
-            background-color: $danger;
+            background-color: $color-red700;
         }
     }
 
