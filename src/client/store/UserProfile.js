@@ -6,6 +6,7 @@ import { DispatchAPI } from 'api/base'
 const INITIAL_STATE = {
     isLoading: false,
     hasError: false,
+    userStatus: 'online',
     profile: {},
     profileImages: [],
     userImages: [],
@@ -500,6 +501,12 @@ const updateProfileEmailFailure = err => ({
     error: err
 })
 
+const SET_USER_STATUS = createAction('SET_USER_STATUS')
+const setUserStatus = status => ({
+    type: SET_USER_STATUS,
+    userStatus: status
+})
+
 export const actions = {
     fetchProfile,
     saveProfile,
@@ -520,7 +527,8 @@ export const actions = {
     fetchProfileEmails,
     saveProfileEmail,
     updateProfileEmail,
-    deleteProfileEmail
+    deleteProfileEmail,
+    setUserStatus
 }
 
 export default function UserProfileReducer(state = INITIAL_STATE, action) {
@@ -728,6 +736,11 @@ export default function UserProfileReducer(state = INITIAL_STATE, action) {
                 ...state,
                 profileEmails: action.profileEmails,
                 isLoading: false
+            }
+        case SET_USER_STATUS:
+            return {
+                ...state,
+                userStatus: action.userStatus
             }
         default:
             return state

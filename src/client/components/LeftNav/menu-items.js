@@ -13,6 +13,11 @@ module.exports = [
                 name: 'Wallets',
                 href: '/wallets',
                 icon: 'fa fa-fw fa-credit-card'
+            },
+            {
+                name: 'Members',
+                href: '/members',
+                icon: 'fa fa-fw fa-users'
             }
         ]
     },

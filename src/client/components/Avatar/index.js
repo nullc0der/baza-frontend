@@ -7,7 +7,8 @@ import s from './Avatar.scss'
 
 class Avatar extends Component {
     render() {
-        const { className, size = 24, userProfile } = this.props
+        const { className, size = 24, own = true, otherProfile } = this.props
+        const userProfile = own ? this.props.userProfile : otherProfile
         const userName =
             get(userProfile, 'username', '') ||
             get(userProfile.user, 'username', '')

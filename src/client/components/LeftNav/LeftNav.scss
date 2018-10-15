@@ -215,10 +215,11 @@ $sidebar-menu-width: $admin-primary-sidebar-menu-width;
     .status {
         padding-left: 18px;
         position: relative;
+        cursor: pointer;
         &:after {
             position: absolute;
             left: 0;
-            top: ($circle-size/2);
+            top: 4px;
             @include dimensions($circle-size);
             background-color: rgba(#000, 0.12);
             content: '';
@@ -226,6 +227,19 @@ $sidebar-menu-width: $admin-primary-sidebar-menu-width;
         }
         &.is-online:after {
             background-color: $color_lime500;
+        }
+        &.is-away:after {
+            background-color: $warning;
+        }
+        &.is-busy:after {
+            background-color: $danger;
+        }
+    }
+
+    .dropdown-menu {
+        margin-top: 10px;
+        .dropdown-item {
+            cursor: pointer;
         }
     }
 }

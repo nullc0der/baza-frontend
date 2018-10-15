@@ -9,7 +9,10 @@ export default class WebSocketWrapper extends Component {
         if (Auth.isAuthenticated()) {
             let _url = ''
             const scheme = window.location.protocol === 'https:' ? 'wss' : 'ws'
-            const baseURL = `${scheme}://${window.location.host}`
+            const baseURL =
+                process.env.NODE_ENV === 'development'
+                    ? `${scheme}://localhost:8000`
+                    : `${scheme}://${window.location.host}`
             const { url, onWebSocketData } = this.props
             if (url[0] === '/') {
                 _url = `${baseURL}${url}`
@@ -17,6 +20,12 @@ export default class WebSocketWrapper extends Component {
                 _url = url
             }
             this.initializeWebSocket(_url, onWebSocketData)
+        }
+    }
+
+    componentDidUpdate = prevProps => {
+        if (prevProps.message !== this.props.message) {
+            this.ws.json(this.props.message)
         }
     }
 

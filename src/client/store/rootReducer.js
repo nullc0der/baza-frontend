@@ -12,19 +12,18 @@ import UserProfile from './UserProfile'
 import WalletAccounts from './WalletAccounts'
 import WalletTransanctions from './WalletTransanctions'
 import DistributionSignUp from './DistributionSignUp'
+import Users from './Users'
 
 export default combineReducers({
     router,
     UserProfile,
-
     Auth,
-
     Chat,
     Common,
     Groups,
     Members,
-
     WalletAccounts,
     WalletTransanctions,
-    DistributionSignUp
+    DistributionSignUp,
+    Users
 })

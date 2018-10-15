@@ -9,6 +9,7 @@ import s from './LeftNav.scss'
 import SidebarMenu from './SidebarMenu'
 
 import { actions as commonActions } from 'store/Common'
+import { actions as userProfileActions } from 'store/UserProfile'
 
 import Avatar from 'components/Avatar'
 
@@ -25,7 +26,13 @@ class LeftNav extends Component {
     }
 
     render() {
-        const { className, profile, open = false } = this.props
+        const {
+            className,
+            profile,
+            open = false,
+            userStatus,
+            setUserStatus
+        } = this.props
 
         const cx = classnames(s.container, className, 'flex-vertical', {
             'is-open': open
@@ -49,7 +56,33 @@ class LeftNav extends Component {
                                 {get(profile, 'username', '') ||
                                     get(profile.user, 'username', '')}{' '}
                             </div>
-                            <div className="status is-online"> Online </div>
+                            <div className="status-dropdown-group btn-group">
+                                <a
+                                    className={`text-capitalize status is-${userStatus}`}
+                                    data-toggle="dropdown"
+                                    aria-haspopup="true"
+                                    aria-expanded="false">
+                                    {userStatus}
+                                    <i
+                                        className="fa fa-caret-down"
+                                        style={{ marginLeft: '5px' }}
+                                    />
+                                </a>
+                                <div className="dropdown-menu">
+                                    {['online', 'away', 'busy'].map(
+                                        (item, i) => (
+                                            <div
+                                                key={i}
+                                                className="dropdown-item"
+                                                onClick={() =>
+                                                    setUserStatus(item)
+                                                }>
+                                                {item}
+                                            </div>
+                                        )
+                                    )}
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div className="menu-search" onClick={this.toggleIfThin}>
@@ -77,7 +110,8 @@ class LeftNav extends Component {
 
 const mapStateToProps = state => ({
     breadcrumbs: state.Common.breadcrumbs,
-    profile: state.UserProfile.profile
+    profile: state.UserProfile.profile,
+    userStatus: state.UserProfile.userStatus
 })
 
 const mapDispatchToProps = dispatch => ({
@@ -86,6 +120,9 @@ const mapDispatchToProps = dispatch => ({
     },
     navigateTo(url) {
         return dispatch(push(url))
+    },
+    setUserStatus(status) {
+        return dispatch(userProfileActions.setUserStatus(status))
     }
 })
 

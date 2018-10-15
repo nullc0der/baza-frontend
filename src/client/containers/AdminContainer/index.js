@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Redirect } from 'react-router-dom'
+import get from 'lodash/get'
 
 import Helmet from 'react-helmet'
 
@@ -15,6 +16,9 @@ import SubHeader from 'components/SubHeader'
 import Footer from 'components/AdminFooter'
 import MiniChat from 'components/HeaderMiniChat/MiniChat'
 import NotificationBar from 'components/NotificationBar'
+import WebSocketWrapper from 'components/WebSocketWrapper'
+
+import { actions as usersActions } from 'store/Users'
 
 import AdminRoutes from './AdminRoutes'
 import AdminOverlays from './AdminOverlays'
@@ -24,7 +28,8 @@ import AdminOverlays from './AdminOverlays'
 class AdminContainer extends Component {
     state = {
         isLeftNavOpen: false,
-        isRightNavOpen: false
+        isRightNavOpen: false,
+        webSocketMessage: {}
     }
 
     componentDidMount = () => {
@@ -33,6 +38,15 @@ class AdminContainer extends Component {
     }
     componentWillUnmount = () => {
         document.body.classList.remove('is-admin-ui')
+    }
+    componentDidUpdate = prevProps => {
+        if (prevProps.userStatus !== this.props.userStatus) {
+            this.setState({
+                webSocketMessage: {
+                    status: this.props.userStatus
+                }
+            })
+        }
     }
 
     injectFontIfAbsent = () => {
@@ -54,11 +68,20 @@ class AdminContainer extends Component {
         this.setState({ isRightNavOpen: !this.state.isRightNavOpen })
     }
 
+    onWebSocketData = data => {
+        this.props.setOnlineUsers(get(data.message, 'online_users', []))
+    }
+
     render() {
         return Auth.isAuthenticated() && Auth.isTokenNotExpired() ? (
             <section className={s.container}>
                 <Helmet titleTemplate="%s | Baza" defaultTitle="Baza" />
                 <MiniChat />
+                <WebSocketWrapper
+                    url="/ws/users/"
+                    onWebSocketData={this.onWebSocketData}
+                    message={this.state.webSocketMessage}
+                />
                 <LeftNav
                     className={s.leftNav}
                     open={this.state.isLeftNavOpen}
@@ -87,24 +110,27 @@ class AdminContainer extends Component {
                 />
             </section>
         ) : (
-                <Redirect
-                    to={{
-                        pathname: '/',
-                        hash: '#!login',
-                        state: {
-                            originURL: this.props.location.pathname
-                        }
-                    }}
-                />
-            )
+            <Redirect
+                to={{
+                    pathname: '/',
+                    hash: '#!login',
+                    state: {
+                        originURL: this.props.location.pathname
+                    }
+                }}
+            />
+        )
     }
 }
 
 const mapStateToProps = state => ({
-    location: state.router.location
+    location: state.router.location,
+    userStatus: state.UserProfile.userStatus
 })
 
-const mapDispatchToProps = dispatch => ({})
+const mapDispatchToProps = dispatch => ({
+    setOnlineUsers: users => dispatch(usersActions.setOnlineUsers(users))
+})
 
 export default connect(
     mapStateToProps,
