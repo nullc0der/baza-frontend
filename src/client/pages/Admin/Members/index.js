@@ -63,7 +63,14 @@ class Members extends Component {
             }
         }
         this.setState({
-            users: finalUsers
+            users: finalUsers.sort(
+                (a, b) =>
+                    a.username > b.username
+                        ? 1
+                        : b.username > a.username
+                            ? -1
+                            : 0
+            )
         })
     }
 

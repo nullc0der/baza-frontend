@@ -10,16 +10,12 @@ const ManifestPlugin = require('webpack-manifest-plugin')
 const PATHS = require('./paths')
 const LOADERS = require('./gulp/loaders')
 
-const IS_PROD = process.env.NODE_ENV === "production"
-const IS_TEST = process.env.NODE_ENV === "test"
+const IS_PROD = process.env.NODE_ENV === 'production'
+const IS_TEST = process.env.NODE_ENV === 'test'
 const IS_DEV = process.env.NODE_ENV === 'development'
 
 const envOption = (prod, dev, test) => {
-    return IS_PROD
-        ? prod
-        : IS_TEST
-            ? test
-            : dev
+    return IS_PROD ? prod : IS_TEST ? test : dev
 }
 
 // Initialize config
@@ -44,9 +40,7 @@ config.context = PATHS.SRC
 
 // Entry
 config.entry = {
-    main: [
-        PATHS.SRC_CLIENT + '/index.js'
-    ]
+    main: [PATHS.SRC_CLIENT + '/index.js']
 }
 
 // Output
@@ -57,7 +51,9 @@ config.output = {
     pathinfo: true,
     publicPath: '/public/',
     devtoolModuleFilenameTemplate: info => {
-        return path.resolve(info.absoluteResourcePath).replace(process.cwd(), '')
+        return path
+            .resolve(info.absoluteResourcePath)
+            .replace(process.cwd(), '')
     }
 }
 
@@ -95,7 +91,9 @@ config.plugins = [
         __TEST__: envOption(false, false, true),
         __SERVER__: IS_PROD,
         'process.env': {
-            NODE_ENV: JSON.stringify(envOption('production', 'development', 'test'))
+            NODE_ENV: JSON.stringify(
+                envOption('production', 'development', 'test')
+            )
         }
     }),
     new CaseSensitivePathsPlugin(),
@@ -139,9 +137,7 @@ if (IS_DEV) {
 }
 
 if (IS_PROD) {
-    config.entry.vendors = [
-        PATHS.SRC_CLIENT + '/vendors.js'
-    ]
+    config.entry.vendors = [PATHS.SRC_CLIENT + '/vendors.js']
     config.plugins = [
         new webpack.optimize.CommonsChunkPlugin({
             name: ['vendors', 'manifest'],
@@ -152,7 +148,7 @@ if (IS_PROD) {
             beautify: false,
             mangle: {
                 screw_ie8: true,
-                keep_fnames: true,
+                keep_fnames: true
             },
             compress: {
                 warnings: false,
@@ -167,7 +163,7 @@ if (IS_PROD) {
                 screw_ie8: true,
                 sequences: true,
                 unused: true,
-                keep_infinity: true,
+                keep_infinity: true
             },
             output: {
                 comments: false,
@@ -189,7 +185,6 @@ if (IS_PROD) {
     ]
 }
 
-
 ////////////
 // OTHERS //
 ////////////
@@ -197,7 +192,7 @@ config.node = {
     dgram: 'empty',
     fs: 'empty',
     net: 'empty',
-    tls: 'empty',
+    tls: 'empty'
 }
 // Turn off performance hints during development because we don't do any
 // splitting or minification in interest of speed. These warnings become
@@ -205,6 +200,5 @@ config.node = {
 // config.performance = {
 // 	hints: envOption("warning", false, false)
 // }
-
 
 module.exports = config
