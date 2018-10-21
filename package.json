@@ -13,10 +13,9 @@
         "build": "NODE_ENV=production gulp build",
         "prod:server": "pm2-runtime process.yml",
         "generate-docs": "jsdoc --configure .jsdoc.json --verbose",
-        "profile":
-            "NODE_ENV=production webpack --config tools/webpack.config.client --profile --json > stats.json",
-        "analyze":
-            "npm run profile && webpack-bundle-analyzer stats.json build/public -s gzip"
+        "postinstall": "npm run build",
+        "profile": "NODE_ENV=production webpack --config tools/webpack.config.client --profile --json > stats.json",
+        "analyze": "npm run profile && webpack-bundle-analyzer stats.json build/public -s gzip"
     },
     "dependencies": {
         "animate.css": "3.6.1",
