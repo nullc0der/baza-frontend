@@ -8,9 +8,18 @@ const ContactSection = props => {
     return (
         <div className={cx} id={props.id}>
             <div className="page-section container">
-                <h3 className="text-center mb-3"> Contact </h3>
-                <div className="row">
-                    <div className="col-md-6 mx-auto">
+                <div className="row align-items-center">
+                    <div className="col-md-5">
+                        <div className="p-4 pl-0">
+                            <img
+                                className="img-fluid"
+                                alt="Contact Us"
+                                src="/public/img/contact.svg"
+                            />
+                        </div>
+                    </div>
+                    <div className="col-md-7">
+                        <h3 className="text-center mb-3"> Contact </h3>
                         <form className="form contact-form">
                             <div className="row">
                                 <div className="col-md-6">

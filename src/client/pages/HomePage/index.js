@@ -7,6 +7,7 @@ import Footer from 'components/Footer'
 
 import BasicIncomeCalculator from 'components/BasicIncomeCalculator'
 import ParallaxContainer from 'components/ui/ParallaxContainer'
+import RoadMap from 'components/RoadMap'
 
 import FeaturesSection from './FeaturesSection'
 import CurrentStatusSection from './CurrentStatusSection'
@@ -63,6 +64,7 @@ class HomePage extends Component {
                 <WhitePaperSection id="white-paper-section" />
                 <CurrentStatusSection id="status-section" />
                 <LatestDistributionSection id="latest-section" />
+                <RoadMap id="roadmap-section" />
                 <MapSection id="map-section" />
                 <ContactSection id="contact-section" />
 
