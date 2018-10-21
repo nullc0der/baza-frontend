@@ -64,7 +64,7 @@ const FeaturesSection = props => {
                 </div>
             </div>
             {!props.noCoinSale && (
-                <div className="container page-section">
+                <div className="container coinsale-section page-section">
                     <CoinSale className="pt-4" />
                 </div>
             )}

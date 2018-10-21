@@ -68,6 +68,9 @@
 }
 
 .home-page .features-section {
+    .coinsale-section.page-section {
+        padding-top: 0;
+    }
     .feature-item {
         text-align: center;
     }
@@ -286,6 +289,7 @@
         background-size: 70px 70px;
         width: 0%;
         transition: width 0.36s linear;
+        @include animate-progress-bar(6s);
         &.i-2 {
             transition-delay: 0.4s;
         }
@@ -319,6 +323,21 @@
                 width: 50%;
                 background-color: $primary;
             }
+        }
+    }
+}
+
+.home-page .white-paper-section {
+    .page-section {
+        padding-top: 0;
+    }
+    .section-title-underlined {
+        font-size: 2rem;
+        &:after {
+            height: 3px;
+        }
+        & + p {
+            font-size: 1.15rem;
         }
     }
 }

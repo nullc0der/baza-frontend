@@ -37,3 +37,7 @@
         $color 50%
     );
 }
+
+@mixin animate-progress-bar($time: 6s) {
+    animation: animate-progress-bar $time linear infinite;
+}

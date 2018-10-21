@@ -1,5 +1,4 @@
-@import "ui";
-
+@import 'ui';
 
 :local(.container) {
     color: inherit;
@@ -9,10 +8,11 @@
     .progress {
         .progress-bar {
             border-radius: $progress-border-radius;
+            @include animate-progress-bar(10s);
         }
     }
 
-    .value, 
+    .value,
     .max-value {
         font-size: $font-size-base;
     }
@@ -27,5 +27,4 @@
         margin-right: map-get($spacers, 3);
         align-self: center;
     }
-
 }

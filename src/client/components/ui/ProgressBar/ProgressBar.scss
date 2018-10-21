@@ -25,6 +25,7 @@ $ui-progress-border-radius: 14px;
         align-items: center;
         justify-content: flex-end;
         transition: all 0.24s ease-in-out;
+        @include animate-progress-bar();
     }
     .ui-progress-active-text {
         color: #fff;

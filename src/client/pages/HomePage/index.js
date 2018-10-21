@@ -56,7 +56,7 @@ class HomePage extends Component {
                     </div>
                     <Link to="#!donate" className="hero-donate-wrapper">
                         <h3> Donate Now </h3>
-                        <p> Donate now and become part of the family. </p>
+                        <p> Donate now and become part of the UBI family. </p>
                     </Link>
                 </ParallaxContainer>
 

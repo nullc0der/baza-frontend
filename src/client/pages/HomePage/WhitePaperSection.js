@@ -51,7 +51,11 @@ export default class WhitePaperSection extends React.Component {
                                 Download White Paper
                             </a>
                         </div>
-                        <div className="col-md-7">{this.renderImage()}</div>
+                        <div className="col-md-7">
+                            <div className="image-container">
+                                {this.renderImage()}
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
