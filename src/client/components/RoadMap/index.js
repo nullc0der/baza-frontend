@@ -39,16 +39,12 @@ export default class RoadMapSection extends Component {
     }
 
     render() {
-        const { className, id, title, subtitle } = this.props
+        const { className, id } = this.props
 
         const cx = classnames(className, 'milestone-section')
         return (
             <div className={cx} id={id} ref={node => (this.container = node)}>
-                <div className="container page-section">
-                    <h4 className="section-title text-center mb-3">{title}</h4>
-                    <p className="section-subtitle text-center mb-4">
-                        {subtitle}
-                    </p>
+                <div className="container">
                     <RoadMapGrid />
                 </div>
                 {/* <div className="bg-poker-pattern" /> */}

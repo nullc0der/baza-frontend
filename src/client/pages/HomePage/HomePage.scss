@@ -9,8 +9,8 @@
     }
 
     .page-section {
-        padding-top: map-get($spacers, 5);
-        padding-bottom: map-get($spacers, 5);
+        padding-top: map-get($spacers, 7);
+        padding-bottom: map-get($spacers, 7);
     }
 
     .hero-subtitle {
@@ -81,7 +81,7 @@
         display: flex;
         align-items: flex-end;
         justify-content: center;
-        margin-bottom: map-get($spacers, 3);
+        // margin-bottom: map-get($spacers, 3);
     }
 
     .feature-button {
@@ -181,6 +181,7 @@
     .milestone-count {
         height: 48px;
         font-size: 28px;
+        font-weight: $font-weight-bold;
         text-align: center;
         padding-top: 1px;
         padding-left: 1px;
@@ -193,6 +194,7 @@
     }
     .milestone-title {
         padding-right: 18px;
+        font-weight: $font-weight-bold;
     }
 
     .milestone-item {
@@ -280,6 +282,8 @@
         border-radius: 8px 36px 36px 8px;
         z-index: -1;
         background-color: $primary;
+        @include fat-gradient();
+        background-size: 70px 70px;
         width: 0%;
         transition: width 0.36s linear;
         &.i-2 {

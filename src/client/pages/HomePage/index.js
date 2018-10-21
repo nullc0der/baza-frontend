@@ -7,7 +7,6 @@ import Footer from 'components/Footer'
 
 import BasicIncomeCalculator from 'components/BasicIncomeCalculator'
 import ParallaxContainer from 'components/ui/ParallaxContainer'
-import RoadMap from 'components/RoadMap'
 
 import FeaturesSection from './FeaturesSection'
 import CurrentStatusSection from './CurrentStatusSection'
@@ -15,6 +14,7 @@ import LatestDistributionSection from './LatestDistributionSection'
 import ContactSection from './ContactSection'
 import WhitePaperSection from './WhitePaperSection'
 import MapSection from './MapSection'
+import RoadMapSection from './RoadMapSection'
 
 import { Link } from 'react-router-dom'
 
@@ -64,8 +64,8 @@ class HomePage extends Component {
                 <WhitePaperSection id="white-paper-section" />
                 <CurrentStatusSection id="status-section" />
                 <LatestDistributionSection id="latest-section" />
-                <RoadMap id="roadmap-section" />
                 <MapSection id="map-section" />
+                <RoadMapSection id="roadmap-section" />
                 <ContactSection id="contact-section" />
 
                 <Footer />

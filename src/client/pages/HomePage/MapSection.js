@@ -7,7 +7,7 @@ const MapSection = props => {
     return (
         <div className={cx} id={props.id}>
             <div className="container page-section">
-                <h3 className="text-center mb-2">
+                <h3 className="text-center mb-5">
                     {' '}
                     Donations from around the world{' '}
                 </h3>

@@ -10,7 +10,7 @@ const ContactSection = props => {
             <div className="page-section container">
                 <div className="row align-items-center">
                     <div className="col-md-5">
-                        <div className="p-4 pl-0">
+                        <div className="pr-4">
                             <img
                                 className="img-fluid"
                                 alt="Contact Us"

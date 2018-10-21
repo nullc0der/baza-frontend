@@ -30,6 +30,7 @@ const LatestDistributionSection = props => {
         <FeaturesSection
             className="latest-distribution-section"
             list={LIST}
+            title="Latest Distribution"
             noCoinSale
             iconClassName="latest-distribution-icon"
             buttonClassName="latest-distribution-button"

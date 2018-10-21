@@ -35,10 +35,11 @@ const FeaturesSection = props => {
         'feature-button btn-rounded-white'
     )
     const list = props.list || FEATURES
+    const title = props.title || 'Baza Features'
     return (
         <div className={cx} id={props.id}>
             <div className="container page-section">
-                <h3 className="text-center mb-2"> Baza Features </h3>
+                <h3 className="text-center mb-5"> {title} </h3>
                 <div className="row">
                     {list.map(feature => (
                         <div

@@ -12,10 +12,10 @@ const CurrentStatusSection = props => {
     return (
         <div className={cx} id={props.id}>
             <div className="container page-section">
-                <h3 className="text-center mb-3"> Current Status </h3>
+                <h3 className="text-center mb-5"> Current Status </h3>
                 <div className="row mb-5">
                     <div className="col-12">
-                        <div className="embed-responsive embed-responsive-21by9">
+                        <div className="embed-responsive embed-responsive-16by9">
                             <iframe
                                 title="status-video"
                                 className="embed-responsive-item"
