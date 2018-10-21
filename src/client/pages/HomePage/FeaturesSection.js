@@ -3,47 +3,72 @@ import classnames from 'classnames'
 
 import CoinSale from 'pages/Admin/CoinSale'
 
-const FeatureSelection = props => {
-  const cx = classnames(props.className, 'features-section')
+const FEATURES = [
+    {
+        image: '/public/img/features/mining.svg',
+        title: 'GPU MINING',
+        subtitle: 'Security',
+        description:
+            'Easy entry level GPU mining of Baza to support the network'
+    },
+    {
+        image: '/public/img/features/community.svg',
+        title: 'COMMUNITY',
+        subtitle: 'Support',
+        description:
+            'Join the Baza Foundation to become a continue member and follow our progress'
+    },
+    {
+        image: '/public/img/features/store-locally.svg',
+        title: 'STORE LOCALLY',
+        subtitle: 'Decentralize',
+        description:
+            'Download and store your Baza Coins on your choice of OS based computer'
+    }
+]
 
-  return (
-    <div className={cx} id={props.id}>
-      <div className="container page-section">
-        <h3 className="text-center mb-2"> Baza Features </h3>
-        <div className="row">
-          <div className="col-md-4 feature-item mt-3">
-            <div className="feature-icon">
-              <i className="fa fa-cubes" />
+const FeaturesSection = props => {
+    const cx = classnames(props.className, 'features-section')
+    const iconClassName = classnames(props.iconClassName, 'feature-icon')
+    const buttonClassName = classnames(
+        props.buttonClassName,
+        'feature-button btn-rounded-white'
+    )
+    const list = props.list || FEATURES
+    return (
+        <div className={cx} id={props.id}>
+            <div className="container page-section">
+                <h3 className="text-center mb-2"> Baza Features </h3>
+                <div className="row">
+                    {list.map(feature => (
+                        <div
+                            className="col-md-4 feature-item mt-3 px-1"
+                            key={feature.image}>
+                            <div className={iconClassName}>
+                                <img alt={feature.title} src={feature.image} />
+                            </div>
+                            <div className={buttonClassName}>
+                                <div className="feature-title">
+                                    {feature.title}
+                                </div>
+                                <div className="feature-subtitle">
+                                    {feature.subtitle}
+                                </div>
+                            </div>
+                            <div className="text-center">
+                                {feature.description}
+                            </div>
+                        </div>
+                    ))}
+                </div>
             </div>
-            <div className="text-center">
-              Easy entry level GPU mining of Baza to support the network
-            </div>
-          </div>
-          <div className="col-md-4 feature-item mt-3">
-            <div className="feature-icon">
-              <i className="fa fa-laptop" />
-            </div>
-            <div className="text-center">
-              Download and store your Baza Coins on your choice of OS based
-              computer
-            </div>
-          </div>
-          <div className="col-md-4 feature-item mt-3">
-            <div className="feature-icon">
-              <i className="fa fa-star-half-o" />
-            </div>
-            <div className="text-center">
-              Join the Baza Foundation to become a continue member and follow
-              our progress
-            </div>
-          </div>
+            {!props.noCoinSale && (
+                <div className="container page-section">
+                    <CoinSale className="pt-4" />
+                </div>
+            )}
         </div>
-      </div>
-      <div className="container page-section">
-        <CoinSale className="pt-4" />
-      </div>
-    </div>
-  )
+    )
 }
 
-export default FeatureSelection
+export default FeaturesSection

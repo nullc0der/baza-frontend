@@ -58,6 +58,7 @@ $ui-progress-border-radius: 14px;
     right: 50%;
     width: 120px;
     margin-right: -60px;
+    font-weight: $font-weight-bold;
     transform-origin: center bottom;
     &:after {
       bottom: 30px;
@@ -68,6 +69,7 @@ $ui-progress-border-radius: 14px;
     bottom: -50px;
     right: 0;
     padding-top: 50px;
+    font-weight: $font-weight-bold;
     transform-origin: center top;
     &:after {
       top: 30px;
