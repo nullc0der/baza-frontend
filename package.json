@@ -13,7 +13,7 @@
         "build": "NODE_ENV=production gulp build",
         "prod:server": "pm2-runtime process.yml",
         "generate-docs": "jsdoc --configure .jsdoc.json --verbose",
-        "postinstall": "npm run build",
+        "postinstall": "sh setup.sh && npm run build",
         "profile": "NODE_ENV=production webpack --config tools/webpack.config.client --profile --json > stats.json",
         "analyze": "npm run profile && webpack-bundle-analyzer stats.json build/public -s gzip"
     },
