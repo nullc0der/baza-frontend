@@ -75,6 +75,12 @@ class Members extends Component {
         })
     }
 
+    initChat = toUser => {
+        this.props.initChat(toUser).then(res => {
+            this.props.openMiniChat(res.data.chat_id)
+        })
+    }
+
     render() {
         const { className } = this.props
 
@@ -97,7 +103,7 @@ class Members extends Component {
                         avatarUrl={x.user_image_url}
                         avatarColor={x.user_avatar_color}
                         onlineStatus={x.status}
-                        initChat={this.props.initChat}
+                        initChat={this.initChat}
                     />
                 ))}
             </div>
@@ -114,7 +120,8 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
     fetchUsers: () => dispatch(usersActions.fetchUsers()),
-    initChat: toUser => dispatch(messengerActions.initChat(toUser))
+    initChat: toUser => dispatch(messengerActions.initChat(toUser)),
+    openMiniChat: id => dispatch(messengerActions.openMiniChat(id))
 })
 
 export default connect(
