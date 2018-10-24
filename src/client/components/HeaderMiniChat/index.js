@@ -5,67 +5,83 @@ import { connect } from 'react-redux'
 import c from './HeaderMiniChat.scss'
 
 import Dropdown from 'components/ui/Dropdown'
-import { actions as chatActions } from 'store/Chat'
+import { actions as messengerActions } from 'store/Messenger'
 
 import Avatar from 'components/Avatar'
 
-import RECENT_CHATS from 'pages/Admin/Messenger/sample-chats'
-
 class HeaderMiniChat extends Component {
-  static contextTypes = {
-    router: PropTypes.object
-  }
+    static contextTypes = {
+        router: PropTypes.object
+    }
 
-  openMiniChat = chat => e => {
-    if ($(window).width() > 768) this.props.openMiniChat(chat)
-    else this.context.router.push('/messenger/' + chat.id)
-  }
+    componentDidMount() {
+        this.props.fetchData()
+    }
 
-  renderItem = (item, i) => {
-    return (
-      <div
-        onClick={this.openMiniChat(item)}
-        className={`flex-horizontal ${c.item}`}>
-        <Avatar name={item.username} />
-        <div className="item-details">
-          <div className="item-name">{item.username}</div>
-          <div className="item-desc">{item.description}</div>
-        </div>
-      </div>
-    )
-  }
+    openMiniChat = chat => e => {
+        if ($(window).width() > 768) this.props.openMiniChat(chat.id)
+        else this.context.router.push('/messenger/' + chat.id)
+    }
 
-  render() {
-    const { className } = this.props
+    renderItem = (item, i) => {
+        return (
+            <div
+                onClick={this.openMiniChat(item)}
+                className={`flex-horizontal ${c.item}`}>
+                <Avatar
+                    size={42}
+                    otherProfile={{
+                        username: item.user.username,
+                        profile_photo: item.user.user_image_url,
+                        default_avatar_color: item.user.user_avatar_color
+                    }}
+                    own={false}
+                />
+                <div className="item-details">
+                    <div className="item-name">{item.user.username}</div>
+                    <div className="item-desc">{item.unread_count} unread</div>
+                </div>
+            </div>
+        )
+    }
 
-    const cx = classnames(c.container, className)
+    render() {
+        const { className } = this.props
 
-    const labelClass = classnames('flex-horizontal', 'a-center', c.label)
+        const cx = classnames(c.container, className)
 
-    const label = (
-      <span className={labelClass}>
-        <i className="fa fa-fw fa-comment-o" />
-      </span>
-    )
+        const labelClass = classnames('flex-horizontal', 'a-center', c.label)
 
-    return (
-      <Dropdown
-        id="id-header-mini-chat"
-        className={cx}
-        label={label}
-        ref={dd => (this.dropdown = dd)}
-        items={RECENT_CHATS}
-        itemRenderer={this.renderItem}
-      />
-    )
-  }
+        const label = (
+            <span className={labelClass}>
+                <i className="fa fa-fw fa-comment-o" />
+            </span>
+        )
+
+        return (
+            <Dropdown
+                id="id-header-mini-chat"
+                className={cx}
+                label={label}
+                ref={dd => (this.dropdown = dd)}
+                items={this.props.rooms}
+                itemRenderer={this.renderItem}
+            />
+        )
+    }
 }
-const mapStateToProps = state => ({})
-
-const mapDispatchToProps = dispatch => ({
-  openMiniChat(chat) {
-    return dispatch(chatActions.openMiniChat(chat))
-  }
+const mapStateToProps = state => ({
+    rooms: state.Messenger.rooms
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(HeaderMiniChat)
+const mapDispatchToProps = dispatch => ({
+    openMiniChat(chat) {
+        return dispatch(messengerActions.openMiniChat(chat))
+    },
+    fetchData: () => dispatch(messengerActions.loadRooms())
+})
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(HeaderMiniChat)

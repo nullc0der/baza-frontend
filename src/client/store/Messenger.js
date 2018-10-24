@@ -12,8 +12,9 @@ const INITIAL_STATE = {
     selected: 0,
     searchText: '',
     websocketTypingStatus: 0,
+    sendTypingStatus: {},
     isLoading: false,
-    hasError: null
+    hasError: []
 }
 
 const createAction = str => `MESSENGER_${str}`
@@ -106,7 +107,7 @@ const CHATS_FETCH_DATA = createAction('CHATS_FETCH_DATA')
 const chatsFetchData = roomId => dispatch => {
     return DispatchAPI(dispatch, MessengerAPI.getMessages(roomId), {
         success: chatsFetchDataSuccess,
-        error: chatsFetchDataError
+        failure: chatsFetchDataError
     })
 }
 
@@ -114,7 +115,7 @@ const CHATS_FETCH_DATA_SUCCESS = createAction('CHATS_FETCH_DATA_SUCCESS')
 const chatsFetchDataSuccess = res => ({
     type: CHATS_FETCH_DATA_SUCCESS,
     roomId: get(res.data, 'room_id', -1),
-    chats: get(res, 'data', {})
+    chats: get(res.data, 'chats', [])
 })
 
 const CHATS_FETCH_DATA_ERROR = createAction('CHATS_FETCH_DATA_ERROR')
@@ -124,13 +125,18 @@ const chatsFetchDataError = err => ({
 })
 
 const CHAT_SEND = createAction('CHAT_SEND')
-const chatSend = (roomId, datas, containsFile) => dispatch => {
+const chatSend = (
+    roomId,
+    datas,
+    containsFile,
+    uploadProgressFn
+) => dispatch => {
     return DispatchAPI(
         dispatch,
-        MessengerAPI.sendMessage(roomId, datas, containsFile),
+        MessengerAPI.sendMessage(roomId, datas, containsFile, uploadProgressFn),
         {
             success: chatSendSuccess,
-            error: chatSendError
+            failure: chatSendError
         }
     )
 }
@@ -139,7 +145,7 @@ const CHAT_SEND_SUCCESS = createAction('CHAT_SEND_SUCCESS')
 const chatSendSuccess = res => ({
     type: CHAT_SEND_SUCCESS,
     roomId: get(res.data, 'room_id', -1),
-    chat: get(res, 'data', {})
+    chat: get(res.data, 'chat', [])
 })
 
 const CHAT_SEND_ERROR = createAction('CHAT_SEND_ERROR')
@@ -162,11 +168,17 @@ const clearChat = roomId => ({
 })
 
 const DELETE_CHATS = createAction('DELETE_CHATS')
-const deleteChats = datas => dispatch => {
-    return DispatchAPI(dispatch, MessengerAPI.deleteMessages(datas), {
-        success: deleteChatsSuccess,
-        failure: deleteChatsError
-    })
+const deleteChats = (roomId, chatIds) => dispatch => {
+    return DispatchAPI(
+        dispatch,
+        MessengerAPI.deleteMessages({
+            ids: chatIds
+        }),
+        {
+            success: deleteChatsSuccess,
+            failure: deleteChatsError
+        }
+    )
 }
 
 const DELETE_CHATS_ERROR = createAction('DELETE_CHATS_ERROR')
@@ -196,6 +208,37 @@ const updateChatReadStatus = (roomId, chatIds) => ({
     chatIds
 })
 
+const INIT_CHAT = createAction('INIT_CHAT')
+const initChat = toUser => dispatch => {
+    return DispatchAPI(dispatch, MessengerAPI.initChat(toUser), {
+        success: initChatSuccess,
+        failure: initChatFailure
+    })
+}
+
+const INIT_CHAT_SUCCESS = createAction('INIT_CHAT_SUCCESS')
+const initChatSuccess = res => ({
+    type: INIT_CHAT_SUCCESS
+})
+
+const INIT_CHAT_FAILURE = createAction('INIT_CHAT_FAILURE')
+const initChatFailure = err => ({
+    type: INIT_CHAT_FAILURE
+})
+
+const DELETE_CHATS_FROM_WEBSOCKET = createAction('DELETE_CHATS_FROM_WEBSOCKET')
+const deleteChatsFromWebsocket = (roomId, chatIds) => ({
+    type: DELETE_CHATS_FROM_WEBSOCKET,
+    roomId,
+    chatIds
+})
+
+const SEND_TYPING_STATUS = createAction('SEND_TYPING_STATUS')
+const sendTypingStatus = typingStatus => ({
+    type: SEND_TYPING_STATUS,
+    typingStatus
+})
+
 export const actions = {
     updateTypingStatus,
     readStatusUpdated,
@@ -211,7 +254,10 @@ export const actions = {
     clearChat,
     deleteChats,
     fileUploadProgress,
-    updateChatReadStatus
+    updateChatReadStatus,
+    initChat,
+    deleteChatsFromWebsocket,
+    sendTypingStatus
 }
 
 export default function ChatRoomsReducer(state = INITIAL_STATE, action) {
@@ -227,6 +273,7 @@ export default function ChatRoomsReducer(state = INITIAL_STATE, action) {
         case CHATS_FETCH_DATA_ERROR:
         case CHAT_SEND_ERROR:
         case DELETE_CHATS_ERROR:
+        case INIT_CHAT:
             return { ...state, hasError: action.error, isLoading: false }
         case LOAD_ROOMS_SUCESS:
             return { ...state, rooms: action.rooms }
@@ -288,6 +335,7 @@ export default function ChatRoomsReducer(state = INITIAL_STATE, action) {
                 }
             }
         case DELETE_CHATS_SUCCESS:
+        case DELETE_CHATS_FROM_WEBSOCKET:
             return {
                 ...state,
                 chats: {
@@ -316,6 +364,11 @@ export default function ChatRoomsReducer(state = INITIAL_STATE, action) {
                             : chat
                     })
                 }
+            }
+        case SEND_TYPING_STATUS:
+            return {
+                ...state,
+                sendTypingStatus: action.typingStatus
             }
         default:
             return state

@@ -1,15 +1,17 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import { connect } from 'react-redux'
 import _ from 'lodash'
+import Swipeable from 'react-swipeable'
 
-import c from './Messenger.styl'
+import c from './Messenger.scss'
 
 import ChatBodyItem from 'components/ChatBodyItem'
 import ChatFooter from 'components/ChatFooter'
 
 import { actions as messengerActions } from 'store/Messenger'
+import { actions as commonActions } from 'store/Common'
 
 import { updateMessageStatus } from 'api/messenger'
 
@@ -28,7 +30,7 @@ class ChatView extends Component {
         const profile = this.props.profile
         if (prevProps.selected !== this.props.selected) {
             if (!chats) {
-                this.props.fetchData(this.state.selected)
+                this.props.fetchData(this.props.selected)
             } else {
                 let unreadIds = chats.filter(
                     x =>
@@ -72,7 +74,7 @@ class ChatView extends Component {
         if (chatArr.length) {
             updateMessageStatus({ message_ids: chatArr }).then(res => {
                 this.props.updateRoom(this.props.selected)
-                this.props.updateChatReadStatus(this.state.roomId, chatArr)
+                this.props.updateChatReadStatus(this.props.selected, chatArr)
             })
         }
     }
@@ -100,7 +102,9 @@ class ChatView extends Component {
     }
 
     scrollToBottom = () => {
-        this.messagesEnd.scrollIntoView({ behavior: 'smooth' })
+        if (this.messagesEnd) {
+            this.messagesEnd.scrollIntoView({ behavior: 'smooth' })
+        }
     }
 
     closeChatView = () => {
@@ -115,7 +119,19 @@ class ChatView extends Component {
             const data = new FormData()
             data.append('content', content)
             data.append('file', file)
-            this.props.sendChat(this.props.selected, data, true)
+            this.props
+                .sendChat(
+                    this.props.selected,
+                    data,
+                    true,
+                    this.onFileUploadProgressChange
+                )
+                .then(res => {
+                    this.props.fileUploadProgress(this.props.selected, 0)
+                })
+                .catch(res => {
+                    this.props.fileUploadProgress(this.props.selected, 0)
+                })
         } else {
             this.props.sendChat(
                 this.props.selected,
@@ -123,6 +139,14 @@ class ChatView extends Component {
                 false
             )
         }
+    }
+
+    onFileUploadProgressChange = value => {
+        let uploadDonePercent = 0
+        if (value.lengthComputable) {
+            uploadDonePercent = (value.loaded / value.total) * 100
+        }
+        this.props.fileUploadProgress(this.props.selected, uploadDonePercent)
     }
 
     handleDelete = e => {
@@ -156,31 +180,32 @@ class ChatView extends Component {
         }
     }
 
-    renderOptions = () => {
-        const deleteString =
-            this.state.selectedMessages.length > 1
-                ? `Delete Selected Messages (${
-                      this.state.selectedMessages.length
-                  })`
-                : 'Delete Selected Message'
-        return (
-            <ul
-                className="dropdown-menu animated fadeIn"
-                style={{ left: 'auto', right: 0 }}>
-                <li>
-                    <a href="#" onClick={this.handleDelete}>
-                        Delete This Room
-                    </a>
-                </li>
-                {this.state.selectedMessages.length > 0 && (
-                    <li>
-                        <a href="#" onClick={this.handleDeleteChat}>
-                            {deleteString}
-                        </a>
-                    </li>
-                )}
-            </ul>
-        )
+    handleTypingStatus = () => {
+        this.props.sendTypingStatus({
+            chatroom_id: this.props.selected,
+            at_time: new Date().toLocaleDateString()
+        })
+    }
+
+    chatViewBodySwipedDown = (e, deltaY, isFlick) => {
+        if (isFlick && $(window).width() < 768) {
+            this.props.updateHeaderVisibility(true)
+            $('.' + c.chatView).removeClass('fullscreen')
+        }
+    }
+
+    chatViewBodySwipedUp = (e, deltaY, isFlick) => {
+        if (isFlick && $(window).width() < 768) {
+            this.props.updateHeaderVisibility(false)
+            $('.' + c.chatView).addClass('fullscreen')
+        }
+    }
+
+    chatFooterInputFocus = () => {
+        if ($(window).width() < 768) {
+            this.props.updateHeaderVisibility(false)
+            $('.' + c.chatView).addClass('fullscreen')
+        }
     }
 
     render() {
@@ -188,6 +213,13 @@ class ChatView extends Component {
 
         const cx = classnames(c.chatView, className, 'flex-vertical')
         const chat = chats[selected]
+
+        const deleteString =
+            this.state.selectedMessages.length > 1
+                ? `Delete Selected Messages (${
+                      this.state.selectedMessages.length
+                  })`
+                : 'Delete Selected Message'
 
         return (
             <div className={cx} onClick={this.handleDialogs}>
@@ -198,67 +230,92 @@ class ChatView extends Component {
                         {title}{' '}
                     </div>
                     <div className="header-options">
-                        <div
-                            className={
-                                this.state.optionsOpen
-                                    ? 'dropdown open'
-                                    : 'dropdown'
-                            }>
-                            {this.renderOptions()}
-                        </div>
-                        <div
-                            className="btn btn-default ui-button"
-                            onClick={this.handleOptions}>
-                            <i className="fas fa-ellipsis-v" />
-                        </div>
+                        {chat && (
+                            <Fragment>
+                                <button
+                                    type="button"
+                                    className="btn btn-link btn-sm dropdown-toggle"
+                                    data-toggle="dropdown"
+                                    aria-haspopup="true"
+                                    aria-expanded="false">
+                                    <i className="fa fa-fw fa-ellipsis-v" />
+                                </button>
+                                <div className="dropdown-menu dropdown-menu-right">
+                                    <div
+                                        className="dropdown-item"
+                                        onClick={this.handleDelete}>
+                                        Delete This Room
+                                    </div>
+                                    {!!this.state.selectedMessages.length && (
+                                        <div
+                                            className="dropdown-item"
+                                            onClick={this.handleDeleteChat}>
+                                            {deleteString}
+                                        </div>
+                                    )}
+                                </div>
+                            </Fragment>
+                        )}
                         <div
                             onClick={this.closeChatView}
-                            className="btn btn-default btn-chat ui-button mobile-close-chat">
-                            <i className="fas fa-times" />
+                            className="mobile-close-chat">
+                            <i className="fa fa-fw fa-times" />
                         </div>
                     </div>
                 </div>
-                {chat &&
-                    chat.map((x, i) => {
-                        return (
-                            <ChatBodyItem
-                                key={i}
-                                user={x.user}
-                                message={x.message}
-                                fileurl={x.fileurl}
-                                filetype={x.filetype}
-                                filename={x.filename}
-                                message_id={x.id}
-                                stamp={new Date(x.timestamp)}
-                                left={
-                                    x.user.username !==
-                                    (profile.username || profile.user.username)
-                                }
-                                selected={_.includes(
-                                    this.state.selectedMessages,
-                                    x.id
-                                )}
-                                onSelected={this.handleSelectedMessage}
+                <Swipeable
+                    className="chatview-body flex-1"
+                    onSwipedDown={this.chatViewBodySwipedDown}
+                    onSwipedUp={this.chatViewBodySwipedUp}>
+                    {chat && (
+                        <Fragment>
+                            {chat.map((x, i) => {
+                                return (
+                                    <ChatBodyItem
+                                        key={i}
+                                        user={x.user}
+                                        message={x.message}
+                                        fileurl={x.fileurl}
+                                        filetype={x.filetype}
+                                        filename={x.filename}
+                                        message_id={x.id}
+                                        stamp={new Date(x.timestamp)}
+                                        left={
+                                            x.user.username !==
+                                            (profile.username ||
+                                                profile.user.username)
+                                        }
+                                        selected={_.includes(
+                                            this.state.selectedMessages,
+                                            x.id
+                                        )}
+                                        onSelected={this.handleSelectedMessage}
+                                    />
+                                )
+                            })}
+                            <div
+                                style={{ float: 'left', clear: 'both' }}
+                                ref={el => {
+                                    this.messagesEnd = el
+                                }}
                             />
-                        )
-                    })}
-                <div
-                    style={{ float: 'left', clear: 'both' }}
-                    ref={el => {
-                        this.messagesEnd = el
-                    }}
-                />
-                <ChatFooter
-                    handleSendChat={this.handleSendChat}
-                    handleTypingStatus={this.handleTypingStatus}
-                    showTyping={this.state.userTyping}
-                    showTypingUsername={title}
-                    uploadProgress={
-                        this.props.uploadProgress.roomId === selected
-                            ? this.props.uploadProgress.progress
-                            : 0
-                    }
-                />
+                        </Fragment>
+                    )}
+                </Swipeable>
+                {chat && (
+                    <ChatFooter
+                        handleSendChat={this.handleSendChat}
+                        handleTypingStatus={this.handleTypingStatus}
+                        showTyping={this.state.userTyping}
+                        showTypingUsername={title}
+                        uploadProgress={
+                            this.props.uploadProgress.roomId === selected
+                                ? this.props.uploadProgress.progress
+                                : 0
+                        }
+                        onChatInputFocus={this.chatFooterInputFocus}
+                    />
+                )}
             </div>
         )
     }
@@ -267,8 +324,8 @@ class ChatView extends Component {
 ChatView.propTypes = {
     chats: PropTypes.object.isRequired,
     selected: PropTypes.number.isRequired,
-    areLoading: PropTypes.bool.isRequired,
-    hasErrored: PropTypes.bool.isRequired,
+    isLoading: PropTypes.bool.isRequired,
+    hasError: PropTypes.array.isRequired,
     fetchData: PropTypes.func.isRequired,
     sendChat: PropTypes.func.isRequired,
     updateRoom: PropTypes.func.isRequired,
@@ -280,23 +337,37 @@ ChatView.propTypes = {
 }
 
 const mapStateToProps = state => ({
-    chats: state.Chat.chats,
-    selected: state.ChatRooms.selected,
-    isLoading: state.Chat.isLoading,
-    hasError: state.Chat.hasError,
-    uploadProgress: state.Chat.uploadProgress,
+    chats: state.Messenger.chats,
+    selected: state.Messenger.selected,
+    isLoading: state.Messenger.isLoading,
+    hasError: state.Messenger.hasError,
+    uploadProgress: state.Messenger.uploadProgress,
     profile: state.UserProfile.profile
 })
 
 const mapDispatchToProps = dispatch => ({
     fetchData: roomId => dispatch(messengerActions.chatsFetchData(roomId)),
-    sendChat: (roomId, datas, containsFile) =>
-        dispatch(messengerActions.chatSend(roomId, datas, containsFile)),
+    sendChat: (roomId, datas, containsFile, uploadProgressFn) =>
+        dispatch(
+            messengerActions.chatSend(
+                roomId,
+                datas,
+                containsFile,
+                uploadProgressFn
+            )
+        ),
     updateRoom: roomId => dispatch(messengerActions.readStatusUpdated(roomId)),
     deleteRoom: roomId => dispatch(messengerActions.deleteChatRoom(roomId)),
-    deleteChats: datas => dispatch(messengerActions.deleteChats(datas)),
+    deleteChats: (roomId, chatIds) =>
+        dispatch(messengerActions.deleteChats(roomId, chatIds)),
     updateChatReadStatus: (roomId, chatIds) =>
-        dispatch(messengerActions.updateChatReadStatus(roomId, chatIds))
+        dispatch(messengerActions.updateChatReadStatus(roomId, chatIds)),
+    fileUploadProgress: (roomId, value) =>
+        dispatch(messengerActions.fileUploadProgress(roomId, value)),
+    sendTypingStatus: roomId =>
+        dispatch(messengerActions.sendTypingStatus(roomId)),
+    updateHeaderVisibility: visibile =>
+        dispatch(commonActions.updateHeaderVisibility(visibile))
 })
 
 export default connect(

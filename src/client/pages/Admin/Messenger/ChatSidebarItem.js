@@ -7,28 +7,26 @@ class ChatSidebarItem extends Component {
         const {
             selected = false,
             username = '',
-            is_online = false,
-            num_unread = '',
+            numUnread = '',
             image = false,
-            avatar_color = ''
+            avatarColor = '',
+            onlineStatus
         } = this.props
 
         const cx = classnames('chat-sidebar-item', {
             'is-active': selected,
-            'has-unread': num_unread > 0
+            'has-unread': numUnread > 0
         })
-        const status = `${is_online ? 'Online' : 'Offline'}`
-        const statusKey = 'is-' + status.toLowerCase()
 
         return (
             <div className={cx} onClick={this.props.onClick}>
                 <div className="item-image rounded">
                     <Avatar
-                        size={24}
+                        size={42}
                         otherProfile={{
                             username: username,
                             profile_photo: image,
-                            default_avatar_color: avatar_color
+                            default_avatar_color: avatarColor
                         }}
                         own={false}
                     />
@@ -36,11 +34,18 @@ class ChatSidebarItem extends Component {
                 <div className="item-details">
                     <div className="item-username"> {username} </div>
                     <div className="item-status flex-horizontal a-center">
-                        <div className={`flex-1 online-status ${statusKey}`}>
+                        <div
+                            className={`flex-1 online-status is-${
+                                onlineStatus.status
+                            } text-capitalize`}>
                             {' '}
-                            {status}{' '}
+                            {onlineStatus.status || 'offline'}{' '}
                         </div>
-                        <div className="unread-count">{num_unread} Unread</div>
+                        {!!numUnread && (
+                            <div className="unread-count">
+                                {numUnread} Unread
+                            </div>
+                        )}
                     </div>
                 </div>
             </div>

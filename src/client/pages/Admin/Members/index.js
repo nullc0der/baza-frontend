@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import _ from 'lodash'
 
 import { actions as usersActions } from 'store/Users'
+import { actions as messengerActions } from 'store/Messenger'
 
 import MemberTile from './MemberTile'
 
@@ -96,6 +97,7 @@ class Members extends Component {
                         avatarUrl={x.user_image_url}
                         avatarColor={x.user_avatar_color}
                         onlineStatus={x.status}
+                        initChat={this.props.initChat}
                     />
                 ))}
             </div>
@@ -111,7 +113,8 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-    fetchUsers: () => dispatch(usersActions.fetchUsers())
+    fetchUsers: () => dispatch(usersActions.fetchUsers()),
+    initChat: toUser => dispatch(messengerActions.initChat(toUser))
 })
 
 export default connect(

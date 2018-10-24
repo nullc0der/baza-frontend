@@ -8,7 +8,8 @@ const INITIAL_STATE = {
     },
     selectedDonation: {},
     subHeaderSearchString: '',
-    subHeaderFilters: []
+    subHeaderFilters: [],
+    showHeaders: true
 }
 
 const SET_BREADCRUMBS = 'SET_BREADCRUMBS'
@@ -25,22 +26,29 @@ const selectDonation = selected => ({
 })
 
 const CHANGE_SUBHEADER_SEARCHSTRING = 'CHANGE_SUBHEADER_SEARCHSTRING'
-const changeSubHeaderSearchString = (searchString) => ({
+const changeSubHeaderSearchString = searchString => ({
     type: CHANGE_SUBHEADER_SEARCHSTRING,
     searchString
 })
 
 const CHANGE_SUBHEADER_FILTERS = 'CHANGE_SUBHEADER_FILTERS'
-const changeSubHeaderFilters = (filters) => ({
+const changeSubHeaderFilters = filters => ({
     type: CHANGE_SUBHEADER_FILTERS,
     filters
+})
+
+const UPDATE_HEADER_VISIBILITY = 'UPDATE_HEADER_VISIBILITY'
+const updateHeaderVisibility = showHeaders => ({
+    type: UPDATE_HEADER_VISIBILITY,
+    showHeaders
 })
 
 export const actions = {
     setBreadCrumbs,
     selectDonation,
     changeSubHeaderFilters,
-    changeSubHeaderSearchString
+    changeSubHeaderSearchString,
+    updateHeaderVisibility
 }
 
 export default function CommonReducer(state = INITIAL_STATE, action) {
@@ -59,6 +67,8 @@ export default function CommonReducer(state = INITIAL_STATE, action) {
             return { ...state, subHeaderSearchString: action.searchString }
         case CHANGE_SUBHEADER_FILTERS:
             return { ...state, subHeaderFilters: action.filters }
+        case UPDATE_HEADER_VISIBILITY:
+            return { ...state, showHeaders: action.showHeaders }
         default:
             return state
     }

@@ -1,0 +1,126 @@
+@import 'ui';
+:local(.container) {
+    color: inherit;
+    height: 60px;
+    background-color: #f2f2f2;
+    padding: 8px 0px;
+    .ui-button {
+        background-color: transparent;
+        border: none;
+        border-radius: 50%;
+        overflow: hidden;
+        width: 42px;
+        height: 42px;
+        padding: 4px 6px;
+        .fa {
+            margin-top: 10px;
+            font-size: 18px;
+        }
+    }
+    .chat-input-wrap {
+        margin: 0 10px;
+        position: relative;
+    }
+    .chat-input-wrap .chat-input-btn {
+        background: none;
+        border: none;
+        width: 50px;
+        color: #878787;
+        height: 40px;
+        padding: 2px 6px;
+        overflow: hidden;
+        position: absolute;
+        top: 1px;
+        right: 5px;
+    }
+    .chat-input-box {
+        width: 100%;
+        border: none;
+        box-shadow: none;
+        background-color: #fff;
+        border-radius: 21px;
+        height: 42px;
+        outline: none;
+        font-weight: font_light;
+        padding: 0 40px 0 20px;
+        transition: all 0.16s ease;
+        position: absolute;
+        left: 0;
+        right: 0;
+        &:hover,
+        &:focus {
+            outline: none;
+            border-color: $admin-primary;
+            box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.12);
+        }
+    }
+    .emoji-button {
+        margin-right: 10px;
+    }
+    .chat-user-typing {
+        position: relative;
+        top: -55%;
+        left: 2%;
+        color: #878787;
+    }
+    .file-load-indicator {
+        color: $admin-primary;
+    }
+    .file-upload-bar {
+        background-color: #ddd;
+        width: 0;
+        height: 42px;
+        position: absolute;
+        top: 0;
+        overflow: hidden;
+        border-radius: 21px;
+    }
+
+    &.is-small {
+        height: 40px;
+        padding: 4px 0px;
+        font-size: 14px;
+        margin: 0;
+        .ui-button {
+            padding: 0 4px;
+            font-size: 16px;
+            width: 32px;
+            height: 40px;
+            border: none;
+        }
+        .file-upload-bar {
+            left: -66px;
+            height: 30px;
+        }
+        .chat-input-wrap,
+        .chat-input-btn,
+        .chat-input-box,
+        .ui-button {
+            height: 30px;
+        }
+        .chat-input-box {
+            font-size: 12px;
+        }
+        .chat-input-wrap .chat-input-btn {
+            padding: 0px 3px;
+            width: 32px;
+            height: 30px;
+            margin-bottom: 3px;
+        }
+        .btn {
+            color: rgba(0, 0, 0, 0.5);
+        }
+    }
+}
+
+:local(.attachmentDialog) {
+    .modal-dialog {
+        max-width: 600px;
+    }
+    .attachment-form {
+        padding: 10px;
+        .attachment-input {
+            margin-bottom: 10px;
+        }
+    }
+}

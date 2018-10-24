@@ -1,8 +1,7 @@
 import React, { Component } from 'react'
 import classnames from 'classnames'
 
-import withStyles from 'isomorphic-style-loader/lib/withStyles'
-import c from './ChatBodyItem.styl'
+import c from './ChatBodyItem.scss'
 
 import Avatar from 'components/Avatar'
 
@@ -11,7 +10,7 @@ import Linkify from 'react-linkify'
 
 import TimeAgo from 'react-timeago'
 
-class ChatBodyItem extends Component {
+export default class ChatBodyItem extends Component {
     handleSelect = (messageId, shouldSelect) => {
         if (this.props.roomId) {
             this.props.onSelected(this.props.roomId, messageId, shouldSelect)
@@ -21,6 +20,10 @@ class ChatBodyItem extends Component {
     }
 
     renderAttachment = filetype => {
+        const fileURL =
+            process.env.NODE_ENV === 'development'
+                ? 'http://localhost:8000' + this.props.fileurl
+                : this.props.fileurl
         switch (filetype.split('/')[0]) {
             case 'image':
                 return (
@@ -31,7 +34,7 @@ class ChatBodyItem extends Component {
                                 : 'img-attachment'
                         }>
                         <img
-                            src={this.props.fileurl}
+                            src={fileURL}
                             title={this.props.filename}
                             alt={this.props.filename}
                         />
@@ -46,7 +49,7 @@ class ChatBodyItem extends Component {
                                 : 'video-attachment'
                         }>
                         <video controls preload="metadata">
-                            <source src={this.props.fileurl} type={filetype} />>
+                            <source src={fileURL} type={filetype} />>
                         </video>
                     </div>
                 )
@@ -54,7 +57,7 @@ class ChatBodyItem extends Component {
                 return (
                     <div className="file-attachment">
                         <i className="fa fa-paperclip" />
-                        <a href={this.props.fileurl} target="_blank">
+                        <a href={fileURL} target="_blank">
                             {this.props.filename}
                         </a>
                     </div>
@@ -87,10 +90,9 @@ class ChatBodyItem extends Component {
                     otherProfile={{
                         username: user.username,
                         profile_photo: user.user_image_url,
-                        default_avatar_color: user.default_avatar_color
+                        default_avatar_color: user.user_avatar_color
                     }}
                     own={false}
-                    className="ui-avatar"
                 />
                 <div
                     className="msg"
@@ -121,5 +123,3 @@ class ChatBodyItem extends Component {
         )
     }
 }
-
-export default withStyles(c)(ChatBodyItem)

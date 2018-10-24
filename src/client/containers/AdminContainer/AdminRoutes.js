@@ -7,6 +7,8 @@ import WalletsPage from 'pages/Admin/Wallets'
 import DistributionSignUpPage from 'pages/Admin/DistributionSignUp'
 import MemberProfilePage from 'pages/Admin/MemberProfile'
 import MembersPage from 'pages/Admin/Members'
+import MessengerPage from 'pages/Admin/Messenger'
+
 const AdminRoutes = location => (
     <Switch location={location}>
         <Route path="/dashboard" exact component={AdminHome} />
@@ -15,6 +17,8 @@ const AdminRoutes = location => (
         <Route path="/distribution-signup" component={DistributionSignUpPage} />
         <Route path="/profile" component={MemberProfilePage} />
         <Route path="/members" component={MembersPage} />
+        <Route path="/messenger" component={MessengerPage} />
+        <Route path="/messenger/:id/" component={MessengerPage} />
         <Redirect to="/dashboard" />
     </Switch>
 )

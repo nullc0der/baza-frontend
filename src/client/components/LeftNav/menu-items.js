@@ -18,6 +18,11 @@ module.exports = [
                 name: 'Members',
                 href: '/members',
                 icon: 'fa fa-fw fa-users'
+            },
+            {
+                name: 'Messenger',
+                href: '/messenger/',
+                icon: 'fa fa-fw fa-comment'
             }
         ]
     },

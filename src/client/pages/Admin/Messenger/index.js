@@ -4,8 +4,7 @@ import classnames from 'classnames'
 import { connect } from 'react-redux'
 import _ from 'lodash'
 
-import withStyles from 'isomorphic-style-loader/lib/withStyles'
-import c from './Messenger.styl'
+import c from './Messenger.scss'
 
 import Sidebar from './Sidebar'
 import ChatView from './ChatView'
@@ -18,14 +17,16 @@ class Messenger extends Component {
     }
 
     componentDidUpdate = prevProps => {
-        if (prevProps.params.id !== this.props.params.id) {
-            this.onSidebarChatSelect(Number(this.props.params.id))
+        if (prevProps.match !== this.props.match) {
+            this.onSidebarChatSelect(Number(this.props.match.params.id))
         }
     }
 
     onSidebarChatSelect = id => {
-        this.props.selectRoom(id)
-        $('.' + c.chatView).addClass('is-open')
+        if (id) {
+            this.props.selectRoom(id)
+            $('.' + c.chatView).addClass('is-open')
+        }
     }
 
     onSearchInputChange = e => {
@@ -35,7 +36,7 @@ class Messenger extends Component {
     getTitle = (rooms, selected) => {
         for (const room of rooms) {
             if (room.id === selected) {
-                return room.username
+                return room.user.username
             }
         }
     }
@@ -97,8 +98,8 @@ Messenger.propTypes = {
     chats: PropTypes.object.isRequired,
     onlineUsers: PropTypes.array.isRequired,
     websocketTypingStatus: PropTypes.number.isRequired,
-    areLoading: PropTypes.bool.isRequired,
-    hasErrored: PropTypes.bool.isRequired,
+    isLoading: PropTypes.bool,
+    hasError: PropTypes.array.isRequired,
     selected: PropTypes.number.isRequired,
     miniChats: PropTypes.array.isRequired,
     fetchData: PropTypes.func.isRequired,
@@ -111,7 +112,9 @@ Messenger.propTypes = {
 const filterRooms = (rooms, searchText) => {
     if (searchText) {
         return rooms.filter(room =>
-            room.username.toLowerCase().startsWith(searchText.toLowerCase())
+            room.user.username
+                .toLowerCase()
+                .startsWith(searchText.toLowerCase())
         )
     }
     return rooms
@@ -125,7 +128,8 @@ const mapStateToProps = state => ({
     isLoading: state.Messenger.isLoading,
     hasError: state.Messenger.hasError,
     onlineUsers: state.Users.onlineUsers,
-    websocketTypingStatus: state.Messenger.websocketTypingStatus
+    websocketTypingStatus: state.Messenger.websocketTypingStatus,
+    searchText: state.Messenger.searchText
 })
 
 const mapDispatchToProps = dispatch => ({
@@ -137,9 +141,7 @@ const mapDispatchToProps = dispatch => ({
     closeMiniChat: roomId => dispatch(messengerActions.closeMiniChat(roomId))
 })
 
-export default withStyles(c)(
-    connect(
-        mapStateToProps,
-        mapDispatchToProps
-    )(Messenger)
-)
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(Messenger)

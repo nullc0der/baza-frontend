@@ -14,7 +14,14 @@ export default class MemberTile extends Component {
     }
 
     render() {
-        const { userName, avatarUrl, avatarColor, onlineStatus } = this.props
+        const {
+            userId,
+            userName,
+            avatarUrl,
+            avatarColor,
+            onlineStatus,
+            initChat
+        } = this.props
 
         return (
             <div
@@ -26,6 +33,9 @@ export default class MemberTile extends Component {
                 onMouseEnter={this.handleHover}
                 onMouseLeave={this.handleHover}>
                 <div className="member-image">
+                    <p className="init-chat" onClick={e => initChat(userId)}>
+                        <i className="fa fa-comments-o" />
+                    </p>
                     <Avatar
                         className="avatar-image"
                         size={82}

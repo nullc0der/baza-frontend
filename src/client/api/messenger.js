@@ -10,10 +10,19 @@ export const getMessages = roomID => {
     return jsonAPI(api => api.get(url))
 }
 
-export const sendMessage = (roomID, datas, containsFile = false) => {
+export const sendMessage = (
+    roomID,
+    datas,
+    containsFile = false,
+    uploadProgressFn
+) => {
     const url = `/messenger/chat/${roomID}/`
     if (containsFile) {
-        return formAPI(api => api.post(url, datas))
+        return formAPI(api =>
+            api.post(url, datas, {
+                onUploadProgress: value => uploadProgressFn(value)
+            })
+        )
     } else {
         return jsonAPI(api => api.post(url, datas))
     }
@@ -32,4 +41,9 @@ export const deleteChatRoom = roomID => {
 export const updateMessageStatus = datas => {
     const url = '/messenger/updatemessagestatus/'
     return jsonAPI(api => api.post(url, datas))
+}
+
+export const initChat = toUser => {
+    const url = `/messenger/initchat/${toUser}/`
+    return jsonAPI(api => api.post(url))
 }

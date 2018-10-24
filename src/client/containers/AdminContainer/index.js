@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import { connect } from 'react-redux'
 import { Redirect } from 'react-router-dom'
 import get from 'lodash/get'
@@ -11,7 +11,7 @@ import s from './AdminContainer.scss'
 
 import Header from 'components/AdminHeader'
 import LeftNav from 'components/LeftNav'
-import RightNav from 'components/RightNav'
+// import RightNav from 'components/RightNav'
 import SubHeader from 'components/SubHeader'
 import Footer from 'components/AdminFooter'
 import MiniChat from 'components/HeaderMiniChat/MiniChat'
@@ -19,6 +19,7 @@ import NotificationBar from 'components/NotificationBar'
 import WebSocketWrapper from 'components/WebSocketWrapper'
 
 import { actions as usersActions } from 'store/Users'
+import { actions as messengerActions } from 'store/Messenger'
 
 import AdminRoutes from './AdminRoutes'
 import AdminOverlays from './AdminOverlays'
@@ -72,6 +73,35 @@ class AdminContainer extends Component {
         this.props.setOnlineUsers(get(data.message, 'online_users', []))
     }
 
+    onMessengerWebSocketData = data => {
+        switch (data.message.type) {
+            case 'add_message':
+                this.props.setTypingStatus(0)
+                this.props.recievedChatOnWebsocket(
+                    data.message.chatroom,
+                    data.message.message
+                )
+                break
+            case 'delete_message':
+                this.props.deleteChatsFromWebsocket(
+                    data.message.chatroom,
+                    data.message.message_ids
+                )
+                break
+            case 'set_typing':
+                if (this.websocketTypingTimeout) {
+                    clearTimeout(this.websocketTypingTimeout)
+                }
+                this.props.setTypingStatus(data.message.chatroom_id)
+                this.websocketTypingTimeout = setTimeout(() => {
+                    this.props.setTypingStatus(0)
+                }, 5000)
+                break
+            default:
+                break
+        }
+    }
+
     render() {
         return Auth.isAuthenticated() && Auth.isTokenNotExpired() ? (
             <section className={s.container}>
@@ -82,6 +112,11 @@ class AdminContainer extends Component {
                     onWebSocketData={this.onWebSocketData}
                     message={this.state.webSocketMessage}
                 />
+                <WebSocketWrapper
+                    url="/ws/messenger/"
+                    onWebSocketData={this.onMessengerWebSocketData}
+                    message={this.props.sendTypingStatus}
+                />
                 <LeftNav
                     className={s.leftNav}
                     open={this.state.isLeftNavOpen}
@@ -89,13 +124,17 @@ class AdminContainer extends Component {
                 />
 
                 <section className={s.content}>
-                    <Header
-                        className={s.header}
-                        onMenuToggle={this.toggleLeftNav}
-                        onSettingsToggle={this.toggleRightNav}
-                    />
-                    <SubHeader className={s.subHeader} />
-                    <NotificationBar />
+                    {this.props.showHeaders && (
+                        <Fragment>
+                            <Header
+                                className={s.header}
+                                onMenuToggle={this.toggleLeftNav}
+                                onSettingsToggle={this.toggleRightNav}
+                            />
+                            <SubHeader className={s.subHeader} />
+                            <NotificationBar />
+                        </Fragment>
+                    )}
                     <section className="content-inner">
                         {AdminRoutes(this.props.location)}
                         {AdminOverlays(this.props.location)}
@@ -103,11 +142,11 @@ class AdminContainer extends Component {
                     <Footer />
                 </section>
 
-                <RightNav
+                {/* <RightNav
                     className={s.rightNav}
                     open={this.state.isRightNavOpen}
                     onRequestClose={this.toggleLeftNav}
-                />
+                /> */}
             </section>
         ) : (
             <Redirect
@@ -125,11 +164,19 @@ class AdminContainer extends Component {
 
 const mapStateToProps = state => ({
     location: state.router.location,
-    userStatus: state.UserProfile.userStatus
+    userStatus: state.UserProfile.userStatus,
+    sendTypingStatus: state.Messenger.sendTypingStatus,
+    showHeaders: state.Common.showHeaders
 })
 
 const mapDispatchToProps = dispatch => ({
-    setOnlineUsers: users => dispatch(usersActions.setOnlineUsers(users))
+    setOnlineUsers: users => dispatch(usersActions.setOnlineUsers(users)),
+    recievedChatOnWebsocket: (roomId, chat) =>
+        dispatch(messengerActions.receivedChatOnWebsocket(roomId, chat)),
+    deleteChatsFromWebsocket: (roomId, chatIds) =>
+        dispatch(messengerActions.deleteChatsFromWebsocket(roomId, chatIds)),
+    setTypingStatus: roomId =>
+        dispatch(messengerActions.updateTypingStatus(roomId))
 })
 
 export default connect(

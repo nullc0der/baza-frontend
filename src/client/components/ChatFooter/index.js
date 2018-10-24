@@ -1,13 +1,14 @@
 import React, { Component } from 'react'
 import classnames from 'classnames'
+import 'emoji-mart/css/emoji-mart.css'
 import { Picker } from 'emoji-mart'
 
 import Dialog from 'components/ui/Dialog'
-import DropzoneWrapper from 'components/ui/DropzoneWrapper'
-import withStyles from 'isomorphic-style-loader/lib/withStyles'
-import c from './ChatFooter.styl'
+import TextField from 'components/ui/TextField'
+import DropzoneWrapper from 'components/ui/DropZoneWrapper'
+import c from './ChatFooter.scss'
 
-class ChatFooter extends Component {
+export default class ChatFooter extends Component {
     constructor(props) {
         super(props)
         this.state = {
@@ -55,24 +56,21 @@ class ChatFooter extends Component {
             new Date().getTime() - this.state.lastTypingSynchedOn.getTime() >
             this.state.syncDelayInMillis
         ) {
-            if (this.props.roomId) {
-                this.props.handleTypingStatus(this.props.roomId)
-            } else {
-                this.props.handleTypingStatus()
-            }
-            this.setState({
-                lastTypingSynchedOn: new Date()
-            })
+            this.setState(
+                {
+                    lastTypingSynchedOn: new Date()
+                },
+                () => this.props.handleTypingStatus()
+            )
         }
         this.setState({
             chatMessage: msg
         })
     }
 
-    onAttachmentTextInputChange = e => {
-        e.preventDefault()
+    onAttachmentTextInputChange = (id, value) => {
         this.setState({
-            attachmentTextInput: e.target.value
+            attachmentTextInput: value
         })
     }
 
@@ -171,6 +169,7 @@ class ChatFooter extends Component {
         return (
             <div className={cx}>
                 <Dialog
+                    className={c.attachmentDialog}
                     id="attachment-modal"
                     isOpen={this.state.attachmentModalIsOpen}
                     title="Upload file"
@@ -188,23 +187,16 @@ class ChatFooter extends Component {
                                 multiple={false}
                             />
                         </div>
-                        <div className="form-group">
-                            <label
-                                htmlFor="inputDescription"
-                                className="control-label">
-                                Description
-                            </label>
-                            <input
-                                className="form-control"
-                                id="inputDescription"
-                                type="text"
-                                value={this.state.attachmentTextInput}
-                                onChange={this.onAttachmentTextInputChange}
-                            />
-                        </div>
+                        <TextField
+                            label="Description"
+                            className="attachment-input"
+                            id="attachmentTextInput"
+                            value={this.state.attachmentTextInput}
+                            onChange={this.onAttachmentTextInputChange}
+                        />
                         <button
                             className="btn btn-block btn-dark"
-                            onClick={this.onFileButtonClick}>
+                            onClick={e => this.handleSendChat(e, true)}>
                             Upload
                         </button>
                     </form>
@@ -233,6 +225,7 @@ class ChatFooter extends Component {
                             value={this.state.chatMessage}
                             onInput={this.onChatSend}
                             onFocus={onChatInputFocus}
+                            data-lpignore={true}
                         />
                         <div
                             className="file-upload-bar"
@@ -250,7 +243,7 @@ class ChatFooter extends Component {
                     ref={node => {
                         this.emojinode = node
                     }}
-                    style={{ position: 'relative', zIndex: 9999 }}>
+                    style={{ position: 'relative', zIndex: 200 }}>
                     {this.state.emojiButtonClicked && (
                         <Picker
                             title="Pick your emoji…"
@@ -268,14 +261,12 @@ class ChatFooter extends Component {
                         />
                     )}
                     <div
-                        className="btn btn-default ui-button"
+                        className="btn btn-default ui-button emoji-button"
                         onClick={this.onEmojiButtonClick}>
-                        <i className="far fa-smile" />
+                        <i className="fa fa-fw fa-smile-o" />
                     </div>
                 </div>
             </div>
         )
     }
 }
-
-export default withStyles(c)(ChatFooter)

@@ -43,11 +43,14 @@
         .avatar-image {
             margin: 0 auto;
         }
-        // .init-chat {
-        //     absolute: top right 8px;
-        //     color: #4a4a4a;
-        //     font-size: 16px;
-        // }
+        .init-chat {
+            position: absolute;
+            top: 0;
+            right: 8px;
+            color: #4a4a4a;
+            font-size: 16px;
+            cursor: pointer;
+        }
     }
     .member-info {
         position: relative;
