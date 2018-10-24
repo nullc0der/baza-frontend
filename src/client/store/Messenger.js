@@ -218,12 +218,15 @@ const initChat = toUser => dispatch => {
 
 const INIT_CHAT_SUCCESS = createAction('INIT_CHAT_SUCCESS')
 const initChatSuccess = res => ({
-    type: INIT_CHAT_SUCCESS
+    type: INIT_CHAT_SUCCESS,
+    roomId: get(res.data, 'chat_id', -1),
+    chats: get(res.data, 'messages', [])
 })
 
-const INIT_CHAT_FAILURE = createAction('INIT_CHAT_FAILURE')
+const INIT_CHAT_ERROR = createAction('INIT_CHAT_ERROR')
 const initChatFailure = err => ({
-    type: INIT_CHAT_FAILURE
+    type: INIT_CHAT_ERROR,
+    error: err
 })
 
 const DELETE_CHATS_FROM_WEBSOCKET = createAction('DELETE_CHATS_FROM_WEBSOCKET')
@@ -267,13 +270,14 @@ export default function ChatRoomsReducer(state = INITIAL_STATE, action) {
         case CHATS_FETCH_DATA:
         case CHAT_SEND:
         case DELETE_CHATS:
+        case INIT_CHAT:
             return { ...state, isLoading: true, hasError: null }
         case LOAD_ROOMS_ERROR:
         case DELETE_CHAT_ROOM_ERROR:
         case CHATS_FETCH_DATA_ERROR:
         case CHAT_SEND_ERROR:
         case DELETE_CHATS_ERROR:
-        case INIT_CHAT:
+        case INIT_CHAT_ERROR:
             return { ...state, hasError: action.error, isLoading: false }
         case LOAD_ROOMS_SUCESS:
             return { ...state, rooms: action.rooms }
@@ -310,6 +314,7 @@ export default function ChatRoomsReducer(state = INITIAL_STATE, action) {
                 minichats: state.minichats.filter(x => x !== action.roomId)
             }
         case CHATS_FETCH_DATA_SUCCESS:
+        case INIT_CHAT_SUCCESS:
             return {
                 ...state,
                 chats: { ...state.chats, [action.roomId]: action.chats }
