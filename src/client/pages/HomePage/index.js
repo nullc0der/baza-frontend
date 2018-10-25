@@ -39,13 +39,11 @@ class HomePage extends Component {
                             <div className="row fill align-items-center justify-content-center">
                                 <div className="col-sm-12 col-xs-12 mx-auto">
                                     <h2 className="hero-title text-center">
-                                        {' '}
-                                        Baza Coin (BAZ){' '}
+                                        Baza Token (BAZ)
                                     </h2>
                                     <h4 className="hero-subtitle mb-3 text-center">
-                                        {' '}
                                         Because everyone needs a basic
-                                        foundation{' '}
+                                        foundation
                                     </h4>
                                     <div className="row">
                                         <BasicIncomeCalculator className="hero-form col-sm-12 col-xs-12 mx-auto" />
@@ -67,7 +65,6 @@ class HomePage extends Component {
                 <MapSection id="map-section" />
                 <RoadMapSection id="roadmap-section" />
                 <ContactSection id="contact-section" />
-
                 <Footer />
             </div>
         )

@@ -31,23 +31,25 @@ const CurrentStatusSection = props => {
                 <div className="row">
                     <div className="col-lg-8">
                         <h4 className="section-title-underlined">
-                            Donation Status
+                            Distribution Process
                         </h4>
                         <p>
-                            When donation reach the goal an automatic purchase
-                            of the baza and crypto on the market will be
-                            purchased then distributed to the qualifying Baza
-                            account holders in the form of basic income
+                            When the amount donated reaches USD 2 per recipient
+                            & Administration fee + Development fund of 8%, then
+                            the distribution will take place. The next
+                            distribution is based on the total new recipient
+                            signups plus the current ones.
                         </p>
 
                         <h4 className="section-title-underlined">
-                            Where we are
+                            Current Status
                         </h4>
                         <p>
-                            When donation reach the goal an automatic purchase
-                            of the baza and crypto on the market will be
-                            purchased then distributed to the qualifying Baza
-                            account holders in the form of basic income
+                            For the current distribution to take place,
+                            donations made must reach the required goal of
+                            $2160. Once this goal is reached, an automatic equal
+                            release of the redeemable baza tokens will be
+                            distributed to the qualifying account holders.
                         </p>
                         <DonationProgressBar max={1500} value={1088} />
                         <div className="pt-3">

@@ -41,11 +41,11 @@ export default class WhitePaperSection extends React.Component {
                                 White Paper
                             </h4>
                             <p className="mb-3">
-                                When donation reach the goal an automatic
-                                purchase of the baza and crypto on the market
-                                will be purchased then distributed to the
-                                qualifying Baza account holders in the form of
-                                basic income
+                                Our white paper outlines Baza Foundation, and
+                                covers an array of important topics. Including,
+                                how we improve our present day charity systems
+                                with the use of a powerful tool that is Secure
+                                Ledge Technology. Give it a read!
                             </p>
                             <a href="" className="btn btn-dark">
                                 Download White Paper

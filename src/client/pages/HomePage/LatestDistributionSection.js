@@ -5,23 +5,23 @@ const LIST = [
     {
         image: '/public/img/latest-distribution/donors.svg',
         title: '1,987',
-        subtitle: 'Donors',
+        subtitle: 'Donor',
         description:
-            'Donors are the group of people that donates towards basic income of recepients. A donor can also be a recepient.'
+            'Donors are patrons members that contribute towards the foundation & token distribution'
     },
     {
         image: '/public/img/latest-distribution/baz-distributed.svg',
         title: '1,28,211',
         subtitle: 'Baz Distributed',
         description:
-            'Donors are the group of people that donates towards basic income of recepients. A donor can also be a recepient.'
+            'Baz are redeemable tokens that are automatically distributed to all qualifying members as basic income'
     },
     {
         image: '/public/img/latest-distribution/receipients.svg',
         title: '10,432',
         subtitle: 'Receipients',
         description:
-            'Donors are the group of people that donates towards basic income of recepients. A donor can also be a recepient.'
+            'Recipients are our qualifying platform members who receive the distributed token'
     }
 ]
 

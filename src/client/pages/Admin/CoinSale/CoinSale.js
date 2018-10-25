@@ -32,7 +32,7 @@ const TitleAndProgress = props => (
     <div className="row">
         <div className="col-md-8 mx-auto">
             <h4 className="title top-title">
-                BAZA FOUNDATION 100 MILLION COIN SALE
+                BAZA FOUNDATION 1.3M PRE-COIN SALE
             </h4>
             <ProgressBar
                 activeText={props.progressCurrentText}

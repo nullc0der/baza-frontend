@@ -9,21 +9,21 @@ const FEATURES = [
         title: 'GPU MINING',
         subtitle: 'Security',
         description:
-            'Easy entry level GPU mining of Baza to support the network'
+            'Easy entry level GPU mining of the Baza token to support the network'
     },
     {
         image: '/public/img/features/community.svg',
         title: 'COMMUNITY',
         subtitle: 'Support',
         description:
-            'Join the Baza Foundation to become a continue member and follow our progress'
+            'Join the Foundation become a continued member and one of our patrons'
     },
     {
         image: '/public/img/features/store-locally.svg',
         title: 'STORE LOCALLY',
         subtitle: 'Decentralize',
         description:
-            'Download and store your Baza Coins on your choice of OS based computer'
+            'Download and store your Baza Tokens on your choice of operating system'
     }
 ]
 
