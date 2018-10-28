@@ -75,6 +75,7 @@ class AdminContainer extends Component {
 
     shouldOpenMinichat = chatroomId => {
         if (
+            $(window).width() > 768 &&
             chatroomId !== this.props.selectedChatroom &&
             this.props.minichats.indexOf(chatroomId) === -1
         ) {
@@ -87,10 +88,8 @@ class AdminContainer extends Component {
         switch (data.message.type) {
             case 'add_message':
                 if (this.shouldOpenMinichat(data.message.chatroom.id)) {
-                    console.log('execs')
                     this.props.openMiniChat(data.message.chatroom.id)
                 } else {
-                    console.log('execs1')
                     this.props.setTypingStatus(0)
                     this.props.recievedChatOnWebsocket(
                         data.message.chatroom,
