@@ -47,28 +47,30 @@ class ChatView extends Component {
     }
 
     handleUnreadChat = (chats, profile) => {
-        const unreadChats = chats.filter(
-            x =>
-                !x.read &
-                (x.user.username !==
-                    (profile.username || profile.user.username))
-        )
-        if (unreadChats) {
-            const chatArr = []
-            for (const unreadChat of unreadChats) {
-                chatArr.push(unreadChat.id)
+        if (chats) {
+            const unreadChats = chats.filter(
+                x =>
+                    !x.read &
+                    (x.user.username !==
+                        (profile.username || profile.user.username))
+            )
+            if (unreadChats) {
+                const chatArr = []
+                for (const unreadChat of unreadChats) {
+                    chatArr.push(unreadChat.id)
+                }
+                if (chatArr.length) {
+                    updateMessageStatus({ message_ids: chatArr }).then(res => {
+                        this.props.updateRoom(this.props.selected)
+                        this.props.updateChatReadStatus(
+                            this.props.selected,
+                            chatArr
+                        )
+                    })
+                }
             }
-            if (chatArr.length) {
-                updateMessageStatus({ message_ids: chatArr }).then(res => {
-                    this.props.updateRoom(this.props.selected)
-                    this.props.updateChatReadStatus(
-                        this.props.selected,
-                        chatArr
-                    )
-                })
-            }
+            this.scrollToBottom()
         }
-        this.scrollToBottom()
     }
 
     handleSelectedMessage = (messageId, shouldSelect) => {

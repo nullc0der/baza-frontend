@@ -1,10 +1,10 @@
 @import 'ui';
-$sidebar_width: 250px;
+$sidebar_width: 210px;
 
 :local(.container) {
     color: inherit;
-    padding: 24px;
     height: 100%;
+    @include _shadow_1();
 
     @include media-breakpoint-down(md, $grid-breakpoints) {
         padding-bottom: 100px;
@@ -20,8 +20,6 @@ $sidebar_width: 250px;
     position: relative;
     z-index: 100;
     flex: 1;
-    @include _shadow_1();
-    // border 1px rgba(#000, 0.1) solid
     border-width: 1px 1px 1px 0;
     border-radius: 0 3px 3px 0;
 
@@ -75,7 +73,7 @@ $sidebar_width: 250px;
     .chatview-header {
         height: 60px;
         position: relative;
-        border-bottom: 1px rgba(#979797, 0.23) solid;
+        //border-bottom: 1px rgba(#979797, 0.23) solid;
         padding: 0 20px;
         .text-session-id {
             position: absolute;
@@ -94,7 +92,7 @@ $sidebar_width: 250px;
     .chatview-body {
         min-height: auto;
         overflow-y: auto;
-        padding: 20px;
+        padding: map-get($spacers, 2);
         background-color: #fff;
         // box-shadow 0px 0px 12px 0 rgba(#000, 0.12)
         @include media-breakpoint-down(md, $grid-breakpoints) {
@@ -132,9 +130,8 @@ $sidebar_width: 250px;
 
 :local(.sidebar) {
     position: relative;
-    z-index: 100; // z-index changed to 100 from 400, because of modal issue
+    z-index: 200;
     width: $sidebar_width;
-    // border 1px rgba(#000, 0.1) solid
     border-radius: 3px 0 0 3px;
     @include _shadow_1();
 
@@ -168,28 +165,33 @@ $sidebar_width: 250px;
 
     .chat-sidebar-item {
         cursor: pointer;
-        // border-bottom 1px rgba(#000, 0.12) solid
-        padding: 12px 12px;
+        border-bottom: 1px $light solid;
+        padding: 12px map-get($spacers, 2);
         display: flex;
         align-items: center;
         background-color: #fff;
         position: relative;
         z-index: 100;
-        transform-origin: center center;
         transition: all 0.16s ease;
-        will-change: transform, box-shadow;
-        color: rgba(#000, 0.24);
-        &:hover {
-            box-shadow: 0 0 12px 2px rgba(#000, 0.12);
+        color: $dark;
+        &:before {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            width: 0px;
+            transition: width 0.2s ease;
+            content: '';
+            background-color: $dark;
+            z-index: 1;
+        }
+        &:hover:not(.is-active) {
+            background-color: $light;
         }
         &.is-active {
-            z-index: 300;
-            background-color: $dark;
-            color: #fff;
-            .online-status {
-                &::before {
-                    background-color: rgba(#fff, 0.78);
-                }
+            padding: 12px map-get($spacers, 3);
+            &:before {
+                width: 13px;
             }
         }
         &.has-unread {
@@ -228,7 +230,7 @@ $sidebar_width: 250px;
                 width: 8px;
                 height: 8px;
                 border-radius: 50%;
-                background-color: rgba(#000, 0.24);
+                background-color: rgba(#000, 0.12);
             }
             &.is-online:before {
                 background-color: $color-lime500;
