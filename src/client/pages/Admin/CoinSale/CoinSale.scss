@@ -22,6 +22,14 @@ $purchase-button-height: 50px;
     }
     @include media-breakpoint-down(sm, $grid-breakpoints) {
         padding-top: map-get($spacers, 4);
+        .title.top-title {
+            width: calc(100% - 140px);
+            position: relative;
+            top: -48px;
+            left: 0px;
+            text-align: left;
+            margin-bottom: -30px;
+        }
     }
 }
 

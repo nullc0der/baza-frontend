@@ -22,9 +22,42 @@ export default class RoadmapGrid extends Component {
         )
     }
 
+    componentDidMount = () => {
+        setTimeout(this.fixHeights, 1000)
+    }
+
+    getItems = () => {
+        const selector = '.milestone-item .milestone-inner'
+        return Array.from(this.container.querySelectorAll(selector))
+    }
+
+    fixHeights = () => {
+        const maxHeight = this.getMaxMilestoneHeight()
+        const items = this.getItems()
+        items.forEach(item => {
+            item.style.height = `${maxHeight}px`
+        })
+    }
+
+    getMaxMilestoneHeight = () => {
+        let maxHeight = 100
+        this.getItems().forEach(item => {
+            var h = item.getBoundingClientRect().height
+            if (h > maxHeight) {
+                maxHeight = h
+            }
+        })
+
+        return maxHeight
+    }
+
     render() {
         return (
-            <div className="milestone-grid">
+            <div
+                className="milestone-grid"
+                ref={node => {
+                    this.container = node
+                }}>
                 <div className="milestone-row row">
                     <div className="mb-3 col-md-4">{this.renderItem(0)}</div>
                     <div className="mb-3 col-md-4">{this.renderItem(1)}</div>

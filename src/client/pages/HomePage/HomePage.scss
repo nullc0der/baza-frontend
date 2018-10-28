@@ -79,7 +79,7 @@
         height: 100%;
     }
     .feature-icon {
-        height: 25vh;
+        height: 35vh;
         max-height: 240px;
         display: flex;
         align-items: flex-end;
@@ -282,7 +282,7 @@
         left: 0;
         top: 0;
         bottom: 0;
-        border-radius: 8px 36px 36px 8px;
+        border-radius: 8px 42px 42px 8px;
         z-index: -1;
         background-color: $primary;
         @include fat-gradient();
@@ -330,6 +330,12 @@
 .home-page .white-paper-section {
     .page-section {
         padding-top: 0;
+    }
+    .download-whitepaper-btn {
+        text-align: left;
+        @include media-breakpoint-down(sm, $grid-breakpoints) {
+            text-align: center;
+        }
     }
     .section-title-underlined {
         font-size: 2rem;

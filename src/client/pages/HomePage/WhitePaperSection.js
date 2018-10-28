@@ -40,6 +40,9 @@ export default class WhitePaperSection extends React.Component {
                             <h4 className="section-title-underlined">
                                 White Paper
                             </h4>
+                            <div className="image-container d-sm-none pt-2 pb-4">
+                                {this.renderImage()}
+                            </div>
                             <p className="mb-3">
                                 Our white paper outlines Baza Foundation, and
                                 covers an array of important topics. Including,
@@ -47,12 +50,14 @@ export default class WhitePaperSection extends React.Component {
                                 with the use of a powerful tool that is Secure
                                 Ledge Technology. Give it a read!
                             </p>
-                            <a href="" className="btn btn-dark">
-                                Download White Paper
-                            </a>
+                            <div className="download-whitepaper-btn">
+                                <a href="" className="btn btn-dark">
+                                    Download White Paper
+                                </a>
+                            </div>
                         </div>
                         <div className="col-md-7">
-                            <div className="image-container">
+                            <div className="image-container d-none d-sm-block">
                                 {this.renderImage()}
                             </div>
                         </div>

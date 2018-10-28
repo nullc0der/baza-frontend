@@ -40,10 +40,10 @@ const FeaturesSection = props => {
         <div className={cx} id={props.id}>
             <div className="container page-section">
                 <h3 className="text-center mb-5"> {title} </h3>
-                <div className="row">
+                <div className="row justify-content-center">
                     {list.map(feature => (
                         <div
-                            className="col-md-4 feature-item mt-3 px-1"
+                            className="col-md-6 col-lg-4 col-xl-4 feature-item mt-3 px-1 pb-4"
                             key={feature.image}>
                             <div className={iconClassName}>
                                 <img alt={feature.title} src={feature.image} />
