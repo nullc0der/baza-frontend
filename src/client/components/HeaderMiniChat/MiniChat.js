@@ -54,8 +54,7 @@ class MiniChat extends Component {
                 let chat = {
                     username: this.getTitle(miniChat),
                     roomId: miniChat,
-                    messages: chats[miniChat],
-                    user: chats[miniChat].user
+                    messages: chats[miniChat]
                 }
                 openChats.push(chat)
             } else {
@@ -95,6 +94,14 @@ class MiniChat extends Component {
         }
     }
 
+    onFileUploadProgressChange = value => {
+        let uploadDonePercent = 0
+        if (value.lengthComputable) {
+            uploadDonePercent = (value.loaded / value.total) * 100
+        }
+        this.props.fileUploadProgress(this.props.selected, uploadDonePercent)
+    }
+
     handleDeleteChat = roomId => {
         if (
             this.state.selectedMessages[roomId] &&
@@ -128,7 +135,7 @@ class MiniChat extends Component {
 
     handleTypingStatus = roomId => {
         this.props.sendTypingStatus({
-            chatroom_id: this.props.selected,
+            chatroom_id: roomId,
             at_time: new Date().toLocaleDateString()
         })
     }
@@ -174,7 +181,7 @@ class MiniChat extends Component {
                                 handleSendChat={this.handleSendChat}
                                 handleTypingStatus={this.handleTypingStatus}
                                 webSocketTypingStatus={
-                                    this.props.webSocketTypingStatus
+                                    this.props.websocketTypingStatus
                                 }
                                 handleUnreadChat={this.handleUnreadChat}
                                 userProfile={this.props.userProfile}

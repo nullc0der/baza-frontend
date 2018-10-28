@@ -115,9 +115,9 @@ export default class ChatBodyItem extends Component {
                             )
                         })}
                     </Linkify>
-                    <div className="stamp">
-                        <TimeAgo date={stamp} minPeriod={10} />
-                    </div>
+                </div>
+                <div className="stamp">
+                    <TimeAgo date={stamp} minPeriod={10} />
                 </div>
             </div>
         )

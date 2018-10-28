@@ -73,14 +73,30 @@ class AdminContainer extends Component {
         this.props.setOnlineUsers(get(data.message, 'online_users', []))
     }
 
+    shouldOpenMinichat = chatroomId => {
+        if (
+            chatroomId !== this.props.selectedChatroom &&
+            this.props.minichats.indexOf(chatroomId) === -1
+        ) {
+            return true
+        }
+        return false
+    }
+
     onMessengerWebSocketData = data => {
         switch (data.message.type) {
             case 'add_message':
-                this.props.setTypingStatus(0)
-                this.props.recievedChatOnWebsocket(
-                    data.message.chatroom,
-                    data.message.message
-                )
+                if (this.shouldOpenMinichat(data.message.chatroom.id)) {
+                    console.log('execs')
+                    this.props.openMiniChat(data.message.chatroom.id)
+                } else {
+                    console.log('execs1')
+                    this.props.setTypingStatus(0)
+                    this.props.recievedChatOnWebsocket(
+                        data.message.chatroom,
+                        data.message.message
+                    )
+                }
                 break
             case 'delete_message':
                 this.props.deleteChatsFromWebsocket(
@@ -95,7 +111,7 @@ class AdminContainer extends Component {
                 this.props.setTypingStatus(data.message.chatroom_id)
                 this.websocketTypingTimeout = setTimeout(() => {
                     this.props.setTypingStatus(0)
-                }, 5000)
+                }, 1000)
                 break
             default:
                 break
@@ -166,7 +182,9 @@ const mapStateToProps = state => ({
     location: state.router.location,
     userStatus: state.UserProfile.userStatus,
     sendTypingStatus: state.Messenger.sendTypingStatus,
-    showHeaders: state.Common.showHeaders
+    showHeaders: state.Common.showHeaders,
+    selectedChatroom: state.Messenger.selected,
+    minichats: state.Messenger.minichats
 })
 
 const mapDispatchToProps = dispatch => ({
@@ -176,7 +194,8 @@ const mapDispatchToProps = dispatch => ({
     deleteChatsFromWebsocket: (roomId, chatIds) =>
         dispatch(messengerActions.deleteChatsFromWebsocket(roomId, chatIds)),
     setTypingStatus: roomId =>
-        dispatch(messengerActions.updateTypingStatus(roomId))
+        dispatch(messengerActions.updateTypingStatus(roomId)),
+    openMiniChat: roomId => dispatch(messengerActions.openMiniChat(roomId))
 })
 
 export default connect(

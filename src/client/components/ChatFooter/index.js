@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import classnames from 'classnames'
 import 'emoji-mart/css/emoji-mart.css'
 import { Picker } from 'emoji-mart'
+import { BubbleLoader } from 'react-css-loaders'
 
 import Dialog from 'components/ui/Dialog'
 import TextField from 'components/ui/TextField'
@@ -15,7 +16,7 @@ export default class ChatFooter extends Component {
             emojiButtonClicked: false,
             chatMessage: '',
             lastTypingSynchedOn: new Date(0),
-            syncDelayInMillis: 5000,
+            syncDelayInMillis: 1000,
             chatAttachment: null,
             attachmentModalIsOpen: false,
             attachmentTextInput: ''
@@ -60,7 +61,7 @@ export default class ChatFooter extends Component {
                 {
                     lastTypingSynchedOn: new Date()
                 },
-                () => this.props.handleTypingStatus()
+                () => this.props.handleTypingStatus(this.props.roomId || null)
             )
         }
         this.setState({
@@ -232,7 +233,7 @@ export default class ChatFooter extends Component {
                             style={{ width: this.props.uploadProgress + '%' }}
                         />
                         <div
-                            className="btn btn-default ui-button chat-input-btn"
+                            className="chat-input-btn"
                             onClick={e => this.handleSendChat(e, false)}>
                             <i className="fa fa-paper-plane" />
                         </div>

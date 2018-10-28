@@ -16,6 +16,10 @@ class Messenger extends Component {
         this.props.fetchData()
     }
 
+    componentWillUnmount = () => {
+        this.props.selectRoom(-1)
+    }
+
     componentDidUpdate = prevProps => {
         if (prevProps.match !== this.props.match) {
             this.onSidebarChatSelect(Number(this.props.match.params.id))

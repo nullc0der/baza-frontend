@@ -77,7 +77,7 @@ class Members extends Component {
 
     initChat = toUser => {
         this.props.initChat(toUser).then(res => {
-            this.props.openMiniChat(res.data.chat_id)
+            this.props.openMiniChat(res.data.room.id)
         })
     }
 

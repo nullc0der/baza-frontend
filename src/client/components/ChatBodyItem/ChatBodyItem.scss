@@ -16,15 +16,15 @@ $color_2: rgba(0, 0, 0, 0.5);
         order: 1;
         display: block;
         border-radius: 5px;
+        cursor: pointer;
         .emoji-mart-emoji {
             left: 0;
             top: 5px;
         }
     }
     .Linkify {
-        a {
-            word-break: break-all;
-        }
+        word-break: break-all;
+        display: block;
     }
     .img-attachment {
         max-width: 400px;
@@ -86,11 +86,10 @@ $color_2: rgba(0, 0, 0, 0.5);
         bottom: -20px;
         right: 0;
     }
-    .in-left {
+    &.in-left {
         justify-content: flex-start;
         .stamp {
-            left: 0;
-            right: initial;
+            left: 15px;
         }
         .msg {
             order: 3;

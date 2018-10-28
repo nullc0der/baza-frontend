@@ -97,9 +97,19 @@ $background_color_5: #f2f2f2;
                 background-color: $background_color_4;
             }
         }
+        .chat-header.is-busy {
+            &:after {
+                background-color: $danger;
+            }
+        }
         .chat-body {
             background-color: $background_color_5;
             overflow-y: auto;
+            .chat-body-item {
+                &.in-left {
+                    justify-content: flex-start;
+                }
+            }
         }
     }
     .mini-chat.is-minimized {

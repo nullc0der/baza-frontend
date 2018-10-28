@@ -1,5 +1,4 @@
 import React from 'react'
-import classnames from 'classnames'
 import _ from 'lodash'
 
 import ChatBodyItem from 'components/ChatBodyItem'
@@ -21,6 +20,7 @@ export default class MiniChatBox extends React.Component {
                 this.props.handleUnreadChat(this.props.chat.roomId, unreadIds)
             }
             this.scrollToBottom()
+            this.setUserStatus(this.props.chat, this.props.onlineUsers)
         }
     }
 
@@ -43,10 +43,15 @@ export default class MiniChatBox extends React.Component {
 
     setUserStatus = (chat, onlineUsers) => {
         for (const onlineUser of onlineUsers) {
-            if (chat.user.id === onlineUser.id) {
-                this.setState({
-                    userStatus: onlineUser
-                })
+            if (!_.isEmpty(chat.messages)) {
+                const otherUserMessages = chat.messages.filter(
+                    x => x.user.id !== this.props.userProfile.user.id
+                )
+                if (otherUserMessages[0].user.id === onlineUser.id) {
+                    this.setState({
+                        userStatus: onlineUser
+                    })
+                }
             }
         }
     }
@@ -57,17 +62,14 @@ export default class MiniChatBox extends React.Component {
 
     render() {
         const { chat, selectedMessages, uploadProgress } = this.props
-        const cx = classnames(
-            'chat-header',
-            'flex-horizontal',
-            'a-center',
-            'j-between',
-            `is-${this.state.userStatus.status}`
-        )
         return (
             <div className="mini-chat flex-vertical">
-                <div className={cx}>
+                <div
+                    className={`chat-header flex-horizontal a-center j-between is-${
+                        this.state.userStatus.status
+                    }`}>
                     <div className="username"> {chat.username} </div>
+                    <div className="flex-1" />
                     <div className="chat-options">
                         {selectedMessages[chat.roomId] &&
                             selectedMessages[chat.roomId].length > 0 && (
@@ -105,8 +107,7 @@ export default class MiniChatBox extends React.Component {
                                 message_id={x.id}
                                 stamp={new Date(x.timestamp)}
                                 left={
-                                    x.user.username !==
-                                    this.props.userProfile.user.username
+                                    x.user.id !== this.props.userProfile.user.id
                                 }
                                 selected={_.includes(
                                     selectedMessages[chat.roomId],
@@ -128,7 +129,7 @@ export default class MiniChatBox extends React.Component {
                     handleSendChat={this.props.handleSendChat}
                     handleTypingStatus={this.props.handleTypingStatus}
                     showTyping={
-                        chat.roomId === this.props.websocketTypingStatus
+                        chat.roomId === this.props.webSocketTypingStatus
                     }
                     showTypingUsername={chat.username}
                     uploadProgress={

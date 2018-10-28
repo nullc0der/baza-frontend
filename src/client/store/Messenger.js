@@ -144,8 +144,8 @@ const chatSend = (
 const CHAT_SEND_SUCCESS = createAction('CHAT_SEND_SUCCESS')
 const chatSendSuccess = res => ({
     type: CHAT_SEND_SUCCESS,
-    roomId: get(res.data, 'room_id', -1),
-    chat: get(res.data, 'chat', [])
+    room: get(res.data, 'room', {}),
+    chat: get(res.data, 'chat', {})
 })
 
 const CHAT_SEND_ERROR = createAction('CHAT_SEND_ERROR')
@@ -155,9 +155,9 @@ const chatSendError = err => ({
 })
 
 const RECEIVED_CHAT_ON_WEBSOCKET = createAction('RECEIVED_CHAT_ON_WEBSOCKET')
-const receivedChatOnWebsocket = (roomId, chat) => ({
+const receivedChatOnWebsocket = (room, chat) => ({
     type: RECEIVED_CHAT_ON_WEBSOCKET,
-    roomId,
+    room,
     chat
 })
 
@@ -219,7 +219,7 @@ const initChat = toUser => dispatch => {
 const INIT_CHAT_SUCCESS = createAction('INIT_CHAT_SUCCESS')
 const initChatSuccess = res => ({
     type: INIT_CHAT_SUCCESS,
-    roomId: get(res.data, 'chat_id', -1),
+    room: get(res.data, 'room', {}),
     chats: get(res.data, 'messages', [])
 })
 
@@ -241,6 +241,16 @@ const sendTypingStatus = typingStatus => ({
     type: SEND_TYPING_STATUS,
     typingStatus
 })
+
+const getRooms = (rooms, room) => {
+    const roomExist = rooms.filter(x => x.id === room.id)
+    if (!roomExist.length) {
+        rooms.push(room)
+    } else {
+        roomExist[0].unread_count = room.unread_count
+    }
+    return rooms
+}
 
 export const actions = {
     updateTypingStatus,
@@ -302,7 +312,7 @@ export default function ChatRoomsReducer(state = INITIAL_STATE, action) {
         case UPDATE_TYPING_STATUS:
             return { ...state, websocketTypingStatus: action.chatroom }
         case OPEN_MINI_CHAT:
-            let roomIdExist = state.minichats.indexOf(action.roomId) > -1
+            const roomIdExist = state.minichats.indexOf(action.roomId) > -1
             let minichats = state.minichats.slice()
             if (!roomIdExist) {
                 minichats.push(action.roomId)
@@ -314,10 +324,15 @@ export default function ChatRoomsReducer(state = INITIAL_STATE, action) {
                 minichats: state.minichats.filter(x => x !== action.roomId)
             }
         case CHATS_FETCH_DATA_SUCCESS:
-        case INIT_CHAT_SUCCESS:
             return {
                 ...state,
                 chats: { ...state.chats, [action.roomId]: action.chats }
+            }
+        case INIT_CHAT_SUCCESS:
+            return {
+                ...state,
+                chats: { ...state.chats, [action.room.id]: action.chats },
+                rooms: getRooms(state.rooms.slice(), action.room)
             }
         case CHAT_SEND_SUCCESS:
         case RECEIVED_CHAT_ON_WEBSOCKET:
@@ -325,11 +340,12 @@ export default function ChatRoomsReducer(state = INITIAL_STATE, action) {
                 ...state,
                 chats: {
                     ...state.chats,
-                    [action.roomId]: [
-                        ...state.chats[action.roomId],
+                    [action.room.id]: [
+                        ...(state.chats[action.room.id] || {}),
                         action.chat
                     ]
-                }
+                },
+                rooms: getRooms(state.rooms.slice(), action.room)
             }
         case CLEAR_CHAT:
             return {
