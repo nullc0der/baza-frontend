@@ -2,6 +2,7 @@ import React, { Component, Fragment } from 'react'
 import { connect } from 'react-redux'
 import { Redirect } from 'react-router-dom'
 import get from 'lodash/get'
+import isEmpty from 'lodash/isEmpty'
 
 import Helmet from 'react-helmet'
 
@@ -84,17 +85,35 @@ class AdminContainer extends Component {
         return false
     }
 
+    isChatEmpty = chatroomId => {
+        return isEmpty(this.props.chats[chatroomId])
+    }
+
     onMessengerWebSocketData = data => {
         switch (data.message.type) {
             case 'add_message':
                 if (this.shouldOpenMinichat(data.message.chatroom.id)) {
+                    this.props.addChatRoom(data.message.chatroom)
                     this.props.openMiniChat(data.message.chatroom.id)
+                    if (!this.isChatEmpty(data.message.chatroom.id)) {
+                        this.props.setTypingStatus(0)
+                        this.props.recievedChatOnWebsocket(
+                            data.message.chatroom,
+                            data.message.message
+                        )
+                    }
                 } else {
                     this.props.setTypingStatus(0)
                     this.props.recievedChatOnWebsocket(
                         data.message.chatroom,
                         data.message.message
                     )
+                }
+                if (
+                    $(window).width() > 768 &&
+                    this.isChatEmpty(data.message.chatroom.id)
+                ) {
+                    this.props.addChatRoom(data.message.chatroom)
                 }
                 break
             case 'delete_message':
@@ -183,11 +202,13 @@ const mapStateToProps = state => ({
     sendTypingStatus: state.Messenger.sendTypingStatus,
     showHeaders: state.Common.showHeaders,
     selectedChatroom: state.Messenger.selected,
-    minichats: state.Messenger.minichats
+    minichats: state.Messenger.minichats,
+    chats: state.Messenger.chats
 })
 
 const mapDispatchToProps = dispatch => ({
     setOnlineUsers: users => dispatch(usersActions.setOnlineUsers(users)),
+    addChatRoom: room => dispatch(messengerActions.addChatRoom(room)),
     recievedChatOnWebsocket: (roomId, chat) =>
         dispatch(messengerActions.receivedChatOnWebsocket(roomId, chat)),
     deleteChatsFromWebsocket: (roomId, chatIds) =>

@@ -17,8 +17,8 @@ const AdminRoutes = location => (
         <Route path="/distribution-signup" component={DistributionSignUpPage} />
         <Route path="/profile" component={MemberProfilePage} />
         <Route path="/members" component={MembersPage} />
+        <Route path="/messenger/:id" component={MessengerPage} />
         <Route path="/messenger" component={MessengerPage} />
-        <Route path="/messenger/:id/" component={MessengerPage} />
         <Redirect to="/dashboard" />
     </Switch>
 )

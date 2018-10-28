@@ -45,6 +45,12 @@ const readStatusUpdated = (roomId, unreadCount = 0) => ({
     unreadCount: calculateUnread(unreadCount)
 })
 
+const ADD_CHAT_ROOM = createAction('ADD_CHAT_ROOM')
+const addChatRoom = chatRoom => ({
+    type: ADD_CHAT_ROOM,
+    chatRoom
+})
+
 const UPDATE_TYPING_STATUS = createAction('UPDATE_TYPING_STATUS')
 const updateTypingStatus = chatroom => ({
     type: UPDATE_TYPING_STATUS,
@@ -259,6 +265,7 @@ export const actions = {
     roomSelected,
     loadRooms,
     deleteChatRoom,
+    addChatRoom,
     openMiniChat,
     closeMiniChat,
     chatsFetchData,
@@ -308,6 +315,11 @@ export default function ChatRoomsReducer(state = INITIAL_STATE, action) {
             return {
                 ...state,
                 rooms: state.rooms.filter(room => room.id !== action.roomId)
+            }
+        case ADD_CHAT_ROOM:
+            return {
+                ...state,
+                rooms: getRooms(state.rooms.slice(), action.chatRoom)
             }
         case UPDATE_TYPING_STATUS:
             return { ...state, websocketTypingStatus: action.chatroom }

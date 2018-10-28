@@ -14,6 +14,9 @@ import { actions as messengerActions } from 'store/Messenger'
 class Messenger extends Component {
     componentDidMount = () => {
         this.props.fetchData()
+        if (this.props.match.params.id) {
+            this.onSidebarChatSelect(Number(this.props.match.params.id))
+        }
     }
 
     componentWillUnmount = () => {

@@ -44,10 +44,11 @@ export default class MiniChatBox extends React.Component {
     setUserStatus = (chat, onlineUsers) => {
         for (const onlineUser of onlineUsers) {
             if (!_.isEmpty(chat.messages)) {
-                const otherUserMessages = chat.messages.filter(
-                    x => x.user.id !== this.props.userProfile.user.id
-                )
-                if (otherUserMessages[0].user.id === onlineUser.id) {
+                let otherUser = chat.messages[0].user || {}
+                if (otherUser.id === this.props.userProfile.user.id) {
+                    otherUser = chat.messages[0].to_user || {}
+                }
+                if (otherUser.id === onlineUser.id) {
                     this.setState({
                         userStatus: onlineUser
                     })

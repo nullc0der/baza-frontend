@@ -20,7 +20,7 @@ class HeaderMiniChat extends Component {
 
     openMiniChat = chat => e => {
         if ($(window).width() > 768) this.props.openMiniChat(chat.id)
-        else this.context.router.push('/messenger/' + chat.id)
+        else this.context.router.history.push('/messenger/' + chat.id)
     }
 
     renderItem = (item, i) => {
