@@ -47,7 +47,10 @@ export default class WhitePaperSection extends React.Component {
                                 with the use of a powerful tool that is Secure
                                 Ledge Technology. Give it a read!
                             </p>
-                            <a href="" className="btn btn-dark">
+                            <a
+                                href="/public/docs/baza_white-paper_v1.pdf"
+                                target="_blank"
+                                className="btn btn-dark">
                                 Download White Paper
                             </a>
                         </div>
