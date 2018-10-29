@@ -28,6 +28,7 @@
 :local(.profile) {
     position: relative;
     margin-left: 8px;
+    margin-right: 8px;
 
     .profile-username {
         margin-left: 10px;
@@ -84,7 +85,7 @@
     }
 
     .profile-menu-footer {
-        padding: 12px 12px;
+        padding: 10px 0;
         background-color: #f9f9f9;
 
         .btn {

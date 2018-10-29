@@ -41,11 +41,11 @@ class AdminHeader extends Component {
                     className={s.profile}
                     user={this.props.profile}
                 />
-                <div
+                {/* <div
                     className="settings-toggle"
                     onClick={this.props.onSettingsToggle}>
                     <i className="material-icons">settings</i>
-                </div>
+                </div> */}
             </div>
         )
     }
