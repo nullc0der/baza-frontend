@@ -68,7 +68,7 @@ const SaleDescription = props => {
                         <SaleItem
                             status="available"
                             title="Series C"
-                            amount="Series B 100M USD"
+                            amount="Series C 100M USD"
                         />
                     </div>
                 </div>
