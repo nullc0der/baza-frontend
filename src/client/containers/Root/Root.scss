@@ -24,9 +24,6 @@ body {
 .j-center {
     justify-content: center;
 }
-.j-around {
-    justify-content: space-around;
-}
 
 .fill,
 .flex-1 {
@@ -95,4 +92,27 @@ body {
 
 .no-overflow {
     overflow: hidden;
+}
+
+.btn-rounded-white {
+    padding: 10px 70px;
+    text-align: center;
+    border-radius: 32px;
+    cursor: default;
+    @include _shadow-2();
+    transition: box-shadow 0.24s ease-in-out;
+    margin-top: map-get($spacers, 3);
+    margin-bottom: map-get($spacers, 3);
+    &:hover {
+        @include _shadow-3();
+    }
+}
+
+@keyframes animate-progress-bar {
+    from {
+        background-position: 0 0;
+    }
+    to {
+        background-position: 100% 100%;
+    }
 }

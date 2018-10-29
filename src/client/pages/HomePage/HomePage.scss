@@ -9,8 +9,8 @@
     }
 
     .page-section {
-        padding-top: map-get($spacers, 5);
-        padding-bottom: map-get($spacers, 5);
+        padding-top: map-get($spacers, 7);
+        padding-bottom: map-get($spacers, 7);
     }
 
     .hero-subtitle {
@@ -68,23 +68,64 @@
 }
 
 .home-page .features-section {
+    .coinsale-section.page-section {
+        padding-top: 0;
+    }
     .feature-item {
         text-align: center;
-        i {
-            font-size: 56px;
-            margin-bottom: map-get($spacers, 3);
+    }
+    img {
+        max-height: 100%;
+        height: 100%;
+    }
+    .feature-icon {
+        height: 25vh;
+        max-height: 240px;
+        display: flex;
+        align-items: flex-end;
+        justify-content: center;
+        // margin-bottom: map-get($spacers, 3);
+    }
+
+    .feature-button {
+        display: inline-block;
+    }
+    .feature-title,
+    .feature-subtitle {
+        font-weight: $font-weight-bold;
+    }
+    .feature-title {
+        font-size: 16px;
+    }
+    .feature-subtitle {
+        font-size: 14px;
+        opacity: 0.5;
+    }
+}
+
+.home-page .latest-distribution-section {
+    .latest-distribution-icon {
+        align-items: center;
+    }
+    .latest-distribution-button {
+        box-shadow: none;
+        border-radius: 0;
+
+        margin-bottom: map-get($spacers, 2);
+        .feature-title {
+            font-size: map-get($spacers, 3);
         }
     }
 }
 
 .home-page .latest-distribution-section {
     .content-row + .content-row {
-        border-top: 1px solid rgba(39, 57, 81, 0.15);
+        border-top: 1px $dark solid;
     }
     .info-block {
         padding: 40px 15px;
         &:not(:first-child) {
-            border-left: 1px solid rgba(39, 57, 81, 0.15);
+            border-left: 1px $dark solid;
         }
     }
     .info-title,
@@ -116,5 +157,187 @@
 .home-page .contact-section {
     .ui-textfield {
         margin-top: map-get($spacers, 3);
+    }
+}
+
+.home-page .map-section {
+    height: 70vh;
+    max-height: 800px;
+    background: $dark;
+    color: #fff;
+}
+
+// Milestone section
+.home-page .milestone-section {
+    position: relative;
+    // background-image: linear-gradient(180deg, $primary 5%, $body-bg);
+    .milestone-stamp {
+        position: absolute;
+        bottom: 0px;
+        right: 0;
+        color: $dark;
+    }
+    // .section-title,
+    // .section-subtitle {
+    //   color: #fff;
+    // }
+    .milestone-count {
+        height: 48px;
+        font-size: 28px;
+        font-weight: $font-weight-bold;
+        text-align: center;
+        padding-top: 1px;
+        padding-left: 1px;
+        width: 48px;
+        background-color: rgba($dark, 0.5);
+        border-radius: 48px;
+        margin: 0 18px;
+        flex-shrink: 0;
+        flex-grow: 0;
+    }
+    .milestone-title {
+        padding-right: 18px;
+        font-weight: $font-weight-bold;
+    }
+
+    .milestone-item {
+        display: inline-block;
+        position: relative;
+        min-height: 70px;
+        width: 100%;
+    }
+    .milestone-inner {
+        position: relative;
+        border-radius: 8px;
+        color: #fff;
+        padding: 10px 0;
+        margin-bottom: 30px;
+        display: flex;
+        align-items: center;
+        z-index: 1;
+        @include _shadow-2();
+        &:after {
+            display: none;
+            position: absolute;
+            content: '';
+            height: 30px;
+            top: -30px;
+            width: 5px;
+            background-color: rgba($dark, 0.2);
+        }
+        &.is-done:after {
+            background-color: $primary;
+        }
+    }
+
+    .milestone-item-wrapper {
+        display: flex;
+        justify-content: flex-end;
+        width: calc(50% + 40px);
+        overflow: visible;
+        min-height: 100px;
+
+        &:first-child .milestone-item:after {
+            display: none;
+        }
+
+        &.in-right {
+            margin-left: calc(50% - 40px);
+            justify-content: flex-start;
+            .milestone-title {
+                padding-right: 24px;
+            }
+            .milestone-stamp {
+                right: 4px;
+            }
+            .milestone-item:after {
+                left: 35px;
+            }
+        }
+
+        &:not(.in-right) {
+            .milestone-item:after {
+                right: 40px;
+            }
+            .milestone-count {
+                order: 2;
+            }
+            .milestone-stamp {
+                left: 4px;
+            }
+            .milestone-title {
+                order: 1;
+                padding-left: 24px;
+            }
+        }
+    }
+
+    .milestone-inner {
+        width: 100%;
+        overflow: hidden;
+        background-color: rgba($dark, 0.2);
+    }
+    .milestone-progress {
+        position: absolute;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        border-radius: 8px 36px 36px 8px;
+        z-index: -1;
+        background-color: $primary;
+        @include fat-gradient();
+        background-size: 70px 70px;
+        width: 0%;
+        transition: width 0.36s linear;
+        @include animate-progress-bar(6s);
+        &.i-2 {
+            transition-delay: 0.4s;
+        }
+        &.i-3 {
+            transition-delay: 0.8s;
+        }
+        &.i-4 {
+            transition-delay: 1.2s;
+        }
+        &.i-5 {
+            transition-delay: 1.6s;
+        }
+        &.i-6 {
+            transition-delay: 2s;
+        }
+        &.i-7 {
+            transition-delay: 2.2s;
+        }
+    }
+
+    .milestone-grid {
+        .milestone-item:after {
+            display: none;
+        }
+        &.will-animate .milestone-item {
+            &.is-done .milestone-progress {
+                width: 120%;
+                background-color: $primary;
+            }
+            &.is-active .milestone-progress {
+                width: 50%;
+                background-color: $primary;
+            }
+        }
+    }
+}
+
+.home-page .white-paper-section {
+    .page-section {
+        padding-top: 0;
+    }
+    .section-title-underlined {
+        font-size: 2rem;
+        &:after {
+            height: 3px;
+        }
+        & + p {
+            font-size: 1.15rem;
+        }
     }
 }

@@ -6,7 +6,6 @@
     "author": "Tushar Kant",
     "license": "MIT",
     "scripts": {
-        "postinstall": "",
         "start": "node build/server.bundle.js",
         "dev": "NODE_ENV=development gulp",
         "dev:server": "nodemon build/server.bundle.js",
@@ -14,6 +13,7 @@
         "build": "NODE_ENV=production gulp build",
         "prod:server": "pm2-runtime process.yml",
         "generate-docs": "jsdoc --configure .jsdoc.json --verbose",
+        "postinstall": "sh setup.sh && npm run build",
         "profile": "NODE_ENV=production webpack --config tools/webpack.config.client --profile --json > stats.json",
         "analyze": "npm run profile && webpack-bundle-analyzer stats.json build/public -s gzip"
     },
@@ -92,7 +92,6 @@
         "raven-js": "^3.25.2",
         "react": "^16.2.0",
         "react-addons-css-transition-group": "^15.6.2",
-        "react-css-loaders": "^0.0.5",
         "react-day-picker": "^7.1.10",
         "react-dev-utils": "5.0.0",
         "react-dom": "^16.2.0",
