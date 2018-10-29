@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import classnames from 'classnames'
 import 'emoji-mart/css/emoji-mart.css'
 import { Picker } from 'emoji-mart'
-import { BubbleLoader } from 'react-css-loaders'
 
 import Dialog from 'components/ui/Dialog'
 import TextField from 'components/ui/TextField'
