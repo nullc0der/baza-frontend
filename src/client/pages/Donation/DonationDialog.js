@@ -39,7 +39,8 @@ class DonationDialog extends Component {
             nonField: ''
         },
         paymentSuccess: false,
-        paymentProcessing: false
+        paymentProcessing: false,
+        submitClicked: false
     }
 
     toggleOtherInput = (force, amount) => {
@@ -108,48 +109,65 @@ class DonationDialog extends Component {
     }
 
     submitDonation = token => {
-        this.setState({
-            paymentProcessing: true
-        })
-        const api = create({
-            baseURL:
-                process.env.NODE_ENV === 'development'
-                    ? 'http://localhost:8000/api/v1'
-                    : '/api/v1',
-            headers: {
-                Accept: 'application/json'
-            }
-        })
-        let url = '/donate/anon/'
-        if (Auth.isAuthenticated()) {
-            api.setHeader('Authorization', `Bearer ${Auth.getToken()}`)
-            url = '/donate/'
-        }
-        api.post(url, {
-            stripe_token: token,
-            amount: this.state.selectedAmount,
-            name: this.state.inputValues.name,
-            email: this.state.inputValues.email,
-            phone_no: this.state.inputValues.phoneNumber
-        }).then(response => {
-            if (response.ok) {
-                this.setState({
-                    paymentSuccess: true
-                })
-            } else {
-                this.setState({
-                    errorValues: {
-                        name: get(response.data, 'name', null),
-                        email: get(response.data, 'email', null),
-                        phoneNumber: get(response.data, 'phone_no', null),
-                        nonField: get(response.data, 'non_field_errors', null),
-                        amount: get(response.data, 'amount', null)
-                    }
-                })
-            }
-            this.setState({
-                paymentProcessing: false
+        if (token) {
+            const api = create({
+                baseURL:
+                    process.env.NODE_ENV === 'development'
+                        ? 'http://localhost:8000/api/v1'
+                        : '/api/v1',
+                headers: {
+                    Accept: 'application/json'
+                }
             })
+            let url = '/donate/anon/'
+            if (Auth.isAuthenticated()) {
+                api.setHeader('Authorization', `Bearer ${Auth.getToken()}`)
+                url = '/donate/'
+            }
+            api.post(url, {
+                stripe_token: token,
+                amount: this.state.selectedAmount,
+                name: this.state.inputValues.name,
+                email: this.state.inputValues.email,
+                phone_no: this.state.inputValues.phoneNumber
+            }).then(response => {
+                if (response.ok) {
+                    this.setState({
+                        paymentSuccess: true
+                    })
+                } else {
+                    this.setState({
+                        errorValues: {
+                            name: get(response.data, 'name', null),
+                            email: get(response.data, 'email', null),
+                            phoneNumber: get(response.data, 'phone_no', null),
+                            nonField: get(
+                                response.data,
+                                'non_field_errors',
+                                null
+                            ),
+                            amount: get(response.data, 'amount', null)
+                        }
+                    })
+                }
+                this.setState({
+                    paymentProcessing: false,
+                    submitClicked: false
+                })
+            })
+        } else {
+            this.setState({
+                paymentProcessing: false,
+                submitClicked: false
+            })
+        }
+    }
+
+    handleSubmit = e => {
+        e.preventDefault()
+        this.setState({
+            submitClicked: true,
+            paymentProcessing: true
         })
     }
 
@@ -235,7 +253,7 @@ class DonationDialog extends Component {
                     </div>
                 )}
                 <div className="row mb-1 justify-content-center">
-                    <div className="col-md-11 mt-4">
+                    <div className="col-md-12">
                         {this.state.errorValues.nonField && (
                             <div className="well mb-2 mt-2 error-well">
                                 {this.state.errorText.nonField.map((x, i) => (
@@ -248,19 +266,51 @@ class DonationDialog extends Component {
                                 <p>{this.state.errorValues.amount}</p>
                             </div>
                         )}
-                        <ContactInformation
-                            onInputChange={this.onInputChange}
-                            values={this.state.inputValues}
-                            errors={this.state.errorValues}
-                        />
-                        <StripeProvider apiKey="pk_test_brOdNv1xxyyZ8GiqvRF9H9ID">
-                            <Elements>
-                                <StripePaymentForm
-                                    onTokenReceive={this.submitDonation}
-                                    paymentProcessing={this.state.paymentProcessing}
+                        <div className="row mb-1">
+                            <div className="col-md-5 mt-4">
+                                <ContactInformation
+                                    onInputChange={this.onInputChange}
+                                    values={this.state.inputValues}
+                                    errors={this.state.errorValues}
                                 />
-                            </Elements>
-                        </StripeProvider>
+                                <button
+                                    onClick={this.handleSubmit}
+                                    className="btn btn-dark btn-block mt-3"
+                                    disabled={this.state.paymentProcessing}>
+                                    DONATE&nbsp;
+                                    <i
+                                        className={`fa fa-spin fa-spinner payment-processing-icon ${!!this
+                                            .state.paymentProcessing &&
+                                            'show'}`}
+                                    />
+                                </button>
+                                <div className="form-check form-check-inline mt-2 mb-2">
+                                    <input
+                                        className="form-check-input"
+                                        type="checkbox"
+                                        id="add_to_newsletter"
+                                        value="add_to_newsletter"
+                                    />
+                                    <label
+                                        className="form-check-label"
+                                        htmlFor="add_to_newsletter">
+                                        Yes! Add me to your newsletter list
+                                    </label>
+                                </div>
+                            </div>
+                            <div className="col-md-7 mt-3">
+                                <StripeProvider apiKey="pk_test_brOdNv1xxyyZ8GiqvRF9H9ID">
+                                    <Elements>
+                                        <StripePaymentForm
+                                            onTokenReceive={this.submitDonation}
+                                            submitClicked={
+                                                this.state.submitClicked
+                                            }
+                                        />
+                                    </Elements>
+                                </StripeProvider>
+                            </div>
+                        </div>
                         {this.state.paymentSuccess && (
                             <div className="well mb-2 mt-2 error-well text-center">
                                 <p>

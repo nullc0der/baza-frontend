@@ -8,7 +8,7 @@ import s from './PhoneNumberField.scss'
 
 const InternationalCodeDropDown = props => {
     return (
-        <div className="incode-dropdown-group btn-group col-4 col-md-2">
+        <div className="incode-dropdown-group btn-group col-5 col-md-3">
             <button
                 type="button"
                 className="btn dropdown-toggle"
@@ -78,8 +78,10 @@ class PhoneNumberField extends Component {
                 <TextField
                     id="phoneNumber"
                     label="Phone no."
-                    className="col-8 col-md-10"
-                    icon={showIcon ? <i className="material-icons">phone</i> : ''}
+                    className="col-7 col-md-9"
+                    icon={
+                        showIcon ? <i className="material-icons">phone</i> : ''
+                    }
                     onChange={this.onInputChange}
                     value={this.state.phoneNumber}
                     errorState={this.props.errorState}

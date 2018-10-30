@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import Dialog from 'components/ui/Dialog'
+import classnames from 'classnames'
 import { create } from 'apisauce'
 import { Elements, StripeProvider } from 'react-stripe-elements'
 import get from 'lodash/get'
@@ -25,7 +26,8 @@ export default class PurchaseDialog extends Component {
         purchaseAmountError: null,
         nonFieldErrors: null,
         coinPurchaseDone: false,
-        paymentProcessing: false
+        paymentProcessing: false,
+        submitClicked: false
     }
 
     componentDidMount = () => {
@@ -76,68 +78,95 @@ export default class PurchaseDialog extends Component {
     }
 
     purchaseCoin = token => {
-        this.setState({
-            paymentProcessing: true
-        })
-        const api = create({
-            baseURL:
-                process.env.NODE_ENV === 'development'
-                    ? 'http://localhost:8000/api/v1'
-                    : '/api/v1',
-            headers: {
-                Accept: 'application/json'
-            }
-        })
-        api.setHeader('Authorization', `Bearer ${Auth.getToken()}`)
-        api.post('/purchasecoin/', {
-            price: this.state.purchaseAmount,
-            currency: this.props.selectedCurrency,
-            stripe_token: token,
-            coin_name: 'proxcdb'
-        }).then(response => {
-            if (response.ok) {
-                this.setState({
-                    coinPurchaseDone: true
-                })
-            } else {
-                this.setState({
-                    purchaseAmountError: get(response.data, 'price', null),
-                    nonFieldErrors: get(response.data, 'non_field_errors', null)
-                })
-            }
-            this.setState({
-                paymentProcessing: false
+        if (token) {
+            const api = create({
+                baseURL:
+                    process.env.NODE_ENV === 'development'
+                        ? 'http://localhost:8000/api/v1'
+                        : '/api/v1',
+                headers: {
+                    Accept: 'application/json'
+                }
             })
+            api.setHeader('Authorization', `Bearer ${Auth.getToken()}`)
+            api.post('/purchasecoin/', {
+                price: this.state.purchaseAmount,
+                currency: this.props.selectedCurrency,
+                stripe_token: token,
+                coin_name: 'proxcdb'
+            }).then(response => {
+                if (response.ok) {
+                    this.setState({
+                        coinPurchaseDone: true
+                    })
+                } else {
+                    this.setState({
+                        purchaseAmountError: get(response.data, 'price', null),
+                        nonFieldErrors: get(
+                            response.data,
+                            'non_field_errors',
+                            null
+                        )
+                    })
+                }
+                this.setState({
+                    paymentProcessing: false,
+                    submitClicked: false
+                })
+            })
+        } else {
+            this.setState({
+                paymentProcessing: false,
+                submitClicked: false
+            })
+        }
+    }
+
+    handleSubmit = e => {
+        e.preventDefault()
+        this.setState({
+            submitClicked: true,
+            paymentProcessing: true
         })
     }
 
-    // getSubmitButton = device => {
-    //     const cx = classnames('mt-3 mb-2 button-purchase-wrap', {
-    //         'd-none d-md-block d-lg-block d-xl-block': device === 'desktop',
-    //         'd-md-none d-lg-none d-xl-none': device === 'mobile'
-    //     })
-    //     return (
-    //         <div className={cx}>
-    //             <button className="btn btn-dark btn-block">
-    //                 <span>PURCHASE</span>
-    //                 <i className="material-icons">arrow_forward</i>
-    //             </button>
-    //             <div className="form-check form-check-inline mt-2 mb-2">
-    //                 <input
-    //                     className="form-check-input"
-    //                     type="checkbox"
-    //                     id="add_to_newsletter"
-    //                     value="add_to_newsletter"
-    //                 />
-    //                 <label
-    //                     className="form-check-label"
-    //                     htmlFor="add_to_newsletter">
-    //                     Yes! Add me to your newsletter list
-    //                 </label>
-    //             </div>
-    //         </div>
-    //     )
-    // }
+    getSubmitButton = device => {
+        const cx = classnames('mt-2 mb-2 button-purchase-wrap', {
+            'd-none d-md-block d-lg-block d-xl-block': device === 'desktop',
+            'd-md-none d-lg-none d-xl-none': device === 'mobile'
+        })
+        return (
+            <div className={cx}>
+                <button
+                    className="btn btn-dark btn-block"
+                    onClick={this.handleSubmit}
+                    disabled={this.state.paymentProcessing}>
+                    <span>PURCHASE</span>
+                    {this.state.paymentProcessing ? (
+                        <i
+                            className="fa fa-spin fa-spinner"
+                            style={{ marginLeft: '8px' }}
+                        />
+                    ) : (
+                        <i className="material-icons">arrow_forward</i>
+                    )}
+                </button>
+                <div className="form-check form-check-inline mt-2 mb-2">
+                    <input
+                        className="form-check-input"
+                        type="checkbox"
+                        id="add_to_newsletter"
+                        value="add_to_newsletter"
+                    />
+                    <label
+                        className="form-check-label"
+                        htmlFor="add_to_newsletter">
+                        Yes! Add me to your newsletter list
+                    </label>
+                </div>
+            </div>
+        )
+    }
 
     render() {
         return Auth.isAuthenticated() ? (
@@ -148,7 +177,7 @@ export default class PurchaseDialog extends Component {
                 footer="Contact your credit card holder about Baza Foundation purchase and limits to avoid any bank issues"
                 onRequestClose={this.props.onRequestClose}>
                 <div className="row">
-                    <div className="col-md-12">
+                    <div className="col-md-5">
                         {this.state.nonFieldErrors && (
                             <div className="well mb-2 mt-2 error-well">
                                 {this.state.nonFieldErrors.map((x, i) => (
@@ -172,32 +201,29 @@ export default class PurchaseDialog extends Component {
                             {this.state.conversion}{' '}
                             <span className="baz-unit">BAZ</span>
                         </div>
-                        <StripeProvider apiKey="pk_test_brOdNv1xxyyZ8GiqvRF9H9ID">
-                            <Elements>
-                                <StripePaymentForm
-                                    onTokenReceive={this.purchaseCoin}
-                                    className="mt-3"
-                                    paymentProcessing={
-                                        this.state.paymentProcessing
-                                    }
-                                />
-                            </Elements>
-                        </StripeProvider>
                         {this.state.coinPurchaseDone && (
-                            <div className="well mb-2 mt-2 error-well text-center">
-                                <p>
+                            <div className="well mt-2 error-well text-center">
+                                <p className="mb-0">
                                     Thank you for purchasing baza, your wallet
                                     will be updated soon
                                 </p>
                             </div>
                         )}
-                        {/* {this.getSubmitButton('desktop')} */}
+                        {this.getSubmitButton('desktop')}
                     </div>
-                    {/* <div className="col-md-7 mt-2 mt-md-0 mt-lg-0 mt-xl-0">
-                        <PaymentInformation />
-                    </div> */}
+                    <div className="col-md-7 mt-2 mt-md-0 mt-lg-0 mt-xl-0">
+                        <StripeProvider apiKey="pk_test_brOdNv1xxyyZ8GiqvRF9H9ID">
+                            <Elements>
+                                <StripePaymentForm
+                                    onTokenReceive={this.purchaseCoin}
+                                    className="mt-3"
+                                    submitClicked={this.state.submitClicked}
+                                />
+                            </Elements>
+                        </StripeProvider>
+                    </div>
                 </div>
-                {/* {this.getSubmitButton('mobile')} */}
+                {this.getSubmitButton('mobile')}
                 <PaymentBadges />
             </Dialog>
         ) : (

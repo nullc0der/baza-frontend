@@ -119,4 +119,11 @@ $dialog-padding-y: map-get($spacers, 3);
             }
         }
     }
+
+    .payment-processing-icon {
+        visibility: hidden;
+        &.show {
+            visibility: visible;
+        }
+    }
 }

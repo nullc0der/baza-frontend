@@ -48,7 +48,7 @@ export default class WhitePaperSection extends React.Component {
                                 Ledge Technology. Give it a read!
                             </p>
                             <a
-                                href="/public/docs/baza_white-paper_v1.pdf"
+                                href="/public/files/baza_white-paper_v1.pdf"
                                 target="_blank"
                                 className="btn btn-dark">
                                 Download White Paper
