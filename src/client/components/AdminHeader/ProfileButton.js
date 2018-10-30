@@ -81,9 +81,9 @@ class HeaderProfileButton extends Component {
                     </Link>
                 </div>
                 <div className="profile-menu-footer flex-horizontal j-around">
-                    <a className="btn footer-btn" href="#">
+                    <Link className="btn footer-btn" to="/profile">
                         Profile
-                    </a>
+                    </Link>
                     <a
                         className="btn footer-btn"
                         href="#"

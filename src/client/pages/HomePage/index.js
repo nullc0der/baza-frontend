@@ -57,7 +57,6 @@ class HomePage extends Component {
                         <p> Donate now and become part of the UBI family. </p>
                     </Link>
                 </ParallaxContainer>
-
                 <FeaturesSection id="features-section" />
                 <WhitePaperSection id="white-paper-section" />
                 <CurrentStatusSection id="status-section" />

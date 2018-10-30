@@ -21,7 +21,7 @@ module.exports = [
             },
             {
                 name: 'Messenger',
-                href: '/messenger/',
+                href: '/messenger',
                 icon: 'fa fa-fw fa-comment'
             }
         ]
