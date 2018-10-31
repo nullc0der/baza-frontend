@@ -35,13 +35,25 @@ export default class WorldMap extends Component {
 
         this.state = {
             width: 1000, // 16:10
-            height: 900
+            height: 900,
+            center: [0, 30],
+            zoom:
+                window &&
+                window.innerWidth &&
+                (window.innerWidth < 600
+                    ? 0.75
+                    : window.innerWidth >= 600 && window.innerWidth < 900
+                        ? 0.6
+                        : 0.5)
         }
     }
 
     handleMouseMove = (geography, e) => {
-        const tooltipX = e.clientX
-        const tooltipY = e.clientY
+        // const tooltipX = e.clientX
+        // const tooltipY = e.clientY * this.state.zoom
+
+        const tooltipX = e.pageX
+        const tooltipY = e.pageY - window.scrollY - this.mapContainer.offsetTop
 
         let update = {}
 
@@ -55,8 +67,6 @@ export default class WorldMap extends Component {
             tooltipY,
             tooltipContent: geography
         }
-
-        console.log(update)
 
         this.setState(update)
     }
@@ -103,14 +113,14 @@ export default class WorldMap extends Component {
                 onMouseLeave={this.handleMouseLeave}
                 style={{
                     default: {
-                        fill: 'rgba(253, 200, 0, 0.5)',
+                        fill: 'rgba(39, 57, 81, 0.5)',
                         stroke: 'rgba(255, 255, 255, 0.2)'
                     },
                     hover: {
-                        fill: 'rgba(253, 200, 0, 1)'
+                        fill: 'rgba(39, 57, 81, 1)'
                     },
                     pressed: {
-                        fill: 'rgba(253, 200, 0, 1)'
+                        fill: 'rgba(39, 57, 81, 1)'
                     }
                 }}
             />
@@ -120,15 +130,22 @@ export default class WorldMap extends Component {
     render() {
         const { className } = this.props
         const cx = classnames(s.container, className)
+
+        let { zoom, center } = this.state
+
         return (
-            <div className={cx}>
+            <div
+                className={cx}
+                ref={node => {
+                    this.mapContainer = node
+                }}>
                 <ComposableMap
                     projection="mercator"
                     style={{
                         width: '100%',
                         height: 'auto'
                     }}>
-                    <ZoomableGroup zoom={0.6} center={[0, 30]} disablePanning>
+                    <ZoomableGroup zoom={zoom} center={center} disablePanning>
                         <Geographies geography="/public/worldmap.topo.json">
                             {(geographies, projection) =>
                                 this.renderGeographies(geographies, projection)

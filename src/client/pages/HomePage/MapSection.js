@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import classnames from 'classnames'
+import { connect } from 'react-redux'
 import WorldMap from 'components/WorldMap'
 
 class MapSection extends Component {
@@ -19,4 +20,11 @@ class MapSection extends Component {
     }
 }
 
-export default MapSection
+const mapStateToProps = state => ({})
+
+const mapDispatchToProps = dispatch => ({})
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(MapSection)

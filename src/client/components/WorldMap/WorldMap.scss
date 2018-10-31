@@ -1,3 +1,5 @@
+@import 'ui';
+
 :local(.container) {
     position: relative;
     .rsm-geography {
@@ -7,4 +9,9 @@
 
 :local(.container) .map-tooltip {
     position: absolute;
+    pointer-events: none;
+    background-color: #fff;
+    padding: 4px 8px;
+    border-radius: 3px;
+    @include _shadow-2();
 }
