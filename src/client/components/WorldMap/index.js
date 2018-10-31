@@ -49,11 +49,14 @@ export default class WorldMap extends Component {
     }
 
     handleMouseMove = (geography, e) => {
-        // const tooltipX = e.clientX
-        // const tooltipY = e.clientY * this.state.zoom
+        const tooltipX = e.clientX
+        const tooltipY = e.clientY
 
-        const tooltipX = e.pageX
-        const tooltipY = e.pageY - window.scrollY - this.mapContainer.offsetTop
+        // const tooltipX = e.pageX
+        // const tooltipY =
+        //     e.pageY -
+        //     window.scrollY -
+        //     this.mapContainer.offsetTop * this.state.zoom
 
         let update = {}
 
@@ -67,6 +70,13 @@ export default class WorldMap extends Component {
             tooltipY,
             tooltipContent: geography
         }
+
+        console.log(
+            e.clientY,
+            e.pageY,
+            window.scrollY,
+            this.mapContainer.offsetTop
+        )
 
         this.setState(update)
     }
