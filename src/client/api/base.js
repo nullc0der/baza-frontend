@@ -5,10 +5,7 @@ import Auth from 'utils/authHelpers'
 const debug = require('debug')('baza:api:base')
 
 const api = create({
-    baseURL:
-        process.env.NODE_ENV === 'development'
-            ? 'http://localhost:8000/api/v1'
-            : '/api/v1',
+    baseURL: process.env.NODE_ENV === 'development' ? '/api/v1' : '/api/v1',
     headers: {
         Accept: 'application/json'
     }
@@ -64,7 +61,7 @@ export const jsonAPI = function(createRequestPromise) {
  * Use this wrapper to call apis safely and,
  * ensure proper actions are dispatched while still returning original promise
  * content to return value on mapDispatchToProps
- * 
+ *
  * e.g. api as a function
  * const createFetchJobsAction = ()=> dispatch=> {
  *    return DispatchAPI(dispatch, fetchJobs, {
@@ -72,23 +69,23 @@ export const jsonAPI = function(createRequestPromise) {
  *      failure: fetchJobsFailure
  *    })
  * }
- * 
+ *
  * e.g api as a function with arguments
  * const createFetchJobsAction = (username)=> dispatch => {
  *    return DispatchAPI(dispatch, [fetchJobs, username], {
  *       success: fetchJobsSuccess,
  *       failure: fetchJobsFailure
- *    }) 
+ *    })
  * }
- * 
+ *
  * e.g. api as a promise
  * const createFetchJobsAction = (username)=> dispatch => {
  *    return DispatchAPI(dispatch, fetchJobs(username), {
  *       success: fetchJobsSuccess,
  *       failure: fetchJobsFailure
- *    }) 
+ *    })
  * }
- * 
+ *
  */
 export const DispatchAPI = (dispatchFn, promiseFn, options = {}) => {
     if (typeof options.success !== 'function') {

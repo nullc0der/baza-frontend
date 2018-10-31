@@ -25,10 +25,11 @@ export const DonationSchema = Joi.object().keys({
 export const DonationGenerator = Felicity.entityFor(DonationSchema)
 
 // Sample Data
-export const Donations = _.chain()
-    .range(10)
-    .map(x => ({
-        ...DonationGenerator.example()
-    }))
-    .uniqBy('iso')
-    .value()
+export const getDonations = () =>
+    _.chain()
+        .range(10)
+        .map(x => ({
+            ...DonationGenerator.example()
+        }))
+        .uniqBy('iso')
+        .value()

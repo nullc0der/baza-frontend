@@ -85,8 +85,6 @@ export default class WorldMap extends Component {
             tooltipContent: geography
         }
 
-        console.log(e.pageY, e.clientY, window.pageYOffset)
-
         this.setState(update)
     }
 

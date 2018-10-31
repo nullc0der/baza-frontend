@@ -24,7 +24,7 @@ const fetchDonations = () => dispatch => {
 const FETCH_DONATIONS_SUCCESS = createAction('FETCH_DONATIONS_SUCCESS')
 const fetchDonationsSuccess = response => ({
     type: FETCH_DONATIONS_SUCCESS,
-    list: get(response, 'data', [])
+    list: get(response, 'data.results', [])
 })
 
 const FETCH_DONATIONS_FAILURE = createAction('FETCH_DONATIONS_FAILURE')
