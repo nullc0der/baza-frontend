@@ -122,6 +122,9 @@
     .content-row + .content-row {
         border-top: 1px $dark solid;
     }
+    .page-section {
+        padding-bottom: 0;
+    }
     .info-block {
         padding: 40px 15px;
         &:not(:first-child) {
@@ -158,6 +161,10 @@
     .ui-textfield {
         margin-top: map-get($spacers, 3);
     }
+}
+
+.home-page .roadmap-section .page-section {
+    padding-top: map-get($spacers, 2);
 }
 
 // Milestone section

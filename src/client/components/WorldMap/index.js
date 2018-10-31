@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import classnames from 'classnames'
+import debounce from 'lodash/debounce'
 import countryCodes from './country-codes'
 import {
     ComposableMap,
@@ -8,6 +9,7 @@ import {
     Geography
 } from 'react-simple-maps'
 
+import Tooltip from './Tooltip'
 import s from './WorldMap.scss'
 
 function excludeGeographies(geography) {
@@ -40,17 +42,29 @@ export default class WorldMap extends Component {
             zoom:
                 window &&
                 window.innerWidth &&
-                (window.innerWidth < 600
-                    ? 0.75
-                    : window.innerWidth >= 600 && window.innerWidth < 900
-                        ? 0.6
-                        : 0.5)
+                (window.innerWidth < 900 ? 0.6 : 0.5)
         }
+
+        this._updateZoom = debounce(this.updateZoom, 150)
+    }
+
+    componentDidMount = () => {
+        window.addEventListener('resize', this._updateZoom)
+    }
+
+    componentWillUnmount = () => {
+        window.removeEventListener('resize', this._updateZoom)
+    }
+
+    updateZoom = () => {
+        const zoom =
+            window && window.innerWidth && (window.innerWidth < 900 ? 0.6 : 0.5)
+        this.setState({ zoom })
     }
 
     handleMouseMove = (geography, e) => {
-        const tooltipX = e.clientX
-        const tooltipY = e.clientY
+        const tooltipX = e.pageX
+        const tooltipY = e.pageY
 
         // const tooltipX = e.pageX
         // const tooltipY =
@@ -71,12 +85,7 @@ export default class WorldMap extends Component {
             tooltipContent: geography
         }
 
-        console.log(
-            e.clientY,
-            e.pageY,
-            window.scrollY,
-            this.mapContainer.offsetTop
-        )
+        console.log(e.pageY, e.clientY, window.pageYOffset)
 
         this.setState(update)
     }
@@ -93,19 +102,13 @@ export default class WorldMap extends Component {
             tooltipY
         } = this.state
 
-        if (!tooltipVisible) {
-            return null
-        }
-
         return (
-            <div
-                className="map-tooltip"
-                style={{
-                    top: tooltipY,
-                    left: tooltipX
-                }}>
-                {tooltipContent.name}
-            </div>
+            <Tooltip
+                tooltipVisible={tooltipVisible}
+                tooltipContent={tooltipContent}
+                tooltipX={tooltipX}
+                tooltipY={tooltipY}
+            />
         )
     }
 
@@ -123,7 +126,7 @@ export default class WorldMap extends Component {
                 onMouseLeave={this.handleMouseLeave}
                 style={{
                     default: {
-                        fill: 'rgba(39, 57, 81, 0.5)',
+                        fill: 'rgba(39, 57, 81, 0.4)',
                         stroke: 'rgba(255, 255, 255, 0.2)'
                     },
                     hover: {
