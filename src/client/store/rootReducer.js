@@ -1,6 +1,5 @@
 import { combineReducers } from 'redux'
 import { routerReducer as router } from 'react-router-redux'
-import { reducer as tooltip } from 'redux-tooltip'
 
 import Auth from './Auth'
 
@@ -13,6 +12,8 @@ import Runtime from './Runtime'
 import WalletAccounts from './WalletAccounts'
 import WalletTransanctions from './WalletTransanctions'
 import DistributionSignUp from './DistributionSignUp'
+
+import Donations from './Donations'
 
 export default combineReducers({
     router,
@@ -29,5 +30,5 @@ export default combineReducers({
     WalletTransanctions,
     DistributionSignUp,
 
-    tooltip
+    Donations
 })
