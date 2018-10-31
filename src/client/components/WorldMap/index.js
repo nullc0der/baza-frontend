@@ -30,9 +30,63 @@ function prepareGeographies(geography) {
 }
 
 export default class WorldMap extends Component {
-    state = {
-        width: 1000, // 16:10
-        height: 900
+    constructor(props) {
+        super(props)
+
+        this.state = {
+            width: 1000, // 16:10
+            height: 900
+        }
+    }
+
+    handleMouseMove = (geography, e) => {
+        const tooltipX = e.clientX
+        const tooltipY = e.clientY
+
+        let update = {}
+
+        if (!this.state.tooltipVisible) {
+            update.tooltipVisible = true
+        }
+
+        update = {
+            ...update,
+            tooltipX,
+            tooltipY,
+            tooltipContent: geography
+        }
+
+        console.log(update)
+
+        this.setState(update)
+    }
+
+    handleMouseLeave = () => {
+        this.setState({ tooltipVisible: false })
+    }
+
+    renderTooltip = () => {
+        const {
+            tooltipVisible,
+            tooltipContent,
+            tooltipX,
+            tooltipY
+        } = this.state
+
+        if (!tooltipVisible) {
+            return null
+        }
+
+        return (
+            <div
+                className="map-tooltip"
+                style={{
+                    top: tooltipY,
+                    left: tooltipX
+                }}>
+                {tooltipContent.name}
+            </div>
+        )
     }
 
     renderGeographies = (geographies, projection) => {
@@ -45,14 +99,17 @@ export default class WorldMap extends Component {
                 key={geography.id}
                 geography={geography}
                 projection={projection}
-                onMouseMove={this._handleMove}
-                onMouseLeave={this._handleLeave}
+                onMouseMove={this.handleMouseMove}
+                onMouseLeave={this.handleMouseLeave}
                 style={{
                     default: {
                         fill: 'rgba(253, 200, 0, 0.5)',
                         stroke: 'rgba(255, 255, 255, 0.2)'
                     },
                     hover: {
+                        fill: 'rgba(253, 200, 0, 1)'
+                    },
+                    pressed: {
                         fill: 'rgba(253, 200, 0, 1)'
                     }
                 }}
@@ -79,6 +136,7 @@ export default class WorldMap extends Component {
                         </Geographies>
                     </ZoomableGroup>
                 </ComposableMap>
+                {this.renderTooltip()}
             </div>
         )
     }

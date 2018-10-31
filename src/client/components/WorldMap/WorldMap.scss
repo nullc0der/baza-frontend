@@ -4,3 +4,7 @@
         outline: none;
     }
 }
+
+:local(.container) .map-tooltip {
+    position: absolute;
+}
