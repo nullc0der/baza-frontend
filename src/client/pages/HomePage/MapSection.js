@@ -7,11 +7,13 @@ import { actions as donationActions } from 'store/Donations'
 
 class MapSection extends Component {
     componentDidMount = () => {
-        this._fetchInterval = setInterval(this.props.fetchDonations, 5000)
+        this._fetchInterval = setInterval(this.props.fetchDonations, 7000)
     }
+
     componentWillUnmount = () => {
         clearInterval(this._fetchInterval)
     }
+
     render() {
         const { className, id } = this.props
         const cx = classnames(className, 'map-section')

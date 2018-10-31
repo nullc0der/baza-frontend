@@ -1,5 +1,17 @@
 @import 'ui';
 
+@keyframes animate-opacity {
+    0% {
+        opacity: 0.4;
+    }
+    40% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0.4;
+    }
+}
+
 :local(.container) {
     position: relative;
     .rsm-geography {

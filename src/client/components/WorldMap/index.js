@@ -8,7 +8,7 @@ import {
     Geographies,
     Geography
 } from 'react-simple-maps'
-
+import { Motion, spring } from 'react-motion'
 import Tooltip from './Tooltip'
 import s from './WorldMap.scss'
 
@@ -46,6 +46,8 @@ export default class WorldMap extends Component {
         }
 
         this._updateZoom = debounce(this.updateZoom, 150)
+        this._handleMouseMove = debounce(this.handleMouseMove, 16)
+        this._handleMouseLeave = debounce(this.handleMouseLeave, 16)
     }
 
     componentDidMount = () => {
@@ -111,31 +113,45 @@ export default class WorldMap extends Component {
     }
 
     renderGeographies = (geographies, projection) => {
+        const donations = this.props.donations || []
         const valid = geographies
             .map(prepareGeographies)
             .filter(excludeGeographies)
 
-        return valid.map(geography => (
-            <Geography
-                key={geography.id}
-                geography={geography}
-                projection={projection}
-                onMouseMove={this.handleMouseMove}
-                onMouseLeave={this.handleMouseLeave}
-                style={{
-                    default: {
-                        fill: 'rgba(39, 57, 81, 0.4)',
-                        stroke: 'rgba(255, 255, 255, 0.2)'
-                    },
-                    hover: {
-                        fill: 'rgba(39, 57, 81, 1)'
-                    },
-                    pressed: {
-                        fill: 'rgba(39, 57, 81, 1)'
-                    }
-                }}
-            />
-        ))
+        return valid.map(geography => {
+            const defaultStyle = {
+                fill: 'rgba(39, 57, 81, 1)',
+                opacity: '0.4',
+                stroke: 'rgba(255, 255, 255, 0.2)'
+            }
+
+            const gotDonation = donations
+                .filter(d => d.iso === geography.iso)
+                .shift()
+
+            if (gotDonation) {
+                defaultStyle.animation = 'animate-opacity 1s ease-in'
+            }
+
+            return (
+                <Geography
+                    key={geography.id}
+                    geography={geography}
+                    projection={projection}
+                    onMouseMove={this._handleMouseMove}
+                    onMouseLeave={this._handleMouseLeave}
+                    style={{
+                        default: defaultStyle,
+                        hover: {
+                            fill: 'rgba(39, 57, 81, 1)'
+                        },
+                        pressed: {
+                            fill: 'rgba(39, 57, 81, 1)'
+                        }
+                    }}
+                />
+            )
+        })
     }
 
     render() {
@@ -157,7 +173,9 @@ export default class WorldMap extends Component {
                         height: 'auto'
                     }}>
                     <ZoomableGroup zoom={zoom} center={center} disablePanning>
-                        <Geographies geography="/public/worldmap.topo.json">
+                        <Geographies
+                            disableOptimization
+                            geography="/public/worldmap.topo.json">
                             {(geographies, projection) =>
                                 this.renderGeographies(geographies, projection)
                             }
