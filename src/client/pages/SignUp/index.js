@@ -170,22 +170,17 @@ class SignUpPage extends Component {
                                     <div
                                         className="page-layer bg"
                                         style={{
-                                            backgroundImage: `url(/public/img/signup/hero_image.jpg)`
+                                            backgroundImage: `url(/public/img/signup/martin-luther-king.png)`
                                         }}
                                     />
                                     <div className="carousel-item-content">
                                         <h3>
-                                            {' '}
-                                            What happens when you become a donor{' '}
+                                            "I’m now convinced that the simplest approach will prove to be the most effective the solution to poverty is to abolish it directly by a now widely discussed measure: the guaranteed income."
                                         </h3>
                                         <p className="section-title-underlined underline-center">
-                                            Lorem ipsum dolor sit amet,
-                                            consectetur adipiscing elit, sed do
-                                            eiusmod tempor incididunt ut labore
-                                            et dolore magna aliqua. Ut enim ad
-                                            minim veniam, quis nostrud
-                                            exercitation ullamco laboris nisi ut
-                                            aliquip ex ea commodo consequat.
+                                            ~ Martin Luther King Jr
+                                            <br />
+                                            Where Do We Go from Here : Chaos or Community (1967)
                                         </p>
                                     </div>
                                 </div>
@@ -193,22 +188,15 @@ class SignUpPage extends Component {
                                     <div
                                         className="page-layer bg"
                                         style={{
-                                            backgroundImage: `url(/public/img/signup/hero_image.jpg)`
+                                            backgroundImage: `url(/public/img/signup/erich-fromm.png)`
                                         }}
                                     />
                                     <div className="carousel-item-content">
                                         <h3>
-                                            {' '}
-                                            What happens when you become a donor{' '}
+                                            "Guaranteed income would not only establish freedom as a reality rather than a slogan, it would also establish a principle deeply rooted in Western religious and humanist tradition: man has the right to live, regardless!"
                                         </h3>
                                         <p className="section-title-underlined underline-center">
-                                            Lorem ipsum dolor sit amet,
-                                            consectetur adipiscing elit, sed do
-                                            eiusmod tempor incididunt ut labore
-                                            et dolore magna aliqua. Ut enim ad
-                                            minim veniam, quis nostrud
-                                            exercitation ullamco laboris nisi ut
-                                            aliquip ex ea commodo consequat.
+                                            ~ Erich Fromm
                                         </p>
                                     </div>
                                 </div>
@@ -216,45 +204,15 @@ class SignUpPage extends Component {
                                     <div
                                         className="page-layer bg"
                                         style={{
-                                            backgroundImage: `url(/public/img/signup/hero_image.jpg)`
+                                            backgroundImage: `url(/public/img/signup/mark-zuckerberg.jpg)`
                                         }}
                                     />
                                     <div className="carousel-item-content">
                                         <h3>
-                                            {' '}
-                                            What happens when you become a donor{' '}
+                                            "We should have a society that measures progress not just by economic metrics like GDP, but by how many of us have a role we find the meaningful. We should explore ideas like universal basic income to make sure everyone has a cushion to try new ideas."
                                         </h3>
                                         <p className="section-title-underlined underline-center">
-                                            Lorem ipsum dolor sit amet,
-                                            consectetur adipiscing elit, sed do
-                                            eiusmod tempor incididunt ut labore
-                                            et dolore magna aliqua. Ut enim ad
-                                            minim veniam, quis nostrud
-                                            exercitation ullamco laboris nisi ut
-                                            aliquip ex ea commodo consequat.
-                                        </p>
-                                    </div>
-                                </div>
-                                <div className="carousel-item">
-                                    <div
-                                        className="page-layer bg"
-                                        style={{
-                                            backgroundImage: `url(/public/img/signup/hero_image.jpg)`
-                                        }}
-                                    />
-                                    <div className="carousel-item-content">
-                                        <h3>
-                                            {' '}
-                                            What happens when you become a donor{' '}
-                                        </h3>
-                                        <p className="section-title-underlined underline-center">
-                                            Lorem ipsum dolor sit amet,
-                                            consectetur adipiscing elit, sed do
-                                            eiusmod tempor incididunt ut labore
-                                            et dolore magna aliqua. Ut enim ad
-                                            minim veniam, quis nostrud
-                                            exercitation ullamco laboris nisi ut
-                                            aliquip ex ea commodo consequat.
+                                            ~ Mark Zuckerberg
                                         </p>
                                     </div>
                                 </div>

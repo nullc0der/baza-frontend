@@ -5,6 +5,10 @@
     "main": "index.js",
     "author": "Tushar Kant",
     "license": "MIT",
+    "engines": {
+        "node": "8.9.1",
+        "yarn": "1.10.1"
+    },
     "scripts": {
         "start": "node build/server.bundle.js",
         "dev": "NODE_ENV=development gulp",
@@ -84,9 +88,10 @@
         "promise": "8.0.1",
         "pug": "2.0.0-rc.4",
         "purify-css": "^1.2.5",
-        "react": "^16.2.0",
+        "react": "16.5.0",
+        "react-countup": "^4.0.0",
         "react-dev-utils": "5.0.0",
-        "react-dom": "^16.2.0",
+        "react-dom": "16.5.0",
         "react-error-overlay": "4.0.0",
         "react-helmet": "^5.2.0",
         "react-hot-loader": "^4.0.0-beta.22",
