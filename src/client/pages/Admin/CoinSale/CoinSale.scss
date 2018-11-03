@@ -41,7 +41,7 @@ $purchase-button-height: 50px;
     position: relative;
     cursor: pointer;
     @include fat-gradient();
-    @include animate-progress-bar(10s);
+    @include animate-progress-bar();
     &:hover {
         background-color: darken($success, 5%);
     }

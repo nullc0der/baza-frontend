@@ -1,6 +1,5 @@
 import React from 'react'
 import classnames from 'classnames'
-
 import CoinSale from 'pages/Admin/CoinSale'
 
 const FEATURES = [
@@ -35,7 +34,7 @@ const FeaturesSection = props => {
         'feature-button btn-rounded-white'
     )
     const list = props.list || FEATURES
-    const title = props.title || 'Baza Features'
+    const title = props.title || 'Baza Token'
     return (
         <div className={cx} id={props.id}>
             <div className="container page-section">

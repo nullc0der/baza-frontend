@@ -8,7 +8,7 @@
     .progress {
         .progress-bar {
             border-radius: $progress-border-radius;
-            @include animate-progress-bar(10s);
+            @include animate-progress-bar();
         }
     }
 

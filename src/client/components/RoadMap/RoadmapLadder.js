@@ -9,7 +9,7 @@ export const RoadmapItem = ({ title, intermediate, status, date, index }) => (
             'is-pending': status === 'pending'
         })}>
         <div className="milestone-inner">
-            <div className="milestone-count">{index + 1}</div>
+            <div className={`milestone-count i-${index}`}>{index + 1}</div>
             <div className="milestone-title">{title}</div>
             {intermediate && (
                 <div className={`milestone-progress i-${index}`} />
