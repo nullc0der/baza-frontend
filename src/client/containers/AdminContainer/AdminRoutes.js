@@ -8,6 +8,7 @@ import DistributionSignUpPage from 'pages/Admin/DistributionSignUp'
 import MemberProfilePage from 'pages/Admin/MemberProfile'
 import MembersPage from 'pages/Admin/Members'
 import MessengerPage from 'pages/Admin/Messenger'
+import GroupPage from 'pages/Admin/Group'
 
 const AdminRoutes = location => (
     <Switch location={location}>
@@ -16,9 +17,11 @@ const AdminRoutes = location => (
         <Route path="/wallets" component={WalletsPage} />
         <Route path="/distribution-signup" component={DistributionSignUpPage} />
         <Route path="/profile" component={MemberProfilePage} />
-        <Route path="/members" component={MembersPage} />
+        <Route path="/community/2/members" component={MembersPage} />
         <Route path="/messenger/:id" component={MessengerPage} />
         <Route path="/messenger" component={MessengerPage} />
+        <Route path="/community/2/groups/:id" component={GroupPage} />
+        <Route path="/community/2/groups/" component={GroupPage} />
         <Redirect to="/dashboard" />
     </Switch>
 )

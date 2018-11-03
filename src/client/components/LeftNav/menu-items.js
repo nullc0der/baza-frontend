@@ -2,7 +2,7 @@ module.exports = [
     {
         name: 'Home',
         icon: 'fa fa-fw fa-home',
-        href: '/dashboard',
+        href: '',
         children: [
             {
                 name: 'Profile',
@@ -15,11 +15,6 @@ module.exports = [
                 icon: 'fa fa-fw fa-credit-card'
             },
             {
-                name: 'Members',
-                href: '/members',
-                icon: 'fa fa-fw fa-users'
-            },
-            {
                 name: 'Messenger',
                 href: '/messenger',
                 icon: 'fa fa-fw fa-comment'
@@ -29,7 +24,7 @@ module.exports = [
     {
         name: 'Community',
         icon: 'fa fa-fw fa-compass',
-        href: '/dashboard',
+        href: '',
         children: [
             {
                 name: 'Ekata Social',
@@ -39,12 +34,30 @@ module.exports = [
                 children: [
                     {
                         name: 'Groups',
-                        href: '/community/groups',
+                        href: '/community/1/groups',
                         icon: 'fa fa-fw fa-cubes'
                     },
                     {
                         name: 'Members',
                         href: '',
+                        icon: 'fa fa-fw fa-users'
+                    }
+                ]
+            },
+            {
+                name: 'Baza Foundation',
+                icon_type: 'image',
+                icon: '/public/img/baza_logo_gs.svg',
+                href: '',
+                children: [
+                    {
+                        name: 'Groups',
+                        href: '/community/2/groups',
+                        icon: 'fa fa-fw fa-cubes'
+                    },
+                    {
+                        name: 'Members',
+                        href: '/community/2/members',
                         icon: 'fa fa-fw fa-users'
                     }
                 ]
@@ -54,7 +67,7 @@ module.exports = [
     {
         name: 'Applications',
         icon: 'fa fa-fw fa-futbol-o',
-        href: '/dashboard',
+        href: '',
         children: [
             {
                 name: 'Hashtag Banner',
@@ -72,7 +85,7 @@ module.exports = [
         name: 'Baza',
         icon_type: 'image',
         icon: '/public/img/baza_logo_gs.svg',
-        href: '/dashboard',
+        href: '',
         children: [
             {
                 name: 'Posts',

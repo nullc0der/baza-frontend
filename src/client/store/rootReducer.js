@@ -4,7 +4,7 @@ import { routerReducer as router } from 'react-router-redux'
 import Auth from './Auth'
 
 import Common from './Common'
-import Groups from './Groups'
+import Group from './Group'
 import Members from './Members'
 import UserProfile from './UserProfile'
 
@@ -20,7 +20,7 @@ export default combineReducers({
     UserProfile,
     Auth,
     Common,
-    Groups,
+    Group,
     Members,
     WalletAccounts,
     WalletTransanctions,

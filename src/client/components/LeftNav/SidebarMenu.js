@@ -135,7 +135,7 @@ class SidebarMenu extends Component {
                         return (
                             <Link
                                 key={i}
-                                to={x.href}
+                                to={x.href || '#'}
                                 onClick={() => this.selectPrimaryItem(x, i)}
                                 className={cx}>
                                 {x.icon_type === 'image' ? (

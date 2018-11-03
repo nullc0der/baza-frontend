@@ -34,8 +34,9 @@ const AppRoutes = location => (
         <Route path="/wallets" component={AdminContainer} />
         <Route path="/distribution-signup" component={AdminContainer} />
         <Route path="/dashboard" component={AdminContainer} />
-        <Route path="/members" component={AdminContainer} />
+        <Route path="/community/2/members" component={AdminContainer} />
         <Route path="/messenger" component={AdminContainer} />
+        <Route path="/community/2/groups" component={AdminContainer} />
         <Route component={NotFoundPage} />
     </Switch>
 )
