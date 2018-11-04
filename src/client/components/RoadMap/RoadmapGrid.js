@@ -24,7 +24,9 @@ export default class RoadmapGrid extends Component {
     }
 
     componentDidMount = () => {
-        setTimeout(this.fixHeights, 1000)
+        if (document.body.getBoundingClientRect().width > 900) {
+            setTimeout(this.fixHeights, 1000)
+        }
     }
 
     fixHeights = () => {
