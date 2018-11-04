@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import TrackVisibility from 'react-on-screen'
 import FeaturesSection from './FeaturesSection'
 
 const LIST = [
@@ -32,15 +33,20 @@ class LatestDistributionSection extends Component {
 
     render() {
         return (
-            <FeaturesSection
-                className="latest-distribution-section"
-                list={this.state.list}
-                title="Latest Distribution"
-                noCoinSale
-                iconClassName="latest-distribution-icon"
-                buttonClassName="latest-distribution-button"
-                {...this.props}
-            />
+            <TrackVisibility once>
+                {
+                    ({ isVisible }) => <FeaturesSection
+                        className="latest-distribution-section"
+                        list={this.state.list}
+                        title="Latest Distribution"
+                        noCoinSale
+                        animateCount={isVisible}
+                        iconClassName="latest-distribution-icon"
+                        buttonClassName="latest-distribution-button"
+                        {...this.props}
+                    />
+                }
+            </TrackVisibility>
         )
     }
 }

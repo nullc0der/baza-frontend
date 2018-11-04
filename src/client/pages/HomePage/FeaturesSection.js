@@ -1,5 +1,6 @@
 import React from 'react'
 import classnames from 'classnames'
+import CountUp from 'react-countup'
 import CoinSale from 'pages/Admin/CoinSale'
 
 const FEATURES = [
@@ -49,7 +50,14 @@ const FeaturesSection = props => {
                             </div>
                             <div className={buttonClassName}>
                                 <div className="feature-title">
-                                    {feature.title}
+                                    {props.animateCount
+                                        ? <CountUp start={0} end={feature.title} delay={0} separator=','>
+                                            {({ countUpRef }) => <div>
+                                                <span ref={countUpRef}></span>
+                                            </div>}
+                                        </CountUp>
+                                        : feature.title
+                                    }
                                 </div>
                                 <div className="feature-subtitle">
                                     {feature.subtitle}
