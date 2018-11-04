@@ -1,6 +1,7 @@
-import React from 'react'
+import React, { Fragment, Component } from 'react'
 import classnames from 'classnames'
 import CountUp from 'react-countup'
+import TrackVisibility from 'react-on-screen'
 import CoinSale from 'pages/Admin/CoinSale'
 
 const FEATURES = [
@@ -27,6 +28,65 @@ const FEATURES = [
     }
 ]
 
+class FeatureItem extends Component {
+    renderAnimatedCount = (title) => {
+        return (
+            <CountUp start={0} end={title} delay={0} duration={3} separator=','>
+                {({ countUpRef }) => <div>
+                    <span ref={countUpRef}></span>
+                </div>}
+            </CountUp>
+        )
+    }
+
+    renderSection = (isVisible) => {
+        const {
+            iconClassName,
+            image,
+            title,
+            buttonClassName,
+            subtitle,
+            description
+        } = this.props
+
+        return (
+            <Fragment>
+                <div className={iconClassName}>
+                    <img alt={title} src={image} />
+                </div>
+                <div className={buttonClassName}>
+                    <div className="feature-title">
+                        {isVisible
+                            ? this.renderAnimatedCount(title)
+                            : title
+                        }
+                    </div>
+                    <div className="feature-subtitle">
+                        {subtitle}
+                    </div>
+                </div>
+                <div className="text-center">
+                    {description}
+                </div>
+            </Fragment>
+        )
+    }
+
+    render() {
+        const cx = 'col-md-6 col-lg-4 col-xl-4 feature-item mt-3 px-1 pb-4'
+        if (!this.props.animateCount) {
+            return <div className={cx}> {this.renderSection()} </div>
+        }
+        return (
+            <TrackVisibility
+                once
+                className={cx}>
+                {({ isVisible }) => this.renderSection(isVisible)}
+            </TrackVisibility>
+        )
+    }
+}
+
 const FeaturesSection = props => {
     const cx = classnames(props.className, 'features-section')
     const iconClassName = classnames(props.iconClassName, 'feature-icon')
@@ -42,31 +102,15 @@ const FeaturesSection = props => {
                 <h3 className="text-center mb-5"> {title} </h3>
                 <div className="row justify-content-center">
                     {list.map(feature => (
-                        <div
-                            className="col-md-6 col-lg-4 col-xl-4 feature-item mt-3 px-1 pb-4"
-                            key={feature.image}>
-                            <div className={iconClassName}>
-                                <img alt={feature.title} src={feature.image} />
-                            </div>
-                            <div className={buttonClassName}>
-                                <div className="feature-title">
-                                    {props.animateCount
-                                        ? <CountUp start={0} end={feature.title} delay={0} separator=','>
-                                            {({ countUpRef }) => <div>
-                                                <span ref={countUpRef}></span>
-                                            </div>}
-                                        </CountUp>
-                                        : feature.title
-                                    }
-                                </div>
-                                <div className="feature-subtitle">
-                                    {feature.subtitle}
-                                </div>
-                            </div>
-                            <div className="text-center">
-                                {feature.description}
-                            </div>
-                        </div>
+                        <FeatureItem
+                            key={feature.title}
+                            animateCount={props.animateCount}
+                            title={feature.title}
+                            subtitle={feature.subtitle}
+                            image={feature.image}
+                            description={feature.description}
+                            iconClassName={iconClassName}
+                            buttonClassName={buttonClassName} />
                     ))}
                 </div>
             </div>

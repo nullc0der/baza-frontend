@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
-
+import classnames from 'classnames'
 import { RoadmapItem } from './RoadmapLadder'
 import LIST from './roadmap.data'
+import * as util from './utils'
 
 export default class RoadmapGrid extends Component {
     state = {
@@ -26,35 +27,18 @@ export default class RoadmapGrid extends Component {
         setTimeout(this.fixHeights, 1000)
     }
 
-    getItems = () => {
-        const selector = '.milestone-item .milestone-inner'
-        return Array.from(this.container.querySelectorAll(selector))
-    }
-
     fixHeights = () => {
-        const maxHeight = this.getMaxMilestoneHeight()
-        const items = this.getItems()
-        items.forEach(item => {
-            item.style.height = `${maxHeight}px`
-        })
-    }
-
-    getMaxMilestoneHeight = () => {
-        let maxHeight = 100
-        this.getItems().forEach(item => {
-            var h = item.getBoundingClientRect().height
-            if (h > maxHeight) {
-                maxHeight = h
-            }
-        })
-
-        return maxHeight
+        util.findRows(this.container)
+            .filter(util.isRowDistorted)
+            .map(util.withMaxColHeights)
+            .forEach(util.normalizeColHeights)
     }
 
     render() {
+        const cx = classnames('milestone-grid', this.props.gridClassName)
         return (
             <div
-                className="milestone-grid"
+                className={cx}
                 ref={node => {
                     this.container = node
                 }}>

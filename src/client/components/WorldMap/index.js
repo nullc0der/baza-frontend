@@ -8,7 +8,6 @@ import {
     Geographies,
     Geography
 } from 'react-simple-maps'
-import { Motion, spring } from 'react-motion'
 import Tooltip from './Tooltip'
 import s from './WorldMap.scss'
 
