@@ -80,7 +80,8 @@ class FeatureItem extends Component {
         return (
             <TrackVisibility
                 once
-                className={cx}>
+                className={cx}
+                partialVisibility={this.props.index >= 1}>
                 {({ isVisible }) => this.renderSection(isVisible)}
             </TrackVisibility>
         )
@@ -101,10 +102,11 @@ const FeaturesSection = props => {
             <div className="container page-section">
                 <h3 className="text-center mb-5"> {title} </h3>
                 <div className="row justify-content-center">
-                    {list.map(feature => (
+                    {list.map((feature, i) => (
                         <FeatureItem
                             key={feature.title}
                             animateCount={props.animateCount}
+                            index={i}
                             title={feature.title}
                             subtitle={feature.subtitle}
                             image={feature.image}
