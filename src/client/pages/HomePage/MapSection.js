@@ -20,8 +20,10 @@ class MapSection extends Component {
         return (
             <div className={cx} id={id}>
                 <div className="container page-section">
-                    <h3 className="text-center mb-5">
-                        Donations from around the world
+                    <h3 className="text-center">
+                        Live Donations &amp; Distributions
+                        <br />
+                        <small> Track live donations and distributions around the world </small>
                     </h3>
                     <WorldMap donations={this.props.list} />
                 </div>

@@ -73,7 +73,10 @@ class FeatureItem extends Component {
     }
 
     render() {
-        const cx = 'col-md-6 col-lg-4 col-xl-4 feature-item mt-3 px-1 pb-4'
+        const cx = 'col-md-6 col-lg-4 col-xl-4 feature-item px-1 pb-3 pb-md-0 pb-lg-0 pb-xl-0' + (this.props.index === 0
+            ? ' mt-0 mt-md-3 mt-xl-3 mt-lg-3'
+            : ' mt-3')
+
         if (!this.props.animateCount) {
             return <div className={cx}> {this.renderSection()} </div>
         }
@@ -100,7 +103,7 @@ const FeaturesSection = props => {
     return (
         <div className={cx} id={props.id}>
             <div className="container page-section">
-                <h3 className="text-center mb-5"> {title} </h3>
+                <h3 className="text-center mb-3"> {title} </h3>
                 <div className="row justify-content-center">
                     {list.map((feature, i) => (
                         <FeatureItem

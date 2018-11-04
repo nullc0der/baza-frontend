@@ -58,7 +58,7 @@ const CurrentStatusSection = props => {
                             </Link>
                         </div>
                     </div>
-                    <div className="col-lg-4 mt-3 mt-lg-0 mt-xl-0">
+                    <div className="col-lg-4 mt-4 mt-lg-0 mt-xl-0">
                         <h4 className="section-title-underlined">
                             Just Donated
                         </h4>

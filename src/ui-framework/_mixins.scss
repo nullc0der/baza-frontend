@@ -38,6 +38,6 @@
     );
 }
 
-@mixin animate-progress-bar($time: 7s) {
+@mixin animate-progress-bar($time: 12s) {
     animation: animate-progress-bar $time linear infinite;
 }
