@@ -44,7 +44,7 @@ const CurrentStatusSection = props => {
                         <h4 className="section-title-underlined">
                             Current Status
                         </h4>
-                        <p>
+                        <p className='mb-6 mb-md-5 mb-lg-5 mb-xl-5'>
                             For the current distribution to take place,
                             donations made must reach the required goal of
                             $2160. Once this goal is reached, an automatic equal

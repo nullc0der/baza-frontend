@@ -43,7 +43,7 @@ export default class WhitePaperSection extends React.Component {
                             <div className="image-container d-sm-none pt-2 pb-4">
                                 {this.renderImage()}
                             </div>
-                            <p className="mb-3">
+                            <p className="mb-3 mb-md-5 mb-xl-5 mb-xl-5">
                                 Our white paper outlines Baza Foundation, and
                                 covers an array of important topics. Including,
                                 how we improve our present day charity systems

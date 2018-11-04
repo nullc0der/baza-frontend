@@ -164,10 +164,17 @@
     .ui-textfield {
         margin-top: map-get($spacers, 3);
     }
+    .contact-img {
+        transform: scale(0.9);
+        transform-origin: center center;
+    }
 }
 
 .home-page .roadmap-section .page-section {
     padding-top: map-get($spacers, 2);
+    @include media-breakpoint-down(sm, $grid-breakpoints) {
+        padding-top: map-get($spacers, 5);
+    }
 }
 
 // Milestone section
@@ -178,7 +185,9 @@
         position: absolute;
         bottom: 0px;
         right: 0;
-        color: $dark;
+        color: rgba($dark, 0.5);
+        font-weight: $font-weight-semibold;
+        font-size: 1rem;
     }
     // .section-title,
     // .section-subtitle {
@@ -205,6 +214,8 @@
     .milestone-title {
         padding-right: 18px;
         font-weight: $font-weight-bold;
+        line-height: 1.2rem;
+        text-shadow: 0 1px 4px rgba(0,0,0,0.2);
     }
 
     .milestone-item {
@@ -222,7 +233,8 @@
         display: flex;
         align-items: center;
         z-index: 1;
-        @include _shadow-2();
+        // @include _shadow-2();
+        box-shadow: 0 10px 50px 0 rgba(0,0,0,0.1);
         &:after {
             display: none;
             position: absolute;
@@ -341,17 +353,23 @@
     }
     .download-whitepaper-btn {
         text-align: left;
-        @include media-breakpoint-down(sm, $grid-breakpoints) {
-            text-align: center;
-        }
     }
     .section-title-underlined {
         font-size: 2rem;
         &:after {
             height: 3px;
         }
-        & + p {
-            font-size: 1.15rem;
+    }
+    p {
+        font-size: 1.2rem;
+        // font-weight: $font-weight-light;
+    }
+    @include media-breakpoint-down(sm, $grid-breakpoints) {
+        .download-whitepaper-btn {
+            text-align: center;
+        }
+        .page-section {
+            padding-top: 0;
         }
     }
 }
@@ -376,6 +394,9 @@
     @include media-breakpoint-down(sm, $grid-breakpoints) {
         small {
             display: none;
+        }
+        .page-section {
+            padding-top: map-get($spacers, 5);
         }
     }
 }
