@@ -1,4 +1,4 @@
-import { jsonAPI } from './base'
+import { jsonAPI, formAPI } from './base'
 
 export const getGroups = () => {
     const url = '/groups/'
@@ -10,7 +10,17 @@ export const createGroup = data => {
     return jsonAPI(api => api.post(url, data))
 }
 
-export const fetchGroupDetail = groupID => {
+export const fetchGroup = groupID => {
     const url = `/groups/${groupID}/`
     return jsonAPI(api => api.get(url))
+}
+
+export const editGroup = (groupID, data) => {
+    const url = `/groups/${groupID}/`
+    return formAPI(api => api.post(url, data))
+}
+
+export const deleteGroup = groupID => {
+    const url = `/groups/${groupID}/`
+    return jsonAPI(api => api.delete(url))
 }

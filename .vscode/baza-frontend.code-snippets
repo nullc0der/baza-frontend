@@ -18,7 +18,7 @@
     "create action": {
         "scope": "javascript, typescript",
         "prefix": "cact",
-        "body": ["const $1 = '$1'"],
+        "body": ["const $1 = createAction('$1')"],
         "description": "Creates a action name"
     }
 }

@@ -9,6 +9,7 @@ import MemberProfilePage from 'pages/Admin/MemberProfile'
 import MembersPage from 'pages/Admin/Members'
 import MessengerPage from 'pages/Admin/Messenger'
 import GroupPage from 'pages/Admin/Group'
+import GroupProfilePage from 'pages/Admin/Group/Profile'
 
 const AdminRoutes = location => (
     <Switch location={location}>
@@ -20,7 +21,10 @@ const AdminRoutes = location => (
         <Route path="/community/2/members" component={MembersPage} />
         <Route path="/messenger/:id" component={MessengerPage} />
         <Route path="/messenger" component={MessengerPage} />
-        <Route path="/community/2/groups/:id" component={GroupPage} />
+        <Route
+            path="/community/2/groups/:id/profile"
+            component={GroupProfilePage}
+        />
         <Route path="/community/2/groups/" component={GroupPage} />
         <Redirect to="/dashboard" />
     </Switch>

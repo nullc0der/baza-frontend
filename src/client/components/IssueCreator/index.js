@@ -130,6 +130,9 @@ class IssueCreator extends Component {
                     errorState={this.state.formErrors.description}
                 />
                 <DropZoneWrapper
+                    className={
+                        this.state.formErrors.attachment ? 'mb-3' : 'mb-2'
+                    }
                     files={this.state.inputValues.attachment}
                     onDrop={this.onDrop}
                     onTrashClick={this.onTrashClick}

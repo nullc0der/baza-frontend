@@ -1,5 +1,6 @@
 import React, { Component, Fragment } from 'react'
 import Dropzone from 'react-dropzone'
+import classnames from 'classnames'
 
 import s from './DropZoneWrapper.scss'
 
@@ -13,14 +14,17 @@ class DropzoneWrapper extends Component {
             label = 'Drop attachments here',
             multiple = true,
             maxFile = 1,
-            hasError = false
+            hasError = false,
+            className
         } = this.props
+
+        const cx = classnames(s.container, className)
 
         return (
             <Fragment>
                 <Dropzone
                     onDrop={onDrop}
-                    className={s.container}
+                    className={cx}
                     accept={accept}
                     multiple={multiple}>
                     <p>

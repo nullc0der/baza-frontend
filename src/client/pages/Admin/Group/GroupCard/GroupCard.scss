@@ -1,0 +1,224 @@
+@import 'ui';
+
+@mixin b1 {
+    border: 1px rgba(#000, 0.12) solid;
+}
+
+:local(.container) {
+    background-color: #fff;
+    color: #4a4a4a;
+    @include _shadow_2();
+    @include b1();
+    @include clearfix();
+    border-radius: 6px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    cursor: pointer;
+
+    .card-header {
+        height: 100px;
+        position: relative;
+        border-width: 0 0 1px;
+        padding: 10px 20px;
+        color: #fff;
+        .group-header-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-size: 100% 100px;
+            background-repeat: no-repeat;
+            opacity: 0.3;
+        }
+        .card-circle-image {
+            width: 92px;
+            height: 92px;
+            background-color: #e2e2e2;
+            background-position: center;
+            background-repeat: no-repeat;
+            position: absolute;
+            left: 0;
+            right: 0;
+            margin: auto;
+            top: 50px;
+            border-radius: 50%;
+            border: 2px #fff solid;
+            .logo {
+                position: absolute;
+                top: 0;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                background-color: #512da8;
+                border-radius: 50%;
+                text-align: center;
+                padding: 10px;
+                .text {
+                    font-size: 40px;
+                    text-transform: capitalize;
+                }
+            }
+        }
+        .group-info {
+            position: absolute;
+        }
+        .name {
+            font-size: 20px;
+            font-weight: $font-weight-light;
+        }
+        .category {
+            font-size: 14px;
+            font-weight: $font-weight-semibold;
+            white-space: pre-line;
+        }
+        .unsubscribe {
+            position: absolute;
+            right: 15px;
+            &:hover {
+                text-decoration: underline;
+            }
+        }
+        &:before {
+            background-color: #00bcd4;
+            opacity: 0.85;
+            content: '';
+            display: block;
+            height: 100%;
+            width: 100%;
+            position: absolute;
+            top: 0;
+            right: 0;
+        }
+    }
+
+    .card-body {
+        text-align: center;
+        padding-top: 55px;
+        flex: 1;
+        position: relative;
+        h6 {
+            font-size: 16px;
+            font-weight: $font-weight-bold;
+            margin-bottom: 0;
+        }
+        p {
+            margin-top: 0;
+            font-size: 14px;
+            padding: 0 20px;
+            height: 50px;
+            overflow: hidden;
+        }
+        .bottom-stats {
+            position: absolute;
+            bottom: 10px;
+            left: 0;
+            right: 0;
+        }
+        .bottom-stat {
+            &:first-child {
+                border-right: 1px #eee solid;
+            }
+            // &:last-child {
+            //     border-left: 1px #eee solid;
+            // }
+        }
+    }
+    .card-footer {
+        padding: 0;
+        background-color: $light;
+        border-top: none;
+        &:last-child {
+            border-radius: 0;
+        }
+        .card-action {
+            color: #fff;
+            background-color: #00bcd4;
+            font-size: 20px;
+            text-align: center;
+            padding: 9px 0;
+        }
+    }
+
+    &.group-type-art {
+        .card-header {
+            &::before {
+                background-color: #2196f3;
+            }
+        }
+        .card-action {
+            background-color: #2196f3;
+        }
+    }
+    &.group-type-activist {
+        .card-header {
+            &::before {
+                background-color: #ffc107;
+            }
+        }
+        .card-action {
+            background-color: #ffc107;
+        }
+    }
+    &.group-type-political {
+        .card-header {
+            &::before {
+                background-color: #4caf50;
+            }
+        }
+        .card-action {
+            background-color: #4caf50;
+        }
+    }
+    &.group-type-news {
+        .card-header {
+            &::before {
+                background-color: #009688;
+            }
+        }
+        .card-action {
+            background-color: #009688;
+        }
+    }
+    &.group-type-business {
+        .card-header {
+            &::before {
+                background-color: #009688;
+            }
+        }
+        .card-action {
+            background-color: #009688;
+        }
+    }
+    &.group-type-government {
+        .card-header {
+            &::before {
+                background-color: #795548;
+            }
+        }
+        .card-action {
+            background-color: #795548;
+        }
+    }
+    &.group-type-blog {
+        .card-header {
+            &::before {
+                background-color: #ff9800;
+            }
+        }
+        .card-action {
+            background-color: #ff9800;
+        }
+    }
+    &.group-type-nonprofit {
+        .card-header {
+            &::before {
+                background-color: #673ab7;
+            }
+        }
+        .card-action {
+            background-color: #673ab7;
+        }
+    }
+}

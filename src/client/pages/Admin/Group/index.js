@@ -3,22 +3,20 @@ import classnames from 'classnames'
 import { connect } from 'react-redux'
 import includes from 'lodash/includes'
 import get from 'lodash/get'
+import { push } from 'react-router-redux'
 
 import { actions as groupActions } from 'store/Group'
 
 import Dialog from 'components/ui/Dialog'
 import TextField from 'components/ui/TextField'
 
-import GroupCard from './GroupCard'
+import GroupCard from 'pages/Admin/Group/GroupCard'
 import s from './Group.scss'
 
 const GroupTypesDropdown = props => {
     return (
         <Fragment>
-            <div
-                className={`grouptypes-dropdown-group btn-group ${
-                    props.errorState ? 'mb-3' : 'mb-2'
-                }`}>
+            <div className="grouptypes-dropdown-group btn-group">
                 <a
                     className="dropdown-toggle"
                     data-toggle="dropdown"
@@ -26,7 +24,7 @@ const GroupTypesDropdown = props => {
                     aria-expanded="false">
                     {props.selectedGroupType
                         ? props.selectedGroupType.name
-                        : 'Art'}
+                        : 'Select group type'}
                 </a>
                 <div className="dropdown-menu">
                     {props.groupTypes.map((item, i) => (
@@ -41,9 +39,9 @@ const GroupTypesDropdown = props => {
                     ))}
                 </div>
             </div>
-            {props.errorState && (
-                <div className="ui-textfield-error">{props.errorState}</div>
-            )}
+            <div className="text-danger grouptypes-dropdown-error mb-2">
+                {props.errorState}
+            </div>
         </Fragment>
     )
 }
@@ -61,7 +59,8 @@ class Group extends Component {
             name: null,
             description: null,
             otherGroupType: null,
-            groupDropdown: null
+            groupDropdown: null,
+            nonField: []
         }
     }
 
@@ -100,7 +99,8 @@ class Group extends Component {
                 name: null,
                 description: null,
                 otherGroupType: null,
-                groupDropdown: null
+                groupDropdown: null,
+                nonField: []
             }
         })
     }
@@ -110,7 +110,9 @@ class Group extends Component {
             .createGroup({
                 name: this.state.inputValues.name,
                 short_about: this.state.inputValues.description,
-                group_type: this.state.inputValues.groupDropdown.id,
+                group_type_value: this.state.inputValues.groupDropdown
+                    ? this.state.inputValues.groupDropdown.id
+                    : '',
                 group_type_other:
                     this.state.inputValues.groupDropdown.id === 9
                         ? this.state.inputValues.otherGroupType
@@ -124,12 +126,63 @@ class Group extends Component {
                 this.setState({
                     errorValues: {
                         name: get(err, 'name', null),
-                        description: get(err, 'description', null),
-                        groupDropdown: get(err, 'group_type', null),
-                        otherGroupType: get(err, 'group_type_other', null)
+                        description: get(err, 'short_about', null),
+                        groupDropdown: get(err, 'group_type_value', null),
+                        otherGroupType: get(err, 'group_type_other', null),
+                        nonField: get(err, 'non_field_errors', [])
                     }
                 })
             })
+    }
+
+    renderSubscribe = (id, isSubscribed) => {
+        return (
+            <div
+                className="unsubscribe"
+                onClick={e =>
+                    this.onSubscribeButtonClick(
+                        e,
+                        id,
+                        !isSubscribed ? true : false
+                    )
+                }>
+                {isSubscribed ? 'Unsubscribe' : 'Subscribe'}{' '}
+            </div>
+        )
+    }
+
+    renderFooter = (id, isMember, joinRequestSent, joinStatus) => {
+        const cardActionTexts = {
+            open: 'Join Group',
+            closed: 'Closed Group',
+            request: 'Request to Join',
+            invite: 'Invitation Only'
+        }
+        return (
+            <div
+                className="card-action"
+                onClick={e =>
+                    this.onJoinButtonClick(
+                        e,
+                        id,
+                        isMember ? 'leave' : joinRequestSent ? 'cancel' : 'join'
+                    )
+                }>
+                {isMember
+                    ? 'Leave group'
+                    : joinRequestSent
+                        ? 'Cancel Request'
+                        : cardActionTexts[joinStatus]}
+            </div>
+        )
+    }
+
+    openGroup = (id, permissionSet) => {
+        if (
+            permissionSet.some(x => [102, 103, 104, 105, 106].indexOf(x) !== -1)
+        ) {
+            this.props.navigateTo(`/community/2/groups/${id}/profile`)
+        }
     }
 
     render() {
@@ -159,29 +212,34 @@ class Group extends Component {
                     return (
                         <GroupCard
                             key={i}
-                            id={x.id}
                             name={x.name}
                             category={x.group_type}
-                            isSubscribed={includes(
-                                x.subscribers,
-                                userProfile.username ||
-                                    userProfile.user.username
-                            )}
-                            isMember={includes(
-                                x.members,
-                                userProfile.username ||
-                                    userProfile.user.username
-                            )}
-                            joinRequestSent={false}
                             headerURL={x.header_image_url}
                             logoURL={x.logo_url}
                             members={x.members.length}
                             subscribers={x.subscribers.length}
                             shortDescription={x.short_about}
-                            joinStatus={x.join_status}
-                            permissionSet={x.user_permission_set}
-                            onSubscribeButtonClick={() => {}}
-                            onJoinButtonClick={() => {}}
+                            subscribeSection={this.renderSubscribe(
+                                x.id,
+                                includes(
+                                    x.subscribers,
+                                    userProfile.username ||
+                                        userProfile.user.username
+                                )
+                            )}
+                            footer={this.renderFooter(
+                                x.id,
+                                includes(
+                                    x.members,
+                                    userProfile.username ||
+                                        userProfile.user.username
+                                ),
+                                false,
+                                x.join_status
+                            )}
+                            onClickCard={() =>
+                                this.openGroup(x.id, x.user_permission_set)
+                            }
                         />
                     )
                 })}
@@ -230,6 +288,15 @@ class Group extends Component {
                             errorState={this.state.errorValues.otherGroupType}
                         />
                     )}
+                    {!!this.state.errorValues.nonField.length && (
+                        <div className="well">
+                            {this.state.errorValues.nonField.map((x, i) => (
+                                <p key={i} className="text-danger">
+                                    {x}
+                                </p>
+                            ))}
+                        </div>
+                    )}
                     <button
                         className="btn btn-block btn-dark"
                         onClick={this.onCreateGroupClick}>
@@ -248,7 +315,8 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
     fetchGroups: () => dispatch(groupActions.fetchGroups()),
-    createGroup: data => dispatch(groupActions.createGroup(data))
+    createGroup: data => dispatch(groupActions.createGroup(data)),
+    navigateTo: url => dispatch(push(url))
 })
 
 export default connect(
