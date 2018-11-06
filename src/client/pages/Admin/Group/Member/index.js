@@ -11,12 +11,12 @@ class MembersManagementPage extends Component {
         const cx = classnames(s.container, className, 'flex-horizontal flex-1')
 
         const managementClass = classnames(s.management, 'flex-1')
-        const notificationClass = classnames(s.notifications, 'flex-1')
+        //const notificationClass = classnames(s.notifications, 'flex-1')
         return (
             <div className={cx}>
                 <MembersManagement
                     className={managementClass}
-                    groupID={this.props.params.id}
+                    groupID={this.props.match.params.id}
                 />
                 <div className="boxes-in-right flex-vertical" />
             </div>

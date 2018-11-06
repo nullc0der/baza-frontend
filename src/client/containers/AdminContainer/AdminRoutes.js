@@ -10,6 +10,10 @@ import MembersPage from 'pages/Admin/Members'
 import MessengerPage from 'pages/Admin/Messenger'
 import GroupPage from 'pages/Admin/Group'
 import GroupProfilePage from 'pages/Admin/Group/Profile'
+import GroupMembersPage from 'pages/Admin/Group/Member'
+
+//TODO: I think routing is not done properly by me, improve when
+// some extra time
 
 const AdminRoutes = location => (
     <Switch location={location}>
@@ -24,6 +28,10 @@ const AdminRoutes = location => (
         <Route
             path="/community/2/groups/:id/profile"
             component={GroupProfilePage}
+        />
+        <Route
+            path="/community/2/groups/:id/members"
+            component={GroupMembersPage}
         />
         <Route path="/community/2/groups/" component={GroupPage} />
         <Redirect to="/dashboard" />

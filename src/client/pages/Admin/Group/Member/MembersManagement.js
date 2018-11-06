@@ -7,15 +7,41 @@ import MemberItem from './MemberItem'
 
 import { actions as groupActions } from 'store/Group'
 
+const MEMBER_ROLES = [
+    { id: 101, name: 'Subscriber', icon: { type: 'material', name: 'face' } },
+    { id: 102, name: 'Member', icon: { type: 'fa', name: 'users' } },
+    {
+        id: 103,
+        name: 'Owner',
+        icon: { type: 'material', name: 'local_library' }
+    },
+    {
+        id: 104,
+        name: 'Administrator',
+        icon: { type: 'material', name: 'spellcheck' }
+    },
+    {
+        id: 105,
+        name: 'Moderator',
+        icon: { type: 'material', name: 'verified_user' }
+    },
+    { id: 106, name: 'Staff', icon: { type: 'material', name: 'touch_app' } },
+    {
+        id: 107,
+        name: 'Ban',
+        icon: { type: 'material', name: 'remove_circle_outline' }
+    },
+    { id: 108, name: 'Block', icon: { type: 'material', name: 'block' } }
+]
+
 class MembersManagement extends Component {
     state = {
         list: []
     }
 
     componentDidMount = () => {
-        const id = this.props.match.params.id
+        const id = this.props.groupID
         this.props.getMembers(id)
-        this.loadGroupData(id)
     }
 
     componentDidUpdate = prevProps => {
@@ -44,22 +70,16 @@ class MembersManagement extends Component {
     // }
 
     renderOneMember = (member, i) => {
-        const { groups } = this.props
         return (
             <MemberItem
                 key={i}
-                groups={groups}
+                groups={MEMBER_ROLES}
                 memberId={member.user.id}
                 fullName={member.user.fullname}
                 userName={member.user.username}
-                isOnline={member.user.is_online}
                 avatarUrl={member.user.user_image_url}
                 avatarColor={member.user.user_avatar_color}
-                publicURL={member.user.public_url}
-                isStaff={member.user.is_staff}
-                toggleSubscribedGroup={this.toggleSubscribedGroup}
-                subscribed_groups={member.subscribed_groups}
-                isOnline={member.user.is_online}
+                subscribedGroups={member.user_permission_set}
             />
         )
     }
@@ -159,7 +179,7 @@ class MembersManagement extends Component {
                     </div>
                 </div>
                 <div className="members-list">
-                    {this.state.list.map(this.renderOneMember)}
+                    {this.props.list.map(this.renderOneMember)}
                 </div>
             </div>
         )
@@ -167,30 +187,13 @@ class MembersManagement extends Component {
 }
 
 const mapStateToProps = state => ({
-    list: state.groups.groupMembers,
-    groups: state.Members.groups_list
+    list: state.Group.groupMembers
 })
 
 const mapDispatchToProps = dispatch => ({
-    toggleSubscribedGroup: (url, subscribedGroups, toggledGroup) => {
-        dispatch(
-            memberActions.toggleSubscribedGroup(
-                url,
-                subscribedGroups,
-                toggledGroup
-            )
-        )
-    },
-    getMembers: url => {
-        dispatch(groupActions.getGroupMembers(url))
-    },
-    changeLastGroup: id => {
-        dispatch(groupActions.changeLastGroup(id))
-    },
-    changeGroupJoinStatus: joinStatus =>
-        dispatch(groupActions.changeGroupJoinStatus(joinStatus)),
-    changeUserPermissionSetForGroup: permissionSet =>
-        dispatch(groupActions.changeUserPermissionSetForGroup(permissionSet))
+    getMembers: groupID => {
+        dispatch(groupActions.fetchGroupMembers(groupID))
+    }
 })
 
 export default connect(
