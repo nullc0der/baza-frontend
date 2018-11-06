@@ -1,0 +1,236 @@
+@import 'ui';
+
+:local(.container) {
+    .boxes-in-right {
+        margin-left: 20px;
+        width: 400px;
+    }
+    @include media-breakpoint-down($md, $grid-breakpoints) {
+        display: block;
+        flex-direction: column;
+        .boxes-in-right {
+            margin: 20px 0 20px 0;
+            width: 100%;
+        }
+        :local(.management) {
+            height: calc(100vh - 110px);
+            flex-shrink: 0;
+            flex: initial;
+            margin-top: -10px;
+            position: relative;
+            z-index: 200;
+        }
+        :local(.advertisement),
+        :local(.notifications) {
+            min-height: 250px;
+            width: auto;
+            margin: 0 0 20px 0;
+        }
+
+        :local(.management),
+        :local(.advertisement),
+        :local(.notifications) {
+            margin-left: -20px;
+            margin-right: -20px;
+        }
+    }
+}
+
+:local(.management),
+:local(.advertisement),
+:local(.notifications) {
+    background-color: #fff;
+    @include _shadow_1();
+}
+
+:local(.notifications),
+:local(.advertisement) {
+    min-width: 300px;
+    height: 300px;
+}
+
+:local(.management) {
+    $color_1: #9b9b9b;
+    $color_2: #ccc;
+    $color_3: rgba(0, 0, 0, 0.5);
+    $color_4: $color_blue500;
+    $color_5: $color_pink400;
+    $color_6: $color_green500;
+    $color_7: $color_lime500;
+    $color_8: $color_orange500;
+    $color_9: $color_lightBlue500;
+    $color_10: $color_deepOrange500;
+    $color_11: $color_indigo500;
+    $color_12: #ddd;
+    $background_color_1: rgba(0, 0, 0, 0.1);
+    $background_color_2: rgba(0, 0, 0, 0.2);
+    $background_color_3: $color_green500;
+
+    .header-inner {
+        width: 60%;
+        margin: 10px auto;
+        text-align: center;
+        > h4 {
+            font-size: 20px;
+            margin: 20px auto 24px auto;
+            font-weight: $font-weight-semibold;
+            color: $color_1;
+        }
+    }
+    .members-list {
+        flex: 1;
+        overflow-y: auto;
+    }
+    .ui-member-item {
+        border: 1px #eee solid;
+        border-width: 1px 0 1px 0;
+        transform-origin: center center;
+        z-index: 10;
+        &:not(:first-child) {
+            margin-top: -1px;
+        }
+        &:hover {
+            background-color: $background_color_1;
+            z-index: 100;
+        }
+        .ui-modal-content {
+            width: 550px;
+            max-width: 90vw;
+        }
+        .in-right {
+            padding: 10px 20px;
+            justify-content: flex-end;
+        }
+        .in-left {
+            padding: 10px 20px;
+            .avatar-image {
+                height: 42px;
+                width: 42px;
+                margin-right: 20px;
+            }
+            .ui-avatar {
+                height: 42px !important;
+                width: 42px !important;
+                font-size: 18px;
+                padding-top: 8px;
+                margin-right: 20px;
+                display: inline-block;
+            }
+            .details {
+                display: inline-block;
+            }
+            .name {
+                font-size: 16px;
+                font-weight: $font-weight-semibold;
+                .username {
+                    font-size: 10px;
+                    color: $color_2;
+                    margin-left: 5px;
+                }
+            }
+            .status {
+                margin-top: -4px;
+                position: relative;
+                margin-left: 14px;
+                color: $color_3;
+                &:before {
+                    position: absolute;
+                    top: 7px;
+                    left: -14px;
+                    background-color: $background_color_2;
+                    width: 10px;
+                    height: 10px;
+                    content: '';
+                    border-radius: 50%;
+                }
+            }
+            .status.is-online {
+                &:before {
+                    background-color: $background_color_3;
+                }
+            }
+        }
+    }
+    .group-item.group-id-101 {
+        color: $color_4;
+    }
+    .group-item.group-id-102 {
+        color: $color_5;
+    }
+    .group-item.group-id-103 {
+        color: $color_6;
+    }
+    .group-item.group-id-104 {
+        color: $color_7;
+    }
+    .group-item.group-id-105 {
+        color: $color_8;
+    }
+    .group-item.group-id-106 {
+        color: $color_9;
+    }
+    .group-item.group-id-107 {
+        color: $color_10;
+    }
+    .group-item.group-id-108 {
+        color: $color_11;
+    }
+    .subscribed-groups {
+        width: auto;
+        transition: all 0.32s ease-in-out;
+        .group-item {
+            font-size: 18px;
+            padding: 4px 8px;
+            animation: fadeIn 0.42s;
+        }
+    }
+    .subscribe-box {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        overflow: hidden;
+        .box {
+            width: 100%;
+            justify-content: space-between;
+        }
+    }
+    .subscribe-box-group {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        flex-shrink: 0;
+        justify-content: center;
+        padding: 20px;
+        width: 100px;
+        cursor: pointer;
+        text-align: center;
+        .group-name {
+            font-size: 14px;
+        }
+        .material-icons {
+            display: block;
+            transform: scale(1);
+            transform-origin: center bottom;
+            transition: all 0.12s ease-in-out;
+            font-size: 32px;
+        }
+        .fa {
+            display: block;
+            transform: scale(1);
+            transform-origin: center bottom;
+            transition: all 0.12s ease-in-out;
+            font-size: 25px;
+        }
+        &:hover {
+            .material-icons {
+                transform: scale(1.32);
+            }
+            .fa {
+                transform: scale(1.32);
+            }
+        }
+    }
+    .subscribe-box-group.is-inactive {
+        color: $color_12;
+    }
+}

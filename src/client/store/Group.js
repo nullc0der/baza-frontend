@@ -5,6 +5,7 @@ import * as GroupAPI from 'api/group'
 
 const INITIAL_STATE = {
     groups: [],
+    groupMembers: [],
     isLoading: false,
     hasError: null
 }
@@ -12,8 +13,8 @@ const INITIAL_STATE = {
 const createAction = str => `GROUP_${str}`
 
 const FETCH_GROUPS = createAction('FETCH_GROUPS')
-const fetchGroups = () => dispath => {
-    return DispatchAPI(dispath, GroupAPI.getGroups, {
+const fetchGroups = () => dispatch => {
+    return DispatchAPI(dispatch, GroupAPI.getGroups, {
         success: fetchGroupsSuccess,
         failure: fetchGroupsError
     })
@@ -32,8 +33,8 @@ const fetchGroupsError = err => ({
 })
 
 const CREATE_GROUP = createAction('CREATE_GROUP')
-const createGroup = data => dispath => {
-    return DispatchAPI(dispath, GroupAPI.createGroup(data), {
+const createGroup = data => dispatch => {
+    return DispatchAPI(dispatch, GroupAPI.createGroup(data), {
         success: createGroupSuccess,
         failure: createGroupError
     })
@@ -52,8 +53,8 @@ const createGroupError = err => ({
 })
 
 const FETCH_GROUP = createAction('FETCH_GROUP')
-const fetchGroup = groupID => dispath => {
-    return DispatchAPI(dispath, GroupAPI.fetchGroup(groupID), {
+const fetchGroup = groupID => dispatch => {
+    return DispatchAPI(dispatch, GroupAPI.fetchGroup(groupID), {
         success: fetchGroupSuccess,
         failure: fetchGroupError
     })
@@ -72,8 +73,8 @@ const fetchGroupError = err => ({
 })
 
 const EDIT_GROUP = createAction('EDIT_GROUP')
-const editGroup = (groupID, data) => dispath => {
-    return DispatchAPI(dispath, GroupAPI.editGroup(groupID, data), {
+const editGroup = (groupID, data) => dispatch => {
+    return DispatchAPI(dispatch, GroupAPI.editGroup(groupID, data), {
         success: editGroupSuccess,
         failure: editGroupError
     })
@@ -92,8 +93,8 @@ const editGroupError = err => ({
 })
 
 const DELETE_GROUP = createAction('DELETE_GROUP')
-const deleteGroup = groupID => dispath => {
-    return DispatchAPI(dispath, GroupAPI.deleteGroup(groupID), {
+const deleteGroup = groupID => dispatch => {
+    return DispatchAPI(dispatch, GroupAPI.deleteGroup(groupID), {
         success: deleteGroupSuccess,
         failure: deleteGroupError
     })
@@ -104,9 +105,30 @@ const deleteGroupSuccess = res => ({
     type: DELETE_GROUP_SUCCESS,
     group: get(res, 'data', {})
 })
+
 const DELETE_GROUP_ERROR = createAction('DELETE_GROUP_ERROR')
 const deleteGroupError = err => ({
     type: DELETE_GROUP_ERROR,
+    error: err
+})
+
+const FETCH_GROUP_MEMBERS = createAction('FETCH_GROUP_MEMBERS')
+const fetchGroupMembers = groupID => dispath => {
+    return DispatchAPI(dispath, GroupAPI.fetchGroupMembers(groupID), {
+        success: fetchGroupMembersSuccess,
+        failure: fetchGroupMembersFailure
+    })
+}
+
+const FETCH_GROUP_MEMBERS_SUCCESS = createAction('FETCH_GROUP_MEMBERS_SUCCESS')
+const fetchGroupMembersSuccess = res => ({
+    type: FETCH_GROUP_MEMBERS_SUCCESS,
+    members: get(res, 'data', {})
+})
+
+const FETCH_GROUP_MEMBERS_ERROR = createAction('FETCH_GROUP_MEMBERS_ERROR')
+const fetchGroupMembersFailure = err => ({
+    type: FETCH_GROUP_MEMBERS_ERROR,
     error: err
 })
 
@@ -115,7 +137,8 @@ export const actions = {
     createGroup,
     fetchGroup,
     editGroup,
-    deleteGroup
+    deleteGroup,
+    fetchGroupMembers
 }
 
 const getGroups = (groups, group) => {
@@ -129,6 +152,7 @@ export default function GroupReducer(state = INITIAL_STATE, action) {
         case FETCH_GROUP:
         case EDIT_GROUP:
         case DELETE_GROUP:
+        case FETCH_GROUP_MEMBERS:
             return {
                 ...state,
                 isLoading: true,
@@ -139,6 +163,7 @@ export default function GroupReducer(state = INITIAL_STATE, action) {
         case FETCH_GROUP_ERROR:
         case EDIT_GROUP_ERROR:
         case DELETE_GROUP_ERROR:
+        case FETCH_GROUP_MEMBERS_ERROR:
             return {
                 ...state,
                 isLoading: false,
@@ -168,6 +193,11 @@ export default function GroupReducer(state = INITIAL_STATE, action) {
             return {
                 ...state,
                 groups: getGroups(state.groups.slice(), action.group)
+            }
+        case FETCH_GROUP_MEMBERS_SUCCESS:
+            return {
+                ...state,
+                groupMembers: action.members
             }
         default:
             return state

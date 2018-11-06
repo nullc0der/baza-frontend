@@ -24,3 +24,8 @@ export const deleteGroup = groupID => {
     const url = `/groups/${groupID}/`
     return jsonAPI(api => api.delete(url))
 }
+
+export const fetchGroupMembers = groupID => {
+    const url = `/groups/${groupID}/members/`
+    return jsonAPI(api => api.get(url))
+}
