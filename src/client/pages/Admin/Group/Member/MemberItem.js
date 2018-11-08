@@ -92,7 +92,7 @@ class MemberItem extends Component {
             <div className={cx}>
                 <Dialog
                     id="edit-group-subscriptions"
-                    onBackdropClick={this.toggleSubscribeBox}
+                    onRequestClose={this.toggleSubscribeBox}
                     isOpen={this.state.subscribeBoxIsOpen}
                     title={false}>
                     <div className="subscribe-box">

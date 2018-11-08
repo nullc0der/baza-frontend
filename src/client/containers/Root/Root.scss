@@ -18,6 +18,10 @@ body {
     display: flex;
     flex-direction: row;
 }
+.flex-horizontal-reverse {
+    display: flex;
+    flex-direction: row-reverse;
+}
 .a-center {
     align-items: center;
 }
