@@ -132,13 +132,38 @@ const fetchGroupMembersFailure = err => ({
     error: err
 })
 
+const CHANGE_MEMBER_ROLE = createAction('CHANGE_MEMBER_ROLE')
+const changeMemberRole = (groupID, data) => dispatch => {
+    return DispatchAPI(
+        dispatch,
+        GroupAPI.changeGroupMemberRole(groupID, data),
+        {
+            success: changeMemberRoleSuccess,
+            failure: changeMemberRoleError
+        }
+    )
+}
+
+const CHANGE_MEMBER_ROLE_SUCCESS = createAction('CHANGE_MEMBER_ROLE_SUCCESS')
+const changeMemberRoleSuccess = res => ({
+    type: CHANGE_MEMBER_ROLE_SUCCESS,
+    data: get(res, 'data', {})
+})
+
+const CHANGE_MEMBER_ROLE_ERROR = createAction('CHANGE_MEMBER_ROLE_ERROR')
+const changeMemberRoleError = err => ({
+    type: CHANGE_MEMBER_ROLE_ERROR,
+    error: err
+})
+
 export const actions = {
     fetchGroups,
     createGroup,
     fetchGroup,
     editGroup,
     deleteGroup,
-    fetchGroupMembers
+    fetchGroupMembers,
+    changeMemberRole
 }
 
 const getGroups = (groups, group) => {
@@ -153,6 +178,7 @@ export default function GroupReducer(state = INITIAL_STATE, action) {
         case EDIT_GROUP:
         case DELETE_GROUP:
         case FETCH_GROUP_MEMBERS:
+        case CHANGE_MEMBER_ROLE:
             return {
                 ...state,
                 isLoading: true,
@@ -164,6 +190,7 @@ export default function GroupReducer(state = INITIAL_STATE, action) {
         case EDIT_GROUP_ERROR:
         case DELETE_GROUP_ERROR:
         case FETCH_GROUP_MEMBERS_ERROR:
+        case CHANGE_MEMBER_ROLE_ERROR:
             return {
                 ...state,
                 isLoading: false,
@@ -198,6 +225,13 @@ export default function GroupReducer(state = INITIAL_STATE, action) {
             return {
                 ...state,
                 groupMembers: action.members
+            }
+        case CHANGE_MEMBER_ROLE_SUCCESS:
+            return {
+                ...state,
+                groupMembers: state.groupMembers.map(x =>
+                    x.user.id === action.data.user.id ? action.data : x
+                )
             }
         default:
             return state

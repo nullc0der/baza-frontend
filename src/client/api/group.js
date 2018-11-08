@@ -29,3 +29,8 @@ export const fetchGroupMembers = groupID => {
     const url = `/groups/${groupID}/members/`
     return jsonAPI(api => api.get(url))
 }
+
+export const changeGroupMemberRole = (groupID, data) => {
+    const url = `/groups/${groupID}/members/changerole/`
+    return jsonAPI(api => api.post(url, data))
+}

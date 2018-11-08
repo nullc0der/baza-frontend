@@ -1,9 +1,12 @@
 import React, { Component } from 'react'
 import classnames from 'classnames'
 import find from 'lodash/find'
-import Avatar from 'components/Avatar'
 import chunk from 'lodash/chunk'
+import get from 'lodash/get'
+import Avatar from 'components/Avatar'
 import Dialog from 'components/ui/Dialog'
+
+import s from './Members.scss'
 
 class MemberItem extends Component {
     state = {
@@ -13,7 +16,7 @@ class MemberItem extends Component {
     toggleGroup = group => {
         this.props.toggleSubscribedGroup(
             this.props.memberId,
-            this.props.subscribed_groups,
+            this.props.subscribedGroups,
             group
         )
     }
@@ -69,6 +72,16 @@ class MemberItem extends Component {
         })
     }
 
+    isGroupAdmin = () => {
+        const { subscribedGroups } = this.props
+        return (
+            // TODO: change all reference to subscribed groups to member permission set
+            // in both front and backend
+            subscribedGroups.indexOf(103) !== -1 ||
+            subscribedGroups.indexOf(104) !== -1
+        )
+    }
+
     render() {
         const {
             className,
@@ -77,7 +90,8 @@ class MemberItem extends Component {
             avatarUrl = '',
             avatarColor = '',
             subscribedGroups = [],
-            groups = []
+            groups = [],
+            onlineStatus
         } = this.props
 
         const cx = classnames(
@@ -88,32 +102,41 @@ class MemberItem extends Component {
 
         const gchunks = chunk(groups, 4)
 
+        const memberIsGroupAdmin = this.isGroupAdmin()
+
         return (
             <div className={cx}>
-                <Dialog
-                    id="edit-group-subscriptions"
-                    onRequestClose={this.toggleSubscribeBox}
-                    isOpen={this.state.subscribeBoxIsOpen}
-                    title={false}>
-                    <div className="subscribe-box">
-                        {gchunks.map((x, i) => (
-                            <div
-                                key={i}
-                                className={`box flex-horizontal a-center box-${i +
-                                    1}`}>
-                                {x.map((y, j) =>
-                                    this.renderGroup(
-                                        y,
-                                        i.toString() + j.toString()
-                                    )
-                                )}
-                            </div>
-                        ))}
-                    </div>
-                </Dialog>
+                {memberIsGroupAdmin && (
+                    <Dialog
+                        id="edit-group-subscriptions"
+                        onRequestClose={this.toggleSubscribeBox}
+                        isOpen={this.state.subscribeBoxIsOpen}
+                        title={false}
+                        className={s.roleDialog}
+                        showClose={false}>
+                        <div className="subscribe-box">
+                            {gchunks.map((x, i) => (
+                                <div
+                                    key={i}
+                                    className={`box flex-horizontal a-center box-${i +
+                                        1}`}>
+                                    {x.map((y, j) =>
+                                        this.renderGroup(
+                                            y,
+                                            i.toString() + j.toString()
+                                        )
+                                    )}
+                                </div>
+                            ))}
+                        </div>
+                    </Dialog>
+                )}
                 <div
-                    onClick={this.toggleSubscribeBox}
-                    className="flex-horizontal a-center flex-1">
+                    onClick={
+                        memberIsGroupAdmin ? this.toggleSubscribeBox : () => {}
+                    }
+                    className={`flex-horizontal a-center flex-1 ${memberIsGroupAdmin &&
+                        'clickable'}`}>
                     <div className="in-left flex-horizontal a-center">
                         <Avatar
                             className="avatar-image"
@@ -130,13 +153,15 @@ class MemberItem extends Component {
                                 {fullName || userName}{' '}
                                 <span className="username">@{userName}</span>{' '}
                             </div>
-                            {/* <div
-                                className={`status is-${
-                                    isOnline ? 'online' : 'offline'
-                                }`}>
+                            <div
+                                className={`status text-capitalize is-${get(
+                                    onlineStatus,
+                                    'status',
+                                    'offline'
+                                )}`}>
                                 {' '}
-                                {isOnline ? 'Online' : 'Offline'}{' '}
-                            </div> */}
+                                {get(onlineStatus, 'status', 'offline')}{' '}
+                            </div>
                         </div>
                     </div>
                     <div className="in-right flex-horizontal flex-1">

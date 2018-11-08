@@ -48,7 +48,13 @@ export default class Dialog extends Component {
     }
 
     render() {
-        const { className, isOpen, title, footer } = this.props
+        const {
+            className,
+            isOpen,
+            title,
+            footer,
+            showClose = true
+        } = this.props
 
         const cx = classnames(s.container, 'ui-dialog modal', className, {
             show: isOpen
@@ -85,13 +91,17 @@ export default class Dialog extends Component {
                                             {title}{' '}
                                         </h5>
                                     )}
-                                    <button
-                                        type="button"
-                                        className="close"
-                                        aria-label="Close"
-                                        onClick={this.onRequestClose}>
-                                        <i className="material-icons">close</i>
-                                    </button>
+                                    {!!showClose && (
+                                        <button
+                                            type="button"
+                                            className="close"
+                                            aria-label="Close"
+                                            onClick={this.onRequestClose}>
+                                            <i className="material-icons">
+                                                close
+                                            </i>
+                                        </button>
+                                    )}
                                 </div>
                                 <div className="modal-body">
                                     {this.props.children}

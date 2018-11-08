@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import classnames from 'classnames'
 import { connect } from 'react-redux'
-//import _ from 'lodash'
+import union from 'lodash/union'
 
 import MemberItem from './MemberItem'
 
@@ -45,29 +45,25 @@ class MembersManagement extends Component {
     }
 
     componentDidUpdate = prevProps => {
-        // if (
-        //     prevProps.list !== this.props.list ||
-        //     prevProps.onlineUsers !== this.props.onlineUsers ||
-        //     prevProps.searchString !== this.props.searchString ||
-        //     prevProps.filters !== this.props.filters
-        // ) {
-        //     this.setUsers(
-        //         this.props.list,
-        //         this.props.onlineUsers,
-        //         this.props.searchString,
-        //         this.props.filters
-        //     )
-        // }
+        if (
+            prevProps.list !== this.props.list ||
+            prevProps.onlineUsers !== this.props.onlineUsers
+        ) {
+            this.setUsers(this.props.list, this.props.onlineUsers)
+        }
     }
 
-    // toggleSubscribedGroup = (memberID, subscribedGroups, toggledGroup) => {
-    //     const id = this.props.groupID
-    //     this.props.toggleSubscribedGroup(
-    //         `/api/groups/${id}/members/${memberID}/changerole/`,
-    //         subscribedGroups,
-    //         toggledGroup
-    //     )
-    // }
+    toggleSubscribedGroup = (memberID, subscribedGroups, toggledGroup) => {
+        const id = this.props.groupID
+        subscribedGroups =
+            subscribedGroups.indexOf(toggledGroup.id) !== -1
+                ? subscribedGroups.filter(x => x !== toggledGroup.id)
+                : [...subscribedGroups, toggledGroup.id]
+        this.props.changeMemberRole(id, {
+            member_id: memberID,
+            user_permission_set: subscribedGroups
+        })
+    }
 
     renderOneMember = (member, i) => {
         return (
@@ -80,8 +76,27 @@ class MembersManagement extends Component {
                 avatarUrl={member.user.user_image_url}
                 avatarColor={member.user.user_avatar_color}
                 subscribedGroups={member.user_permission_set}
+                onlineStatus={member.status}
+                toggleSubscribedGroup={this.toggleSubscribedGroup}
             />
         )
+    }
+
+    setUsers = (list, onlineUsers) => {
+        const tempList = []
+        for (const member of list) {
+            member['status'] = {}
+            for (const onlineUser of onlineUsers) {
+                if (member.user.id === onlineUser.id) {
+                    member['status'] = onlineUser
+                    tempList.push(member)
+                }
+            }
+        }
+        let finalList = union(list, tempList)
+        this.setState({
+            list: finalList
+        })
     }
 
     // setUsers = (list, onlineUsers, searchString = '', filters = []) => {
@@ -179,7 +194,7 @@ class MembersManagement extends Component {
                     </div>
                 </div>
                 <div className="members-list">
-                    {this.props.list.map(this.renderOneMember)}
+                    {this.state.list.map(this.renderOneMember)}
                 </div>
             </div>
         )
@@ -187,12 +202,16 @@ class MembersManagement extends Component {
 }
 
 const mapStateToProps = state => ({
-    list: state.Group.groupMembers
+    list: state.Group.groupMembers,
+    onlineUsers: state.Users.onlineUsers
 })
 
 const mapDispatchToProps = dispatch => ({
     getMembers: groupID => {
         dispatch(groupActions.fetchGroupMembers(groupID))
+    },
+    changeMemberRole: (groupID, data) => {
+        dispatch(groupActions.changeMemberRole(groupID, data))
     }
 })
 

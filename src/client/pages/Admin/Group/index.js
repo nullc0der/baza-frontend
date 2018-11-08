@@ -171,8 +171,8 @@ class Group extends Component {
                 {isMember
                     ? 'Leave group'
                     : joinRequestSent
-                        ? 'Cancel Request'
-                        : cardActionTexts[joinStatus]}
+                    ? 'Cancel Request'
+                    : cardActionTexts[joinStatus]}
             </div>
         )
     }
@@ -181,7 +181,7 @@ class Group extends Component {
         if (
             permissionSet.some(x => [102, 103, 104, 105, 106].indexOf(x) !== -1)
         ) {
-            this.props.navigateTo(`/community/2/groups/${id}/profile`)
+            this.props.navigateTo(`/community/2/groups/${id}/members`)
         }
     }
 

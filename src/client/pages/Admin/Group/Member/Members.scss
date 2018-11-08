@@ -51,22 +51,6 @@
 }
 
 :local(.management) {
-    $color_1: #9b9b9b;
-    $color_2: #ccc;
-    $color_3: rgba(0, 0, 0, 0.5);
-    $color_4: $color_blue500;
-    $color_5: $color_pink400;
-    $color_6: $color_green500;
-    $color_7: $color_lime500;
-    $color_8: $color_orange500;
-    $color_9: $color_lightBlue500;
-    $color_10: $color_deepOrange500;
-    $color_11: $color_indigo500;
-    $color_12: #ddd;
-    $background_color_1: rgba(0, 0, 0, 0.1);
-    $background_color_2: rgba(0, 0, 0, 0.2);
-    $background_color_3: $color_green500;
-
     .header-inner {
         width: 60%;
         margin: 10px auto;
@@ -75,7 +59,7 @@
             font-size: 20px;
             margin: 20px auto 24px auto;
             font-weight: $font-weight-semibold;
-            color: $color_1;
+            color: #9b9b9b;
         }
     }
     .members-list {
@@ -87,11 +71,14 @@
         border-width: 1px 0 1px 0;
         transform-origin: center center;
         z-index: 10;
+        .clickable {
+            cursor: pointer;
+        }
         &:not(:first-child) {
             margin-top: -1px;
         }
         &:hover {
-            background-color: $background_color_1;
+            background-color: rgba(0, 0, 0, 0.1);
             z-index: 100;
         }
         .ui-modal-content {
@@ -125,56 +112,67 @@
                 font-weight: $font-weight-semibold;
                 .username {
                     font-size: 10px;
-                    color: $color_2;
+                    color: #ccc;
                     margin-left: 5px;
                 }
             }
             .status {
-                margin-top: -4px;
                 position: relative;
                 margin-left: 14px;
-                color: $color_3;
+                color: rgba(0, 0, 0, 0.5);
                 &:before {
                     position: absolute;
-                    top: 7px;
+                    top: 5px;
                     left: -14px;
-                    background-color: $background_color_2;
+                    background-color: rgba(0, 0, 0, 0.2);
                     width: 10px;
                     height: 10px;
                     content: '';
                     border-radius: 50%;
                 }
-            }
-            .status.is-online {
-                &:before {
-                    background-color: $background_color_3;
+                &.is-online {
+                    &:before {
+                        background-color: $color_lime500;
+                    }
+                }
+                &.is-away {
+                    &:before {
+                        background-color: $warning;
+                    }
+                }
+                &.is-busy {
+                    &:before {
+                        background-color: $danger;
+                    }
                 }
             }
         }
     }
-    .group-item.group-id-101 {
-        color: $color_4;
-    }
-    .group-item.group-id-102 {
-        color: $color_5;
-    }
-    .group-item.group-id-103 {
-        color: $color_6;
-    }
-    .group-item.group-id-104 {
-        color: $color_7;
-    }
-    .group-item.group-id-105 {
-        color: $color_8;
-    }
-    .group-item.group-id-106 {
-        color: $color_9;
-    }
-    .group-item.group-id-107 {
-        color: $color_10;
-    }
-    .group-item.group-id-108 {
-        color: $color_11;
+    .group-item {
+        &.group-id-101 {
+            color: $color_blue500;
+        }
+        &.group-id-102 {
+            color: $color_pink500;
+        }
+        &.group-id-103 {
+            color: $color_green500;
+        }
+        &.group-id-104 {
+            color: $color_lime500;
+        }
+        &.group-id-105 {
+            color: $color_orange500;
+        }
+        &.group-id-106 {
+            color: $color_lightBlue500;
+        }
+        &.group-id-107 {
+            color: $color_deepOrange500;
+        }
+        &.group-id-108 {
+            color: $color_indigo500;
+        }
     }
     .subscribed-groups {
         width: auto;
@@ -183,6 +181,41 @@
             font-size: 18px;
             padding: 4px 8px;
             animation: fadeIn 0.42s;
+        }
+    }
+}
+
+:local(.roleDialog) {
+    .group-item {
+        &.group-id-101 {
+            color: $color_blue500;
+        }
+        &.group-id-102 {
+            color: $color_pink500;
+        }
+        &.group-id-103 {
+            color: $color_green500;
+        }
+        &.group-id-104 {
+            color: $color_lime500;
+        }
+        &.group-id-105 {
+            color: $color_orange500;
+        }
+        &.group-id-106 {
+            color: $color_lightBlue500;
+        }
+        &.group-id-107 {
+            color: $color_deepOrange500;
+        }
+        &.group-id-108 {
+            color: $color_indigo500;
+        }
+    }
+    .modal-dialog {
+        width: 35vw;
+        @include media-breakpoint-down(sm, $grid-breakpoints) {
+            width: auto;
         }
     }
     .subscribe-box {
@@ -230,8 +263,8 @@
                 transform: scale(1.32);
             }
         }
-    }
-    .subscribe-box-group.is-inactive {
-        color: $color_12;
+        &.is-inactive {
+            color: #ddd;
+        }
     }
 }
