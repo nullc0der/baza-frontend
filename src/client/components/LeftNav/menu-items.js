@@ -70,54 +70,9 @@ module.exports = [
         href: '',
         children: [
             {
-                name: 'Hashtag Banner',
-                icon: 'fa fa-fw fa-dashboard',
-                href: ''
-            },
-            {
                 name: 'Messenger',
                 icon: 'fa fa-fw fa-comments',
-                href: ''
-            }
-        ]
-    },
-    {
-        name: 'Baza',
-        icon_type: 'image',
-        icon: '/public/img/baza_logo_gs.svg',
-        href: '',
-        children: [
-            {
-                name: 'Posts',
-                href: '/dashboard',
-                icon: 'fa fa-fw fa-life-ring'
-            },
-            {
-                name: 'Members',
-                href: '',
-                icon: 'fa fa-fw fa-shield',
-                children: [
-                    {
-                        name: 'Management',
-                        href: `/dashboard`,
-                        icon: 'fa fa-fw fa-users'
-                    }
-                ]
-            },
-            {
-                name: 'Distribution SignUps',
-                href: '/distribution-signup',
-                icon: 'fa fa-fw fa-list'
-            },
-            {
-                name: 'Coin Sale',
-                href: '/coinsale',
-                icon: 'fa fa-fw fa-tag'
-            },
-            {
-                name: 'Group Profile',
-                href: '/dashboard',
-                icon: 'fa fa-fw fa-cog'
+                href: '/messenger'
             }
         ]
     }

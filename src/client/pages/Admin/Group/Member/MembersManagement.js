@@ -1,9 +1,13 @@
 import React, { Component } from 'react'
 import classnames from 'classnames'
 import { connect } from 'react-redux'
+import { Redirect } from 'react-router-dom'
 import union from 'lodash/union'
+import isEmpty from 'lodash/isEmpty'
 
 import MemberItem from './MemberItem'
+
+import { isMember } from 'pages/Admin/Group/utils'
 
 import { actions as groupActions } from 'store/Group'
 
@@ -36,12 +40,15 @@ const MEMBER_ROLES = [
 
 class MembersManagement extends Component {
     state = {
-        list: []
+        list: [],
+        groupData: {}
     }
 
     componentDidMount = () => {
         const id = this.props.groupID
         this.props.getMembers(id)
+        this.props.changeLastSelectedGroup(id)
+        this.loadGroupData(id)
     }
 
     componentDidUpdate = prevProps => {
@@ -50,6 +57,20 @@ class MembersManagement extends Component {
             prevProps.onlineUsers !== this.props.onlineUsers
         ) {
             this.setUsers(this.props.list, this.props.onlineUsers)
+        }
+        if (prevProps.groups !== this.props.groups) {
+            this.loadGroupData(this.props.groupID)
+        }
+    }
+
+    loadGroupData = groupID => {
+        const group = this.props.groups.filter(x => x.id === Number(groupID))
+        if (group.length) {
+            this.setState({
+                groupData: group[0]
+            })
+        } else {
+            this.props.fetchGroup(groupID)
         }
     }
 
@@ -187,32 +208,41 @@ class MembersManagement extends Component {
         const cx = classnames(className, 'flex-vertical')
 
         return (
-            <div className={cx}>
-                <div className="panel-header">
-                    <div className="header-inner">
-                        <h4> Member Management </h4>
+            !isEmpty(this.state.groupData) &&
+            (isMember(this.state.groupData.user_permission_set) ? (
+                <div className={cx}>
+                    <div className="panel-header">
+                        <div className="header-inner">
+                            <h4> Member Management </h4>
+                        </div>
+                    </div>
+                    <div className="members-list">
+                        {this.state.list.map(this.renderOneMember)}
                     </div>
                 </div>
-                <div className="members-list">
-                    {this.state.list.map(this.renderOneMember)}
-                </div>
-            </div>
+            ) : (
+                <Redirect to="/403" />
+            ))
         )
     }
 }
 
 const mapStateToProps = state => ({
     list: state.Group.groupMembers,
-    onlineUsers: state.Users.onlineUsers
+    onlineUsers: state.Users.onlineUsers,
+    groups: state.Group.groups
 })
 
 const mapDispatchToProps = dispatch => ({
+    fetchGroup: groupID => dispatch(groupActions.fetchGroup(groupID)),
     getMembers: groupID => {
         dispatch(groupActions.fetchGroupMembers(groupID))
     },
     changeMemberRole: (groupID, data) => {
         dispatch(groupActions.changeMemberRole(groupID, data))
-    }
+    },
+    changeLastSelectedGroup: groupID =>
+        dispatch(groupActions.changeLastSelectedGroup(groupID))
 })
 
 export default connect(

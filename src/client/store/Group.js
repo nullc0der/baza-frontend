@@ -6,6 +6,8 @@ import * as GroupAPI from 'api/group'
 const INITIAL_STATE = {
     groups: [],
     groupMembers: [],
+    lastSelectedGroup: 0,
+    siteOwnerGroup: {},
     isLoading: false,
     hasError: null
 }
@@ -156,6 +158,32 @@ const changeMemberRoleError = err => ({
     error: err
 })
 
+const CHANGE_LAST_SELECTED_GROUP = createAction('CHANGE_LAST_SELECTED_GROUP')
+const changeLastSelectedGroup = groupID => ({
+    type: CHANGE_LAST_SELECTED_GROUP,
+    groupID
+})
+
+const FETCH_SITE_OWNER_GROUP = createAction('FETCH_SITE_OWNER_GROUP')
+const fetchSiteOwnerGroup = () => dispatch => {
+    return DispatchAPI(dispatch, GroupAPI.getSiteOwnerGroup(), {
+        success: fetchSiteOwnerGroupSuccess,
+        failure: fetchSiteOwnerGroupError
+    })
+}
+
+const FETCH_SITE_OWNER_GROUP_SUCCESS = createAction('FETCH_SITE_OWNER_GROUP_SUCCESS')
+const fetchSiteOwnerGroupSuccess = res => ({
+    type: FETCH_SITE_OWNER_GROUP_SUCCESS,
+    siteOwnerGroup: get(res, 'data', {})
+})
+
+const FETCH_SITE_OWNER_GROUP_ERROR = createAction('FETCH_SITE_OWNER_GROUP_ERROR')
+const fetchSiteOwnerGroupError = err => ({
+    type: FETCH_SITE_OWNER_GROUP_ERROR,
+    error: err
+})
+
 export const actions = {
     fetchGroups,
     createGroup,
@@ -163,7 +191,9 @@ export const actions = {
     editGroup,
     deleteGroup,
     fetchGroupMembers,
-    changeMemberRole
+    changeMemberRole,
+    changeLastSelectedGroup,
+    fetchSiteOwnerGroup
 }
 
 const getGroups = (groups, group) => {
@@ -179,6 +209,7 @@ export default function GroupReducer(state = INITIAL_STATE, action) {
         case DELETE_GROUP:
         case FETCH_GROUP_MEMBERS:
         case CHANGE_MEMBER_ROLE:
+        case FETCH_SITE_OWNER_GROUP:
             return {
                 ...state,
                 isLoading: true,
@@ -191,6 +222,7 @@ export default function GroupReducer(state = INITIAL_STATE, action) {
         case DELETE_GROUP_ERROR:
         case FETCH_GROUP_MEMBERS_ERROR:
         case CHANGE_MEMBER_ROLE_ERROR:
+        case FETCH_SITE_OWNER_GROUP_ERROR:
             return {
                 ...state,
                 isLoading: false,
@@ -232,6 +264,16 @@ export default function GroupReducer(state = INITIAL_STATE, action) {
                 groupMembers: state.groupMembers.map(x =>
                     x.user.id === action.data.user.id ? action.data : x
                 )
+            }
+        case CHANGE_LAST_SELECTED_GROUP:
+            return {
+                ...state,
+                lastSelectedGroup: Number(action.groupID)
+            }
+        case FETCH_SITE_OWNER_GROUP_SUCCESS:
+            return {
+                ...state,
+                siteOwnerGroup: action.siteOwnerGroup
             }
         default:
             return state

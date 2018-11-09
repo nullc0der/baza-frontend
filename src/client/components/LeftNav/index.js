@@ -1,21 +1,40 @@
 import React, { Component } from 'react'
 import get from 'lodash/get'
+import startsWith from 'lodash/startsWith'
 import classnames from 'classnames'
 import { connect } from 'react-redux'
 import { push } from 'react-router-redux'
 import { Link } from 'react-router-dom'
+
 import s from './LeftNav.scss'
 
+import MENU_ITEMS from './menu-items'
 import SidebarMenu from './SidebarMenu'
 
 import { actions as commonActions } from 'store/Common'
 import { actions as userProfileActions } from 'store/UserProfile'
+import { actions as groupActions } from 'store/Group'
 
 import Avatar from 'components/Avatar'
 
 class LeftNav extends Component {
     state = {
-        searchTerm: ''
+        searchTerm: '',
+        menuItems: []
+    }
+
+    componentDidMount = () => {
+        this.setMenuItems()
+    }
+
+    componentDidUpdate = prevProps => {
+        if (
+            prevProps.lastSelectedGroup !== this.props.lastSelectedGroup ||
+            prevProps.groups !== this.props.groups ||
+            prevProps.siteOwnerGroup !== this.props.siteOwnerGroup
+        ) {
+            this.setMenuItems()
+        }
     }
 
     toggleIfThin = () => {
@@ -23,6 +42,178 @@ class LeftNav extends Component {
         if (!this.props.open || w < 769) return
         console.log('should toggle the nav')
         this.props.onRequestToggle()
+    }
+
+    getGroupMenu = (permissions, id) => {
+        let menu = {
+            name: 'Groups',
+            icon: 'fa fa-fw fa-cube',
+            href: '',
+            children: []
+        }
+        if (permissions.indexOf(102) !== -1) {
+            menu = {
+                ...menu,
+                children: [
+                    ...menu.children,
+                    {
+                        name: 'Posts',
+                        href: `/community/2/groups/${id}/posts`,
+                        icon: 'fa fa-fw fa-life-ring'
+                    },
+                    {
+                        name: 'Members',
+                        href: `/community/2/groups/${id}/members`,
+                        icon: 'fa fa-fw fa-users'
+                    }
+                ]
+            }
+        }
+        if (
+            permissions.indexOf(103) !== -1 ||
+            permissions.indexOf(104) !== -1
+        ) {
+            menu = {
+                ...menu,
+                children: [
+                    ...menu.children,
+                    {
+                        name: 'Group Profile',
+                        href: `/community/2/groups/${id}/profile`,
+                        icon: 'fa fa-fw fa-cog'
+                    }
+                ]
+            }
+        }
+        if (menu.children.length === 0) {
+            menu = {}
+        }
+        return menu
+    }
+
+    getSiteOwnerGroupMenu = data => {
+        let menu = {
+            name: 'Baza',
+            icon_type: 'image',
+            icon: '/public/img/baza_logo_gs.svg',
+            href: '',
+            children: []
+        }
+        if (data) {
+            const permissions = data.user_permission_set
+            const id = data.id
+            if (permissions.indexOf(102) !== -1) {
+                menu = {
+                    ...menu,
+                    children: [
+                        ...menu.children,
+                        {
+                            name: 'Posts',
+                            href: `/community/2/groups/${id}/posts`,
+                            icon: 'fa fa-fw fa-life-ring'
+                        },
+                        {
+                            name: 'Members',
+                            href: `/community/2/groups/${id}/members`,
+                            icon: 'fa fa-fw fa-users'
+                        },
+                        {
+                            name: 'Coin Sale',
+                            href: '/coinsale',
+                            icon: 'fa fa-fw fa-tag'
+                        }
+                    ]
+                }
+            }
+            if (permissions.indexOf(105) !== -1) {
+                menu = {
+                    ...menu,
+                    children: [
+                        ...menu.children,
+                        {
+                            name: 'Distribution Signups',
+                            href: '/distribution-signup',
+                            icon: 'fa fa-fw fa-list'
+                        }
+                    ]
+                }
+            }
+            if (
+                permissions.indexOf(103) !== -1 ||
+                permissions.indexOf(104) !== -1
+            ) {
+                menu = {
+                    ...menu,
+                    children: [
+                        ...menu.children,
+                        {
+                            name: 'Group Profile',
+                            href: `/community/2/groups/${id}/profile`,
+                            icon: 'fa fa-fw fa-cog'
+                        }
+                    ]
+                }
+            }
+        } else {
+            menu = {}
+        }
+        return menu
+    }
+
+    setMenuItems = () => {
+        let menuItems = MENU_ITEMS
+        if (this.props.siteOwnerGroup) {
+            menuItems = [
+                ...menuItems,
+                this.getSiteOwnerGroupMenu(this.props.siteOwnerGroup)
+            ]
+        } else {
+            this.props.fetchSiteOwnerGroup()
+        }
+        if (this.props.lastSelectedGroup) {
+            const group = this.props.groups.filter(
+                x => x.id === this.props.lastSelectedGroup
+            )
+            if (group.length) {
+                menuItems = [
+                    ...menuItems,
+                    this.getGroupMenu(group[0].user_permission_set, group[0].id)
+                ]
+            } else {
+                this.props.fetchGroup(this.props.lastSelectedGroup)
+            }
+        }
+        this.setState({
+            menuItems
+        })
+    }
+
+    setSearchedMenuItems = searchTerm => {
+        if (searchTerm.length) {
+            let menuItems = {
+                name: 'Search',
+                icon: 'fa fa-fw fa-search',
+                href: '/admin/',
+                children: []
+            }
+            for (const menuItem of this.state.menuItems) {
+                const matches = menuItem.children.filter(x =>
+                    startsWith(x.name.toLowerCase(), searchTerm)
+                )
+                menuItems = {
+                    ...menuItems,
+                    children: [...menuItems.children, ...matches]
+                }
+            }
+            if (menuItems.children.length) {
+                this.setState({
+                    selectedItemIndex: 0,
+                    menuItems: [menuItems]
+                })
+            }
+        } else {
+            this.setMenuItems()
+        }
     }
 
     render() {
@@ -90,7 +281,7 @@ class LeftNav extends Component {
                             className="search-input no-outline"
                             placeholder="Search..."
                             onChange={e =>
-                                this.setState({ searchTerm: e.target.value })
+                                this.setSearchedMenuItems(e.target.value)
                             }
                         />
                         <span className="search-icon">
@@ -101,7 +292,7 @@ class LeftNav extends Component {
                 <SidebarMenu
                     navigateTo={this.props.navigateTo}
                     className="sidebar-menu"
-                    searchTerm={this.state.searchTerm}
+                    menuItems={this.state.menuItems}
                 />
             </div>
         )
@@ -111,7 +302,10 @@ class LeftNav extends Component {
 const mapStateToProps = state => ({
     breadcrumbs: state.Common.breadcrumbs,
     profile: state.UserProfile.profile,
-    userStatus: state.UserProfile.userStatus
+    userStatus: state.UserProfile.userStatus,
+    lastSelectedGroup: state.Group.lastSelectedGroup,
+    groups: state.Group.groups,
+    siteOwnerGroup: state.Group.siteOwnerGroup
 })
 
 const mapDispatchToProps = dispatch => ({
@@ -123,6 +317,12 @@ const mapDispatchToProps = dispatch => ({
     },
     setUserStatus(status) {
         return dispatch(userProfileActions.setUserStatus(status))
+    },
+    fetchGroup(groupID) {
+        return dispatch(groupActions.fetchGroup(groupID))
+    },
+    fetchSiteOwnerGroup() {
+        return dispatch(groupActions.fetchSiteOwnerGroup())
     }
 })
 

@@ -5,6 +5,11 @@ export const getGroups = () => {
     return jsonAPI(api => api.get(url))
 }
 
+export const getSiteOwnerGroup = () => {
+    const url = '/groups/siteownergroup/'
+    return jsonAPI(api => api.get(url))
+}
+
 export const createGroup = data => {
     const url = '/groups/create/'
     return jsonAPI(api => api.post(url, data))

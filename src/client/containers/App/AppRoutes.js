@@ -4,6 +4,7 @@ import { Switch, Route } from 'react-router-dom'
 import HomePage from 'pages/HomePage'
 import SignUpPage from 'pages/SignUp'
 import NotFoundPage from 'pages/NotFoundPage'
+import ForbiddenPage from 'pages/ForbiddenPage'
 import EmailVerificationPage from 'pages/SignUp/EmailVerification'
 import ForgotPasswordPage from 'pages/SignUp/ForgotPasswordPage'
 import AddSocialEmailPage from 'pages/SignUp/AddSocialEmailPage'
@@ -16,6 +17,7 @@ const AppRoutes = location => (
         <Route path="/" exact component={HomePage} />
         <Route path="/signup" exact component={SignUpPage} />
         <Route path="/404" exact component={NotFoundPage} />
+        <Route path="/403" exact component={ForbiddenPage} />
         <Route
             path="/validateemail/:validationKey/"
             exact
@@ -35,8 +37,8 @@ const AppRoutes = location => (
         <Route path="/distribution-signup" component={AdminContainer} />
         <Route path="/dashboard" component={AdminContainer} />
         <Route path="/community/2/members" component={AdminContainer} />
-        <Route path="/messenger" component={AdminContainer} />
         <Route path="/community/2/groups" component={AdminContainer} />
+        <Route path="/messenger" component={AdminContainer} />
         <Route component={NotFoundPage} />
     </Switch>
 )
