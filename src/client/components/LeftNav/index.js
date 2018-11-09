@@ -125,7 +125,7 @@ class LeftNav extends Component {
                     ]
                 }
             }
-            if (permissions.indexOf(105) !== -1) {
+            if (permissions.indexOf(106) !== -1) {
                 menu = {
                     ...menu,
                     children: [

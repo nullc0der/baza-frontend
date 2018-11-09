@@ -7,5 +7,5 @@ export const isMember = permissions => {
 }
 
 export const isStaff = permissions => {
-    return permissions.indexOf(105) !== -1
+    return permissions.indexOf(106) !== -1
 }

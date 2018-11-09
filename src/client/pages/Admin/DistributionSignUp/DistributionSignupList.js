@@ -1,7 +1,11 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
+import { Redirect } from 'react-router-dom'
 import classnames from 'classnames'
 import { connect } from 'react-redux'
 import union from 'lodash/union'
+import isEmpty from 'lodash/isEmpty'
+
+import { isStaff } from 'pages/Admin/Group/utils'
 
 import { actions as distributionSignupActions } from 'store/DistributionSignUp'
 import s from './DistributionSignUp.scss'
@@ -77,26 +81,39 @@ class DistributionSignUpList extends Component {
         const cx = classnames(s.signuplist)
 
         return (
-            <div className={cx}>
-                <div className="header">Signups</div>
-                <div className="list">
-                    {this.state.signupList.map((item, i) => (
-                        <div
-                            key={i}
-                            className={`item ${item.id_ ===
-                                this.props.selectedID && 'is-active'}`}
-                            onClick={e => this.onSidebarItemClick(e, item.id_)}>
-                            <div className="avatar" />
-                            <div className="info">
-                                <div className="username">{item.username}</div>
-                                <div className="status text-capitalize">
-                                    {item.status}
-                                </div>
+            !isEmpty(this.props.siteOwnerGroup) && (
+                <div className={cx}>
+                    {isStaff(this.props.siteOwnerGroup.user_permission_set) ? (
+                        <Fragment>
+                            <div className="header">Signups</div>
+                            <div className="list">
+                                {this.state.signupList.map((item, i) => (
+                                    <div
+                                        key={i}
+                                        className={`item ${item.id_ ===
+                                            this.props.selectedID &&
+                                            'is-active'}`}
+                                        onClick={e =>
+                                            this.onSidebarItemClick(e, item.id_)
+                                        }>
+                                        <div className="avatar" />
+                                        <div className="info">
+                                            <div className="username">
+                                                {item.username}
+                                            </div>
+                                            <div className="status text-capitalize">
+                                                {item.status}
+                                            </div>
+                                        </div>
+                                    </div>
+                                ))}
                             </div>
-                        </div>
-                    ))}
+                        </Fragment>
+                    ) : (
+                        <Redirect to="/403" />
+                    )}
                 </div>
-            </div>
+            )
         )
     }
 }
@@ -105,7 +122,8 @@ const mapStateToProps = state => ({
     signupList: state.DistributionSignUp.signupList,
     selectedID: state.DistributionSignUp.selectedID,
     searchString: state.Common.subHeaderSearchString,
-    filters: state.Common.subHeaderFilters
+    filters: state.Common.subHeaderFilters,
+    siteOwnerGroup: state.Group.siteOwnerGroup
 })
 
 const mapDispatchProps = dispatch => ({
