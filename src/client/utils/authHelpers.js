@@ -5,7 +5,7 @@ import { actions as authActions } from 'store/Auth'
 
 const baseURL =
     process.env.NODE_ENV === 'development'
-        ? 'http://localhost:8000/api/v1/auth/'
+        ? 'https://api.baza.foundation/api/v1/auth/'
         : '/api/v1/auth/'
 
 const api = create({

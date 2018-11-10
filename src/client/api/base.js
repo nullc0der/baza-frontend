@@ -1,11 +1,15 @@
 import { create } from 'apisauce'
-
 import Auth from 'utils/authHelpers'
 
 const debug = require('debug')('baza:api:base')
 
+export const mockAPI = create({
+    baseURL: '/api/v1',
+    headers: { Accept: 'application/json' }
+})
+
 const api = create({
-    baseURL: process.env.NODE_ENV === 'development' ? '/api/v1' : '/api/v1',
+    baseURL: 'https://api.baza.foundation/api/v1',
     headers: {
         Accept: 'application/json'
     }
@@ -17,19 +21,21 @@ const rejectIfResponseNotOK = response => {
         : Promise.reject(response.data)
 }
 
-export const formAPI = function(createRequestPromise) {
+export const formAPI = function (createRequestPromise, options = { mock: false }) {
     if (typeof createRequestPromise !== 'function') {
         throw new Error('Callback should be a function')
     }
 
-    api.setHeader('Content-Type', 'multipart/form-data')
+    const API = options.mock ? mockAPI : api
+
+    API.setHeader('Content-Type', 'multipart/form-data')
 
     if (Auth.isAuthenticated()) {
-        api.setHeader('Authorization', `Bearer ${Auth.getToken()}`)
+        API.setHeader('Authorization', `Bearer ${Auth.getToken()}`)
     }
 
     debug('Loader Start')
-    return Promise.resolve(api)
+    return Promise.resolve(API)
         .then(createRequestPromise)
         .then(response => {
             debug('Loader stop')
@@ -37,19 +43,21 @@ export const formAPI = function(createRequestPromise) {
         })
 }
 
-export const jsonAPI = function(createRequestPromise) {
+export const jsonAPI = function (createRequestPromise, options = { mock: false }) {
     if (typeof createRequestPromise !== 'function') {
         throw new Error('Callback should be a function')
     }
 
-    api.setHeader('Content-Type', 'application/json')
+    const API = options.mock ? mockAPI : api
+
+    API.setHeader('Content-Type', 'application/json')
 
     if (Auth.isAuthenticated()) {
-        api.setHeader('Authorization', `Bearer ${Auth.getToken()}`)
+        API.setHeader('Authorization', `Bearer ${Auth.getToken()}`)
     }
 
     debug('Loader start')
-    return Promise.resolve(api)
+    return Promise.resolve(API)
         .then(createRequestPromise)
         .then(response => {
             debug('Loader stop')
