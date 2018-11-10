@@ -139,40 +139,6 @@ if (IS_DEV) {
 if (IS_PROD) {
     config.entry.vendors = [PATHS.SRC_CLIENT + '/vendors.js']
     config.plugins = [
-        new webpack.optimize.CommonsChunkPlugin({
-            name: ['vendors', 'manifest'],
-            filename: '[name].[chunkhash:8].bundle.js',
-            minChunks: Infinity
-        }),
-        new webpack.optimize.UglifyJsPlugin({
-            beautify: false,
-            mangle: {
-                screw_ie8: true,
-                keep_fnames: true
-            },
-            compress: {
-                warnings: false,
-                comparisons: false,
-                booleans: true,
-                conditionals: true,
-                dead_code: true,
-                drop_console: true,
-                drop_debugger: true,
-                evaluate: true,
-                join_vars: true,
-                screw_ie8: true,
-                sequences: true,
-                unused: true,
-                keep_infinity: true
-            },
-            output: {
-                comments: false,
-                ascii_only: true
-            },
-            comments: false,
-            sourceMap: true
-        }),
-
         new MiniCssExtractPlugin({
             filename: '[name].[contenthash].bundle.css',
             chunkFilename: '[name].[contenthash].chunk.[id].css'
@@ -212,20 +178,20 @@ config.optimization = {
 
 
 if (IS_PROD) {
-  // Combine css assets into one
-  config.optimization.splitChunks.cacheGroups.styles = {
-    name: 'styles',
-    test: /\.css$/,
-    chunks: 'all',
-    enforce: true
-  }
+    // Combine css assets into one
+    config.optimization.splitChunks.cacheGroups.styles = {
+        name: 'styles',
+        test: /\.css$/,
+        chunks: 'all',
+        enforce: true
+    }
 }
 
 // Turn off performance hints during development because we don't do any
 // splitting or minification in interest of speed. These warnings become
 // cumbersome.
 config.performance = {
-  hints: envOption('warning', false, false)
+    hints: envOption('warning', false, false)
 }
 
 

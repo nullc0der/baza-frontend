@@ -112,7 +112,7 @@ if (IS_DEV) {
 // Production specific plugins
 if (IS_PROD) {
   config.plugins.concat([
-    new webpack.optimize.UglifyJsPlugin({ compress: { warnings: false } })
+    // add prod plugins here
   ])
 }
 
