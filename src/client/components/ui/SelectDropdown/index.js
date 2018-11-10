@@ -21,12 +21,8 @@ export default class SelectDropdown extends Component {
 
     static defaultProps = {
         items: [],
-        itemRenderer: this.defaultItemRenderer,
+        itemRenderer: function itemRenderer(item, index) { return item.label },
         label: 'Select Dropdown Label'
-    }
-
-    defaultItemRenderer = (item, index) => {
-        return item.label
     }
 
     renderOneDropdownItem = (item, index) => {

@@ -156,7 +156,7 @@ gulp.task('dev', cb => {
     run_seq(
         'clean',
         'copy',
-        'build:dll',
+        // 'build:dll',
         'build:client',
         'build:server',
         'sync:server',

@@ -3,8 +3,8 @@ const webpack = require('webpack')
 const ModuleScopePlugin = require('react-dev-utils/ModuleScopePlugin')
 const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin')
 const WatchMissingNodeModulesPlugin = require('react-dev-utils/WatchMissingNodeModulesPlugin')
-
-const ExtractTextPlugin = require('extract-text-webpack-plugin')
+const MiniCssExtractPlugin = require('mini-css-extract-plugin')
+const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin')
 const ManifestPlugin = require('webpack-manifest-plugin')
 
 const PATHS = require('./paths')
@@ -23,6 +23,7 @@ const config = {}
 
 // Don't build in case of errors, on prod
 config.bail = IS_PROD
+config.mode = IS_PROD ? 'production' : 'development'
 
 // Devtool
 config.devtool = envOption(false, 'cheap-module-source-map', false)
@@ -119,16 +120,15 @@ if (IS_DEV) {
         new webpack.NoEmitOnErrorsPlugin(),
         new WatchMissingNodeModulesPlugin(PATHS.NODE_MODULES),
 
-        new webpack.DllReferencePlugin({
-            context: PATHS.SRC_CLIENT,
-            manifest: PATHS.BUILD_PUBLIC + '/vendor-manifest.json'
-        }),
+        // new webpack.DllReferencePlugin({
+        //     context: PATHS.SRC_CLIENT,
+        //     manifest: PATHS.BUILD_PUBLIC + '/vendor-manifest.json'
+        // }),
 
         ...config.plugins
     ]
 
     config.entry.main = [
-        require.resolve('react-hot-loader/patch'),
         // require.resolve('webpack-hot-middleware/client'),
         require.resolve('react-dev-utils/webpackHotDevClient'),
         require.resolve('react-error-overlay'),
@@ -173,10 +173,20 @@ if (IS_PROD) {
             sourceMap: true
         }),
 
-        new ExtractTextPlugin({
-            filename: 'main.[contenthash:8].bundle.css',
-            allChunks: true
+        new MiniCssExtractPlugin({
+            filename: '[name].[contenthash].bundle.css',
+            chunkFilename: '[name].[contenthash].chunk.[id].css'
         }),
+        new OptimizeCssAssetsPlugin({
+            assetNameRegExp: /\.optimize\.css$/g,
+            cssProcessor: require('cssnano'),
+            cssProcessorOptions: { discardComments: { removeAll: true } },
+            canPrint: true
+        }),
+        // new InjectManifest({
+        // swSrc: path.join(PATHS.SRC_CLIENT, 'sw.js'),
+        // swDest: path.join(PATHS.BUILD_PUBLIC, 'sw.js')
+        // }),
 
         // Enables scope hoisting -> faster parsing time
         new webpack.optimize.ModuleConcatenationPlugin(),
@@ -184,6 +194,40 @@ if (IS_PROD) {
         ...config.plugins
     ]
 }
+
+config.optimization = {
+    runtimeChunk: false,
+    splitChunks: {
+        name: true,
+        cacheGroups: {
+            vendors: {
+                test: /\/node_modules\//,
+                name: 'vendors',
+                minChunks: 3
+            }
+        }
+    }
+}
+
+
+
+if (IS_PROD) {
+  // Combine css assets into one
+  config.optimization.splitChunks.cacheGroups.styles = {
+    name: 'styles',
+    test: /\.css$/,
+    chunks: 'all',
+    enforce: true
+  }
+}
+
+// Turn off performance hints during development because we don't do any
+// splitting or minification in interest of speed. These warnings become
+// cumbersome.
+config.performance = {
+  hints: envOption('warning', false, false)
+}
+
 
 ////////////
 // OTHERS //
