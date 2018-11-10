@@ -8,7 +8,7 @@
     .progress {
         .progress-bar {
             border-radius: $progress-border-radius;
-            @include animate-progress-bar(10s);
+            @include animate-progress-bar();
         }
     }
 
@@ -21,10 +21,34 @@
         font-weight: $font-weight-bold;
     }
 
+    .tooltip-value, .tooltip-max-value {
+        margin-left: -40px;
+        .tooltip-inner {
+            box-shadow: 0 5px 40px 0 rgba(0,0,0,0.1);
+        }
+    }
+    // .tooltip-max-value .arrow {
+    //     right: 10px;
+    //     left: initial;
+    // }
+    .tooltip-value {
+        top: 20px;
+    }
+    .tooltip-max-value {
+        .tooltip-inner {
+            min-width: 120px;
+        }
+    }
     .max-value {
         position: absolute;
-        right: 0;
+        right: 50px;
+        top: -84px;
         margin-right: map-get($spacers, 3);
         align-self: center;
+    }
+    @include  media-breakpoint-down(sm, $grid-breakpoints) {
+        .tooltip-max-value {
+            margin-left: -40px;
+        }
     }
 }

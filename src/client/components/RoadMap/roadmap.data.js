@@ -50,15 +50,15 @@ module.exports = [
         title: 'Feature Expansion / Marketplace',
         date: '2019-Q2',
         status: 'pending'
+    },
+    {
+        title: 'Series B ICO',
+        date: '2019-Q3',
+        status: 'pending'
+    },
+    {
+        title: 'Full Board / Full Decentral Platform',
+        date: '2019-Q4',
+        status: 'pending'
     }
-    // {
-    //     title: 'Series B ICO',
-    //     date: '2019-Q3',
-    //     status: 'pending'
-    // },
-    // {
-    //     title: 'Full Board / Full Decentral Platform',
-    //     date: '2019-Q4',
-    //     status: 'pending'
-    // }
 ]

@@ -79,6 +79,9 @@
         text-align: center;
         position: relative;
     }
+    .carousel-item-content .underline-center {
+        margin-top: map-get($spacers, 2);
+    }
     .carousel-item,
     .carousel-inner {
         height: 100%;

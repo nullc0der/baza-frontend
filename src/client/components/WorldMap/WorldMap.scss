@@ -1,0 +1,29 @@
+@import 'ui';
+
+@keyframes animate-opacity {
+    0% {
+        opacity: 0.4;
+    }
+    40% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0.4;
+    }
+}
+
+:local(.container) {
+    position: relative;
+    .rsm-geography {
+        outline: none;
+    }
+}
+
+.map-tooltip {
+    position: absolute;
+    pointer-events: none;
+    background-color: #fff;
+    padding: 4px 8px;
+    border-radius: 3px;
+    @include _shadow-2();
+}

@@ -38,6 +38,19 @@ $ui-progress-border-radius: 14px;
         font-weight: $font-weight-semibold;
         color: rgba($dark, 0.5);
         top: 4px;
+        @include media-breakpoint-down(sm, $grid-breakpoints) {
+            display: none;
+        }
+    }
+    .ui-progress-progress-text {
+        @include media-breakpoint-down(sm, $grid-breakpoints) {
+            display: none;
+        }
+    }
+    .ui-progress-progress-sm-text {
+        @include media-breakpoint-up(md, $grid-breakpoints) {
+            display: none;
+        }
     }
     .ui-progress-tooltip {
         position: absolute;
@@ -65,6 +78,11 @@ $ui-progress-border-radius: 14px;
             bottom: 30px;
             content: '\f078';
         }
+        @include media-breakpoint-down(sm, $grid-breakpoints) {
+            top: -90px;
+            width: 150px;
+            margin-right: -30px;
+        }
     }
     .end-tooltip {
         bottom: -50px;
@@ -75,6 +93,9 @@ $ui-progress-border-radius: 14px;
         &:after {
             top: 30px;
             content: '\f077';
+        }
+        @include media-breakpoint-down(sm, $grid-breakpoints) {
+            bottom: -75px;
         }
     }
     @include media-breakpoint-down(sm, $grid-breakpoints) {
