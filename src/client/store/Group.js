@@ -6,6 +6,7 @@ import * as GroupAPI from 'api/group'
 const INITIAL_STATE = {
     groups: [],
     groupMembers: [],
+    groupNotifications: [],
     lastSelectedGroup: 0,
     siteOwnerGroup: {},
     isLoading: false,
@@ -172,15 +173,127 @@ const fetchSiteOwnerGroup = () => dispatch => {
     })
 }
 
-const FETCH_SITE_OWNER_GROUP_SUCCESS = createAction('FETCH_SITE_OWNER_GROUP_SUCCESS')
+const FETCH_SITE_OWNER_GROUP_SUCCESS = createAction(
+    'FETCH_SITE_OWNER_GROUP_SUCCESS'
+)
 const fetchSiteOwnerGroupSuccess = res => ({
     type: FETCH_SITE_OWNER_GROUP_SUCCESS,
     siteOwnerGroup: get(res, 'data', {})
 })
 
-const FETCH_SITE_OWNER_GROUP_ERROR = createAction('FETCH_SITE_OWNER_GROUP_ERROR')
+const FETCH_SITE_OWNER_GROUP_ERROR = createAction(
+    'FETCH_SITE_OWNER_GROUP_ERROR'
+)
 const fetchSiteOwnerGroupError = err => ({
     type: FETCH_SITE_OWNER_GROUP_ERROR,
+    error: err
+})
+
+const FETCH_GROUP_NOTIFICATIONS = createAction('FETCH_GROUP_NOTIFICATIONS')
+const fetchGroupNotifications = groupID => dispatch => {
+    return DispatchAPI(dispatch, GroupAPI.fetchGroupNotifications(groupID), {
+        success: fetchGroupNotificationsSuccess,
+        failure: fetchGroupNotificationsError
+    })
+}
+
+const FETCH_GROUP_NOTIFICATIONS_SUCCESS = createAction(
+    'FETCH_GROUP_NOTIFICATIONS_SUCCESS'
+)
+const fetchGroupNotificationsSuccess = res => ({
+    type: FETCH_GROUP_NOTIFICATIONS_SUCCESS,
+    groupNotifications: get(res, 'data', {})
+})
+
+const FETCH_GROUP_NOTIFICATIONS_ERROR = createAction(
+    'FETCH_GROUP_NOTIFICATIONS_ERROR'
+)
+const fetchGroupNotificationsError = err => ({
+    type: FETCH_GROUP_NOTIFICATIONS_ERROR,
+    error: err
+})
+
+const CREATE_GROUP_NOTIFICATION = createAction('CREATE_GROUP_NOTIFICATION')
+const createGroupNotification = (groupID, data) => dispatch => {
+    return DispatchAPI(
+        dispatch,
+        GroupAPI.createGroupNotification(groupID, data),
+        {
+            success: createGroupNotificationSuccess,
+            failure: createGroupNotificationError
+        }
+    )
+}
+
+const CREATE_GROUP_NOTIFICATION_SUCCESS = createAction(
+    'CREATE_GROUP_NOTIFICATION_SUCCESS'
+)
+const createGroupNotificationSuccess = res => ({
+    type: CREATE_GROUP_NOTIFICATION_SUCCESS,
+    groupNotification: get(res, 'data', {})
+})
+
+const CREATE_GROUP_NOTIFICATION_ERROR = createAction(
+    'CREATE_GROUP_NOTIFICATION_ERROR'
+)
+const createGroupNotificationError = err => ({
+    type: CREATE_GROUP_NOTIFICATION_ERROR,
+    error: err
+})
+
+const EDIT_GROUP_NOTIFICATION = createAction('EDIT_GROUP_NOTIFICATION')
+const editGroupNotification = (groupID, data) => dispatch => {
+    return DispatchAPI(
+        dispatch,
+        GroupAPI.editGroupNotification(groupID, data),
+        {
+            success: editGroupNotificationSuccess,
+            failure: editGroupNotificationError
+        }
+    )
+}
+
+const EDIT_GROUP_NOTIFICATION_SUCCESS = createAction(
+    'EDIT_GROUP_NOTIFICATION_SUCCESS'
+)
+const editGroupNotificationSuccess = res => ({
+    type: EDIT_GROUP_NOTIFICATION_SUCCESS,
+    groupNotification: get(res, 'data', {})
+})
+
+const EDIT_GROUP_NOTIFICATION_ERROR = createAction(
+    'EDIT_GROUP_NOTIFICATION_ERROR'
+)
+const editGroupNotificationError = err => ({
+    type: EDIT_GROUP_NOTIFICATION_ERROR,
+    error: err
+})
+
+const DELETE_GROUP_NOTIFICATION = createAction('DELETE_GROUP_NOTIFICATION')
+const deleteGroupNotification = (groupID, data) => dispatch => {
+    return DispatchAPI(
+        dispatch,
+        GroupAPI.deleteGroupNotification(groupID, data),
+        {
+            success: deleteGroupNotificationSuccess,
+            failure: deleteGroupNotificationError
+        }
+    )
+}
+
+const DELETE_GROUP_NOTIFICATION_SUCCESS = createAction(
+    'DELETE_GROUP_NOTIFICATION_SUCCESS'
+)
+const deleteGroupNotificationSuccess = res => ({
+    type: DELETE_GROUP_NOTIFICATION_SUCCESS,
+    groupNotificationID: get(res, 'data', -1)
+})
+
+const DELETE_GROUP_NOTIFICATION_ERROR = createAction(
+    'DELETE_GROUP_NOTIFICATION_ERROR'
+)
+const deleteGroupNotificationError = err => ({
+    type: DELETE_GROUP_NOTIFICATION_ERROR,
     error: err
 })
 
@@ -193,7 +306,11 @@ export const actions = {
     fetchGroupMembers,
     changeMemberRole,
     changeLastSelectedGroup,
-    fetchSiteOwnerGroup
+    fetchSiteOwnerGroup,
+    fetchGroupNotifications,
+    createGroupNotification,
+    editGroupNotification,
+    deleteGroupNotification
 }
 
 const getGroups = (groups, group) => {
@@ -210,6 +327,10 @@ export default function GroupReducer(state = INITIAL_STATE, action) {
         case FETCH_GROUP_MEMBERS:
         case CHANGE_MEMBER_ROLE:
         case FETCH_SITE_OWNER_GROUP:
+        case FETCH_GROUP_NOTIFICATIONS:
+        case CREATE_GROUP_NOTIFICATION:
+        case EDIT_GROUP_NOTIFICATION:
+        case DELETE_GROUP_NOTIFICATION:
             return {
                 ...state,
                 isLoading: true,
@@ -223,6 +344,10 @@ export default function GroupReducer(state = INITIAL_STATE, action) {
         case FETCH_GROUP_MEMBERS_ERROR:
         case CHANGE_MEMBER_ROLE_ERROR:
         case FETCH_SITE_OWNER_GROUP_ERROR:
+        case FETCH_GROUP_NOTIFICATIONS_ERROR:
+        case CREATE_GROUP_NOTIFICATION_ERROR:
+        case EDIT_GROUP_NOTIFICATION_ERROR:
+        case DELETE_GROUP_NOTIFICATION_ERROR:
             return {
                 ...state,
                 isLoading: false,
@@ -274,6 +399,37 @@ export default function GroupReducer(state = INITIAL_STATE, action) {
             return {
                 ...state,
                 siteOwnerGroup: action.siteOwnerGroup
+            }
+        case FETCH_GROUP_NOTIFICATIONS_SUCCESS:
+            return {
+                ...state,
+                groupNotifications: action.groupNotifications
+            }
+        case CREATE_GROUP_NOTIFICATION_SUCCESS:
+            return {
+                ...state,
+                groupNotifications: [
+                    ...state.groupNotifications,
+                    action.groupNotification
+                ]
+            }
+        case EDIT_GROUP_NOTIFICATION_SUCCESS:
+            return {
+                ...state,
+                groupNotifications: state.groupNotifications.map(x =>
+                    x.id === action.groupNotification.id
+                        ? action.groupNotification
+                        : x
+                )
+            }
+        case DELETE_GROUP_NOTIFICATION_SUCCESS:
+            const groupNotificationID =
+                action.groupNotificationID.notification_id
+            return {
+                ...state,
+                groupNotifications: state.groupNotifications.filter(
+                    x => x.id !== Number(groupNotificationID)
+                )
             }
         default:
             return state

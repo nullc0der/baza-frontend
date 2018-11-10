@@ -93,4 +93,38 @@
             }
         }
     }
+    .notifications-section {
+        .notifications {
+            min-height: 320px;
+            .notification {
+                color: #878787;
+                padding: 5px;
+                border-bottom: 1px solid #eee;
+                position: relative;
+                &:hover {
+                    .actions {
+                        display: inline;
+                    }
+                }
+                span,
+                p {
+                    color: inherit;
+                }
+                p {
+                    margin: 0;
+                }
+                .actions {
+                    position: absolute;
+                    top: 10px;
+                    right: 0;
+                    display: none;
+                    i {
+                        cursor: pointer;
+                        margin-left: 10px;
+                        font-size: 20px;
+                    }
+                }
+            }
+        }
+    }
 }

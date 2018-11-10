@@ -39,3 +39,23 @@ export const changeGroupMemberRole = (groupID, data) => {
     const url = `/groups/${groupID}/members/changerole/`
     return jsonAPI(api => api.post(url, data))
 }
+
+export const fetchGroupNotifications = groupID => {
+    const url = `/groups/${groupID}/notifications/`
+    return jsonAPI(api => api.get(url))
+}
+
+export const createGroupNotification = (groupID, data) => {
+    const url = `/groups/${groupID}/notifications/`
+    return jsonAPI(api => api.post(url, data))
+}
+
+export const editGroupNotification = (groupID, data) => {
+    const url = `/groups/${groupID}/notifications/`
+    return jsonAPI(api => api.put(url, data))
+}
+
+export const deleteGroupNotification = (groupID, data) => {
+    const url = `/groups/${groupID}/notifications/`
+    return jsonAPI(api => api.delete(url, data))
+}

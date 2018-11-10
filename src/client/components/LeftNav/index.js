@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import get from 'lodash/get'
+import isEmpty from 'lodash/isEmpty'
 import startsWith from 'lodash/startsWith'
 import classnames from 'classnames'
 import { connect } from 'react-redux'
@@ -162,7 +163,7 @@ class LeftNav extends Component {
 
     setMenuItems = () => {
         let menuItems = MENU_ITEMS
-        if (this.props.siteOwnerGroup) {
+        if (!isEmpty(this.props.siteOwnerGroup)) {
             menuItems = [
                 ...menuItems,
                 this.getSiteOwnerGroupMenu(this.props.siteOwnerGroup)

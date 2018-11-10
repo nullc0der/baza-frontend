@@ -126,7 +126,7 @@ export default class ProfileTabs extends Component {
                             }
                             deleteGroup={() => this.props.deleteGroup(group.id)}
                         />
-                        <Notification />
+                        <Notification groupID={group.id} />
                     </SwipeableViews>
                 </CardBody>
             </Card>
