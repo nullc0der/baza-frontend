@@ -2,9 +2,10 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import Raven from 'raven-js'
+// import { AppContainer } from 'react-hot-loader'
 // import { BrowserRouter } from "react-router-dom";
 
-import { configureStore, loadLocalState } from './store/index'
+import { configureStore, loadLocalState, saveLocalState } from './store/index'
 
 import createHistory from 'history/createBrowserHistory'
 // import {ConnectedRouter} from 'react-router-redux'
@@ -27,9 +28,9 @@ const finalState = { ...localState, ...initialState }
 const store = configureStore(finalState, history)
 
 //Save a local copy whenever store changes
-// store.subscribe(() => {
-//     saveLocalState(store.getState())
-// })
+store.subscribe(() => {
+    saveLocalState(store.getState())
+})
 
 // Usually you'd want to remove server copy of minimum css in SSR here
 // you also can do your post initialization tasks here,

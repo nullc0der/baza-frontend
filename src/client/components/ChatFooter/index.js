@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import classnames from 'classnames'
-import 'emoji-mart/css/emoji-mart.css'
 import { Picker } from 'emoji-mart'
 
 import Dialog from 'components/ui/Dialog'

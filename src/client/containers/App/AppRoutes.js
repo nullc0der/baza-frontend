@@ -9,7 +9,7 @@ import ForgotPasswordPage from 'pages/SignUp/ForgotPasswordPage'
 import AddSocialEmailPage from 'pages/SignUp/AddSocialEmailPage'
 import TwoFactorPage from 'pages/SignUp/TwoFactorPage'
 
-import AdminContainer from 'containers/AdminContainer'
+import AdminContainer from 'containers/AdminContainer/index'
 
 const AppRoutes = location => (
     <Switch location={location}>
