@@ -3,8 +3,9 @@ extends layout
 block preload
     if is_prod
         link(rel='preload' as='script' href='/public/vendor/jquery/jquery.js')
+        link(rel='preload' as='style' href= webpack_assets['styles.css'])
         link(rel='preload' as='style'  href= webpack_assets['main.css'])
-        link(rel='preload' as='script' href= webpack_assets['manifest.js'])
+        //- link(rel='preload' as='script' href= webpack_assets['manifest.js'])
         link(rel='preload' as='script' href= webpack_assets['vendors.js'])
         link(rel='preload' as='script' href= webpack_assets['main.js'])
 
@@ -23,6 +24,7 @@ block head_styles
     link(rel='stylesheet' type='text/css' href='https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css')
 
     if is_prod
+        link(rel='stylesheet' type='text/css' href= webpack_assets['styles.css'])
         link(rel='stylesheet' type='text/css' href= webpack_assets['main.css'])
 
 block head_scripts
@@ -48,5 +50,6 @@ block content
 
     if is_prod
         script(defer type='text/javascript' src= webpack_assets['vendors.js'])
+        script(defer type='text/javascript' src= webpack_assets['styles.js'])
 
     script(defer type='text/javascript' src= webpack_assets['main.js'])
