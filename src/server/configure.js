@@ -70,12 +70,12 @@ export function configureServer(app) {
 
     // Static assets should be served without cookies
     // and ideally through a cdn
-    if (process.env.NODE_ENV === 'development') {
-        app.use(
-            '/public',
-            express.static(path.join(__dirname, 'public'), staticOptions)
-        )
-    }
+    // if (process.env.NODE_ENV === 'development') {
+    app.use(
+        '/public',
+        express.static(path.join(__dirname, 'public'), staticOptions)
+    )
+    // }
 
     // Serve service worker from root
     app.get(
@@ -100,14 +100,14 @@ export function configureServer(app) {
     app.use('/', getRouter(app))
 
     // catch 404 and forward to error handler
-    app.use(function(req, res, next) {
+    app.use(function (req, res, next) {
         var err = new Error('Not Found')
         err.status = 404
         next(err)
     })
 
     // error handler
-    app.use(function(err, req, res, next) {
+    app.use(function (err, req, res, next) {
         // set locals, only providing error in development
         res.locals.error_message = err.message
         res.locals.error = req.app.get('env') === 'development' ? err : {}

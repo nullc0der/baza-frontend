@@ -6,6 +6,7 @@ const WatchMissingNodeModulesPlugin = require('react-dev-utils/WatchMissingNodeM
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin')
 const ManifestPlugin = require('webpack-manifest-plugin')
+const CleanStatsPlugin = require('./CleanStatsPlugin')
 
 const PATHS = require('./paths')
 const LOADERS = require('./gulp/loaders')
@@ -31,6 +32,7 @@ config.devtool = envOption(false, 'cheap-module-source-map', false)
 config.cache = IS_DEV
 
 config.target = 'web'
+
 
 // css-loader calculates hash based on path and name only
 // path is derived from context
@@ -109,7 +111,8 @@ config.plugins = [
     new ManifestPlugin({
         fileName: 'asset-manifest.json',
         publicPath: '/public/'
-    })
+    }),
+    new CleanStatsPlugin()
 ]
 
 // Dev mode specific plugins
@@ -129,9 +132,10 @@ if (IS_DEV) {
     ]
 
     config.entry.main = [
-        // require.resolve('webpack-hot-middleware/client'),
-        require.resolve('react-dev-utils/webpackHotDevClient'),
-        require.resolve('react-error-overlay'),
+        require.resolve('webpack-hot-middleware/client.js'),
+        // require.resolve('react-error-overlay'),
+        // require.resolve('webpack/hot/dev-server'),
+        // require.resolve('react-dev-utils/webpackHotDevClient'),
         ...config.entry.main
     ]
 }
