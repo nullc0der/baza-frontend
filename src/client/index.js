@@ -29,7 +29,8 @@ const store = configureStore(finalState, history)
 
 //Save a local copy whenever store changes
 store.subscribe(() => {
-    saveLocalState(store.getState())
+    const { UserProfile, ...others } = store.getState()
+    saveLocalState(others)
 })
 
 // Usually you'd want to remove server copy of minimum css in SSR here

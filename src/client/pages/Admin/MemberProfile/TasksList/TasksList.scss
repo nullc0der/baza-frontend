@@ -1,0 +1,22 @@
+@import 'ui';
+
+:local(.container) {
+    .task-item {
+        margin: map-get($spacers, 2) 0;
+        position: relative;
+    }
+    .task-description {
+        margin-right: 100px;
+        padding-left: map-get($spacers, 2);
+    }
+    .task-status {
+        position: absolute;
+        top: 0;
+        right: 1rem;
+        font-size: 12px;
+        // background-color: rgba($dark, 0.1);
+        // padding: 3px 6px;
+        // border-radius: 12px 0 0 12px;
+    }
+}
+

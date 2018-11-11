@@ -3,13 +3,16 @@ import Auth from 'utils/authHelpers'
 
 const debug = require('debug')('baza:api:base')
 
+export const API_ROOT = 'https://api.baza.foundation'
+export const MOCK_API_ROOT = ''
+
 export const mockAPI = create({
-    baseURL: '/api/v1',
+    baseURL: MOCK_API_ROOT + '/api/v1',
     headers: { Accept: 'application/json' }
 })
 
 const api = create({
-    baseURL: 'https://api.baza.foundation/api/v1',
+    baseURL: API_ROOT + '/api/v1',
     headers: {
         Accept: 'application/json'
     }

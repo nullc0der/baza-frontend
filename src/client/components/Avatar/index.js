@@ -3,6 +3,8 @@ import classnames from 'classnames'
 import { connect } from 'react-redux'
 import get from 'lodash/get'
 
+import { API_ROOT } from 'api/base'
+
 import s from './Avatar.scss'
 
 class Avatar extends Component {
@@ -20,7 +22,7 @@ class Avatar extends Component {
                 className={cx}
                 src={
                     process.env.NODE_ENV === 'development'
-                        ? 'http://localhost:8000' + userProfile.profile_photo
+                        ? API_ROOT + userProfile.profile_photo
                         : userProfile.profile_photo
                 }
                 alt="profile"
@@ -30,20 +32,20 @@ class Avatar extends Component {
                 }}
             />
         ) : (
-            <div
-                className={cx}
-                style={{
-                    width: size + 'px',
-                    height: size + 'px',
-                    fontSize: size / 12 + 'px',
-                    backgroundColor: userProfile.default_avatar_color
-                }}>
-                <div className="avatar-name">
-                    {' '}
-                    {userName && userName[0].toUpperCase()}{' '}
+                <div
+                    className={cx}
+                    style={{
+                        width: size + 'px',
+                        height: size + 'px',
+                        fontSize: size / 12 + 'px',
+                        backgroundColor: userProfile.default_avatar_color
+                    }}>
+                    <div className="avatar-name">
+                        {' '}
+                        {userName && userName[0].toUpperCase()}{' '}
+                    </div>
                 </div>
-            </div>
-        )
+            )
     }
 }
 

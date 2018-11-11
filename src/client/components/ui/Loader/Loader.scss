@@ -1,11 +1,7 @@
 @import "ui";
 
 :local(.container) {
-    position: absolute;
-    top: 0;
-    left: 0;
-    bottom: 0;
-    right: 0;
+    flex: 1;
     background-color: rgba(255, 255, 255, 0);
     z-index: 10;
 
@@ -28,7 +24,7 @@
         width: 11px;
         height: 11px;
         border-radius: 50%;
-        background: #fff;
+        background: rgba(0,0,0,0.2);
         animation-timing-function: cubic-bezier(0, 1, 1, 0);
     }
     .loader-child:nth-child(1) {

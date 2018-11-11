@@ -1,0 +1,91 @@
+@import 'ui';
+
+$trust-red: rgb(255, 28, 0);
+$trust-green: rgb(0, 247, 16);
+$trust-yellow: rgb(247, 195, 0);
+$trust-grey: rgb(215, 218, 223);
+
+:local(.container) {
+    font-family: 'Raleway';
+}
+
+:local(.container) .mask {
+    position: relative;
+    overflow: hidden;
+
+    display: block;
+    // padding-bottom: 50%;
+    width: calc(100% - 4rem);
+    // height: rem(100);
+    margin: 2rem;
+}
+
+:local(.container) .semi-circle {
+    position: relative;
+    display: block;
+    width: 100%;
+    padding-bottom: 50%;
+    background: linear-gradient(to right, $trust-red 0%, $trust-yellow 50%, $trust-green 100%);
+    border-radius: 50% 50% 50% 50% / 100% 100% 0% 0% ;
+    &::before {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        z-index: 2;
+
+        display: block;
+        width: calc(100% - 2rem);
+        padding-bottom: calc(50% - 1rem);
+        margin-left: calc(-50% + 1rem);
+        background: #fff;
+        border-radius: 50% 50% 50% 50% / 100% 100% 0% 0% ;
+    }
+}
+
+:local(.container) .semi-circle--mask {
+    position: absolute;
+    top: 0;
+    left: 0;
+    padding-top: 100%;
+    width: 100%;
+    background: transparent;
+
+    transform: rotate(120deg) translate3d(0,0,0);
+    transform-origin: center center;
+    backface-visibility: hidden;
+    transition: all .3s ease-in-out;
+
+    &::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0%;
+        z-index: 2;
+
+        display: block;
+        padding-top: calc(50% + 2px);
+        width: calc(100% + 2px);
+        margin: -1px 0 0 -1px;
+        background: $trust-grey;
+        border-radius: 50% 50% 50% 50% / 100% 100% 0% 0% ;
+    }
+}
+
+:local(.container) .trust-percentage {
+    text-align: center;
+    font-weight: $font-weight-bold;
+    font-size: 4rem;
+    position: relative;
+    z-index: 10;
+    margin-top: -38%;
+}
+:local(.container) .trust-message {
+    text-align: center;
+    padding: 0 40px;
+    position: relative;
+    margin-top: -3%;
+    z-index: 11;
+    color: rgba($dark, 0.5);
+    font-size: 1rem;
+}

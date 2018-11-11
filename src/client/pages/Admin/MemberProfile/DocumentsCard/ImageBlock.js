@@ -1,5 +1,5 @@
 import React from 'react'
-
+import { API_ROOT } from 'api/base'
 const ImageBlock = props => {
     const {
         className,
@@ -16,7 +16,7 @@ const ImageBlock = props => {
                 alt=""
                 src={
                     process.env.NODE_ENV === 'development'
-                        ? 'http://localhost:8000' + imageUrl
+                        ? API_ROOT + imageUrl
                         : imageUrl
                 }
             />

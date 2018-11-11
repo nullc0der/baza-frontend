@@ -11,27 +11,30 @@ $references-card-tint: #f5a623;
     .ui-card {
         height: 100%;
     }
+    .ui-card .ui-card-header {
+        background-color: rgba($dark, 0.9);
+    }
     .ui-card-header .header-bg {
         background-image: url('/public/img/member-profile/header-bg.jpg');
     }
-    .profile-card .ui-card-header {
-        background-color: rgba($profile-card-tint, 0.75);
-    }
-    .documents-card .ui-card-header {
-        background-color: rgba($documents-card-tint, 0.75);
-    }
-    .details-card .ui-card-header {
-        background-color: rgba($details-card-tint, 0.75);
-    }
-    .my-selection-card .ui-card-header {
-        background-color: rgba($my-selection-card-tint, 0.75);
-    }
-    .settings-card .ui-card-header {
-        background-color: rgba($settings-card-tint, 0.75);
-    }
-    .references-card .ui-card-header {
-        background-color: rgba($references-card-tint, 0.75);
-    }
+    // .profile-card .ui-card-header {
+    //     background-color: rgba($profile-card-tint, 0.75);
+    // }
+    // .documents-card .ui-card-header {
+    //     background-color: rgba($documents-card-tint, 0.75);
+    // }
+    // .details-card .ui-card-header {
+    //     background-color: rgba($details-card-tint, 0.75);
+    // }
+    // .my-selection-card .ui-card-header {
+    //     background-color: rgba($my-selection-card-tint, 0.75);
+    // }
+    // .settings-card .ui-card-header {
+    //     background-color: rgba($settings-card-tint, 0.75);
+    // }
+    // .references-card .ui-card-header {
+    //     background-color: rgba($references-card-tint, 0.75);
+    // }
 }
 
 :local(.container) .profile-card {
@@ -474,5 +477,43 @@ $references-card-tint: #f5a623;
     }
     .reference-name {
         margin-top: map-get($spacers, 1);
+    }
+}
+
+:local(.basicCardTitle) {
+    font-size: 1rem;
+    color: rgba($dark, 0.5);
+    font-weight: $font-weight-semibold;
+    text-align: center;
+    padding: map-get($spacers, 1);
+}
+
+:local(.justDonatedCard) .donation-list-inner {
+    height: 250px;
+}
+
+:local(.activityLog) {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    height: 100px;
+    overflow-y: auto;
+    flex-grow: 0;
+    .activity-item {
+        margin: map-get($spacers, 2) 0;
+        position: relative;
+    }
+    .activity-description {
+        margin-right: 100px;
+        padding-left: map-get($spacers, 2);
+    }
+    .activity-time {
+        position: absolute;
+        top: 0;
+        right: 0;
+        font-size: 12px;
+        background-color: rgba($dark, 0.1);
+        padding: 3px 6px;
+        border-radius: 12px 0 0 12px;
     }
 }
