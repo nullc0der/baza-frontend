@@ -9,15 +9,19 @@ $trust-grey: rgb(215, 218, 223);
     font-family: 'Raleway';
 }
 
+:local(.container) .basic-card-content {
+    margin: 2rem 4rem;
+}
+
 :local(.container) .mask {
     position: relative;
     overflow: hidden;
 
     display: block;
     // padding-bottom: 50%;
-    width: calc(100% - 4rem);
+    width: calc(100% - 8rem);
     // height: rem(100);
-    margin: 2rem;
+    margin: 2.5rem 4rem;
 }
 
 :local(.container) .semi-circle {
@@ -78,7 +82,7 @@ $trust-grey: rgb(215, 218, 223);
     font-size: 4rem;
     position: relative;
     z-index: 10;
-    margin-top: -38%;
+    margin-top: -33%;
 }
 :local(.container) .trust-message {
     text-align: center;

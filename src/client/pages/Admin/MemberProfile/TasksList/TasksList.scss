@@ -1,6 +1,10 @@
 @import 'ui';
 
 :local(.container) {
+    .basic-card-content {
+        height: 250px;
+        overflow-y: auto;
+    }
     .task-item {
         margin: map-get($spacers, 2) 0;
         position: relative;

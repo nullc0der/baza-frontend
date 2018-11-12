@@ -288,7 +288,8 @@ class LoginDialog extends Component {
                                 name="remember_me_check"
                                 type="checkbox"
                                 checked={this.state.inputValues.rememberMe}
-                                onClick={this.toggleRememberMe}
+                                // onClick={this.toggleRememberMe}
+                                onChange={this.toggleRememberMe}
                             />
                             <label htmlFor="remember_me_check"> Remember Me </label>
                         </div>
