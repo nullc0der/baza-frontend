@@ -1,5 +1,6 @@
 import React from 'react'
-import { API_ROOT } from 'api/base'
+import Config from 'utils/config'
+
 const ImageBlock = props => {
     const {
         className,
@@ -14,11 +15,7 @@ const ImageBlock = props => {
             <img
                 className="img-fluid"
                 alt=""
-                src={
-                    process.env.NODE_ENV === 'development'
-                        ? API_ROOT + imageUrl
-                        : imageUrl
-                }
+                src={Config.get('API_ROOT') + imageUrl}
             />
             <div className="overlay">
                 {!isActive && (

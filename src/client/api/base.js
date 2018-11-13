@@ -1,18 +1,15 @@
 import { create } from 'apisauce'
 import Auth from 'utils/authHelpers'
-
+import Config from 'utils/config'
 const debug = require('debug')('baza:api:base')
 
-export const API_ROOT = 'https://api.baza.foundation'
-export const MOCK_API_ROOT = ''
-
 export const mockAPI = create({
-    baseURL: MOCK_API_ROOT + '/api/v1',
+    baseURL: Config.get('MOCK_API_ROOT'),
     headers: { Accept: 'application/json' }
 })
 
 const api = create({
-    baseURL: API_ROOT + '/api/v1',
+    baseURL: Config.get('API_ROOT'),
     headers: {
         Accept: 'application/json'
     }

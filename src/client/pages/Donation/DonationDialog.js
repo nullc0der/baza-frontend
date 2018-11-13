@@ -19,6 +19,7 @@ import { CurrencyDropdown } from 'pages/Admin/CoinSale/CoinSale'
 
 import s from './Donation.scss'
 import ContactInformation from './ContactInformation'
+import Config from 'utils/config';
 
 class DonationDialog extends Component {
     state = {
@@ -111,10 +112,7 @@ class DonationDialog extends Component {
     submitDonation = token => {
         if (token) {
             const api = create({
-                baseURL:
-                    process.env.NODE_ENV === 'development'
-                        ? 'http://localhost:8000/api/v1'
-                        : '/api/v1',
+                baseURL: Config.get('API_ROOT'),
                 headers: {
                     Accept: 'application/json'
                 }
@@ -191,7 +189,7 @@ class DonationDialog extends Component {
                     <button
                         className={`btn btn-outline-dark ${
                             selectedAmount === 4 ? 'active' : ''
-                        }`}
+                            }`}
                         onClick={e => this.toggleOtherInput(false, 4)}>
                         {selectedDonation && selectedDonation.value === 'coffee'
                             ? `$${selectedDonation.price}`
@@ -200,7 +198,7 @@ class DonationDialog extends Component {
                     <button
                         className={`btn btn-outline-dark ${
                             selectedAmount === 7 ? 'active' : ''
-                        }`}
+                            }`}
                         onClick={e => this.toggleOtherInput(false, 7)}>
                         {selectedDonation && selectedDonation.value === 'wine'
                             ? `$${selectedDonation.price}`
@@ -209,7 +207,7 @@ class DonationDialog extends Component {
                     <button
                         className={`btn btn-outline-dark ${
                             selectedAmount === 27 ? 'active' : ''
-                        }`}
+                            }`}
                         onClick={e => this.toggleOtherInput(false, 27)}>
                         {selectedDonation && selectedDonation.value === 'dinner'
                             ? `$${selectedDonation.price}`
@@ -218,10 +216,10 @@ class DonationDialog extends Component {
                     <button
                         className={`btn btn-outline-dark ${
                             selectedAmount === 120 ? 'active' : ''
-                        }`}
+                            }`}
                         onClick={e => this.toggleOtherInput(false, 120)}>
                         {selectedDonation &&
-                        selectedDonation.value === 'travel-ticket'
+                            selectedDonation.value === 'travel-ticket'
                             ? `$${selectedDonation.price}`
                             : '$120'}
                     </button>

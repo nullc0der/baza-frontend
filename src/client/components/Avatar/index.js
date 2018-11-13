@@ -3,7 +3,7 @@ import classnames from 'classnames'
 import { connect } from 'react-redux'
 import get from 'lodash/get'
 
-import { API_ROOT } from 'api/base'
+import Config from 'utils/config'
 
 import s from './Avatar.scss'
 
@@ -17,14 +17,13 @@ class Avatar extends Component {
         const cx = classnames(s.container, 'ui-avatar', className, {
             'img-fluid': userProfile.profile_photo
         })
+
+        const imageSrc = Config.get('API_ROOT') + userProfile.profile_photo
+
         return userProfile.profile_photo ? (
             <img
                 className={cx}
-                src={
-                    process.env.NODE_ENV === 'development'
-                        ? API_ROOT + userProfile.profile_photo
-                        : userProfile.profile_photo
-                }
+                src={imageSrc}
                 alt="profile"
                 style={{
                     width: size + 'px',

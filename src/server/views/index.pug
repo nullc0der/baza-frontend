@@ -32,6 +32,8 @@ block head_scripts
         window.googleMapCallback = function () {
             console.log('google map loaded')
         }
+    script(type='text/javascript').
+      window.BazaConfig= !{JSON.stringify(bazaConfig)}
 
 block content
     section#root!= html

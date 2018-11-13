@@ -14,7 +14,7 @@ import TwitterLogin from 'react-twitter-auth'
 import { store, saveLocalState } from 'store'
 import { actions as authActions } from 'store/Auth'
 import Auth from 'utils/authHelpers'
-
+import Config from 'utils/config'
 import TextField from 'components/ui/TextField'
 import EnhancedPasswordField from 'components/ui/EnhancedPasswordField'
 import FacebookLogin from 'components/FacebookLogin'
@@ -206,14 +206,8 @@ class LoginDialog extends Component {
         const { originURL } = this.props.location.state || {
             originURL: '/profile'
         }
-        const twitterLoginUrl =
-            process.env.NODE_ENV === 'development'
-                ? 'http://localhost:8000/api/v1/auth/twitter/login/'
-                : '/api/v1/auth/twitter/login/'
-        const twitterRequestTokenUrl =
-            process.env.NODE_ENV === 'development'
-                ? 'http://localhost:8000/api/v1/auth/twitter/getrequesttoken/'
-                : '/api/v1/auth/twitter/getrequesttoken/'
+        const twitterLoginUrl = Config.get('API_ROOT') + '/auth/twitter/login/'
+        const twitterRequestTokenUrl = Config.get('API_ROOT') + '/auth/twitter/getrequesttoken/'
 
         return this.state.shouldRedirect ? (
             this.state.redirectToOrigin ? (

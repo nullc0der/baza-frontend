@@ -4,7 +4,7 @@ import classnames from 'classnames'
 import c from './ChatBodyItem.scss'
 
 import Avatar from 'components/Avatar'
-
+import Config from 'utils/config'
 import { Emoji } from 'emoji-mart'
 import Linkify from 'react-linkify'
 
@@ -20,10 +20,7 @@ export default class ChatBodyItem extends Component {
     }
 
     renderAttachment = filetype => {
-        const fileURL =
-            process.env.NODE_ENV === 'development'
-                ? 'http://localhost:8000' + this.props.fileurl
-                : this.props.fileurl
+        const fileURL = Config.get('API_ROOT') + this.props.fileurl
         switch (filetype.split('/')[0]) {
             case 'image':
                 return (
@@ -111,8 +108,8 @@ export default class ChatBodyItem extends Component {
                                     sheetSize={16}
                                 />
                             ) : (
-                                x + ' '
-                            )
+                                    x + ' '
+                                )
                         })}
                     </Linkify>
                 </div>

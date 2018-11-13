@@ -1,4 +1,5 @@
 import { Router } from 'express'
+import { getClientConfig } from '../config'
 import MockAPI from '../mock'
 const router = Router()
 
@@ -9,7 +10,9 @@ const router = Router()
  */
 /*eslint-disable*/
 const StaticRenderer = (req, res, next) => {
-    return res.render('index', {})
+    return res.render('index', {
+        bazaConfig: getClientConfig()
+    })
 }
 /*eslint-enable*/
 

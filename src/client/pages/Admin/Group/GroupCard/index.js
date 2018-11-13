@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react'
 import classnames from 'classnames'
 import isEmpty from 'lodash/isEmpty'
-
+import Config from 'utils/config'
 import s from './GroupCard.scss'
 
 class GroupCard extends Component {
@@ -18,7 +18,7 @@ class GroupCard extends Component {
             longDescription,
             subscribeSection,
             footer,
-            onClickCard = () => {}
+            onClickCard = () => { }
         } = this.props
 
         const cx = classnames(
@@ -36,12 +36,9 @@ class GroupCard extends Component {
                         style={{
                             backgroundImage: `url(${
                                 !isEmpty(headerURL)
-                                    ? process.env.NODE_ENV === 'development'
-                                        ? 'http://localhost:8000' +
-                                          headerURL.full_size
-                                        : headerURL.full_size
+                                    ? Config.get('API_ROOT') + headerURL.full_size
                                     : '/public/img/group/group-header-default.png'
-                            })`
+                                })`
                         }}
                     />
                     <div className="group-info">
@@ -57,12 +54,9 @@ class GroupCard extends Component {
                         style={{
                             backgroundImage: `url(${
                                 !isEmpty(logoURL)
-                                    ? process.env.NODE_ENV === 'development'
-                                        ? 'http://localhost:8000' +
-                                          logoURL.thumbnail_92
-                                        : logoURL.thumbnail_92
+                                    ? Config.get('API_ROOT') + logoURL.thumbnail_92
                                     : ''
-                            })`
+                                })`
                         }}>
                         {isEmpty(logoURL) && (
                             <div className="logo">

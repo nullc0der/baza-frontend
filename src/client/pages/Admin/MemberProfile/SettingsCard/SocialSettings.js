@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react'
 import { connect } from 'react-redux'
 import get from 'lodash/get'
 import TwitterLogin from 'react-twitter-auth'
-
+import Config from 'utils/config'
 import Auth from 'utils/authHelpers'
 import { actions as userProfileActions } from 'store/UserProfile'
 import { getSocialAuths, connectOrDisconnectSocialAuth } from 'api/user'
@@ -21,7 +21,7 @@ const EmailComponent = props => {
                 <div
                     className={`badge badge-pull ${
                         email.primary ? 'badge-info' : 'badge-light'
-                    }`}
+                        }`}
                     onClick={
                         email.primary ? null : () => onClickUpdate(email.id)
                     }>
@@ -30,7 +30,7 @@ const EmailComponent = props => {
                 <div
                     className={`badge badge-pull ${
                         email.verified ? 'badge-success' : 'badge-light'
-                    }`}>
+                        }`}>
                     Verified
                 </div>
                 {!email.primary && (
@@ -76,10 +76,10 @@ const EmailEditComponent = props => {
                     </div>
                 </Fragment>
             ) : (
-                <div className="add-new" onClick={onClickAddNew}>
-                    <i className="fa fa-plus" />
-                </div>
-            )}
+                    <div className="add-new" onClick={onClickAddNew}>
+                        <i className="fa fa-plus" />
+                    </div>
+                )}
         </div>
     )
 }
@@ -101,13 +101,13 @@ class SocialSettings extends Component {
     componentDidMount() {
         this.props
             .fetchEmails(Auth.getToken())
-            .then(res => {})
-            .catch(res => {})
+            .then(res => { })
+            .catch(res => { })
         getSocialAuths(Auth.getToken())
             .then(res => {
                 this.setConnectedAndNotConnectedSocials(res.data)
             })
-            .catch(res => {})
+            .catch(res => { })
     }
 
     setConnectedAndNotConnectedSocials = resData => {
@@ -168,7 +168,7 @@ class SocialSettings extends Component {
                 email_id: emailID,
                 access_token: Auth.getToken()
             })
-            .then(res => {})
+            .then(res => { })
             .catch(res => {
                 this.setState({
                     emailError: {
@@ -185,7 +185,7 @@ class SocialSettings extends Component {
                 email_id: emailID,
                 access_token: Auth.getToken()
             })
-            .then(res => {})
+            .then(res => { })
             .catch(res => {
                 this.setState({
                     emailError: {
@@ -243,14 +243,8 @@ class SocialSettings extends Component {
     }
 
     render() {
-        const twitterLoginUrl =
-            process.env.NODE_ENV === 'development'
-                ? 'http://localhost:8000/api/v1/profile/socialauths/connecttwitter/'
-                : '/api/v1/profile/socialauths/connecttwitter/'
-        const twitterRequestTokenUrl =
-            process.env.NODE_ENV === 'development'
-                ? 'http://localhost:8000/api/v1/auth/twitter/getrequesttoken/'
-                : '/api/v1/auth/twitter/getrequesttoken/'
+        const twitterLoginUrl = Config.get('API_ROOT') + '/profile/socialauths/connecttwitter/'
+        const twitterRequestTokenUrl = Config.get('API_ROOT') + '/auth/twitter/getrequesttoken/'
         return (
             <CardContent>
                 <div className="settings-section">
@@ -261,7 +255,7 @@ class SocialSettings extends Component {
                                 <div
                                     className={`social-account account-${
                                         x.provider
-                                    }`}
+                                        }`}
                                     onClick={() =>
                                         this.onClickDisconnect(x.id, x.provider)
                                     }
@@ -313,28 +307,28 @@ class SocialSettings extends Component {
                                         </div>
                                     </FacebookLogin>
                                 ) : (
-                                    <TwitterLogin
-                                        key={i}
-                                        tag="div"
-                                        loginUrl={twitterLoginUrl}
-                                        requestTokenUrl={twitterRequestTokenUrl}
-                                        customHeaders={{
-                                            'access-token': Auth.getToken()
-                                        }}
-                                        onSuccess={this.handleTwitterConnect}
-                                        onFailure={err => console.log(err)}>
-                                        <div
-                                            className="social-account account-new"
-                                            key={i}>
-                                            <div className="social-account-icon">
-                                                <i className="fa fa-twitter" />
+                                            <TwitterLogin
+                                                key={i}
+                                                tag="div"
+                                                loginUrl={twitterLoginUrl}
+                                                requestTokenUrl={twitterRequestTokenUrl}
+                                                customHeaders={{
+                                                    'access-token': Auth.getToken()
+                                                }}
+                                                onSuccess={this.handleTwitterConnect}
+                                                onFailure={err => console.log(err)}>
+                                                <div
+                                                    className="social-account account-new"
+                                                    key={i}>
+                                                    <div className="social-account-icon">
+                                                        <i className="fa fa-twitter" />
+                                                    </div>
+                                                    <div className="social-account-name">
+                                                        Twitter
                                             </div>
-                                            <div className="social-account-name">
-                                                Twitter
-                                            </div>
-                                        </div>
-                                    </TwitterLogin>
-                                )
+                                                </div>
+                                            </TwitterLogin>
+                                        )
                             })}
                     </div>
                     {!!this.state.socialError && (
