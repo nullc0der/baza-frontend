@@ -98,7 +98,13 @@ class LeftNav extends Component {
             icon_type: 'image',
             icon: '/public/img/baza_logo_gs.svg',
             href: '',
-            children: []
+            children: [
+                {
+                    name: 'Coin Sale',
+                    href: '/coinsale',
+                    icon: 'fa fa-fw fa-tag'
+                }
+            ]
         }
         if (data) {
             const permissions = data.user_permission_set
@@ -117,11 +123,6 @@ class LeftNav extends Component {
                             name: 'Members',
                             href: `/community/2/groups/${id}/members`,
                             icon: 'fa fa-fw fa-users'
-                        },
-                        {
-                            name: 'Coin Sale',
-                            href: '/coinsale',
-                            icon: 'fa fa-fw fa-tag'
                         }
                     ]
                 }

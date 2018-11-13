@@ -4,12 +4,16 @@ import { connect } from 'react-redux'
 import { Redirect } from 'react-router-dom'
 import union from 'lodash/union'
 import isEmpty from 'lodash/isEmpty'
+import includes from 'lodash/includes'
 
 import MemberItem from './MemberItem'
+import CommunityUser from './CommunityUser'
 
 import { isMember } from 'pages/Admin/Group/utils'
+import { getCommunityMembers, inviteCommunityMember } from 'api/group'
 
 import { actions as groupActions } from 'store/Group'
+import { actions as commonActions } from 'store/Common'
 
 const MEMBER_ROLES = [
     { id: 101, name: 'Subscriber', icon: { type: 'material', name: 'face' } },
@@ -41,6 +45,7 @@ const MEMBER_ROLES = [
 class MembersManagement extends Component {
     state = {
         list: [],
+        communityUserList: [],
         groupData: {}
     }
 
@@ -54,9 +59,16 @@ class MembersManagement extends Component {
     componentDidUpdate = prevProps => {
         if (
             prevProps.list !== this.props.list ||
-            prevProps.onlineUsers !== this.props.onlineUsers
+            prevProps.onlineUsers !== this.props.onlineUsers ||
+            prevProps.searchString !== this.props.searchString ||
+            prevProps.filters !== this.props.filters
         ) {
-            this.setUsers(this.props.list, this.props.onlineUsers)
+            this.setUsers(
+                this.props.list,
+                this.props.onlineUsers,
+                this.props.searchString,
+                this.props.filters
+            )
         }
         if (prevProps.groups !== this.props.groups) {
             this.loadGroupData(this.props.groupID)
@@ -99,108 +111,117 @@ class MembersManagement extends Component {
                 subscribedGroups={member.user_permission_set}
                 onlineStatus={member.status}
                 toggleSubscribedGroup={this.toggleSubscribedGroup}
+                viewingUserPermissionSet={
+                    this.state.groupData.user_permission_set
+                }
+                viewingUserProfile={this.props.userProfile}
             />
         )
     }
 
-    setUsers = (list, onlineUsers) => {
-        const tempList = []
+    renderOnePlatformuser = (user, i) => {
+        return (
+            <CommunityUser
+                key={i}
+                userId={user.id}
+                fullName={user.fullname}
+                userName={user.username}
+                avatarUrl={user.user_image_url}
+                avatarColor={user.user_avatar_color}
+                isInvited={user.is_invited}
+                inviteUser={this.inviteUser}
+            />
+        )
+    }
+
+    inviteUser = userID => {
+        inviteCommunityMember(this.props.groupID, { user_id: userID }).then(
+            res => {
+                this.setState({
+                    communityUserList: this.state.communityUserList.map(x =>
+                        x.id === res.data ? { ...x, is_invited: true } : x
+                    )
+                })
+                this.props.addNotification({
+                    message: 'User invited',
+                    level: 'success'
+                })
+            }
+        )
+    }
+
+    setUsers = (list, onlineUsers, searchString = '', filters = []) => {
+        let tempList = []
+        let filteredItems = []
+        if (includes(filters, 'Baza Members') && searchString.length) {
+            getCommunityMembers(this.props.groupID, searchString).then(res => {
+                this.setState({ communityUserList: res.data })
+            })
+        } else {
+            this.setState({ communityUserList: [] })
+        }
         for (const member of list) {
             member['status'] = {}
             for (const onlineUser of onlineUsers) {
                 if (member.user.id === onlineUser.id) {
                     member['status'] = onlineUser
-                    tempList.push(member)
                 }
             }
+            tempList.push(member)
         }
-        let finalList = union(list, tempList)
+        tempList = tempList.filter(x =>
+            x.user.username.toLowerCase().startsWith(searchString.toLowerCase())
+        )
+        if (filters.indexOf('online') !== -1) {
+            tempList = tempList.filter(x => !isEmpty(x.status))
+        }
+        if (includes(filters, 'owners')) {
+            filteredItems.push(
+                tempList.filter(x => includes(x.user_permission_set, 103))
+            )
+        }
+        if (includes(filters, 'admins')) {
+            filteredItems.push(
+                tempList.filter(x => includes(x.user_permission_set, 104))
+            )
+        }
+        if (includes(filters, 'staffs')) {
+            filteredItems.push(
+                tempList.filter(x => includes(x.user_permission_set, 106))
+            )
+        }
+        if (includes(filters, 'moderators')) {
+            filteredItems.push(
+                tempList.filter(x => includes(x.user_permission_set, 105))
+            )
+        }
+        if (includes(filters, 'members')) {
+            filteredItems.push(
+                tempList.filter(x => includes(x.user_permission_set, 102))
+            )
+        }
+        if (includes(filters, 'subscribers')) {
+            filteredItems.push(
+                tempList.filter(x => includes(x.user_permission_set, 101))
+            )
+        }
+        if (includes(filters, 'banned')) {
+            filteredItems.push(
+                tempList.filter(x => includes(x.user_permission_set, 107))
+            )
+        }
+        if (includes(filters, 'blocked')) {
+            filteredItems.push(
+                tempList.filter(x => includes(x.user_permission_set, 108))
+            )
+        }
+        if (filteredItems.length) {
+            tempList = union(...filteredItems)
+        }
         this.setState({
-            list: finalList
+            list: tempList
         })
     }
-
-    // setUsers = (list, onlineUsers, searchString = '', filters = []) => {
-    //     let finalList = list.map(
-    //         x =>
-    //             _.includes(onlineUsers, x.user.username)
-    //                 ? { ...x, user: { ...x.user, is_online: true } }
-    //                 : { ...x, user: { ...x.user, is_online: false } }
-    //     )
-    //     finalList = finalList.filter(x =>
-    //         x.user.username.toLowerCase().startsWith(searchString.toLowerCase())
-    //     )
-    //     if (filters.indexOf('online') !== -1) {
-    //         finalList = finalList.filter(x => x.user.is_online)
-    //     }
-    //     let filteredItems = []
-    //     for (const filter of filters) {
-    //         switch (filter) {
-    //             case 'owners':
-    //                 filteredItems.push(
-    //                     finalList.filter(x =>
-    //                         _.includes(x.subscribed_groups, 103)
-    //                     )
-    //                 )
-    //                 break
-    //             case 'admins':
-    //                 filteredItems.push(
-    //                     finalList.filter(x =>
-    //                         _.includes(x.subscribed_groups, 104)
-    //                     )
-    //                 )
-    //                 break
-    //             case 'staffs':
-    //                 filteredItems.push(
-    //                     finalList.filter(x =>
-    //                         _.includes(x.subscribed_groups, 106)
-    //                     )
-    //                 )
-    //                 break
-    //             case 'moderators':
-    //                 filteredItems.push(
-    //                     finalList.filter(x =>
-    //                         _.includes(x.subscribed_groups, 105)
-    //                     )
-    //                 )
-    //                 break
-    //             case 'members':
-    //                 filteredItems.push(
-    //                     finalList.filter(x =>
-    //                         _.includes(x.subscribed_groups, 102)
-    //                     )
-    //                 )
-    //                 break
-    //             case 'subscribers':
-    //                 filteredItems.push(
-    //                     finalList.filter(x =>
-    //                         _.includes(x.subscribed_groups, 101)
-    //                     )
-    //                 )
-    //                 break
-    //             case 'banned':
-    //                 filteredItems.push(
-    //                     finalList.filter(x =>
-    //                         _.includes(x.subscribed_groups, 107)
-    //                     )
-    //                 )
-    //                 break
-    //             case 'blocked':
-    //                 filteredItems.push(
-    //                     finalList.filter(x =>
-    //                         _.includes(x.subscribed_groups, 108)
-    //                     )
-    //                 )
-    //                 break
-    //         }
-    //     }
-    //     if (filteredItems.length) {
-    //         finalList = _.union(...filteredItems)
-    //     }
-    //     this.setState({
-    //         list: finalList
-    //     })
-    // }
 
     render() {
         const { className } = this.props
@@ -217,6 +238,9 @@ class MembersManagement extends Component {
                         </div>
                     </div>
                     <div className="members-list">
+                        {this.state.communityUserList.map(
+                            this.renderOnePlatformuser
+                        )}
                         {this.state.list.map(this.renderOneMember)}
                     </div>
                 </div>
@@ -230,7 +254,10 @@ class MembersManagement extends Component {
 const mapStateToProps = state => ({
     list: state.Group.groupMembers,
     onlineUsers: state.Users.onlineUsers,
-    groups: state.Group.groups
+    groups: state.Group.groups,
+    userProfile: state.UserProfile.profile,
+    searchString: state.Common.subHeaderSearchString,
+    filters: state.Common.subHeaderFilters
 })
 
 const mapDispatchToProps = dispatch => ({
@@ -242,7 +269,9 @@ const mapDispatchToProps = dispatch => ({
         dispatch(groupActions.changeMemberRole(groupID, data))
     },
     changeLastSelectedGroup: groupID =>
-        dispatch(groupActions.changeLastSelectedGroup(groupID))
+        dispatch(groupActions.changeLastSelectedGroup(groupID)),
+    addNotification: notification =>
+        dispatch(commonActions.addNotification(notification))
 })
 
 export default connect(

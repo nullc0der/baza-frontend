@@ -182,6 +182,13 @@
             padding: 4px 8px;
             animation: fadeIn 0.42s;
         }
+        .invitebtn {
+            cursor: pointer;
+        }
+
+        .invited {
+            color: $success;
+        }
     }
 }
 

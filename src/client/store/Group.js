@@ -7,6 +7,7 @@ const INITIAL_STATE = {
     groups: [],
     groupMembers: [],
     groupNotifications: [],
+    myNotifications: [],
     lastSelectedGroup: 0,
     siteOwnerGroup: {},
     isLoading: false,
@@ -297,6 +298,117 @@ const deleteGroupNotificationError = err => ({
     error: err
 })
 
+const SUBSCRIBE_GROUP = createAction('SUBSCRIBE_GROUP')
+const subscribeGroup = (groupID, data) => dispatch => {
+    return DispatchAPI(dispatch, GroupAPI.subscribeGroup(groupID, data), {
+        success: subscribeGroupSuccess,
+        failure: subscribeGroupError
+    })
+}
+
+const SUBSCRIBE_GROUP_SUCCESS = createAction('SUBSCRIBE_GROUP_SUCCESS')
+const subscribeGroupSuccess = res => ({
+    type: SUBSCRIBE_GROUP_SUCCESS,
+    group: get(res, 'data', {})
+})
+
+const SUBSCRIBE_GROUP_ERROR = createAction('SUBSCRIBE_GROUP_ERROR')
+const subscribeGroupError = err => ({
+    type: SUBSCRIBE_GROUP_ERROR,
+    error: err
+})
+
+const CHANGE_GROUP_MEMBERS = createAction('CHANGE_GROUP_MEMBERS')
+const changeGroupMembers = (groupID, members, userPermissionSet) => ({
+    type: CHANGE_GROUP_MEMBERS,
+    groupID,
+    members,
+    userPermissionSet
+})
+
+const CHANGE_GROUP_JOIN_REQUEST_SENT = createAction(
+    'CHANGE_GROUP_JOIN_REQUEST_SENT'
+)
+const changeGroupJoinRequestSent = (groupID, joinRequestSent) => ({
+    type: CHANGE_GROUP_JOIN_REQUEST_SENT,
+    groupID,
+    joinRequestSent
+})
+
+const ADD_GROUP_MEMBER = createAction('ADD_GROUP_MEMBER')
+const addGroupMember = groupMember => ({
+    type: ADD_GROUP_MEMBER,
+    groupMember
+})
+
+const FETCH_GROUP_MYNOTIFICATIONS = createAction('FETCH_GROUP_MYNOTIFICATIONS')
+const fetchGroupMyNotifications = groupID => dispatch => {
+    return DispatchAPI(dispatch, GroupAPI.fetchGroupMyNotifications(groupID), {
+        success: fetchGroupMyNotificationsSuccess,
+        failure: fetchGroupMyNotificationsError
+    })
+}
+
+const FETCH_GROUP_MYNOTIFICATIONS_SUCCESS = createAction(
+    'FETCH_GROUP_MYNOTIFICATIONS_SUCCESS'
+)
+const fetchGroupMyNotificationsSuccess = res => ({
+    type: FETCH_GROUP_MYNOTIFICATIONS_SUCCESS,
+    myNotifications: get(res, 'data', [])
+})
+
+const FETCH_GROUP_MYNOTIFICATIONS_ERROR = createAction(
+    'FETCH_GROUP_MYNOTIFICATIONS_ERROR'
+)
+const fetchGroupMyNotificationsError = err => ({
+    type: FETCH_GROUP_MYNOTIFICATIONS_ERROR,
+    error: err
+})
+
+const SET_READ_GROUP_MYNOTIFICATION = createAction(
+    'SET_READ_GROUP_MYNOTIFICATION'
+)
+const setReadGroupMyNotification = (groupID, data) => dispatch => {
+    return DispatchAPI(
+        dispatch,
+        GroupAPI.setReadGroupMyNotification(groupID, data),
+        {
+            success: setReadGroupMyNotificationSuccess,
+            failure: setReadGroupMyNotificationError
+        }
+    )
+}
+
+const SET_READ_GROUP_MYNOTIFICATION_SUCCESS = createAction(
+    'SET_READ_GROUP_MYNOTIFICATION_SUCCESS'
+)
+const setReadGroupMyNotificationSuccess = res => ({
+    type: SET_READ_GROUP_MYNOTIFICATION_SUCCESS,
+    myNotificationID: get(res, 'data', {})
+})
+
+const SET_READ_GROUP_MYNOTIFICATION_ERROR = createAction(
+    'SET_READ_GROUP_MYNOTIFICATION_ERROR'
+)
+const setReadGroupMyNotificationError = err => ({
+    type: SET_READ_GROUP_MYNOTIFICATION_ERROR,
+    error: err
+})
+
+const RECEIVED_MYNOTIFICATION_ON_WEBSOCKET = createAction(
+    'RECEIVED_MYNOTIFICATION_ON_WEBSOCKET'
+)
+const receivedMyNotificationOnWebsocket = myNotification => ({
+    type: RECEIVED_MYNOTIFICATION_ON_WEBSOCKET,
+    myNotification
+})
+
+const REMOVE_MYNOTIFICATION = createAction('REMOVE_MYNOTIFICATION')
+const removeMyNotification = myNotificationID => ({
+    type: REMOVE_MYNOTIFICATION,
+    myNotificationID
+})
+
 export const actions = {
     fetchGroups,
     createGroup,
@@ -310,7 +422,15 @@ export const actions = {
     fetchGroupNotifications,
     createGroupNotification,
     editGroupNotification,
-    deleteGroupNotification
+    deleteGroupNotification,
+    subscribeGroup,
+    changeGroupMembers,
+    changeGroupJoinRequestSent,
+    fetchGroupMyNotifications,
+    setReadGroupMyNotification,
+    receivedMyNotificationOnWebsocket,
+    removeMyNotification,
+    addGroupMember
 }
 
 const getGroups = (groups, group) => {
@@ -331,6 +451,9 @@ export default function GroupReducer(state = INITIAL_STATE, action) {
         case CREATE_GROUP_NOTIFICATION:
         case EDIT_GROUP_NOTIFICATION:
         case DELETE_GROUP_NOTIFICATION:
+        case SUBSCRIBE_GROUP:
+        case FETCH_GROUP_MYNOTIFICATIONS:
+        case SET_READ_GROUP_MYNOTIFICATION:
             return {
                 ...state,
                 isLoading: true,
@@ -348,6 +471,9 @@ export default function GroupReducer(state = INITIAL_STATE, action) {
         case CREATE_GROUP_NOTIFICATION_ERROR:
         case EDIT_GROUP_NOTIFICATION_ERROR:
         case DELETE_GROUP_NOTIFICATION_ERROR:
+        case SUBSCRIBE_GROUP_ERROR:
+        case FETCH_GROUP_MYNOTIFICATIONS_ERROR:
+        case SET_READ_GROUP_MYNOTIFICATION_ERROR:
             return {
                 ...state,
                 isLoading: false,
@@ -369,10 +495,7 @@ export default function GroupReducer(state = INITIAL_STATE, action) {
                 groups: [...state.groups, action.group]
             }
         case EDIT_GROUP_SUCCESS:
-            return {
-                ...state,
-                groups: getGroups(state.groups.slice(), action.group)
-            }
+        case SUBSCRIBE_GROUP_SUCCESS:
         case DELETE_GROUP_SUCCESS:
             return {
                 ...state,
@@ -430,6 +553,54 @@ export default function GroupReducer(state = INITIAL_STATE, action) {
                 groupNotifications: state.groupNotifications.filter(
                     x => x.id !== Number(groupNotificationID)
                 )
+            }
+        case CHANGE_GROUP_MEMBERS:
+            return {
+                ...state,
+                groups: state.groups.map(x =>
+                    x.id === action.groupID
+                        ? {
+                              ...x,
+                              members: action.members,
+                              user_permission_set: action.userPermissionSet
+                          }
+                        : x
+                )
+            }
+        case CHANGE_GROUP_JOIN_REQUEST_SENT:
+            return {
+                ...state,
+                groups: state.groups.map(x =>
+                    x.id === action.groupID
+                        ? { ...x, join_request_sent: action.joinRequestSent }
+                        : x
+                )
+            }
+        case FETCH_GROUP_MYNOTIFICATIONS_SUCCESS:
+            return {
+                ...state,
+                myNotifications: action.myNotifications
+            }
+        case SET_READ_GROUP_MYNOTIFICATION_SUCCESS:
+        case REMOVE_MYNOTIFICATION:
+            return {
+                ...state,
+                myNotifications: state.myNotifications.filter(
+                    x => x.notification_id !== action.myNotificationID
+                )
+            }
+        case RECEIVED_MYNOTIFICATION_ON_WEBSOCKET:
+            return {
+                ...state,
+                myNotifications: [
+                    ...state.myNotifications,
+                    action.myNotification
+                ]
+            }
+        case ADD_GROUP_MEMBER:
+            return {
+                ...state,
+                groupMembers: [...state.groupMembers, action.groupMember]
             }
         default:
             return state

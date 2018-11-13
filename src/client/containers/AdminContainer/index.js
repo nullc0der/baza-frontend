@@ -5,6 +5,7 @@ import get from 'lodash/get'
 import isEmpty from 'lodash/isEmpty'
 
 import Helmet from 'react-helmet'
+import NotificationSystem from 'react-notification-system'
 
 import Auth from 'utils/authHelpers'
 
@@ -21,6 +22,8 @@ import WebSocketWrapper from 'components/WebSocketWrapper'
 
 import { actions as usersActions } from 'store/Users'
 import { actions as messengerActions } from 'store/Messenger'
+import { actions as walletTransactionsActions } from 'store/WalletTransanctions'
+import { actions as notificationsActions } from 'store/Notifications'
 
 import AdminRoutes from './AdminRoutes'
 import AdminOverlays from './AdminOverlays'
@@ -37,6 +40,7 @@ class AdminContainer extends Component {
     componentDidMount = () => {
         this.injectFontIfAbsent()
         document.body.classList.add('is-admin-ui')
+        this._notificationSystem = this.refs.notificationSystem
     }
     componentWillUnmount = () => {
         document.body.classList.remove('is-admin-ui')
@@ -48,6 +52,24 @@ class AdminContainer extends Component {
                     status: this.props.userStatus
                 }
             })
+        }
+        if (
+            prevProps.notificationSystemData !==
+            this.props.notificationSystemData
+        ) {
+            this._notificationSystem.addNotification(
+                this.props.notificationSystemData
+            )
+        }
+    }
+
+    _notificationSystem = null
+
+    notificationSystemStyle = {
+        NotificationItem: {
+            DefaultStyle: {
+                margin: '20px 5px 2px 1px'
+            }
         }
     }
 
@@ -87,6 +109,18 @@ class AdminContainer extends Component {
 
     isChatEmpty = chatroomId => {
         return isEmpty(this.props.chats[chatroomId])
+    }
+
+    onNotificationWebSocketData = data => {
+        const { message } = data
+        switch (message.type) {
+            case 'proxcdb-transaction':
+                this.props.receievedTXdata(message.data)
+                break
+            default:
+                this.props.receivedNotification(message.data)
+                break
+        }
     }
 
     onMessengerWebSocketData = data => {
@@ -140,6 +174,10 @@ class AdminContainer extends Component {
         return Auth.isAuthenticated() && Auth.isTokenNotExpired() ? (
             <section className={s.container}>
                 <Helmet titleTemplate="%s | Baza" defaultTitle="Baza" />
+                <NotificationSystem
+                    ref="notificationSystem"
+                    style={this.notificationSystemStyle}
+                />
                 <MiniChat />
                 <WebSocketWrapper
                     url="/ws/users/"
@@ -150,6 +188,10 @@ class AdminContainer extends Component {
                     url="/ws/messenger/"
                     onWebSocketData={this.onMessengerWebSocketData}
                     message={this.props.sendTypingStatus}
+                />
+                <WebSocketWrapper
+                    url="/ws/notifications/"
+                    onWebSocketData={this.onNotificationWebSocketData}
                 />
                 <LeftNav
                     className={s.leftNav}
@@ -197,6 +239,7 @@ class AdminContainer extends Component {
 }
 
 const mapStateToProps = state => ({
+    notificationSystemData: state.Common.notificationSystemData,
     location: state.router.location,
     userStatus: state.UserProfile.userStatus,
     sendTypingStatus: state.Messenger.sendTypingStatus,
@@ -215,7 +258,15 @@ const mapDispatchToProps = dispatch => ({
         dispatch(messengerActions.deleteChatsFromWebsocket(roomId, chatIds)),
     setTypingStatus: roomId =>
         dispatch(messengerActions.updateTypingStatus(roomId)),
-    openMiniChat: roomId => dispatch(messengerActions.openMiniChat(roomId))
+    openMiniChat: roomId => dispatch(messengerActions.openMiniChat(roomId)),
+    receievedTXdata: transaction =>
+        dispatch(
+            walletTransactionsActions.receivedTxdataOnWebsocket(transaction)
+        ),
+    receivedNotification: notification =>
+        dispatch(
+            notificationsActions.receivedNotificationOnWebsocket(notification)
+        )
 })
 
 export default connect(

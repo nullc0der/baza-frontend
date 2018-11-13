@@ -280,7 +280,7 @@ export const actions = {
     sendTypingStatus
 }
 
-export default function ChatRoomsReducer(state = INITIAL_STATE, action) {
+export default function MessengerReducer(state = INITIAL_STATE, action) {
     switch (action.type) {
         case LOAD_ROOMS:
         case DELETE_CHAT_ROOM:

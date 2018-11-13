@@ -1,71 +1,107 @@
 import React, { Component } from 'react'
 import classnames from 'classnames'
+import { connect } from 'react-redux'
+
+import { groupInviteActions } from 'api/group'
+
+import { actions as notificationsActions } from 'store/Notifications'
+import { actions as commonActions } from 'store/Common'
 
 import c from './HeaderNotifications.scss'
 
 import Dropdown from 'components/ui/Dropdown'
+import NotificationItem from './NotificationItem'
 
-import SAMPLE_NOTIFICATIONS from './sample-list'
+class HeaderNotifications extends Component {
+    state = {
+        isOpen: false,
+        activeNode: null
+    }
 
-export default class HeaderNotifications extends Component {
-  state = {
-    list: [],
-    isOpen: false
-  }
+    componentDidMount = () => {
+        this.props.fetchNotifications()
+    }
 
-  componentDidMount = () => {
-    this.fetchNotifications()
-      .then(list => this.setState({ list }))
-      .catch(err => this.setState({ hasError: err.message }))
-  }
+    toggleOpen = () => {
+        this.setState({ isOpen: !this.state.isOpen })
+    }
 
-  fetchNotifications = () => {
-    this.setState({ isLoading: true, hasError: false })
-    return Promise.resolve(SAMPLE_NOTIFICATIONS)
-  }
+    setActiveNode = id => {
+        this.setState({
+            activeNode: id
+        })
+    }
 
-  toggleOpen = () => {
-    this.setState({ isOpen: !this.state.isOpen })
-  }
+    acceptDenyInvite = (inviteID, accepted, notificationID) => {
+        groupInviteActions({ invite_id: inviteID, accepted: accepted }).then(
+            res => {
+                this.props.removeNotification(notificationID)
+                this.props.showNotification({
+                    message: res.data.message,
+                    level: 'success'
+                })
+            }
+        )
+    }
 
-  renderOneNotication = (item, i) => {
-    return (
-      <div key={i} className="notification-item flex-horizontal">
-        <div className="notification-icon black-bg">
-          <img alt="" className="img-fluid" />
-        </div>
-        <div className="flex-1">
-          <div className="notification-title">{item.title}</div>
-          <div className="notification-desc">{item.desc}</div>
-        </div>
-      </div>
-    )
-  }
+    renderOneNotication = (x, i) => {
+        return (
+            <NotificationItem
+                key={i}
+                notification={x}
+                isActive={this.state.activeNode === x.id}
+                setActiveNode={this.setActiveNode}
+                acceptDenyInvite={this.acceptDenyInvite}
+            />
+        )
+    }
 
-  render() {
-    const { className } = this.props
-    const { list } = this.state
-    const cx = classnames(c.container, className)
+    render() {
+        const { className, notifications } = this.props
+        const cx = classnames(c.container, className)
 
-    const label = (
-      <span className="notification-label">
-        <i className="fa fa-fw fa-bell-o" />
-      </span>
-    )
+        const label = (
+            <span className="flex-horizontal a-center notification-label">
+                <i className="fa fa-fw fa-bell-o" />
+                {!!notifications.length && <i className="has-notification" />}
+            </span>
+        )
 
-    const dropdownFooter = (
-      <div className="flex-1 text-center mark-read-btn">Mark all as Read</div>
-    )
+        const dropdownFooter = (
+            <div className="flex-1 text-center mark-read-btn">
+                Mark all as Read
+            </div>
+        )
 
-    return (
-      <Dropdown
-        id="id-header-mini-notifications"
-        className={cx}
-        label={label}
-        items={list}
-        dropdownFooter={dropdownFooter}
-        itemRenderer={this.renderOneNotication}
-      />
-    )
-  }
+        return (
+            <Dropdown
+                id="id-header-mini-notifications"
+                className={cx}
+                label={label}
+                items={notifications}
+                dropdownFooter={dropdownFooter}
+                itemRenderer={this.renderOneNotication}
+            />
+        )
+    }
 }
+
+const mapStateToProps = state => ({
+    notifications: state.Notifications.notifications
+})
+
+const mapDispatchToProps = dispatch => ({
+    fetchNotifications: () => {
+        dispatch(notificationsActions.fetchNotifications())
+    },
+    removeNotification: id => {
+        dispatch(notificationsActions.removeNotification(id))
+    },
+    showNotification: notification =>
+        dispatch(commonActions.addNotification(notification))
+})
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(HeaderNotifications)

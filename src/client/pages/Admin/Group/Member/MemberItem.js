@@ -73,24 +73,26 @@ class MemberItem extends Component {
     }
 
     isGroupAdmin = () => {
-        const { subscribedGroups } = this.props
+        const { viewingUserPermissionSet } = this.props
         return (
             // TODO: change all reference to subscribed groups to member permission set
             // in both front and backend
-            subscribedGroups.indexOf(103) !== -1 ||
-            subscribedGroups.indexOf(104) !== -1
+            viewingUserPermissionSet.indexOf(103) !== -1 ||
+            viewingUserPermissionSet.indexOf(104) !== -1
         )
     }
 
     render() {
         const {
             className,
+            memberId,
             userName = '',
             fullName = '',
             avatarUrl = '',
             avatarColor = '',
             subscribedGroups = [],
             groups = [],
+            viewingUserProfile = {},
             onlineStatus
         } = this.props
 
@@ -108,7 +110,7 @@ class MemberItem extends Component {
             <div className={cx}>
                 {memberIsGroupAdmin && (
                     <Dialog
-                        id="edit-group-subscriptions"
+                        id={`edit-group-subscriptions-${memberId}`}
                         onRequestClose={this.toggleSubscribeBox}
                         isOpen={this.state.subscribeBoxIsOpen}
                         title={false}
@@ -152,6 +154,11 @@ class MemberItem extends Component {
                                 {' '}
                                 {fullName || userName}{' '}
                                 <span className="username">@{userName}</span>{' '}
+                                {memberId === viewingUserProfile.user.id && (
+                                    <span className="badge badge-success">
+                                        This is you
+                                    </span>
+                                )}
                             </div>
                             <div
                                 className={`status text-capitalize is-${get(

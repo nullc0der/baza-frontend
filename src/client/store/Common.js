@@ -9,7 +9,11 @@ const INITIAL_STATE = {
     selectedDonation: {},
     subHeaderSearchString: '',
     subHeaderFilters: [],
-    showHeaders: true
+    showHeaders: true,
+    notificationSystemData: {
+        message: '',
+        level: ''
+    }
 }
 
 const SET_BREADCRUMBS = 'SET_BREADCRUMBS'
@@ -43,12 +47,19 @@ const updateHeaderVisibility = showHeaders => ({
     showHeaders
 })
 
+const ADD_NOTIFICATION = 'ADD_NOTIFICATION'
+const addNotification = notification => ({
+    type: ADD_NOTIFICATION,
+    notification
+})
+
 export const actions = {
     setBreadCrumbs,
     selectDonation,
     changeSubHeaderFilters,
     changeSubHeaderSearchString,
-    updateHeaderVisibility
+    updateHeaderVisibility,
+    addNotification
 }
 
 export default function CommonReducer(state = INITIAL_STATE, action) {
@@ -69,6 +80,11 @@ export default function CommonReducer(state = INITIAL_STATE, action) {
             return { ...state, subHeaderFilters: action.filters }
         case UPDATE_HEADER_VISIBILITY:
             return { ...state, showHeaders: action.showHeaders }
+        case ADD_NOTIFICATION:
+            return {
+                ...state,
+                notificationSystemData: action.notification
+            }
         default:
             return state
     }

@@ -3,9 +3,13 @@ import classnames from 'classnames'
 import { connect } from 'react-redux'
 import includes from 'lodash/includes'
 import get from 'lodash/get'
+import union from 'lodash/union'
 import { push } from 'react-router-redux'
 
+import { joinGroup } from 'api/group'
+
 import { actions as groupActions } from 'store/Group'
+import { actions as commonActions } from 'store/Common'
 
 import Dialog from 'components/ui/Dialog'
 import TextField from 'components/ui/TextField'
@@ -48,6 +52,7 @@ const GroupTypesDropdown = props => {
 
 class GroupTiles extends Component {
     state = {
+        groups: [],
         createGroupDialogIsOpen: false,
         inputValues: {
             name: '',
@@ -64,8 +69,50 @@ class GroupTiles extends Component {
         }
     }
 
-    componentDidMount() {
+    componentDidMount = () => {
         this.props.fetchGroups()
+    }
+
+    componentDidUpdate = (prevProps) => {
+        if (
+            prevProps.groups !== this.props.groups ||
+            prevProps.searchString !== this.props.searchString ||
+            prevProps.filters !== this.props.filters
+        ) {
+            this.setGroups(
+                this.props.groups,
+                this.props.searchString,
+                this.props.filters
+            )
+        }
+    }
+
+
+    setGroups = (groups, searchString, filters) => {
+        const { userProfile } = this.props
+        let finalGroups = groups.filter(x => x.name.toLowerCase().startsWith(searchString.toLowerCase()))
+        let subscribedGroups = []
+        let joinedGroups = []
+        if (filters.length && !includes(filters, 'all')) {
+            if (includes(filters, 'subscribed')) {
+                subscribedGroups = finalGroups.filter(x => includes(x.subscribers, userProfile.username ||
+                    userProfile.user.username))
+            }
+            if (includes(filters, 'joined')) {
+                joinedGroups = finalGroups.filter(x => includes(x.members, userProfile.username ||
+                    userProfile.user.username))
+            }
+            finalGroups = union(subscribedGroups, joinedGroups)
+        }
+        finalGroups.sort(
+            (a, b) => {
+                return includes(b.members, userProfile.username ||
+                    userProfile.user.username) - includes(a.members, userProfile.username ||
+                        userProfile.user.username) }
+        )
+        this.setState({
+            groups: finalGroups
+        })
     }
 
     toggleCreateGroupDialog = () => {
@@ -103,6 +150,78 @@ class GroupTiles extends Component {
                 nonField: []
             }
         })
+    }
+
+    onSubscribeButtonClick = (e, id, subscribe) => {
+        e.stopPropagation()
+        this.props.subscribeGroup(id, {
+            subscribe
+        })
+    }
+
+    processJoin = data => {
+        if (data.success) {
+            if (data.members) {
+                this.props.changeGroupMembers(
+                    data.group_id,
+                    data.members,
+                    data.user_permission_set
+                )
+            } else {
+                this.props.changeGroupJoinRequestSent(data.group_id, true)
+            }
+        } else {
+            this.props.addNotification({
+                message: data.message,
+                level: 'info'
+            })
+        }
+    }
+
+    processLeave = data => {
+        if (data.success) {
+            this.props.changeGroupMembers(
+                data.group_id,
+                data.members,
+                data.user_permission_set
+            )
+        } else {
+            this.props.addNotification({
+                message: data.message,
+                level: 'info'
+            })
+        }
+    }
+
+    onJoinButtonClick = (e, groupID, action) => {
+        e.stopPropagation()
+        switch (action) {
+            case 'join':
+                joinGroup(groupID, {
+                    type: 'join'
+                }).then(res => {
+                    this.processJoin(res.data)
+                })
+                break
+            case 'cancel':
+                joinGroup(groupID, {
+                    type: 'cancel'
+                }).then(res => {
+                    this.props.changeGroupJoinRequestSent(
+                        res.data.group_id,
+                        false
+                    )
+                })
+                break
+            case 'leave':
+                joinGroup(groupID, {
+                    type: 'leave'
+                }).then(res => {
+                    this.processLeave(res.data)
+                })
+                break
+            default:
+        }
     }
 
     onCreateGroupClick = () => {
@@ -186,7 +305,8 @@ class GroupTiles extends Component {
     }
 
     render() {
-        const { className, groups, userProfile } = this.props
+        const { className, userProfile } = this.props
+        const { groups } = this.state
 
         const groupTypes = [
             { id: 1, name: 'Art' },
@@ -234,7 +354,7 @@ class GroupTiles extends Component {
                                     userProfile.username ||
                                         userProfile.user.username
                                 ),
-                                false,
+                                x.join_request_sent,
                                 x.join_status
                             )}
                             onClickCard={() =>
@@ -244,6 +364,7 @@ class GroupTiles extends Component {
                     )
                 })}
                 <Dialog
+                    id="create-group"
                     className={s.container}
                     isOpen={this.state.createGroupDialogIsOpen}
                     title="Create A Group"
@@ -310,13 +431,27 @@ class GroupTiles extends Component {
 
 const mapStateToProps = state => ({
     groups: state.Group.groups,
-    userProfile: state.UserProfile.profile
+    userProfile: state.UserProfile.profile,
+    searchString: state.Common.subHeaderSearchString,
+    filters: state.Common.subHeaderFilters
 })
 
 const mapDispatchToProps = dispatch => ({
     fetchGroups: () => dispatch(groupActions.fetchGroups()),
     createGroup: data => dispatch(groupActions.createGroup(data)),
-    navigateTo: url => dispatch(push(url))
+    navigateTo: url => dispatch(push(url)),
+    subscribeGroup: (groupID, data) =>
+        dispatch(groupActions.subscribeGroup(groupID, data)),
+    addNotification: notification =>
+        dispatch(commonActions.addNotification(notification)),
+    changeGroupMembers: (groupID, members, userPermissionSet) =>
+        dispatch(
+            groupActions.changeGroupMembers(groupID, members, userPermissionSet)
+        ),
+    changeGroupJoinRequestSent: (groupID, joinRequestSent) =>
+        dispatch(
+            groupActions.changeGroupJoinRequestSent(groupID, joinRequestSent)
+        )
 })
 
 export default connect(
