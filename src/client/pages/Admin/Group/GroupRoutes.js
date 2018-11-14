@@ -4,6 +4,7 @@ import { Switch, Route } from 'react-router-dom'
 import GroupTiles from 'pages/Admin/Group/GroupTiles'
 import GroupProfilePage from 'pages/Admin/Group/Profile'
 import GroupMembersPage from 'pages/Admin/Group/Member'
+import GroupPostsPage from 'pages/Admin/Group/Post'
 
 const GroupRoutes = location => (
     <Switch location={location}>
@@ -14,6 +15,10 @@ const GroupRoutes = location => (
         <Route
             path="/community/2/groups/:id/members/"
             component={GroupMembersPage}
+        />
+        <Route
+            path="/community/2/groups/:id/posts/"
+            component={GroupPostsPage}
         />
         <Route path="/community/2/groups/" exact component={GroupTiles} />
     </Switch>

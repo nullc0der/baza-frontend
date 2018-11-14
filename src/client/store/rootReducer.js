@@ -5,6 +5,7 @@ import Auth from './Auth'
 
 import Common from './Common'
 import Group from './Group'
+import GroupPosts from './GroupPosts'
 import Members from './Members'
 import UserProfile from './UserProfile'
 
@@ -23,6 +24,7 @@ export default combineReducers({
     Auth,
     Common,
     Group,
+    GroupPosts,
     Members,
     WalletAccounts,
     WalletTransanctions,

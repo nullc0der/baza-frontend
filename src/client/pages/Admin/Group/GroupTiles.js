@@ -73,7 +73,7 @@ class GroupTiles extends Component {
         this.props.fetchGroups()
     }
 
-    componentDidUpdate = (prevProps) => {
+    componentDidUpdate = prevProps => {
         if (
             prevProps.groups !== this.props.groups ||
             prevProps.searchString !== this.props.searchString ||
@@ -87,29 +87,44 @@ class GroupTiles extends Component {
         }
     }
 
-
     setGroups = (groups, searchString, filters) => {
         const { userProfile } = this.props
-        let finalGroups = groups.filter(x => x.name.toLowerCase().startsWith(searchString.toLowerCase()))
+        let finalGroups = groups.filter(x =>
+            x.name.toLowerCase().startsWith(searchString.toLowerCase())
+        )
         let subscribedGroups = []
         let joinedGroups = []
         if (filters.length && !includes(filters, 'all')) {
             if (includes(filters, 'subscribed')) {
-                subscribedGroups = finalGroups.filter(x => includes(x.subscribers, userProfile.username ||
-                    userProfile.user.username))
+                subscribedGroups = finalGroups.filter(x =>
+                    includes(
+                        x.subscribers,
+                        userProfile.username || userProfile.user.username
+                    )
+                )
             }
             if (includes(filters, 'joined')) {
-                joinedGroups = finalGroups.filter(x => includes(x.members, userProfile.username ||
-                    userProfile.user.username))
+                joinedGroups = finalGroups.filter(x =>
+                    includes(
+                        x.members,
+                        userProfile.username || userProfile.user.username
+                    )
+                )
             }
             finalGroups = union(subscribedGroups, joinedGroups)
         }
-        finalGroups.sort(
-            (a, b) => {
-                return includes(b.members, userProfile.username ||
-                    userProfile.user.username) - includes(a.members, userProfile.username ||
-                        userProfile.user.username) }
-        )
+        finalGroups.sort((a, b) => {
+            return (
+                includes(
+                    b.members,
+                    userProfile.username || userProfile.user.username
+                ) -
+                includes(
+                    a.members,
+                    userProfile.username || userProfile.user.username
+                )
+            )
+        })
         this.setState({
             groups: finalGroups
         })
@@ -300,7 +315,7 @@ class GroupTiles extends Component {
         if (
             permissionSet.some(x => [102, 103, 104, 105, 106].indexOf(x) !== -1)
         ) {
-            this.props.navigateTo(`/community/2/groups/${id}/members`)
+            this.props.navigateTo(`/community/2/groups/${id}/posts`)
         }
     }
 
