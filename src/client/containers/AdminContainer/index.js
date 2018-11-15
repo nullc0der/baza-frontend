@@ -179,7 +179,7 @@ class AdminContainer extends Component {
                     style={this.notificationSystemStyle}
                 />
                 <MiniChat />
-                <WebSocketWrapper
+                {/* <WebSocketWrapper
                     url="/ws/users/"
                     onWebSocketData={this.onWebSocketData}
                     message={this.state.webSocketMessage}
@@ -192,7 +192,7 @@ class AdminContainer extends Component {
                 <WebSocketWrapper
                     url="/ws/notifications/"
                     onWebSocketData={this.onNotificationWebSocketData}
-                />
+                /> */}
                 <LeftNav
                     className={s.leftNav}
                     open={this.state.isLeftNavOpen}
