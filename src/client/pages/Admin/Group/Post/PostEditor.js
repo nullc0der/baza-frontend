@@ -89,7 +89,7 @@ class PostEditor extends Component {
         if (post.length) {
             const { groupID, createPost, updatePost } = this.props
             if (this.state.editingPost !== -1) {
-                updatePost(groupID, post)
+                updatePost(this.state.editingPost, { post })
             } else {
                 createPost({ group_id: groupID, post })
             }
@@ -149,11 +149,6 @@ class PostEditor extends Component {
                         commands={editorCommands}
                         showdownOptions={{
                             simpleLineBreaks: true
-                        }}
-                        buttonContentOptions={{
-                            iconProvider: name => (
-                                <i className={`fa fa-${name}`} />
-                            )
                         }}
                     />
                     <div className="action-buttons">

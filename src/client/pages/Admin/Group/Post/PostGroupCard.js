@@ -11,8 +11,7 @@ class PostGroupCard extends Component {
     state = {
         postModalIsShown: false,
         postInModal: {},
-        commentInput: '',
-        clickedOnPostAction: -1
+        commentInput: ''
     }
 
     shouldShowPostOptions = post => {
@@ -68,21 +67,12 @@ class PostGroupCard extends Component {
     sendComment = (e, postID) => {
         e.preventDefault()
         if (this.state.commentInput.length) {
-            this.props.createComment(postID, this.state.commentInput)
+            this.props.createComment({
+                post_id: postID,
+                comment: this.state.commentInput
+            })
             this.setState({
                 commentInput: ''
-            })
-        }
-    }
-
-    onPostActionClick = (e, postID) => {
-        if (this.state.clickedOnPostAction === postID) {
-            this.setState({
-                clickedOnPostAction: -1
-            })
-        } else {
-            this.setState({
-                clickedOnPostAction: postID
             })
         }
     }
@@ -108,12 +98,10 @@ class PostGroupCard extends Component {
                             size={30}
                             own={false}
                             otherProfile={{
-                                username:
-                                    post.creator.fullname ||
-                                    post.creator.username,
+                                username: post.creator.username,
                                 profile_photo: post.creator.user_image_url,
                                 default_avatar_color:
-                                    post.creator.default_avatar_color
+                                    post.creator.user_avatar_color
                             }}
                         />
                     </div>
@@ -166,9 +154,17 @@ class PostGroupCard extends Component {
         )
     }
 
+    deletePost = (e, id) => {
+        this.props.requestDeletePost(e, id)
+        this.setState({
+            postInModal: {},
+            postModalIsShown: false
+        })
+    }
+
     renderDetailPost = post => {
         return (
-            <div className="post post-modal">
+            <div className="post post-in-dialog">
                 <div className="header">
                     <div className="avatar">
                         <Avatar
@@ -176,12 +172,10 @@ class PostGroupCard extends Component {
                             own={false}
                             size={30}
                             otherProfile={{
-                                username:
-                                    post.creator.fullname ||
-                                    post.creator.username,
+                                username: post.creator.username,
                                 profile_photo: post.creator.user_image_url,
                                 default_avatar_color:
-                                    post.creator.default_avatar_color
+                                    post.creator.user_avatar_color
                             }}
                         />
                     </div>
@@ -198,51 +192,51 @@ class PostGroupCard extends Component {
                         <div className="status">Pending Approval</div>
                     )}
                     {this.shouldShowPostOptions(post) && (
-                        <div
-                            className={`actions dropdown ${this.state
-                                .clickedOnPostAction === post.id && 'open'}`}>
-                            <i
-                                className="fa fa-ellipsis-v"
-                                onClick={e =>
-                                    this.onPostActionClick(e, post.id)
-                                }
-                            />
-                            <ul className="dropdown-menu animated fadeIn">
+                        <div className="postactions-dropdown-group btn-group">
+                            <a
+                                className="dropdown-toggle"
+                                data-toggle="dropdown"
+                                aria-haspopup="true"
+                                aria-expanded="false">
+                                {''}
+                            </a>
+                            <div className="dropdown-menu">
                                 {(this.props.permissionSet.indexOf(105) !==
                                     -1) |
                                 (post.creator.id ===
                                     this.props.userProfile.user.id) ? (
-                                    <li
+                                    <div
+                                        className="dropdown-item"
                                         onClick={e =>
                                             this.setEditingPost(e, post.id)
                                         }>
-                                        <a href="#">Edit</a>
-                                    </li>
+                                        Edit
+                                    </div>
                                 ) : (
                                     ''
                                 )}
                                 {(this.props.permissionSet.indexOf(105) !==
                                     -1) &
                                 !post.approved ? (
-                                    <li
+                                    <div
+                                        className="dropdown-item"
                                         onClick={e =>
                                             this.props.requestApprovePost(
                                                 e,
                                                 post.id
                                             )
                                         }>
-                                        <a href="#">Approve</a>
-                                    </li>
+                                        Approve
+                                    </div>
                                 ) : (
                                     ''
                                 )}
-                                <li
-                                    onClick={e =>
-                                        this.props.requestDeletePost(e, post.id)
-                                    }>
-                                    <a href="#">Delete</a>
-                                </li>
-                            </ul>
+                                <div
+                                    className="dropdown-item"
+                                    onClick={e => this.deletePost(e, post.id)}>
+                                    Delete
+                                </div>
+                            </div>
                         </div>
                     )}
                 </div>
@@ -268,16 +262,16 @@ class PostGroupCard extends Component {
                                             <Avatar
                                                 className="avatar-image"
                                                 own={false}
+                                                size={30}
                                                 otherProfile={{
                                                     username:
-                                                        x.commentor.fullname ||
-                                                        post.commentor.username,
+                                                        x.commentor.username,
                                                     profile_photo:
-                                                        post.commentor
+                                                        x.commentor
                                                             .user_image_url,
                                                     default_avatar_color:
-                                                        post.commentor
-                                                            .default_avatar_color
+                                                        x.commentor
+                                                            .user_avatar_color
                                                 }}
                                             />
                                         </div>
@@ -315,7 +309,7 @@ class PostGroupCard extends Component {
                                             105
                                         ) !==
                                             -1) |
-                                        (this.userProfile.user.id ===
+                                        (this.props.userProfile.user.id ===
                                             x.commentor.id) ? (
                                             <div
                                                 className="status"
@@ -355,7 +349,7 @@ class PostGroupCard extends Component {
                                         placeholder="press enter to post a comment"
                                     />
                                     <i
-                                        className="fas fa-paper-plane"
+                                        className="fa fa-paper-plane"
                                         onClick={e =>
                                             this.sendComment(e, post.id)
                                         }

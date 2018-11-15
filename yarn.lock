@@ -7781,7 +7781,7 @@ react-linkify@^0.2.2:
     prop-types "^15.5.8"
     tlds "^1.57.0"
 
-react-mde@4.0.3:
+react-mde@^4.0.3:
   version "4.0.3"
   resolved "http://registry.npmjs.org/react-mde/-/react-mde-4.0.3.tgz#88dbc94d1abb3f854c6f3f3380507c6afe1e5895"
 

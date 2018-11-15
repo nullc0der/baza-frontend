@@ -134,8 +134,8 @@ const getPostCommentFailure = err => ({
 })
 
 const CREATE_POST_COMMENT = createAction('CREATE_POST_COMMENT')
-const createPostComment = (postID, data) => dispatch => {
-    return DispatchAPI(dispatch, GroupPostsAPI.createComment(postID, data), {
+const createPostComment = data => dispatch => {
+    return DispatchAPI(dispatch, GroupPostsAPI.createComment(data), {
         success: createPostCommentSuccess,
         failure: createPostCommentFailure
     })
@@ -184,7 +184,8 @@ const deletePostComment = commentID => dispatch => {
 const DELETE_POST_COMMENT_SUCCESS = createAction('DELETE_POST_COMMENT_SUCCESS')
 const deletePostCommentSuccess = res => ({
     type: DELETE_POST_COMMENT_SUCCESS,
-    commentID: get(res.data, 'comment_id', -1)
+    commentID: get(res.data, 'comment_id', -1),
+    postID: get(res.data, 'post_id', -1)
 })
 
 const DELETE_POST_COMMENT_FAILURE = createAction('DELETE_POST_COMMENT_FAILURE')
@@ -299,7 +300,10 @@ export default function GroupPostsReducer(state = INITIAL_STATE, action) {
         case CREATE_POST_COMMENT_SUCCESS:
             return {
                 ...state,
-                comments: [...state.comments, action.comment]
+                comments: [...state.comments, action.comment],
+                posts: state.posts.map(x =>
+                    x.id === action.comment.post.id ? action.comment.post : x
+                )
             }
         case UPDATE_POST_COMMENT_SUCCESS:
         case APPROVE_POST_COMMENT_SUCCESS:
@@ -312,7 +316,12 @@ export default function GroupPostsReducer(state = INITIAL_STATE, action) {
         case DELETE_POST_COMMENT_SUCCESS:
             return {
                 ...state,
-                comments: state.comments.filter(x => x.id !== action.commentID)
+                comments: state.comments.filter(x => x.id !== action.commentID),
+                posts: state.posts.map(x =>
+                    x.id === action.postID
+                        ? { ...x, comment_count: x.comment_count - 1 }
+                        : x
+                )
             }
         case UPDATE_EDITING_POST:
             return { ...state, editingPost: action.postID }

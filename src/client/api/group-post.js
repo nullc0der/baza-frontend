@@ -30,8 +30,8 @@ export const getComments = postID => {
     return jsonAPI(api => api.get(url))
 }
 
-export const createComment = (postID, data) => {
-    const url = `/groups/posts/comment/?post_id=${postID}`
+export const createComment = data => {
+    const url = `/groups/posts/comment/`
     return jsonAPI(api => api.post(url, data))
 }
 

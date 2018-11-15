@@ -82,7 +82,7 @@ class PostSectionCard extends Component {
                             permissionSet={this.props.group.user_permission_set}
                             updateEditingPost={this.props.updateEditingPost}
                             userProfile={this.props.userProfile}
-                            dialogClass={s.postDialog}
+                            dialogClass={s.postsection}
                         />
                     ))}
                 <PostEditor
@@ -113,12 +113,11 @@ const mapDispatchToProps = dispatch => ({
     deletePost: postID => dispatch(groupPostActions.deleteGroupPost(postID)),
     approvePost: postID => dispatch(groupPostActions.approveGroupPost(postID)),
     fetchComments: postID => dispatch(groupPostActions.getPostComment(postID)),
-    createComment: (postID, data) =>
-        dispatch(groupPostActions.createPostComment(postID, data)),
+    createComment: data => dispatch(groupPostActions.createPostComment(data)),
     deleteComment: commentID =>
-        dispatch(groupPostActions.deleteComment(commentID)),
+        dispatch(groupPostActions.deletePostComment(commentID)),
     approveComment: commentID =>
-        dispatch(groupPostActions.approveComment(commentID)),
+        dispatch(groupPostActions.approvePostComment(commentID)),
     updateEditingPost: postID =>
         dispatch(groupPostActions.updateEditingPost(postID))
 })
