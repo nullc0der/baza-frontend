@@ -1,3 +1,6 @@
+echo "Clean public directory"
+node tools/clean.js
+
 echo "Copy vendors"
 node tools/copy.js
 

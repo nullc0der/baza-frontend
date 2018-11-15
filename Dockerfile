@@ -10,5 +10,4 @@ COPY yarn.lock /baza-front
 RUN yarn install
 COPY . /baza-front
 RUN sh ./setup.sh
-RUN node tools/clean.js
 CMD ["sh", "start.sh"]
