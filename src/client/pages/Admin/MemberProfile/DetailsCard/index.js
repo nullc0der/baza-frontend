@@ -39,6 +39,7 @@ class DetailsCard extends Component {
             <Card className={cx}>
                 <CardHeader title="DETAILS" subtitle="">
                     <CardHeaderTabs
+                        fill
                         onTabClick={this.onTabClick}
                         selectedIndex={this.state.selectedTabIndex}
                         tabs={DETAILS_CARD_TABS}

@@ -273,12 +273,12 @@ class PhoneDetails extends Component {
                         )}
                     </div>
                 </div>
-                <div className="details-section mt-2">
+                {/* <div className="details-section mt-2">
                     <div className="title">ACTIVITIES</div>
                     <div className="details-list">
                         {activities.map(this.renderOneDetailItem)}
                     </div>
-                </div>
+                </div> */}
             </CardContent>
         )
     }

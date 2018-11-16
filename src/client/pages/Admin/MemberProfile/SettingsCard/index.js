@@ -29,7 +29,7 @@ export default class SettingsCard extends Component {
     render() {
         return (
             <Card className="settings-card">
-                <CardHeader title="SETTINGS">
+                <CardHeader title="SECURITY">
                     <CardHeaderTabs
                         onTabClick={this.onTabClick}
                         selectedIndex={this.state.selectedTabIndex}

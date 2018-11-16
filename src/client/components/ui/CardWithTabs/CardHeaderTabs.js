@@ -49,5 +49,5 @@ CardHeaderTabs.propTypes = {
 CardHeaderTabs.defaultProps = {
   tabs: [],
   onTabClick: noop,
-  fill: true
+  fill: false
 }
