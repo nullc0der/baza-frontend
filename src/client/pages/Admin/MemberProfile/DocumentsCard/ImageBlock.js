@@ -15,7 +15,7 @@ const ImageBlock = props => {
             <img
                 className="img-fluid"
                 alt=""
-                src={Config.get('API_ROOT') + imageUrl}
+                src={Config.get('DOCUMENT_ROOT') + imageUrl}
             />
             <div className="overlay">
                 {!isActive && (

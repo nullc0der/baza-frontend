@@ -26,7 +26,8 @@ export const initConfig = (app) => {
 export const getClientConfig = () => {
 	return _.pick(Config,
 		'API_ROOT',
-		'MOCK_API_ROOT'
+		'MOCK_API_ROOT',
+		'DOCUMENT_ROOT',
 		// add other keys to send here
 		// e.g.
 		// API Keys,
