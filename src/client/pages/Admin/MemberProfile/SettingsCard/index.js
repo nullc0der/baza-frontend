@@ -7,13 +7,11 @@ import {
     CardBody
 } from 'components/ui/CardWithTabs'
 
-import SocialSettings from './SocialSettings'
 import SetPassword from './SetPassword'
 import TwoFactor from './TwoFactor'
 import ActivityLog from './ActivityLog'
 
 const CARD_TABS = [
-    { label: 'Social Settings' },
     { label: 'Password' },
     { label: 'Two Factor Authentication' },
     { label: 'Activity Log' }
@@ -42,10 +40,9 @@ export default class SettingsCard extends Component {
                     <SwipeableViews
                         index={this.state.selectedTabIndex}
                         onChangeIndex={this.changeSwipeIndex}>
-                        <SocialSettings />
                         <SetPassword />
                         <TwoFactor />
-                        <ActivityLog visible={this.state.selectedTabIndex === 3} />
+                        <ActivityLog visible={this.state.selectedTabIndex === 2} />
                     </SwipeableViews>
                 </CardBody>
             </Card>

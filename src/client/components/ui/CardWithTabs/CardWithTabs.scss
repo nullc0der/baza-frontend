@@ -118,6 +118,10 @@ $ui-card-radius: 3px;
                 max-height: 3px;
             }
         }
+        &.fill-mode {
+            flex: 1;
+            text-align: center;
+        }
     }
 }
 

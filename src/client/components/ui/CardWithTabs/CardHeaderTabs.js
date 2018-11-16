@@ -6,7 +6,8 @@ import noop from 'lodash/noop'
 
 export const CardHeaderTab = props => {
   const cx = classnames('ui-card-header-tab', {
-    'is-active': props.isActive
+    'is-active': props.isActive,
+    'fill-mode': props.fill
   })
   return (
     <div className={cx} onClick={props.onClick}>
@@ -23,7 +24,7 @@ CardHeaderTab.defaultProps = {
 }
 
 export const CardHeaderTabs = props => {
-  const { tabs, className, onTabClick, selectedIndex } = props
+  const { tabs, className, fill, onTabClick, selectedIndex } = props
   const cx = classnames('ui-card-header-tabs', className)
   return (
     <div className={cx}>
@@ -31,6 +32,7 @@ export const CardHeaderTabs = props => {
         <CardHeaderTab
           label={tab.label}
           key={index}
+          fill={fill}
           onClick={e => onTabClick(tab, index)}
           isActive={index === selectedIndex}
         />
@@ -41,9 +43,11 @@ export const CardHeaderTabs = props => {
 
 CardHeaderTabs.propTypes = {
   tabs: PropTypes.arrayOf(PropTypes.shape(CardHeaderTab.propTypes)),
+  fill: PropTypes.bool,
   onTabClick: PropTypes.func
 }
 CardHeaderTabs.defaultProps = {
   tabs: [],
-  onTabClick: noop
+  onTabClick: noop,
+  fill: true
 }
