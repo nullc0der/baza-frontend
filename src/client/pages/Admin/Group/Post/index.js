@@ -71,7 +71,7 @@ class PostPage extends Component {
                             category={group.group_type}
                             headerURL={group.header_image_url}
                             logoURL={group.logo_url}
-                            shortDescription={group.short_about}
+                            description={group.about}
                             longDescription={group.long_about}
                             members={group.members.length}
                             subscribers={group.subscribers.length}

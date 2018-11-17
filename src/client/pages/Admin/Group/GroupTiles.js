@@ -243,7 +243,7 @@ class GroupTiles extends Component {
         this.props
             .createGroup({
                 name: this.state.inputValues.name,
-                short_about: this.state.inputValues.description,
+                about: this.state.inputValues.description,
                 group_type_value: this.state.inputValues.groupDropdown
                     ? this.state.inputValues.groupDropdown.id
                     : '',
@@ -260,7 +260,7 @@ class GroupTiles extends Component {
                 this.setState({
                     errorValues: {
                         name: get(err, 'name', null),
-                        description: get(err, 'short_about', null),
+                        description: get(err, 'about', null),
                         groupDropdown: get(err, 'group_type_value', null),
                         otherGroupType: get(err, 'group_type_other', null),
                         nonField: get(err, 'non_field_errors', [])
@@ -353,7 +353,7 @@ class GroupTiles extends Component {
                             logoURL={x.logo_url}
                             members={x.members.length}
                             subscribers={x.subscribers.length}
-                            shortDescription={x.short_about}
+                            description={x.about}
                             subscribeSection={this.renderSubscribe(
                                 x.id,
                                 includes(

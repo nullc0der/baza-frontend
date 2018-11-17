@@ -1,6 +1,7 @@
-import React, { Component, Fragment } from 'react'
+import React, { Component } from 'react'
 import classnames from 'classnames'
 import isEmpty from 'lodash/isEmpty'
+import { Scrollbars } from 'react-custom-scrollbars'
 
 import s from './GroupCard.scss'
 
@@ -14,8 +15,7 @@ class GroupCard extends Component {
             logoURL,
             members,
             subscribers,
-            shortDescription,
-            longDescription,
+            description,
             subscribeSection,
             footer,
             onClickCard = () => {}
@@ -72,15 +72,9 @@ class GroupCard extends Component {
                     </div>
                 </div>
                 <div className="card-body">
-                    <h6> Short Description </h6>
-                    <p> {shortDescription} </p>
-                    {longDescription && (
-                        <Fragment>
-                            <h6>Long Description</h6>
-                            <p>{longDescription}</p>
-                        </Fragment>
-                    )}
-
+                    <Scrollbars autoHide autoHeight autoHeightMax={80}>
+                        <p> {description} </p>
+                    </Scrollbars>
                     <div className="bottom-stats flex-horizontal">
                         <div className="bottom-stat flex-1">
                             <div className="stat-value"> {members} </div>

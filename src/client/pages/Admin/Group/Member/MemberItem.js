@@ -102,7 +102,8 @@ class MemberItem extends Component {
             'flex-horizontal j-between'
         )
 
-        const gchunks = chunk(groups, 4)
+        const gchunks =
+            $(window).width() > 768 ? chunk(groups, 4) : chunk(groups, 2)
 
         const memberIsGroupAdmin = this.isGroupAdmin()
 
@@ -141,8 +142,8 @@ class MemberItem extends Component {
                         'clickable'}`}>
                     <div className="in-left flex-horizontal a-center">
                         <Avatar
-                            className="avatar-image"
                             own={false}
+                            size={42}
                             otherProfile={{
                                 username: userName,
                                 profile_photo: avatarUrl,
@@ -155,7 +156,7 @@ class MemberItem extends Component {
                                 {fullName || userName}{' '}
                                 <span className="username">@{userName}</span>{' '}
                                 {memberId === viewingUserProfile.user.id && (
-                                    <span className="badge badge-success">
+                                    <span className="badge badge-success d-none d-md-inline">
                                         This is you
                                     </span>
                                 )}

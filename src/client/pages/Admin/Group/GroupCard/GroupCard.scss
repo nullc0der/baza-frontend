@@ -51,10 +51,10 @@
                 bottom: 0;
                 left: 0;
                 right: 0;
-                background-color: #512da8;
+                background-color: $dark;
                 border-radius: 50%;
                 text-align: center;
-                padding: 10px;
+                padding: 12px;
                 .text {
                     font-size: 40px;
                     text-transform: capitalize;
@@ -107,8 +107,6 @@
             margin-top: 0;
             font-size: 14px;
             padding: 0 20px;
-            height: 50px;
-            overflow: hidden;
         }
         .bottom-stats {
             position: absolute;

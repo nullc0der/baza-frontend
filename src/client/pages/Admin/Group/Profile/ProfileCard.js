@@ -97,8 +97,7 @@ export default class ProfileCard extends Component {
             this.setState({
                 inputValues: {
                     name: group.name,
-                    description: group.short_about,
-                    ldescription: group.long_about || '',
+                    description: group.about,
                     otherGroupType: group.group_type_other || '',
                     groupDropdown: groupDropdown.length
                         ? groupDropdown[0]
@@ -197,8 +196,7 @@ export default class ProfileCard extends Component {
     onClickSubmit = () => {
         const data = new FormData()
         data.append('name', this.state.inputValues.name)
-        data.append('short_about', this.state.inputValues.description)
-        data.append('long_about', this.state.inputValues.ldescription)
+        data.append('about', this.state.inputValues.description)
         data.append('group_type_value', this.state.inputValues.groupDropdown.id)
         data.append(
             'group_type_other',
@@ -222,8 +220,7 @@ export default class ProfileCard extends Component {
                 this.setState({
                     errorValues: {
                         name: get(err, 'name', null),
-                        description: get(err, 'short_about', null),
-                        ldescription: get(err, 'long_about', null),
+                        description: get(err, 'about', null),
                         otherGroupType: get(err, 'group_type_other', null),
                         groupDropdown: get(err, 'group_type_value', null),
                         logo: get(err, 'logo', null),
@@ -245,8 +242,7 @@ export default class ProfileCard extends Component {
                     category={group.group_type}
                     headerURL={group.header_image_url}
                     logoURL={group.logo_url}
-                    shortDescription={group.short_about}
-                    longDescription={group.long_about}
+                    description={group.about}
                     members={group.members.length}
                     subscribers={group.subscribers.length}
                     footer={this.renderFooter()}
@@ -268,25 +264,13 @@ export default class ProfileCard extends Component {
                     />
                     <TextField
                         id="description"
-                        label="Short Description"
+                        label="Description"
                         className={
                             this.state.errorValues.description ? 'mb-3' : 'mb-2'
                         }
                         value={this.state.inputValues.description}
                         onChange={this.onInputChange}
                         errorState={this.state.errorValues.description}
-                    />
-                    <TextField
-                        id="ldescription"
-                        label="Long Description"
-                        className={
-                            this.state.errorValues.ldescription
-                                ? 'mb-3'
-                                : 'mb-2'
-                        }
-                        value={this.state.inputValues.ldescription}
-                        onChange={this.onInputChange}
-                        errorState={this.state.errorValues.ldescription}
                     />
                     <GroupTypesDropdown
                         groupTypes={this.groupTypes}
