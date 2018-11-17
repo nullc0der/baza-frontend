@@ -1,6 +1,19 @@
 @import "ui";
 
 :local(.container) {
+    .ui-card-content {
+        display: flex;
+        flex-direction: column;
+    }
+    .details-section {
+        flex: 1;
+        overflow-x: hidden;
+        overflow-y: auto;
+    }
+    .details-section .title {
+        font-weight: $font-weight-bold;
+        color: rgba($dark, 0.5);
+    }
     .add-new {
         display: flex;
         align-items: center;
@@ -38,6 +51,7 @@
             background-color: #d6d6d6;
         }
     }
+
 
     .social-accounts-list {
         display: flex;
@@ -93,6 +107,57 @@
         background-color: #2c99b1;
         .social-account-icon {
             background-color: #18cff8;
+        }
+    }
+}
+
+:local(.phoneField) {
+    color: $dark;
+    .fa-phone {
+        font-size: 18px;
+    }
+    .phone-type-col {
+        font-weight: $font-weight-bold;
+    }
+    .phone-value-row {
+        margin-top: 4px;
+    }
+    .delete-number {
+        min-width: initial;
+    }
+}
+
+
+:local(.container) .phone-add-field {
+    i {
+        font-size: 18px;
+    }
+    .phone-icon {
+        width: 24px;
+        padding-top: 5px;
+        padding-left: 5px;
+    }
+    .phone-number-field {
+        flex: 1;
+        .ui-textfield {
+            max-width: initial;
+            flex-basis: calc(100% - 40px);
+        }
+    }
+    .incode-dropdown-group {
+        width: 40px;
+        flex-basis: 40px;
+        .dropdown-toggle {
+            padding-left: 0;
+        }
+    }
+    .phone-type-dropdown {
+        display: inline-block;
+        flex: 1;
+        margin-left: 16px;
+        margin-right: 2px;
+        .select-value-field {
+            padding-left: 0;
         }
     }
 }

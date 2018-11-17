@@ -18,7 +18,7 @@ class Avatar extends Component {
             'img-fluid': userProfile.profile_photo
         })
 
-        const imageSrc = Config.get('API_ROOT') + userProfile.profile_photo
+        const imageSrc = Config.get('DOCUMENT_ROOT') + userProfile.profile_photo
 
         return userProfile.profile_photo ? (
             <img

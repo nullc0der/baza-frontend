@@ -67,7 +67,12 @@ class PhoneNumberField extends Component {
     }
 
     render() {
-        const { className, showIcon = true } = this.props
+        const {
+            className,
+            showIcon = true,
+            label = 'Phone no.',
+            placeholder = ''
+        } = this.props
         const cx = classnames(s.container, className, 'row', 'no-gutters')
         return (
             <div className={cx}>
@@ -77,7 +82,8 @@ class PhoneNumberField extends Component {
                 />
                 <TextField
                     id="phoneNumber"
-                    label="Phone no."
+                    label={label}
+                    placeholder={placeholder}
                     className="col-7 col-md-9"
                     icon={
                         showIcon ? <i className="material-icons">phone</i> : ''

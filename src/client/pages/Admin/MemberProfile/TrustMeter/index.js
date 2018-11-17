@@ -14,7 +14,7 @@ class TrustMeter extends Component {
             <BasicCard title='Trust Meter' className={s.container}>
                 <SVGDial value={value} />
                 <div className='trust-percentage'>{value}%</div>
-                <div className='trust-message'>you can be in top 10%</div>
+                <div className='trust-message'>You are in top 10%</div>
             </BasicCard>
         )
     }
