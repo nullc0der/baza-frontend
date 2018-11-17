@@ -5,7 +5,7 @@ export default class SVGDial extends Component {
 
     componentDidMount = () => {
         setTimeout(this.fixDimensions, 0)
-        setTimeout(() => this.updatePathValue(this.props.value), 0)
+        setTimeout(() => this.updatePathValue(this.props.value), 600)
     }
 
     componentWillReceiveProps = (nextProps) => {
