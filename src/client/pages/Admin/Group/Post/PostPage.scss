@@ -303,6 +303,7 @@ $background_color_22: $color_deepPurple500;
         position: fixed;
         right: 450px;
         bottom: 55px;
+        z-index: 1;
         @include media-breakpoint-down(md, $grid-breakpoints) {
             right: 10px;
         }
