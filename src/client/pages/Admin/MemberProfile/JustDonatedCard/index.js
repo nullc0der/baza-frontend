@@ -10,7 +10,7 @@ export default class ActivityCard extends Component {
             <BasicCard
                 className={s.justDonatedCard}
                 title='Just Donated'>
-                <DonationList />
+                <DonationList limit={3} />
             </BasicCard>
         )
     }

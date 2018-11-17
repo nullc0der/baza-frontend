@@ -55,7 +55,8 @@
 
     .social-accounts-list {
         display: flex;
-        flex-wrap: wrap;
+        flex-direction: column;
+        // flex-wrap: wrap;
     }
     .social-account {
         display: flex;
@@ -65,7 +66,7 @@
         border-radius: 2px;
         cursor: pointer;
         color: #fff;
-        margin-right: map-get($spacers, 2);
+        // margin-right: map-get($spacers, 2);
         margin-bottom: map-get($spacers, 2);
         @include _shadow-0();
         transition: box-shadow 0.16s ease;
@@ -113,6 +114,18 @@
 
 :local(.phoneField) {
     color: $dark;
+    position: relative;
+    margin-bottom: 40px;
+    &:after {
+        position: absolute;
+        bottom: -20px;
+        width: 54px;
+        // left: -1 * map-get($spacers, 2);
+        left: 0;
+        height: 1px;
+        background-color: rgba($dark, 0.1);
+        content: '';
+    }
     .fa-phone {
         font-size: 18px;
     }
@@ -135,27 +148,25 @@
     .phone-icon {
         width: 24px;
         padding-top: 5px;
-        padding-left: 5px;
+        // padding-left: 5px;
     }
     .phone-number-field {
         flex: 1;
-        .ui-textfield {
-            max-width: initial;
-            flex-basis: calc(100% - 40px);
+        .ui-textfield input {
+            margin-left: 4px;
         }
     }
     .incode-dropdown-group {
-        width: 40px;
-        flex-basis: 40px;
         .dropdown-toggle {
-            padding-left: 0;
+            background-color: rgba($dark, 0.1);
+            border-radius: 0;
         }
     }
     .phone-type-dropdown {
         display: inline-block;
         flex: 1;
-        margin-left: 16px;
-        margin-right: 2px;
+        margin-left: 4px;
+        // margin-right: 2px;
         .select-value-field {
             padding-left: 0;
         }

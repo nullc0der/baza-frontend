@@ -91,7 +91,10 @@ const PhoneAddField = props => {
                     <PhoneTypeDropdown
                         className='phone-type-dropdown flex-1'
                         value={phoneTypeSelected}
-                        onChange={onPhoneTypeClick}
+                        onChange={(value) => {
+                            console.log('clicked phone type', value)
+                            onPhoneTypeClick(value)
+                        }}
                     />
                 </div>
                 <div className='badge badge-success' onClick={onClickSave}>Save</div>

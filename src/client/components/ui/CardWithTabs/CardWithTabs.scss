@@ -102,6 +102,8 @@ $ui-card-radius: 3px;
         padding: 14px 18px;
         position: relative;
         flex-shrink: 0;
+        color: rgba(#fff, 0.5);
+        font-weight: $font-weight-bold;
         &:after {
             position: absolute;
             bottom: 0;
@@ -114,6 +116,7 @@ $ui-card-radius: 3px;
             transition: max-height 0.12s ease;
         }
         &.is-active {
+            color: rgba(#fff, 1);
             &:after {
                 max-height: 3px;
             }

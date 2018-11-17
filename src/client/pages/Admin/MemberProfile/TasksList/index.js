@@ -17,11 +17,13 @@ const SAMPLE_TASKS = [
 class TasksList extends Component {
     renderOneTask = (task, index) => {
         const status = task.status === 'done' ? 'badge-success' : 'badge-warning'
+        const statusText = task.status === 'done' ? 'Done' : 'Pending '
         return (
             <div className='task-item' key={task.id}>
                 <div className='task-description'>{index + 1}. {task.description}</div>
                 <div className={`task-status badge badge-pill ${status}`}>
-                    {task.status === 'done' ? 'Done' : 'Pending'}
+                    {statusText}
+                    {task.status !== 'done' && <i className='fa fa-arrow-right' />}
                 </div>
             </div>
         )

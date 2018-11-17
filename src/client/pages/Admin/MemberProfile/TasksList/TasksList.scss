@@ -6,12 +6,16 @@
         overflow-y: auto;
     }
     .task-item {
-        margin: map-get($spacers, 2) 0;
+        // margin-bottom: map-get($spacers, 2);
         position: relative;
+        // &:first-child {
+        //     margin-top: map-get($spacers, 2);
+        // }
     }
     .task-description {
         margin-right: 100px;
         padding-left: map-get($spacers, 2);
+        line-height: 30px;
     }
     .task-status {
         position: absolute;

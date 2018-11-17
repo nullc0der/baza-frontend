@@ -12,6 +12,7 @@ const PHONE_TYPE_OPTIONS = [
 
 class PhoneTypeDropdown extends Component {
     onChange = (e, value) => {
+        console.log('clicked type option', e, value)
         this.props.onChange(value)
     }
     render() {

@@ -24,6 +24,7 @@ export default class SimpleSelectDropdown extends Component {
     }
 
     handleClick = (e, item, index) => {
+        console.log('got click', item)
         this.props.onChange(item.value)
         this.toggleOpen()
     }

@@ -4,8 +4,8 @@ import isNumber from 'lodash/isNumber'
 export default class SVGDial extends Component {
 
     componentDidMount = () => {
-        setTimeout(this.fixDimensions, 2500)
-        setTimeout(() => this.updatePathValue(this.props.value), 4000)
+        setTimeout(this.fixDimensions, 0)
+        setTimeout(() => this.updatePathValue(this.props.value), 0)
     }
 
     componentWillReceiveProps = (nextProps) => {
@@ -22,7 +22,7 @@ export default class SVGDial extends Component {
 
         const pathLength = this.trackPath.getTotalLength()
         this.trackValue.style.strokeDasharray = pathLength
-        this.trackValue.style.strokeDashoffset = pathLength
+        this.trackValue.style.strokeDashoffset = -1 * pathLength
     }
 
     updatePathValue = (providedValue) => {
@@ -62,7 +62,7 @@ export default class SVGDial extends Component {
                                 d="M238,119 C238,53.2781148 184.721885,0 119,0 C53.2781148,0 0,53.2781148 0,119" id="track" stroke="#263850" opacity="0.15"></path>
                             <path
                                 ref={node => { this.trackValue = node }}
-                                d="M238,119 C238,53.2781148 184.721885,0 119,0 C53.2781148,0 0,53.2781148 0,119" id="value" stroke="url(#linearGradient-1)"></path>
+                                d="M238,119 C238,53.2781148 184.721885,0 119,0 C53.2781148,0 0,53.2781148 0,119" id="value" stroke="url(#linearGradient-1)" strokeDasharray={1000} strokeDashoffset={-1000}></path>
                         </g>
                     </g>
                 </g>
