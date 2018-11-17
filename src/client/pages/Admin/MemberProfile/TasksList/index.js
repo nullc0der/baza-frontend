@@ -11,7 +11,7 @@ const SAMPLE_TASKS = [
     { id: 5, description: 'Task 5', status: 'pending' },
     { id: 6, description: 'Task 6', status: 'done' },
     { id: 7, description: 'Task 7', status: 'pending' },
-    { id: 8, description: 'Task 8', status: 'pending' }
+    // { id: 8, description: 'Task 8', status: 'pending' }
 ]
 
 class TasksList extends Component {

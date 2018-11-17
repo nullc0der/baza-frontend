@@ -11,7 +11,6 @@ import TwitterLogin from 'react-twitter-auth'
 import { store, saveLocalState } from 'store'
 import { actions as authActions } from 'store/Auth'
 import Auth from 'utils/authHelpers'
-
 import Header from 'components/Header'
 
 import TextField from 'components/ui/TextField'

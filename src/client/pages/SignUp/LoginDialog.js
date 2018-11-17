@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import classnames from 'classnames'
 import get from 'lodash/get'
-
 import Dialog from 'components/ui/Dialog'
 
 import { Link, Redirect } from 'react-router-dom'

@@ -1,8 +1,13 @@
 @import 'ui';
 
 :local(.container) {
+    .ui-card-body {
+        display: flex;
+        flex-direction: column;
+    }
     .basic-card-content {
-        height: 250px;
+        flex: 1;
+        // height: 250px;
         overflow-y: auto;
     }
     .task-item {

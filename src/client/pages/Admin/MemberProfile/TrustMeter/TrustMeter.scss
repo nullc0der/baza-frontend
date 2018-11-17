@@ -15,7 +15,7 @@ $trust-grey: rgb(215, 218, 223);
 }
 
 :local(.container) .basic-card-content {
-    margin: 2rem 4rem;
+    margin: 0rem 4rem;
     flex: 1;
     display: flex;
     flex-direction: column;
@@ -29,7 +29,7 @@ $trust-grey: rgb(215, 218, 223);
     font-size: calc(3rem + 2px);
     position: relative;
     z-index: 10;
-    margin-top: -30%;
+    margin-top: -40%;
 }
 :local(.container) .trust-message {
     text-align: center;
