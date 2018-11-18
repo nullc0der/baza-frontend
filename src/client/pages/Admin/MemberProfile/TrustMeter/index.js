@@ -8,6 +8,20 @@ class TrustMeter extends Component {
     state = {
         value: 40
     }
+
+    // componentDidMount = () => {
+    //     this.intervals = []
+    //     const el = document.querySelector(`.${s.container}`)
+    //     el.addEventListener('click', this.animateRange)
+    // }
+
+    // animateRange = () => {
+    //     this.intervals.map(clearInterval)
+    //     this.intervals = (new Array(10).fill(1)).map((n, i) =>
+    //         setTimeout(() => this.setState({ value: (i + 1) * 10 }), (i + 1) * 1000)
+    //     )
+    // }
+
     render() {
         const { value } = this.state
         return (
