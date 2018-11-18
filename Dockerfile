@@ -1,4 +1,4 @@
-FROM alpine:latest
+FROM alpine:3.7
 LABEL maintainer Prasanta Kakati <prasantakakati@ekata.social>
 RUN apk update
 RUN apk add nodejs nodejs-npm curl
