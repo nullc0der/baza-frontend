@@ -70,12 +70,12 @@ export function configureServer(app) {
 
     // Static assets should be served without cookies
     // and ideally through a cdn
-    // if (process.env.NODE_ENV === 'development') {
-    app.use(
-        '/public',
-        express.static(path.join(__dirname, 'public'), staticOptions)
-    )
-    // }
+    if (process.env.NODE_ENV === 'development') {
+        app.use(
+            '/public',
+            express.static(path.join(__dirname, 'public'), staticOptions)
+        )
+    }
 
     // Serve service worker from root
     app.get(
