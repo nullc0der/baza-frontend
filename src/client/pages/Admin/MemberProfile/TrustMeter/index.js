@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import CountUp from 'react-countup'
 import BasicCard from '../BasicCard'
 
 import s from './TrustMeter.scss'
@@ -27,7 +28,12 @@ class TrustMeter extends Component {
         return (
             <BasicCard title='Trust Meter' className={s.container}>
                 <SVGDial value={value} />
-                <div className='trust-percentage'>{value}%</div>
+                <CountUp start={0} end={value} delay={0} duration={2} suffix='%' separator=''>
+                    {({ countUpRef }) => <div>
+                        <div className='trust-percentage' ref={countUpRef}></div>
+                    </div>}
+                </CountUp>
+                {/* <div className='trust-percentage'>{value}%</div> */}
                 <div className='trust-message'>You are in top 10%</div>
             </BasicCard>
         )
