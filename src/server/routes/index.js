@@ -25,7 +25,7 @@ export default function getRouter(app) {
     // Health check
     router.get('/ping', (req, res) => res.status(200).send('pong'))
 
-    router.use('/api/v1/mock', MockAPI)
+    router.use('/api/v2/mock', MockAPI)
 
     // No server rendering
     router.get('*', StaticRenderer)
