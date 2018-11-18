@@ -27,7 +27,9 @@ class Avatar extends Component {
                 alt="profile"
                 style={{
                     width: size + 'px',
-                    height: size + 'px'
+                    height: size + 'px',
+                    objectFit: 'cover',
+                    objectPosition: 'center center'
                 }}
             />
         ) : (

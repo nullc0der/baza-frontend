@@ -10,7 +10,9 @@ export default class ActivityCard extends Component {
             <BasicCard
                 className={s.justDonatedCard}
                 title='Just Donated'>
-                <DonationList limit={3} />
+                <DonationList
+                    donationRenderer={item => `Donated $${item.amount}`}
+                    limit={3} />
             </BasicCard>
         )
     }

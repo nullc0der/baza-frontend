@@ -13,7 +13,7 @@ import ActivityLog from './ActivityLog'
 
 const CARD_TABS = [
     { label: 'Password' },
-    { label: 'Two Factor Authentication' },
+    { label: '2 Factor Authentication' },
     { label: 'Activity Log' }
 ]
 export default class SettingsCard extends Component {

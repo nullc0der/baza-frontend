@@ -9,6 +9,7 @@
         flex: 1;
         overflow-x: hidden;
         overflow-y: auto;
+        min-height: 356px;
     }
     .details-section .title {
         font-weight: $font-weight-bold;
@@ -32,7 +33,7 @@
         }
     }
     .email-item {
-        font-size: 12px;
+        font-size: 14px;
         margin-bottom: 10px;
         p {
             margin: 0;
@@ -47,9 +48,6 @@
         margin-left: 12px;
         color: #fff;
         cursor: pointer;
-        &.badge-light {
-            background-color: #d6d6d6;
-        }
     }
 
 
@@ -145,17 +143,20 @@
     i {
         font-size: 18px;
     }
+
     .phone-icon {
         width: 24px;
         padding-top: 5px;
         // padding-left: 5px;
     }
+
     .phone-number-field {
         flex: 1;
         .ui-textfield input {
             margin-left: 4px;
         }
     }
+
     .incode-dropdown-group {
         .dropdown-toggle {
             background-color: rgba($dark, 0.1);
@@ -167,6 +168,33 @@
         flex: 1;
         margin-left: 4px;
         // margin-right: 2px;
+        .select-value-field {
+            padding-left: 0;
+        }
+    }
+}
+
+:local(.container) .email-item {
+    i {
+        font-size: 18px;
+    }
+    .email-icon {
+        width: 24px;
+        padding-top: 5px;
+    }
+    .badge {
+        min-width: 80px;
+        margin-left: 0;
+        & + .badge {
+            margin-left: 12px;
+        }
+    }
+    .badge-delete {
+        min-width: initial;
+        i { font-size: 12px; }
+    }
+    .email-add-type-dropdown {
+        flex: 1;
         .select-value-field {
             padding-left: 0;
         }

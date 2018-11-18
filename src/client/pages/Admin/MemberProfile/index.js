@@ -19,13 +19,13 @@ export default class MemberProfile extends Component {
     return (
       <div className={cx}>
         <div className="row align-stretch">
-          <div className="col-md-4">
+          <div className="col-lg-4">
             <JustDonatedCard />
           </div>
-          <div className="col-md-4">
+          <div className="col-lg-4 mt-3 mt-lg-0 mt-xl-0">
             <TrustMeter />
           </div>
-          <div className="col-md-4">
+          <div className="col-lg-4 mt-3 mt-lg-0 mt-xl-0">
             <TasksList />
           </div>
 

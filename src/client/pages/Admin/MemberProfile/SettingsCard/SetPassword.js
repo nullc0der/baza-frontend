@@ -83,23 +83,27 @@ export default class SubscribedGroups extends Component {
         return (
             <CardContent>
                 <div className="settings-section">
+                    <div className='section-title'>
+                        <span className='mr-2'>CURRENT PASSWORD</span>
+                        <span className="badge badge-pill badge-light ml-0">
+                            If no password set till now, leave it
+                            blank
+                        </span>
+                    </div>
                     <div className="password-section">
                         <TextField
                             type="password"
                             id="currentPassword"
-                            label="Current Password"
+                            label="Enter Password"
                             errorState={this.state.errorValues.currentPassword}
                             value={this.state.inputValues.currentPassword}
                             onChange={this.onInputChange}
                         />
-                        <p className="mt-2">
-                            If you didn't set a password till now, leave this
-                            field blank
-                        </p>
+                        <div className='section-title mt-3'>NEW PASSWORD</div>
                         <EnhancedPasswordField
                             id="newPassword1"
-                            label="New Password"
-                            className="mb-3"
+                            label="Enter New Password"
+                            className="mb-1"
                             errorState={this.state.errorValues.newPassword1}
                             value={this.state.inputValues.newPassword1}
                             onChange={this.onInputChange}
@@ -110,8 +114,8 @@ export default class SubscribedGroups extends Component {
                         />
                         <EnhancedPasswordField
                             id="newPassword2"
-                            label="New Password(Again)"
-                            className="mb-3"
+                            label="Enter New Password(Again)"
+                            className="mb-2"
                             errorState={this.state.errorValues.newPassword2}
                             value={this.state.inputValues.newPassword2}
                             onChange={this.onInputChange}
@@ -125,11 +129,13 @@ export default class SubscribedGroups extends Component {
                         <p className="text-success">
                             {this.state.passwordChangeSuccessText}
                         </p>
-                        <button
-                            className="btn btn-block btn-dark btn-sm"
-                            onClick={this.onClickChange}>
-                            Change
-                        </button>
+                        <div className='text-right'>
+                            <button
+                                className="btn btn-change-password btn-dark btn-sm"
+                                onClick={this.onClickChange}>
+                                Change
+                            </button>
+                        </div>
                     </div>
                 </div>
             </CardContent>

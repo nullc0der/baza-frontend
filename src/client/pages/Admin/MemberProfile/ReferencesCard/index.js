@@ -29,10 +29,6 @@ const REFERENCES_LIST = [
   {
     image: 'https://api.adorable.io/avatars/256/nanu6@adorable.io.png',
     name: 'reference6'
-  },
-  {
-    image: 'https://api.adorable.io/avatars/256/nanu7@adorable.io.png',
-    name: 'reference7'
   }
 ]
 

@@ -42,8 +42,8 @@ $ui-card-radius: 3px;
     color: #fff;
     .header-title {
         padding: 14px 18px;
-        font-weight: $font-weight-semibold;
-        font-size: 16px;
+        font-weight: $font-weight-bold;
+        font-size: 15px;
     }
     .header-subtitle {
         opacity: 0.6;
@@ -93,6 +93,7 @@ $ui-card-radius: 3px;
 :local(.container) {
     .ui-card-header-tabs {
         display: flex;
+        margin-top: 1px;
         align-items: flex-end;
         overflow-x: auto;
         width: 100%;

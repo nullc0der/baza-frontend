@@ -12,6 +12,7 @@ $trust-grey: rgb(215, 218, 223);
 :local(.container) .ui-card-body {
     display: flex;
     flex-direction: column;
+    min-height: 206px;
 }
 
 :local(.container) .basic-card-content {
@@ -21,6 +22,10 @@ $trust-grey: rgb(215, 218, 223);
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    svg {
+        margin-top: -2rem;
+        // background-color: rgba(0,0,0,0.12);
+    }
 }
 
 :local(.container) .trust-percentage {
@@ -29,16 +34,47 @@ $trust-grey: rgb(215, 218, 223);
     font-size: calc(3rem + 2px);
     position: relative;
     z-index: 10;
-    margin-top: -40%;
+    color: $dark;
+    margin-top: -5.5rem;
+
 }
+
+:local(.container) {
+    @include media-breakpoint-down(lg, $grid-breakpoints) {
+        .basic-card-content {
+            margin: 0 2rem;
+        }
+    }
+    @include media-breakpoint-down(md, $grid-breakpoints) {
+        .basic-card-content {
+            margin: 0rem 2rem;
+        }
+        .trust-percentage {
+            margin-top: -4.5rem;
+        }
+    }
+    @include media-breakpoint-down(sm, $grid-breakpoints) {
+        .basic-card-content {
+            padding-top: 2rem;
+            svg {
+                padding: 0;
+                margin-top: 0;
+            }
+        }
+    }
+}
+
 :local(.container) .trust-message {
     text-align: center;
     padding: 0 10px;
+    margin-top: -0.5rem;
     position: relative;
-    margin-top: -3%;
     z-index: 11;
     color: rgba($dark, 0.5);
     font-size: 1rem;
+    @include media-breakpoint-down(sm, $grid-breakpoints) {
+        padding-bottom: 10%;
+    }
 }
 
 :local(.container) #gauge-container {

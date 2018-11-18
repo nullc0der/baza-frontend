@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import isNumber from 'lodash/isNumber'
 import take from 'lodash/take'
@@ -18,8 +19,14 @@ const GENERATE_DONATION_ITEM = (x, i) => ({
 const items = new Array(10).fill(1).map(GENERATE_DONATION_ITEM)
 
 export default class DonationList extends Component {
-
+    static propTypes = {
+        donationRenderer: PropTypes.func
+    }
     renderOneItem = (item, index) => {
+        const { donationRenderer } = this.props
+        const donationText = typeof donationRenderer === 'function'
+            ? donationRenderer(item)
+            : `Just Donated ${item.amount}`
         return (
             <div
                 key={index}
@@ -29,7 +36,7 @@ export default class DonationList extends Component {
                     style={{ backgroundImage: `url(${item.image})` }} />
                 <div className='user-details'>
                     <div className='full-name'> {item.full_name} </div>
-                    <div className='donation'> Just Donated ${item.amount} </div>
+                    <div className='donation'> {donationText} </div>
                 </div>
                 <div className='stamp'>{item.updatedAt}</div>
             </div>

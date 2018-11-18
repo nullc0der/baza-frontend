@@ -7,7 +7,7 @@ $settings-card-tint: #f01363;
 $references-card-tint: #f5a623;
 
 :local(.container) {
-    color: inherit;
+    color: $dark;
     font-family: 'Raleway';
     .badge {
         font-weight: $font-weight-bold;
@@ -24,7 +24,7 @@ $references-card-tint: #f5a623;
             line-height: 1;
         }
         &.badge-light {
-            background-color: #d6d6d6;
+            background-color: rgba($dark, 0.3);
             color: #fff;
         }
     }
@@ -335,15 +335,33 @@ $references-card-tint: #f5a623;
         margin-bottom: map-get($spacers, 3);
     }
     .section-title {
-        font-weight: $font-weight-semibold;
+        font-weight: $font-weight-bold;
+        color: $dark;
+        font-size: 14px;
         margin-bottom: map-get($spacers, 2);
     }
-    .password-section,
-    .two-factor-section {
-        @include media-breakpoint-up(md, $grid-breakpoints) {
-            max-width: 450px;
-        }
+    .ui-textfield, .btn-change-password {
+        margin-left: map-get($spacers, 2);
+        width: calc(100% - 2rem);
     }
+    .btn-change-password {
+        font-size: 15px;
+        font-weight: $font-weight-bold;
+        margin-top: 1rem;
+        margin-right: 1rem;
+        text-transform: uppercase;
+        padding: 0.5rem 1rem;
+        width: 50%;
+    }
+    .ui-enhanced-passwordfield-toggle {
+        right: 2rem;
+    }
+    // .password-section,
+    // .two-factor-section {
+    //     @include media-breakpoint-up(md, $grid-breakpoints) {
+    //         max-width: 450px;
+    //     }
+    // }
     .two-factor-section {
         font-weight: 600;
     }
@@ -359,6 +377,16 @@ $references-card-tint: #f5a623;
 }
 
 :local(.container) .references-card {
+    .ui-card-header .header-subtitle {
+        opacity: 1;
+        font-weight: $font-weight-bold;
+        font-size: 14px;
+        color: rgba(#fff, 0.5);
+        display: flex;
+        flex: 1;
+        align-items: flex-end;
+        padding-bottom: 14px;
+    }
     .references-list {
         display: grid;
         grid-gap: map-get($spacers, 2);
@@ -390,7 +418,7 @@ $references-card-tint: #f5a623;
     color: rgba($dark, 0.5);
     font-weight: $font-weight-semibold;
     text-align: center;
-    padding: map-get($spacers, 1);
+    padding: map-get($spacers, 2) map-get($spacers, 1) map-get($spacers, 1);
 }
 
 :local(.justDonatedCard) .donation-list-inner {
@@ -398,6 +426,8 @@ $references-card-tint: #f5a623;
     height: auto;
     .donation-item {
         margin-bottom: 0;
+        padding-top: 0;
+        // padding-bottom: 12px;
     }
 
 }

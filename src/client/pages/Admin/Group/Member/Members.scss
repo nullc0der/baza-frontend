@@ -147,7 +147,7 @@
             }
             .status.is-online {
                 &:before {
-                    background-color: $background_color_3;
+                    background-color: $success;
                 }
             }
         }

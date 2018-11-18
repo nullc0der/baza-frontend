@@ -6,35 +6,45 @@ import TextField from 'components/ui/TextField'
 import { CardContent } from 'components/ui/CardWithTabs'
 
 import { actions as userProfileActions } from 'store/UserProfile'
+import EmailTypeDropdown from 'components/EmailTypeDropdown';
+import noop from 'lodash/noop'
 
 const EmailComponent = props => {
     const { email, error, onClickDelete, onClickUpdate } = props
     return (
         <Fragment>
-            <div className="flex-horizontal align-items-center email-item">
-                <p>{email.email}</p>
-                <div
-                    className={`badge badge-pull ${
-                        email.primary ? 'badge-info' : 'badge-light'
-                        }`}
-                    onClick={
-                        email.primary ? null : () => onClickUpdate(email.id)
-                    }>
-                    Primary
-                </div>
-                <div
-                    className={`badge badge-pull ${
-                        email.verified ? 'badge-success' : 'badge-light'
-                        }`}>
-                    Verified
-                </div>
-                {!email.primary && (
-                    <div
-                        className="badge badge-pull badge-danger"
-                        onClick={() => onClickDelete(email.id)}>
-                        Delete
+            <div className="email-item mb-3">
+                <div className='row no-gutters'>
+                    <div className='col-md-4'>
+                        <p>Email Type </p>
                     </div>
-                )}
+                    <div className='col-md-8 text-right'>
+                        <div
+                            className={`badge badge-pill ${email.primary ? 'badge-info' : 'badge-light'}`}
+                            onClick={email.primary ? null : () => onClickUpdate(email.id)}>
+                            Primary
+                        </div>
+                        <div
+                            className={`badge badge-pill ${email.verified ? 'badge-success' : 'badge-light'}`}>
+                            Verified
+                        </div>
+                    </div>
+                </div>
+                <div className='row no-gutters mt-1'>
+                    <div className='col-md-5'>
+                        <p>{email.email}</p>
+                    </div>
+                    <div className='col-md-7 text-right'>
+                        <div className='badge badge-pill badge-warning'>Edit</div>
+                        {!email.primary && (
+                            <div
+                                className="badge badge-delete badge-pill badge-danger"
+                                onClick={() => onClickDelete(email.id)}>
+                                <i className='fa fa-trash' />
+                            </div>
+                        )}
+                    </div>
+                </div>
             </div>
             {email.id === error.id && (
                 <p className="text-danger">{error.error}</p>
@@ -48,6 +58,7 @@ const EmailEditComponent = props => {
         emailValue,
         isEditing,
         onClickAddNew,
+        onClickCancel,
         onChangeEmailInput,
         emailInputError,
         onClickSave
@@ -56,23 +67,35 @@ const EmailEditComponent = props => {
         <div className="email-item">
             {isEditing ? (
                 <Fragment>
-                    <TextField
-                        id="email"
-                        label="Email"
-                        className={`${emailInputError ? 'mb-3' : 'mb-1'}`}
-                        onChange={onChangeEmailInput}
-                        errorState={emailInputError}
-                        value={emailValue}
-                    />
-                    <div
-                        className="btn btn-block btn-sm btn-dark"
-                        onClick={onClickSave}>
-                        Save
+                    <div className='d-flex align-items-center'>
+                        <div className='d-flex flex-1 align-items-center'>
+                            <div className='email-icon'>
+                                <i className='fa fa-envelope-o' />
+                            </div>
+                            <EmailTypeDropdown
+                                className='email-add-type-dropdown'
+                                onChange={noop}
+                            />
+                        </div>
+                        <div className='badge badge-pill badge-success' onClick={onClickSave}>Save</div>
+                    </div>
+                    <div className='d-flex align-items-center'>
+                        <div className='d-flex flex-1 align-items-center'>
+                            <TextField
+                                id="email"
+                                placeholder='Email'
+                                className={`${emailInputError ? 'mb-3' : 'mb-1'}`}
+                                onChange={onChangeEmailInput}
+                                errorState={emailInputError}
+                                value={emailValue}
+                            />
+                        </div>
+                        <div className='badge badge-pill badge-danger' onClick={onClickCancel}>Cancel</div>
                     </div>
                 </Fragment>
             ) : (
-                    <div className="add-new" onClick={onClickAddNew}>
-                        <i className="fa fa-plus" />
+                    <div className="text-center">
+                        <div className='badge badge-pill badge-light' onClick={onClickAddNew}>Add More</div>
                     </div>
                 )}
         </div>
@@ -123,9 +146,11 @@ class EmailDetails extends Component {
     }
 
     onClickAddNew = () => {
-        this.setState({
-            isEditing: true
-        })
+        this.setState({ isEditing: true })
+    }
+
+    onClickAddNewCancel = () => {
+        this.setState({ isEditing: false })
     }
 
     onClickDelete = emailID => {
@@ -180,6 +205,7 @@ class EmailDetails extends Component {
                     emailValue={this.state.emailInput}
                     isEditing={this.state.isEditing}
                     onClickAddNew={this.onClickAddNew}
+                    onClickCancel={this.onClickAddNewCancel}
                     onChangeEmailInput={this.onChangeEmailInput}
                     onClickSave={this.onClickSave}
                     emailInputError={this.state.emailInputError}

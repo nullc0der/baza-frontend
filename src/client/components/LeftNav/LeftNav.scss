@@ -226,13 +226,13 @@ $sidebar-menu-width: $admin-primary-sidebar-menu-width;
             border-radius: 50%;
         }
         &.is-online:after {
-            background-color: $color_lime500;
+            background-color: $success;
         }
         &.is-away:after {
             background-color: $warning;
         }
         &.is-busy:after {
-            background-color: $color-red700;
+            background-color: $danger;
         }
     }
 

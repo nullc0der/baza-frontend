@@ -6,7 +6,8 @@ import {
     Card,
     CardHeader,
     CardHeaderTabs,
-    CardBody
+    CardBody,
+    CardSearchBar
 } from 'components/ui/CardWithTabs'
 
 export default class SwipeableCard extends Component {
@@ -27,9 +28,18 @@ export default class SwipeableCard extends Component {
 
     fixChildrenHeight = () => {
         const bodyBounds = this.bodyContainer.getBoundingClientRect()
+        this.fixHeight(bodyBounds.height)
+    }
+
+    fixHeight = (height) => {
         this.bodyContainer.querySelectorAll('.ui-card-content').forEach(el => {
-            el.style.height = bodyBounds.height + 'px'
+            el.style.height = height + 'px'
         })
+    }
+
+    fixSwipeableContainerHeight = (childContainerRef) => {
+        const childBounds = childContainerRef.getBoundingClientRect()
+        this.fixHeight(childBounds.height)
     }
 
     onTabClick = (tab, selectedTabIndex) => {
@@ -42,7 +52,8 @@ export default class SwipeableCard extends Component {
 
     renderOneTabContent = (content, index) => {
         const additionalProps = {
-            visible: this.state.selectedTabIndex === index
+            visible: this.state.selectedTabIndex === index,
+            fixSwipeableContainerHeight: this.fixSwipeableContainerHeight
         }
 
         // if (this.state.childHeight) {
@@ -59,12 +70,21 @@ export default class SwipeableCard extends Component {
             headerTitle,
             headerSubtitle = '',
             fillTabs = false,
+            hasSearch = false,
+            searchValue = '',
+            searchPlaceholder = 'Search',
             children
         } = this.props
 
         return (
             <Card className={className}>
                 <CardHeader title={headerTitle} subtitle={headerSubtitle}>
+                    {hasSearch && <CardSearchBar
+                        placeholder={searchPlaceholder}
+                        value={searchValue}
+                        onChange={this.props.onSearchChange}
+                        onSearchClick={this.props.onSearchIconClick}
+                    />}
                     <CardHeaderTabs
                         fill={fillTabs}
                         onTabClick={this.onTabClick}
