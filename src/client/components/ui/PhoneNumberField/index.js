@@ -8,7 +8,7 @@ import s from './PhoneNumberField.scss'
 
 const InternationalCodeDropDown = props => {
     return (
-        <div className="incode-dropdown-group btn-group col-5 col-md-3">
+        <div className={props.className}>
             <button
                 type="button"
                 className="btn dropdown-toggle"
@@ -77,6 +77,7 @@ class PhoneNumberField extends Component {
         return (
             <div className={cx}>
                 <InternationalCodeDropDown
+                    className="incode-dropdown-group btn-group number-code-dropdown"
                     selectedCode={this.state.selectedCode}
                     onDropDownItemClick={this.onDropDownItemClick}
                 />
@@ -84,7 +85,7 @@ class PhoneNumberField extends Component {
                     id="phoneNumber"
                     label={label}
                     placeholder={placeholder}
-                    className="col-7 col-md-9"
+                    className="flex-1 number-input pl-1"
                     icon={
                         showIcon ? <i className="material-icons">phone</i> : ''
                     }

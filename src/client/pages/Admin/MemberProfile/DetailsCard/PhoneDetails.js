@@ -10,7 +10,7 @@ import s from './DetailsCard.scss'
 import { actions as userProfileActions } from 'store/UserProfile'
 
 const PhoneField = props => {
-    const { phoneNumber, onClickDelete, onClickSetPrimary } = props
+    const { phoneNumber, onClickEdit, onClickSetPrimary } = props
 
     // const icons = {
     //     home: 'fa fa-home',
@@ -30,17 +30,18 @@ const PhoneField = props => {
 
     return (
         <div className={cx}>
-            <div className='row no-gutters align-items-center'>
-                <div className='col-6 phone-type-col'>
-                    <i className='fa fa-phone' />
-                    <span className='ml-2 text-capitalize'>{phoneNumber.phone_number_type}</span>
-                </div>
-                <div className='col-6 text-right'>
-                    {phoneNumber.primary && (
+            <div className='phone-type-col'>
+                <i className='fa fa-phone' />
+                <span className='ml-2 text-capitalize'>{phoneNumber.phone_number_type}</span>
+            </div>
+            <div className='phone-number-value'>{phoneNumber.phone_number} </div>
+            <div className='d-flex align-items-center justify-content-between mt-1'>
+                <div>
+                    {!phoneNumber.primary && (
                         <div
                             className="badge badge-info">
                             Primary
-                            {/* <i className="fa fa-check" title="set primary" /> */}
+                                {/* <i className="fa fa-check" title="set primary" /> */}
                         </div>
                     )}
                     {!phoneNumber.primary && (
@@ -52,19 +53,7 @@ const PhoneField = props => {
                         </div>
                     )}
                 </div>
-            </div>
-            <div className='row phone-value-row align-items-center no-gutters'>
-                <div className='col-6'>
-                    <span className='phone-number-value'>{phoneNumber.phone_number}</span>
-                </div>
-                <div className='col-6 text-right'>
-                    <div className="badge badge-warning"> Edit </div>
-                    <div
-                        className="badge badge-danger delete-number"
-                        onClick={() => onClickDelete(phoneNumber.id)}>
-                        <i className="fa fa-trash" title="delete" />
-                    </div>
-                </div>
+                <div className="badge badge-warning" onClick={onClickEdit}> Edit </div>
             </div>
         </div>
     )
@@ -84,92 +73,45 @@ const PhoneAddField = props => {
     return (
         <div className="phone-add-field phone-input mt-2">
             <div className='d-flex align-items-center'>
-                <div className='d-flex align-items-center flex-1'>
-                    <div className='phone-icon'>
-                        <i className='fa fa-phone' />
-                    </div>
-                    <PhoneTypeDropdown
-                        className='phone-type-dropdown flex-1'
-                        value={phoneTypeSelected}
-                        onChange={(value) => {
-                            console.log('clicked phone type', value)
-                            onPhoneTypeClick(value)
-                        }}
-                    />
+                <div className='phone-icon'>
+                    <i className='fa fa-phone' />
                 </div>
-                <div className='badge badge-success' onClick={onClickSave}>Save</div>
+                <PhoneTypeDropdown
+                    className='phone-type-dropdown flex-1'
+                    value={phoneTypeSelected}
+                    onChange={onPhoneTypeClick}
+                />
             </div>
             <div className='d-flex align-items-center'>
-                <div className='d-flex align-items-center flex-1'>
-                    <PhoneNumberField
-                        showIcon={false}
-                        label=''
-                        className='phone-number-field'
-                        placeholder='Phone Number'
-                        onChange={onPhoneInputChange}
-                        errorState={errors.phoneNumber}
-                    />
-                    <div className="row no-gutters">
-                        {errors.phoneNumberType && (
-                            <div className="col">
-                                <p className="text-danger">
-                                    Please select phone number type
+                <PhoneNumberField
+                    showIcon={false}
+                    label=''
+                    className='phone-number-field'
+                    placeholder='Phone Number'
+                    onChange={onPhoneInputChange}
+                    errorState={errors.phoneNumber}
+                />
+                <div className="row no-gutters">
+                    {errors.phoneNumberType && (
+                        <div className="col">
+                            <p className="text-danger">
+                                Please select phone number type
                             </p>
-                            </div>
-                        )}
+                        </div>
+                    )}
+                </div>
+            </div>
+            <div className='mt-1 d-flex align-items-center justify-content-between'>
+                <div className='flex-1' />
+                <div>
+                    <div className='badge badge-pill badge-dark badge-dense' onClick={onClickSave} title='Save'>
+                        <i className='fa fa-check' />
+                    </div>
+                    <div className='badge badge-pill badge-dark badge-dense' onClick={onClickCancel} title='Cancel'>
+                        <i className='fa fa-remove' />
                     </div>
                 </div>
-                <div className='badge badge-danger' onClick={onClickCancel} >Cancel</div>
             </div>
-            {/* <div className="row no-gutters text-center mt-2">
-                <div
-                    className={`badge ${
-                        !!(phoneTypeSelected === 'home')
-                            ? 'badge-info'
-                            : 'badge-light'
-                        } col mt-1 mb-1`}
-                    onClick={() => onPhoneTypeClick('home')}>
-                    <i className="fa fa-home" /> Home
-                </div>
-                <div
-                    className={`badge ${
-                        !!(phoneTypeSelected === 'office')
-                            ? 'badge-success'
-                            : 'badge-light'
-                        } col mt-1 mb-1`}
-                    onClick={() => onPhoneTypeClick('office')}>
-                    <i className="fa fa-building" /> Office
-                </div>
-                <div
-                    className={`badge ${
-                        !!(phoneTypeSelected === 'emergency')
-                            ? 'badge-danger'
-                            : 'badge-light'
-                        } col mt-1 mb-1`}
-                    onClick={() => onPhoneTypeClick('emergency')}>
-                    <i className="fa fa-asterisk" /> Emergency
-                </div>
-                <div
-                    className={`badge ${
-                        !!(phoneTypeSelected === 'mobile')
-                            ? 'badge-warning'
-                            : 'badge-light'
-                        } col mt-1 mb-1`}
-                    onClick={() => onPhoneTypeClick('mobile')}>
-                    <i className="fa fa-mobile" /> Mobile
-                </div>
-            </div> */}
-
-            {/* <div
-                className="btn btn-block btn-sm btn-dark"
-                onClick={onClickSave}>
-                Save
-            </div>
-            <div
-                className='btn btn-block btn-sm btn-dark'
-                onClick={onClickCancel}>
-                Cancel
-            </div> */}
         </div>
     )
 }
@@ -288,12 +230,25 @@ class PhoneDetails extends Component {
                     <div className="title">CONTACT</div>
                     <div className="details-list phone-section mt-2">
                         {this.props.phoneNumbers.map((x, i) => (
-                            <PhoneField
-                                key={i}
-                                phoneNumber={x}
-                                onClickDelete={this.onClickDelete}
-                                onClickSetPrimary={this.onClickSetPrimary}
-                            />
+                            this.state.editableIndex === i
+                                ? <PhoneAddField
+                                    phoneTypeSelected={x.phone_number_type}
+                                    onPhoneInputChange={this.onChangePhoneNumber}
+                                    onPhoneTypeClick={this.onClickPhoneNumberType}
+                                    onClickSave={this.onClickSave}
+                                    onClickCancel={this.onClickAddCancel}
+                                    errors={{
+                                        phoneNumber: this.state.phoneNumberError,
+                                        phoneNumberType: this.state.phoneNumberTypeError
+                                    }}
+                                />
+                                : <PhoneField
+                                    key={i}
+                                    phoneNumber={x}
+                                    onClickEdit={() => this.setEditable(x, i)}
+                                    onClickDelete={this.onClickDelete}
+                                    onClickSetPrimary={this.onClickSetPrimary}
+                                />
                         ))}
                         {this.state.addPhoneNumberShown && (
                             <PhoneAddField

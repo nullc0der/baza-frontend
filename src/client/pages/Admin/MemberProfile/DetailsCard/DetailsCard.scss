@@ -45,9 +45,18 @@
     .badge {
         padding: 5px 16px;
         border-radius: 12px;
-        margin-left: 12px;
+        margin-left: 0;
         color: #fff;
         cursor: pointer;
+        & + .badge {
+            margin-left: 12px;
+        }
+        &.badge-dense {
+            min-width: initial;
+            i {
+                font-size: 14px;
+            }
+        }
     }
 
 
@@ -154,6 +163,7 @@
         flex: 1;
         .ui-textfield input {
             margin-left: 4px;
+            border-bottom-color: rgba($dark, 0.2);
         }
     }
 
