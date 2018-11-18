@@ -19,8 +19,8 @@ class MyPhotos extends Component {
     componentDidMount() {
         this.props
             .fetchUserImages()
-            .then(res => {})
-            .catch(res => {})
+            .then(res => { })
+            .catch(res => { })
     }
 
     onAddNewClick = () => {
@@ -72,42 +72,47 @@ class MyPhotos extends Component {
         })
     }
 
+    renderAddNew = () => {
+        return (
+            <div
+                className="profile-image is-add-new"
+                onClick={this.onAddNewClick}>
+                <input
+                    type="file"
+                    accept="image/*"
+                    className="input-field"
+                    ref="userPhotoUploader"
+                    onChange={this.onFileInputChange}
+                />
+                {this.state.imageUploading ? (
+                    <Fragment>
+                        <img
+                            className="progress-bar-bg"
+                            src={this.state.filePreview}
+                            alt="uploading"
+                        />
+                        <div className="progress-bar">
+                            <div
+                                className="progress"
+                                style={{
+                                    width:
+                                        this.state.uploadDonePercent +
+                                        '%'
+                                }}
+                            />
+                        </div>
+                    </Fragment>
+                ) : (
+                        <i className="fa fa-plus" />
+                    )}
+            </div>
+        )
+    }
+
     render() {
         return (
             <CardContent>
                 <div className="profile-images">
-                    <div
-                        className="profile-image is-add-new"
-                        onClick={this.onAddNewClick}>
-                        <input
-                            type="file"
-                            accept="image/*"
-                            className="input-field"
-                            ref="userPhotoUploader"
-                            onChange={this.onFileInputChange}
-                        />
-                        {this.state.imageUploading ? (
-                            <Fragment>
-                                <img
-                                    className="progress-bar-bg"
-                                    src={this.state.filePreview}
-                                    alt="uploading"
-                                />
-                                <div className="progress-bar">
-                                    <div
-                                        className="progress"
-                                        style={{
-                                            width:
-                                                this.state.uploadDonePercent +
-                                                '%'
-                                        }}
-                                    />
-                                </div>
-                            </Fragment>
-                        ) : (
-                            <i className="fa fa-plus" />
-                        )}
-                    </div>
                     {this.props.userImages.map((x, i) => (
                         <ImageBlock
                             className="profile-image"
@@ -118,6 +123,7 @@ class MyPhotos extends Component {
                             deleteFn={this.onUserImageDeleteClick}
                         />
                     ))}
+                    {this.renderAddNew()}
                 </div>
             </CardContent>
         )

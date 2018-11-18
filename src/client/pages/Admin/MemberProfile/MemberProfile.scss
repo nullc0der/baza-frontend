@@ -7,31 +7,54 @@ $settings-card-tint: #f01363;
 $references-card-tint: #f5a623;
 
 :local(.container) {
-    color: inherit;
+    color: $dark;
+    font-family: 'Raleway';
+    .badge {
+        font-weight: $font-weight-bold;
+        font-size: 12px;
+        text-align: center;
+        min-width: 64px;
+        padding: 5px 16px;
+        border-radius: 12px;
+        margin-left: 10px;
+        color: #fff;
+        cursor: pointer;
+        transition: background-color 0.3s ease-in-out;
+        i {
+            line-height: 1;
+        }
+        &.badge-light {
+            background-color: rgba($dark, 0.3);
+            color: #fff;
+        }
+    }
     .ui-card {
         height: 100%;
+    }
+    .ui-card .ui-card-header {
+        background-color: rgba($dark, 0.9);
     }
     .ui-card-header .header-bg {
         background-image: url('/public/img/member-profile/header-bg.jpg');
     }
-    .profile-card .ui-card-header {
-        background-color: rgba($profile-card-tint, 0.75);
-    }
-    .documents-card .ui-card-header {
-        background-color: rgba($documents-card-tint, 0.75);
-    }
-    .details-card .ui-card-header {
-        background-color: rgba($details-card-tint, 0.75);
-    }
-    .my-selection-card .ui-card-header {
-        background-color: rgba($my-selection-card-tint, 0.75);
-    }
-    .settings-card .ui-card-header {
-        background-color: rgba($settings-card-tint, 0.75);
-    }
-    .references-card .ui-card-header {
-        background-color: rgba($references-card-tint, 0.75);
-    }
+    // .profile-card .ui-card-header {
+    //     background-color: rgba($profile-card-tint, 0.75);
+    // }
+    // .documents-card .ui-card-header {
+    //     background-color: rgba($documents-card-tint, 0.75);
+    // }
+    // .details-card .ui-card-header {
+    //     background-color: rgba($details-card-tint, 0.75);
+    // }
+    // .my-selection-card .ui-card-header {
+    //     background-color: rgba($my-selection-card-tint, 0.75);
+    // }
+    // .settings-card .ui-card-header {
+    //     background-color: rgba($settings-card-tint, 0.75);
+    // }
+    // .references-card .ui-card-header {
+    //     background-color: rgba($references-card-tint, 0.75);
+    // }
 }
 
 :local(.container) .profile-card {
@@ -50,13 +73,15 @@ $references-card-tint: #f5a623;
             1px 1px 20px 1px rgba(0, 0, 0, 0.12);
     }
     .profile-detail {
-        color: #9b9b9b;
+        color: $dark;
         .label {
-            font-weight: $font-weight-semibold;
-            font-weight: 14px;
+            font-weight: $font-weight-bold;
+            font-size: 14px;
+            opacity: 0.5;
         }
         .value {
-            font-size: 12px;
+            font-size: 14px;
+            line-height: 18px;
         }
     }
     .ui-card-body {
@@ -65,12 +90,12 @@ $references-card-tint: #f5a623;
     }
     .btn-profile-edit {
         height: 50px;
-        background-color: $profile-card-tint;
-        border-color: $profile-card-tint;
+        background-color: rgba($dark, 0.9);
+        border-color: rgba($dark, 0.9);
         color: #fff;
         border-radius: 0 0 3px 3px;
         &:hover {
-            background-color: darken($profile-card-tint, 10%);
+            background-color: lighten($dark, 10%);
         }
         &:active {
             color: #fff;
@@ -88,22 +113,25 @@ $references-card-tint: #f5a623;
 :local(.container) .documents-card {
     .ui-card-content {
         max-height: 511px;
-        overflow-x: auto;
-        overflow-y: hidden;
-        margin-right: 18px;
+        overflow-x: hidden;
+        overflow-y: auto;
+        // margin-right: 18px;
     }
     .profile-images {
         display: grid;
         grid-gap: 18px;
-        grid-template-rows: repeat(3, minmax(120px, auto));
-        grid-auto-flow: column;
-        grid-auto-columns: 120px;
-        margin-right: 18px;
+        grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+        // grid-auto-flow: ;
+        grid-auto-rows: 1fr;
+        // margin-right: 18px;
     }
     .profile-image {
         width: 100%;
         height: 100%;
+        min-width: 120px;
+        min-height: 120px;
         position: relative;
+        overflow: hidden;
         &.is-big {
             grid-column: 1 / 3;
             grid-row: 1 / 3;
@@ -165,6 +193,11 @@ $references-card-tint: #f5a623;
                 top: 70%;
             }
         }
+        .img-fluid {
+            width: inherit;
+            height: inherit;
+            object-fit: cover;
+        }
         .overlay {
             display: flex;
             align-items: center;
@@ -209,9 +242,6 @@ $references-card-tint: #f5a623;
     .ui-card-body {
         color: #9b9b9b;
     }
-    .details-section .title {
-        font-weight: $font-weight-bold;
-    }
     .detail-item {
         margin-top: map-get($spacers, 2);
     }
@@ -220,27 +250,6 @@ $references-card-tint: #f5a623;
         font-size: 12px;
     }
     .phone-section {
-        max-height: 300px;
-        overflow-y: auto;
-        min-height: 200px;
-        .badge {
-            padding: 5px 16px;
-            border-radius: 12px;
-            margin-left: 10px;
-            color: #fff;
-            font-size: 14px;
-            font-weight: normal;
-            cursor: pointer;
-            transition: background-color 0.3s ease-in-out;
-            i {
-                line-height: 1;
-            }
-            &.badge-light {
-                background-color: #d6d6d6;
-                color: $dark;
-            }
-        }
-        .phone-number,
         .phone-input {
             margin-bottom: 20px;
         }
@@ -274,45 +283,37 @@ $references-card-tint: #f5a623;
 }
 
 :local(.container) .my-selection-card {
-    .my-groups-content {
-        margin-right: 18px;
-    }
+    // .my-groups-content {
+    //     margin-right: 18px;
+    // }
     .groups-list {
         display: grid;
         grid-gap: 18px;
-        grid-template-rows: repeat(3, minmax(100px, auto));
-        grid-auto-flow: column;
-        grid-auto-columns: 205px;
-        margin-right: 18px;
+        grid-template-columns: repeat(auto-fill, minmax(205px, 1fr));
+        // grid-auto-flow: column;
+        grid-auto-rows: 100px;
+        // margin-right: 18px;
     }
     .group-item {
         display: flex;
         align-items: center;
         padding: 15px;
         border-radius: 2px;
-        background-color: #22d4a7;
-        &:nth-child(2n) {
-            background-color: #f3a536;
-        }
-        &:nth-child(3n) {
-            background-color: #4e92df;
-        }
-        &:nth-child(4n) {
-            background-color: #ce0a24;
-        }
+        background-color: #fff;
+        @include _shadow-1();
     }
     .group-image {
         height: 70px;
         width: 70px;
         border-radius: 50%;
         overflow: hidden;
-        border: 3px #fff solid;
+        border: 1px #fff solid;
     }
     .group-details {
         flex: 1;
         align-self: stretch;
         text-align: right;
-        color: #fff;
+        // margin-left: map-get($spacers, 4);
     }
     .group-name {
         font-weight: $font-weight-bold;
@@ -334,109 +335,33 @@ $references-card-tint: #f5a623;
         margin-bottom: map-get($spacers, 3);
     }
     .section-title {
-        font-weight: $font-weight-semibold;
+        font-weight: $font-weight-bold;
+        color: $dark;
+        font-size: 14px;
         margin-bottom: map-get($spacers, 2);
     }
-    .add-new {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        height: 40px;
-        width: auto;
-        background-color: $light;
-        cursor: pointer;
-        &:hover {
-            i {
-                color: $dark;
-            }
-        }
-        i {
-            font-size: 20px;
-        }
+    .ui-textfield, .btn-change-password {
+        margin-left: map-get($spacers, 2);
+        width: calc(100% - 2rem);
     }
-    .email-item {
-        font-size: 12px;
-        margin-bottom: 10px;
-        p {
-            margin: 0;
-        }
-        @include media-breakpoint-up(md, $grid-breakpoints) {
-            max-width: 450px;
-        }
+    .btn-change-password {
+        font-size: 15px;
+        font-weight: $font-weight-bold;
+        margin-top: 1rem;
+        margin-right: 1rem;
+        text-transform: uppercase;
+        padding: 0.5rem 1rem;
+        width: 50%;
     }
-    .badge {
-        padding: 5px 16px;
-        border-radius: 12px;
-        margin-left: 12px;
-        color: #fff;
-        cursor: pointer;
-        &.badge-light {
-            background-color: #d6d6d6;
-        }
+    .ui-enhanced-passwordfield-toggle {
+        right: 2rem;
     }
-
-    .social-accounts-list {
-        display: flex;
-        flex-wrap: wrap;
-    }
-    .social-account {
-        display: flex;
-        align-items: center;
-        height: 37px;
-        min-width: 150px;
-        border-radius: 2px;
-        cursor: pointer;
-        color: #fff;
-        margin-right: map-get($spacers, 2);
-        margin-bottom: map-get($spacers, 2);
-        @include _shadow-0();
-        transition: box-shadow 0.16s ease;
-        &:hover {
-            @include _shadow-1();
-        }
-    }
-    .social-account-icon {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        width: 42px;
-        font-size: 18px;
-        height: inherit;
-        border-radius: 2px 0 0 2px;
-        background-color: #eaeaea;
-    }
-    .social-account-name {
-        padding: 0 26px;
-        font-size: 13px;
-    }
-
-    .social-account.account-new {
-        background-color: #cecece;
-    }
-    .social-account.account-facebook {
-        background-color: #23417e;
-        .social-account-icon {
-            background-color: #3d5a96;
-        }
-    }
-    .social-account.account-google-plus {
-        background-color: #af3d32;
-        .social-account-icon {
-            background-color: #db4c3f;
-        }
-    }
-    .social-account.account-twitter {
-        background-color: #2c99b1;
-        .social-account-icon {
-            background-color: #18cff8;
-        }
-    }
-    .password-section,
-    .two-factor-section {
-        @include media-breakpoint-up(md, $grid-breakpoints) {
-            max-width: 450px;
-        }
-    }
+    // .password-section,
+    // .two-factor-section {
+    //     @include media-breakpoint-up(md, $grid-breakpoints) {
+    //         max-width: 450px;
+    //     }
+    // }
     .two-factor-section {
         font-weight: 600;
     }
@@ -452,14 +377,25 @@ $references-card-tint: #f5a623;
 }
 
 :local(.container) .references-card {
-    .references-list {
+    .ui-card-header .header-subtitle {
+        opacity: 1;
+        font-weight: $font-weight-bold;
+        font-size: 14px;
+        color: rgba(#fff, 0.5);
         display: flex;
-        flex-wrap: wrap;
+        flex: 1;
+        align-items: flex-end;
+        padding-bottom: 14px;
+    }
+    .references-list {
+        display: grid;
+        grid-gap: map-get($spacers, 2);
+        grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+        // grid-auto-flow: ;
+        grid-auto-rows: 100px;
     }
     .reference-item {
         display: flex;
-        width: 100px;
-        height: 100px;
         flex-direction: column;
         align-items: center;
         text-align: center;
@@ -474,5 +410,55 @@ $references-card-tint: #f5a623;
     }
     .reference-name {
         margin-top: map-get($spacers, 1);
+    }
+}
+
+:local(.basicCardTitle) {
+    font-size: 1rem;
+    color: rgba($dark, 0.5);
+    font-weight: $font-weight-semibold;
+    text-align: center;
+    padding: map-get($spacers, 2) map-get($spacers, 1) map-get($spacers, 1);
+}
+
+:local(.justDonatedCard) .donation-list-inner {
+    overflow: initial;
+    height: auto;
+    .donation-item {
+        margin-bottom: 0;
+        padding-top: 0;
+        // padding-bottom: 12px;
+    }
+
+}
+
+:local(.activityLog) {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    height: 100px;
+    overflow-y: auto;
+    flex-grow: 0;
+    .activity-item {
+        margin-bottom: map-get($spacers, 2);
+        position: relative;
+        &:first-child {
+            margin-top: map-get($spacers, 2);
+        }
+    }
+    .activity-description {
+        margin-right: 100px;
+        padding-left: map-get($spacers, 2);
+    }
+    .activity-time {
+        position: absolute;
+        top: 0;
+        right: 0;
+        font-size: 0.75rem;
+        height: 24px;
+        line-height: 14px;
+        background-color: rgba($dark, 0.1);
+        padding: 5px 16px 5px 18px;
+        border-radius: 12px 0 0 12px;
     }
 }

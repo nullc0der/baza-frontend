@@ -165,3 +165,9 @@ export const disableTwoFactor = password => {
         })
     )
 }
+
+// Mock APIs
+export const fetchActivityLog = () => {
+    const url = '/mock/activity-log'
+    return jsonAPI(api => api.get(url), { mock: true })
+}

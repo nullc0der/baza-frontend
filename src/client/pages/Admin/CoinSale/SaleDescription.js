@@ -50,25 +50,25 @@ const SaleDescription = props => {
                         <SaleItem
                             status="sold-out"
                             title="Pre-Coin Sale"
-                            amount="Pre-Coin 1.3M USD"
+                            amount="1.3M USD"
                         />
 
                         <SaleItem
                             status="almost-gone"
                             title="Series A"
-                            amount="Series A 15M USD"
+                            amount="15M USD"
                         />
 
                         <SaleItem
                             status="available"
                             title="Series B"
-                            amount="Series B 50M USD"
+                            amount="50M USD"
                         />
 
                         <SaleItem
                             status="available"
                             title="Series C"
-                            amount="Series C 100M USD"
+                            amount="100M USD"
                         />
                     </div>
                 </div>

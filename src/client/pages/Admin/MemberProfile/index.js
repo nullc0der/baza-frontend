@@ -9,6 +9,9 @@ import DetailsCard from './DetailsCard'
 import MySelectionCard from './MySelectionCard'
 import SettingsCard from './SettingsCard'
 import ReferencesCard from './ReferencesCard'
+import TrustMeter from './TrustMeter'
+import TasksList from './TasksList'
+import JustDonatedCard from './JustDonatedCard'
 
 export default class MemberProfile extends Component {
   render() {
@@ -16,6 +19,18 @@ export default class MemberProfile extends Component {
     return (
       <div className={cx}>
         <div className="row align-stretch">
+          <div className="col-lg-4">
+            <JustDonatedCard />
+          </div>
+          <div className="col-lg-4 mt-3 mt-lg-0 mt-xl-0">
+            <TrustMeter />
+          </div>
+          <div className="col-lg-4 mt-3 mt-lg-0 mt-xl-0">
+            <TasksList />
+          </div>
+
+        </div>
+        <div className="row mt-3 align-stretch">
           <div className="col-md-4">
             <ProfileCard />
           </div>
@@ -23,7 +38,7 @@ export default class MemberProfile extends Component {
             <DocumentsCard />
           </div>
         </div>
-        <div className="row mt-3 align-stretch">
+        <div className="row my-3 align-stretch">
           <div className="col-md-4">
             <DetailsCard />
           </div>

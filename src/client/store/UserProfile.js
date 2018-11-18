@@ -12,7 +12,12 @@ const INITIAL_STATE = {
     userImages: [],
     userDocuments: [],
     phoneNumbers: [],
-    profileEmails: []
+    profileEmails: [],
+    activityLog: {
+        isLoading: false,
+        hasError: false,
+        list: []
+    }
 }
 
 const createAction = str => `USER_PROFILE_${str}`
@@ -507,6 +512,28 @@ const setUserStatus = status => ({
     userStatus: status
 })
 
+const FETCH_ACTIVITY_LOG = createAction('FETCH_ACTIVITY_LOG')
+const FETCH_ACTIVITY_LOG_SUCCESS = createAction('FETCH_ACTIVITY_LOG_SUCCESS')
+const FETCH_ACTIVITY_LOG_FAILURE = createAction('FETCH_ACTIVITY_LOG_FAILURE')
+
+const fetchActivityLog = () => dispatch => {
+    dispatch({ type: FETCH_ACTIVITY_LOG })
+    return DispatchAPI(dispatch, ProfileAPI.fetchActivityLog, {
+        success: fetchActivityLogSuccess,
+        failure: fetchActivityLogFailure
+    })
+}
+
+const fetchActivityLogSuccess = response => ({
+    type: FETCH_ACTIVITY_LOG_SUCCESS,
+    list: get(response, 'data.results', [])
+})
+
+const fetchActivityLogFailure = err => ({
+    type: FETCH_ACTIVITY_LOG_FAILURE,
+    error: err.message
+})
+
 export const actions = {
     fetchProfile,
     saveProfile,
@@ -528,7 +555,8 @@ export const actions = {
     saveProfileEmail,
     updateProfileEmail,
     deleteProfileEmail,
-    setUserStatus
+    setUserStatus,
+    fetchActivityLog
 }
 
 export default function UserProfileReducer(state = INITIAL_STATE, action) {
@@ -741,6 +769,19 @@ export default function UserProfileReducer(state = INITIAL_STATE, action) {
             return {
                 ...state,
                 userStatus: action.userStatus
+            }
+        case FETCH_ACTIVITY_LOG:
+            return {
+                ...state, activityLog: { ...state.activityLog, isLoading: true, hasError: false }
+            }
+        case FETCH_ACTIVITY_LOG_FAILURE:
+            return {
+                ...state, activityLog: { ...state.activityLog, isLoading: false, hasError: action.error }
+            }
+        case FETCH_ACTIVITY_LOG_SUCCESS:
+            return {
+                ...state,
+                activityLog: { isLoading: false, list: [...action.list] }
             }
         default:
             return state

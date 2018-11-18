@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import ReactDOM from 'react-dom'
 import classnames from 'classnames'
-import { CSSTransitionGroup } from 'react-transition-group'
+import { CSSTransition } from 'react-transition-group'
 
 import isBoolean from 'lodash/isBoolean'
 
@@ -72,12 +72,10 @@ export default class Dialog extends Component {
                 aria-hidden="true">
                 <div className={backdropClass} onClick={this.onRequestClose} />
                 {!!isOpen && (
-                    <CSSTransitionGroup
-                        transitionName="fade"
-                        transitionAppear={true}
-                        transitionAppearTimeout={500}
-                        transitionEnter={false}
-                        transitionLeave={false}>
+                    <CSSTransition
+                        classNames="fade"
+                        appear
+                        timeout={500}>
                         <div
                             className="modal-dialog modal-dialog-centered"
                             role="document">
@@ -111,7 +109,7 @@ export default class Dialog extends Component {
                                 )}
                             </div>
                         </div>
-                    </CSSTransitionGroup>
+                    </CSSTransition>
                 )}
             </div>
         )

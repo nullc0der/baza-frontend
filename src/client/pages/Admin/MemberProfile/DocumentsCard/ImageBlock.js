@@ -1,4 +1,5 @@
 import React from 'react'
+import Config from 'utils/config'
 
 const ImageBlock = props => {
     const {
@@ -14,11 +15,7 @@ const ImageBlock = props => {
             <img
                 className="img-fluid"
                 alt=""
-                src={
-                    process.env.NODE_ENV === 'development'
-                        ? 'http://localhost:8000' + imageUrl
-                        : imageUrl
-                }
+                src={Config.get('DOCUMENT_ROOT') + imageUrl}
             />
             <div className="overlay">
                 {!isActive && (

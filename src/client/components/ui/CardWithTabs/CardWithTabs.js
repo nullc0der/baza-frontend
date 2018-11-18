@@ -21,15 +21,23 @@ export const CardHeader = props => {
   )
 }
 
-export const CardBody = props => {
+export const CardBody = React.forwardRef((props, ref) => {
   const cx = classnames('ui-card-body', props.className)
-  return <div className={cx}>{props.children}</div>
-}
+  return <div className={cx} ref={ref}>{props.children}</div>
+})
 
 export const CardContent = props => {
   const cx = classnames('ui-card-content', props.className)
   return <div className={cx}>{props.children}</div>
 }
+
+// export class CardContent extends Component {
+//   render() {
+//     const { className, children } = this.props
+//     const cx = classnames('ui-card-content', className)
+//     return <div className={cx} ref={node => { this.container = node }}>{children}</div>
+//   }
+// }
 
 export const CardSearchBar = props => {
   const cx = classnames('ui-card-search-bar', props.className)

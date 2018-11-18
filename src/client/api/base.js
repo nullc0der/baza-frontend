@@ -1,14 +1,15 @@
 import { create } from 'apisauce'
-
 import Auth from 'utils/authHelpers'
-
+import Config from 'utils/config'
 const debug = require('debug')('baza:api:base')
 
+export const mockAPI = create({
+    baseURL: Config.get('MOCK_API_ROOT'),
+    headers: { Accept: 'application/json' }
+})
+
 const api = create({
-    baseURL:
-        process.env.NODE_ENV === 'development'
-            ? 'http://localhost:8000/api/v1'
-            : '/api/v1',
+    baseURL: Config.get('API_ROOT'),
     headers: {
         Accept: 'application/json'
     }
@@ -20,19 +21,21 @@ const rejectIfResponseNotOK = response => {
         : Promise.reject(response.data)
 }
 
-export const formAPI = function(createRequestPromise) {
+export const formAPI = function (createRequestPromise, options = { mock: false }) {
     if (typeof createRequestPromise !== 'function') {
         throw new Error('Callback should be a function')
     }
 
-    api.setHeader('Content-Type', 'multipart/form-data')
+    const API = options.mock ? mockAPI : api
+
+    API.setHeader('Content-Type', 'multipart/form-data')
 
     if (Auth.isAuthenticated()) {
-        api.setHeader('Authorization', `Bearer ${Auth.getToken()}`)
+        API.setHeader('Authorization', `Bearer ${Auth.getToken()}`)
     }
 
     debug('Loader Start')
-    return Promise.resolve(api)
+    return Promise.resolve(API)
         .then(createRequestPromise)
         .then(response => {
             debug('Loader stop')
@@ -40,19 +43,21 @@ export const formAPI = function(createRequestPromise) {
         })
 }
 
-export const jsonAPI = function(createRequestPromise) {
+export const jsonAPI = function (createRequestPromise, options = { mock: false }) {
     if (typeof createRequestPromise !== 'function') {
         throw new Error('Callback should be a function')
     }
 
-    api.setHeader('Content-Type', 'application/json')
+    const API = options.mock ? mockAPI : api
+
+    API.setHeader('Content-Type', 'application/json')
 
     if (Auth.isAuthenticated()) {
-        api.setHeader('Authorization', `Bearer ${Auth.getToken()}`)
+        API.setHeader('Authorization', `Bearer ${Auth.getToken()}`)
     }
 
     debug('Loader start')
-    return Promise.resolve(api)
+    return Promise.resolve(API)
         .then(createRequestPromise)
         .then(response => {
             debug('Loader stop')
@@ -64,7 +69,7 @@ export const jsonAPI = function(createRequestPromise) {
  * Use this wrapper to call apis safely and,
  * ensure proper actions are dispatched while still returning original promise
  * content to return value on mapDispatchToProps
- * 
+ *
  * e.g. api as a function
  * const createFetchJobsAction = ()=> dispatch=> {
  *    return DispatchAPI(dispatch, fetchJobs, {
@@ -72,23 +77,23 @@ export const jsonAPI = function(createRequestPromise) {
  *      failure: fetchJobsFailure
  *    })
  * }
- * 
+ *
  * e.g api as a function with arguments
  * const createFetchJobsAction = (username)=> dispatch => {
  *    return DispatchAPI(dispatch, [fetchJobs, username], {
  *       success: fetchJobsSuccess,
  *       failure: fetchJobsFailure
- *    }) 
+ *    })
  * }
- * 
+ *
  * e.g. api as a promise
  * const createFetchJobsAction = (username)=> dispatch => {
  *    return DispatchAPI(dispatch, fetchJobs(username), {
  *       success: fetchJobsSuccess,
  *       failure: fetchJobsFailure
- *    }) 
+ *    })
  * }
- * 
+ *
  */
 export const DispatchAPI = (dispatchFn, promiseFn, options = {}) => {
     if (typeof options.success !== 'function') {

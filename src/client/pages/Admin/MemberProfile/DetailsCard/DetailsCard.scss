@@ -1,0 +1,202 @@
+@import "ui";
+
+:local(.container) {
+    .ui-card-content {
+        display: flex;
+        flex-direction: column;
+    }
+    .details-section {
+        flex: 1;
+        overflow-x: hidden;
+        overflow-y: auto;
+        min-height: 356px;
+    }
+    .details-section .title {
+        font-weight: $font-weight-bold;
+        color: rgba($dark, 0.5);
+    }
+    .add-new {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 40px;
+        width: auto;
+        background-color: $light;
+        cursor: pointer;
+        &:hover {
+            i {
+                color: $dark;
+            }
+        }
+        i {
+            font-size: 20px;
+        }
+    }
+    .email-item {
+        font-size: 14px;
+        margin-bottom: 10px;
+        p {
+            margin: 0;
+        }
+        @include media-breakpoint-up(md, $grid-breakpoints) {
+            max-width: 450px;
+        }
+    }
+    .badge {
+        padding: 5px 16px;
+        border-radius: 12px;
+        margin-left: 12px;
+        color: #fff;
+        cursor: pointer;
+    }
+
+
+    .social-accounts-list {
+        display: flex;
+        flex-direction: column;
+        // flex-wrap: wrap;
+    }
+    .social-account {
+        display: flex;
+        align-items: center;
+        height: 37px;
+        min-width: 150px;
+        border-radius: 2px;
+        cursor: pointer;
+        color: #fff;
+        // margin-right: map-get($spacers, 2);
+        margin-bottom: map-get($spacers, 2);
+        @include _shadow-0();
+        transition: box-shadow 0.16s ease;
+        &:hover {
+            @include _shadow-1();
+        }
+    }
+    .social-account-icon {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 42px;
+        font-size: 18px;
+        height: inherit;
+        border-radius: 2px 0 0 2px;
+        background-color: #eaeaea;
+    }
+    .social-account-name {
+        padding: 0 26px;
+        font-size: 13px;
+    }
+
+    .social-account.account-new {
+        background-color: #cecece;
+    }
+    .social-account.account-facebook {
+        background-color: #23417e;
+        .social-account-icon {
+            background-color: #3d5a96;
+        }
+    }
+    .social-account.account-google-plus {
+        background-color: #af3d32;
+        .social-account-icon {
+            background-color: #db4c3f;
+        }
+    }
+    .social-account.account-twitter {
+        background-color: #2c99b1;
+        .social-account-icon {
+            background-color: #18cff8;
+        }
+    }
+}
+
+:local(.phoneField) {
+    color: $dark;
+    position: relative;
+    margin-bottom: 40px;
+    &:after {
+        position: absolute;
+        bottom: -20px;
+        width: 54px;
+        // left: -1 * map-get($spacers, 2);
+        left: 0;
+        height: 1px;
+        background-color: rgba($dark, 0.1);
+        content: '';
+    }
+    .fa-phone {
+        font-size: 18px;
+    }
+    .phone-type-col {
+        font-weight: $font-weight-bold;
+    }
+    .phone-value-row {
+        margin-top: 4px;
+    }
+    .delete-number {
+        min-width: initial;
+    }
+}
+
+
+:local(.container) .phone-add-field {
+    i {
+        font-size: 18px;
+    }
+
+    .phone-icon {
+        width: 24px;
+        padding-top: 5px;
+        // padding-left: 5px;
+    }
+
+    .phone-number-field {
+        flex: 1;
+        .ui-textfield input {
+            margin-left: 4px;
+        }
+    }
+
+    .incode-dropdown-group {
+        .dropdown-toggle {
+            background-color: rgba($dark, 0.1);
+            border-radius: 0;
+        }
+    }
+    .phone-type-dropdown {
+        display: inline-block;
+        flex: 1;
+        margin-left: 4px;
+        // margin-right: 2px;
+        .select-value-field {
+            padding-left: 0;
+        }
+    }
+}
+
+:local(.container) .email-item {
+    i {
+        font-size: 18px;
+    }
+    .email-icon {
+        width: 24px;
+        padding-top: 5px;
+    }
+    .badge {
+        min-width: 80px;
+        margin-left: 0;
+        & + .badge {
+            margin-left: 12px;
+        }
+    }
+    .badge-delete {
+        min-width: initial;
+        i { font-size: 12px; }
+    }
+    .email-add-type-dropdown {
+        flex: 1;
+        .select-value-field {
+            padding-left: 0;
+        }
+    }
+}

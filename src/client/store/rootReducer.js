@@ -17,6 +17,7 @@ import Users from './Users'
 import Messenger from './Messenger'
 
 import Notifications from './Notifications'
+import Donations from './Donations'
 
 export default combineReducers({
     router,
@@ -31,5 +32,6 @@ export default combineReducers({
     DistributionSignUp,
     Users,
     Messenger,
-    Notifications
+    Notifications,
+    Donations
 })

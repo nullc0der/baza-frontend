@@ -24,14 +24,22 @@ export default class ProgressBar extends Component {
                         {!!currentTooltipText && (
                             <div className="ui-progress-tooltip current-tooltip">
                                 {currentTooltipText}
+                                <div className="ui-progress-progress-sm-text">
+                                    {activeText}
+                                </div>
                             </div>
                         )}
-                        {activeText}
+                        <span className="ui-progress-progress-text">
+                            {activeText}
+                        </span>
                     </span>
                 </div>
                 {!!endTooltipText && (
                     <div className="ui-progress-tooltip end-tooltip">
                         {endTooltipText}
+                        <div className="ui-progress-end-sm-text d-md-none">
+                            {endText}
+                        </div>
                     </div>
                 )}
             </div>

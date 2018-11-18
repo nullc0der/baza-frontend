@@ -17,6 +17,17 @@
         padding-top: $header-height;
     }
 
+    .signup-carousel:after {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        pointer-events: none;
+        content: '';
+        box-shadow: inset 0px 0px 50px 0px rgba(0,0,0,0.3);
+    }
+
     @include media-breakpoint-down(sm, $grid-breakpoints) {
         .page-layer {
             overflow-y: auto;
@@ -78,6 +89,12 @@
         margin: 0 auto;
         text-align: center;
         position: relative;
+        h3 {
+            font-style: italic;
+        }
+    }
+    .carousel-item-content .underline-center {
+        margin-top: map-get($spacers, 2);
     }
     .carousel-item,
     .carousel-inner {

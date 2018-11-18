@@ -20,8 +20,23 @@ $purchase-button-height: 50px;
             padding-bottom: map-get($spacers, 3);
         }
     }
+    .title.top-title {
+        position: relative;
+        top: -36px;
+        left: 0px;
+        text-align: center;
+        margin-bottom: -30px;
+    }
     @include media-breakpoint-down(sm, $grid-breakpoints) {
         padding-top: map-get($spacers, 4);
+        .title.top-title {
+            width: calc(100% - 140px);
+            position: relative;
+            top: -48px;
+            left: 0px;
+            text-align: left;
+            margin-bottom: -30px;
+        }
     }
 }
 
@@ -33,7 +48,7 @@ $purchase-button-height: 50px;
     position: relative;
     cursor: pointer;
     @include fat-gradient();
-    @include animate-progress-bar(10s);
+    @include animate-progress-bar(17s);
     &:hover {
         background-color: darken($success, 5%);
     }
@@ -90,14 +105,16 @@ $purchase-button-height: 50px;
 :local(.container) .sale-description-container {
     margin-top: 48px;
     background-color: rgba($dark, 0.08);
-    padding: 48px;
+    padding: 36px;
     text-align: center;
     .sale-item-container {
-        margin-top: 44px;
+        margin-top: 36px;
     }
     .sale-item-title {
-        margin-bottom: 30px;
+        margin-bottom: 1.4rem;
         color: rgba($dark, 0.5);
+        font-weight: $font-weight-bold;
+        font-size: 1rem;
         position: relative;
         &:after {
             position: absolute;

@@ -23,11 +23,11 @@
     .ui-select-dropdown-menu {
         position: absolute;
         width: 100%;
-        max-height: 70px;
+        max-height: 0px;
         overflow-y: auto;
         background-color: #f6f6f6;
-        animation: 0.7s fadeIn;
         z-index: 9;
+        animation: 0.7s fadeIn;
         box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.12);
         .ui-select-dropdown-item {
             cursor: pointer;
@@ -38,5 +38,13 @@
                 color: #fff;
             }
         }
+        &.is-open {
+            max-height: 400px;
+        }
     }
+}
+
+:local(.container) .select-value-field {
+    padding: map-get($spacers, 1) map-get($spacers, 2);
+    border-bottom: 1px rgba($dark, 0.2) solid;
 }

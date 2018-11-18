@@ -67,7 +67,7 @@ body {
         position: absolute;
         left: 0;
         bottom: (-1 * map-get($spacers, 3));
-        height: 2px;
+        height: 3px;
         background-color: $dark;
         width: map-get($spacers, 4);
     }

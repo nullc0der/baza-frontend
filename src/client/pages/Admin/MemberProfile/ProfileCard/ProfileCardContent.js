@@ -49,9 +49,11 @@ const ProfileCardContent = props => {
         isEditing,
         onFieldChange,
         onGenderSelect,
-        onPlaceSelect,
-        errors
+        onPlaceSelect
     } = props
+
+    const errors = props.errors || {}
+
     return (
         <CardContent>
             <div className="row mt-2">
@@ -101,8 +103,8 @@ const ProfileCardContent = props => {
                                     errorState={get(errors, 'gender', '')}
                                 />
                             ) : (
-                                profile.gender
-                            )
+                                    profile.gender
+                                )
                         }
                     />
                 </div>
@@ -171,8 +173,8 @@ const ProfileCardContent = props => {
                                     </div>
                                 </Fragment>
                             ) : (
-                                profile.location
-                            )
+                                    profile.location
+                                )
                         }
                         className="text-right"
                     />
@@ -185,7 +187,7 @@ const ProfileCardContent = props => {
                         alt="Location"
                         src={`https://maps.googleapis.com/maps/api/staticmap?center=${
                             profile.location
-                        }&zoom=11&scale=1&size=600x250&maptype=roadmap&format=png&visual_refresh=true&key=AIzaSyDqsDgAvVSeYBL2Q7p8x-kAB0lLuwlNW7c`}
+                            }&zoom=11&scale=1&size=600x250&maptype=roadmap&format=png&visual_refresh=true&key=AIzaSyDqsDgAvVSeYBL2Q7p8x-kAB0lLuwlNW7c`}
                     />
                 </div>
             </div>

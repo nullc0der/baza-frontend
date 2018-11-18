@@ -1,11 +1,11 @@
 /*eslint-env browser*/
 import React from 'react'
 import ReactDOM from 'react-dom'
-import { AppContainer } from 'react-hot-loader'
 import Raven from 'raven-js'
+// import { AppContainer } from 'react-hot-loader'
 // import { BrowserRouter } from "react-router-dom";
 
-import { configureStore, loadLocalState } from './store/index'
+import { configureStore, loadLocalState, saveLocalState } from './store/index'
 
 import createHistory from 'history/createBrowserHistory'
 // import {ConnectedRouter} from 'react-router-redux'
@@ -28,9 +28,10 @@ const finalState = { ...localState, ...initialState }
 const store = configureStore(finalState, history)
 
 //Save a local copy whenever store changes
-// store.subscribe(() => {
-//     saveLocalState(store.getState())
-// })
+store.subscribe(() => {
+    const { UserProfile, ...others } = store.getState()
+    saveLocalState(others)
+})
 
 // Usually you'd want to remove server copy of minimum css in SSR here
 // you also can do your post initialization tasks here,
@@ -50,13 +51,11 @@ const renderApp = Component => {
     const renderFn = !!module.hot ? ReactDOM.render : ReactDOM.hydrate
     console.time('react:rendered-in')
     renderFn(
-        <AppContainer>
-            <Component
-                history={history}
-                store={store}
-                renderCounter={++renderCounter}
-            />
-        </AppContainer>,
+        <Component
+            history={history}
+            store={store}
+            renderCounter={++renderCounter}
+        />,
         document.getElementById('root'),
         onRenderComplete
     )
@@ -106,8 +105,8 @@ if (process.env.NODE_ENV === 'production') {
 // module.hot is false in production, uglify considers this as `if (false)`  -> dead code
 // and removes it from the final build
 // You can employ similar tactics by using proper variables in DefinePlugin in your webpack config
-if (module.hot) {
-    module.hot.accept('./containers/Root', () => {
-        renderApp(Root)
-    })
-}
+// if (module.hot) {
+//     module.hot.accept('./containers/Root', () => {
+//         renderApp(Root)
+//     })
+// }

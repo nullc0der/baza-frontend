@@ -17,6 +17,7 @@ import { CurrencyDropdown } from './CoinSale'
 // import { CONVERSION_TABLE } from './data'
 
 import s from './CoinSale.scss'
+import Config from 'utils/config';
 
 export default class PurchaseDialog extends Component {
     state = {
@@ -33,10 +34,7 @@ export default class PurchaseDialog extends Component {
     componentDidMount = () => {
         if (Auth.isAuthenticated()) {
             const api = create({
-                baseURL:
-                    process.env.NODE_ENV === 'development'
-                        ? 'http://localhost:8000/api/v1'
-                        : '/api/v1',
+                baseURL: Config.get('API_ROOT'),
                 headers: {
                     Accept: 'application/json'
                 }
@@ -80,10 +78,7 @@ export default class PurchaseDialog extends Component {
     purchaseCoin = token => {
         if (token) {
             const api = create({
-                baseURL:
-                    process.env.NODE_ENV === 'development'
-                        ? 'http://localhost:8000/api/v1'
-                        : '/api/v1',
+                baseURL: Config.get('API_ROOT'),
                 headers: {
                     Accept: 'application/json'
                 }
@@ -148,8 +143,8 @@ export default class PurchaseDialog extends Component {
                             style={{ marginLeft: '8px' }}
                         />
                     ) : (
-                        <i className="material-icons">arrow_forward</i>
-                    )}
+                            <i className="material-icons">arrow_forward</i>
+                        )}
                 </button>
                 <div className="form-check form-check-inline mt-2 mb-2">
                     <input
@@ -227,16 +222,16 @@ export default class PurchaseDialog extends Component {
                 <PaymentBadges />
             </Dialog>
         ) : (
-            <Dialog
-                className={s.purchaseDialog}
-                isOpen={this.props.isOpen}
-                onRequestClose={this.props.onRequestClose}>
-                <div className="row">
-                    <div className="col-md-12 text-center">
-                        You need to be logged in first to purchase coin.
+                <Dialog
+                    className={s.purchaseDialog}
+                    isOpen={this.props.isOpen}
+                    onRequestClose={this.props.onRequestClose}>
+                    <div className="row">
+                        <div className="col-md-12 text-center">
+                            You need to be logged in first to purchase coin.
                     </div>
-                </div>
-            </Dialog>
-        )
+                    </div>
+                </Dialog>
+            )
     }
 }

@@ -3,8 +3,9 @@ extends layout
 block preload
     if is_prod
         link(rel='preload' as='script' href='/public/vendor/jquery/jquery.js')
+        link(rel='preload' as='style' href= webpack_assets['styles.css'])
         link(rel='preload' as='style'  href= webpack_assets['main.css'])
-        link(rel='preload' as='script' href= webpack_assets['manifest.js'])
+        //- link(rel='preload' as='script' href= webpack_assets['manifest.js'])
         link(rel='preload' as='script' href= webpack_assets['vendors.js'])
         link(rel='preload' as='script' href= webpack_assets['main.js'])
 
@@ -24,6 +25,7 @@ block head_styles
     link(rel='stylesheet' type='text/css' href='https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css')
 
     if is_prod
+        link(rel='stylesheet' type='text/css' href= webpack_assets['styles.css'])
         link(rel='stylesheet' type='text/css' href= webpack_assets['main.css'])
 
 block head_scripts
@@ -31,13 +33,17 @@ block head_scripts
         window.googleMapCallback = function () {
             console.log('google map loaded')
         }
+    script(type='text/javascript').
+      window.BazaConfig= !{JSON.stringify(bazaConfig)}
 
 block content
     section#root!= html
     section#modal-portal-root
 
     script(defer async type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDqsDgAvVSeYBL2Q7p8x-kAB0lLuwlNW7c&libraries=places&callback=googleMapCallback")
-    script(type='text/javascript' src='https://js.stripe.com/v3/')
+    if is_prod
+        script(type='text/javascript' src='https://js.stripe.com/v3/')
+
     script(defer type='text/javascript' src='/public/vendor/jquery/jquery.js')
     script(defer type='text/javascript' src='/public/vendor/popper.js/umd/popper.js')
     script(defer type='text/javascript' src='/public/vendor/bootstrap/js/bootstrap.js')
@@ -47,7 +53,6 @@ block content
 
     if is_prod
         script(defer type='text/javascript' src= webpack_assets['vendors.js'])
-    else
-        script(defer type='text/javascript' src= '/public/dll.vendor.js')
+        script(defer type='text/javascript' src= webpack_assets['styles.js'])
 
     script(defer type='text/javascript' src= webpack_assets['main.js'])

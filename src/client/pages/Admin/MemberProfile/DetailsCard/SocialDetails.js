@@ -1,113 +1,29 @@
-import React, { Component, Fragment } from 'react'
+import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import get from 'lodash/get'
 import TwitterLogin from 'react-twitter-auth'
-
+import Config from 'utils/config'
 import Auth from 'utils/authHelpers'
 import { actions as userProfileActions } from 'store/UserProfile'
 import { getSocialAuths, connectOrDisconnectSocialAuth } from 'api/user'
 
 import { CardContent } from 'components/ui/CardWithTabs'
-import TextField from 'components/ui/TextField'
 import FacebookLogin from 'components/FacebookLogin'
 import GoogleLogin from 'components/GoogleLogin'
 
-const EmailComponent = props => {
-    const { email, error, onClickDelete, onClickUpdate } = props
-    return (
-        <Fragment>
-            <div className="flex-horizontal align-items-center email-item">
-                <p>{email.email}</p>
-                <div
-                    className={`badge badge-pull ${
-                        email.primary ? 'badge-info' : 'badge-light'
-                    }`}
-                    onClick={
-                        email.primary ? null : () => onClickUpdate(email.id)
-                    }>
-                    Primary
-                </div>
-                <div
-                    className={`badge badge-pull ${
-                        email.verified ? 'badge-success' : 'badge-light'
-                    }`}>
-                    Verified
-                </div>
-                {!email.primary && (
-                    <div
-                        className="badge badge-pull badge-danger"
-                        onClick={() => onClickDelete(email.id)}>
-                        Delete
-                    </div>
-                )}
-            </div>
-            {email.id === error.id && (
-                <p className="text-danger">{error.error}</p>
-            )}
-        </Fragment>
-    )
-}
-
-const EmailEditComponent = props => {
-    const {
-        emailValue,
-        isEditing,
-        onClickAddNew,
-        onChangeEmailInput,
-        emailInputError,
-        onClickSave
-    } = props
-    return (
-        <div className="email-item">
-            {isEditing ? (
-                <Fragment>
-                    <TextField
-                        id="email"
-                        label="Email"
-                        className={`${emailInputError ? 'mb-3' : 'mb-1'}`}
-                        onChange={onChangeEmailInput}
-                        errorState={emailInputError}
-                        value={emailValue}
-                    />
-                    <div
-                        className="btn btn-block btn-sm btn-dark"
-                        onClick={onClickSave}>
-                        Save
-                    </div>
-                </Fragment>
-            ) : (
-                <div className="add-new" onClick={onClickAddNew}>
-                    <i className="fa fa-plus" />
-                </div>
-            )}
-        </div>
-    )
-}
-
 class SocialSettings extends Component {
     state = {
-        isEditing: false,
-        emailError: {
-            id: null,
-            error: ''
-        },
-        emailInput: '',
-        emailInputError: null,
         connectedSocials: [],
         notConnectedSocials: [],
         socialError: ''
     }
 
     componentDidMount() {
-        this.props
-            .fetchEmails(Auth.getToken())
-            .then(res => {})
-            .catch(res => {})
         getSocialAuths(Auth.getToken())
             .then(res => {
                 this.setConnectedAndNotConnectedSocials(res.data)
             })
-            .catch(res => {})
+            .catch(res => { })
     }
 
     setConnectedAndNotConnectedSocials = resData => {
@@ -131,70 +47,7 @@ class SocialSettings extends Component {
         })
     }
 
-    onChangeEmailInput = (id, value) => {
-        this.setState({
-            emailInput: value
-        })
-    }
 
-    onClickSave = () => {
-        const datas = {
-            email: this.state.emailInput,
-            access_token: Auth.getToken()
-        }
-        this.props
-            .saveEmail(datas)
-            .then(res => {
-                this.setState({
-                    isEditing: false
-                })
-            })
-            .catch(res => {
-                this.setState({
-                    emailInputError: get(res, 'email', null)
-                })
-            })
-    }
-
-    onClickAddNew = () => {
-        this.setState({
-            isEditing: true
-        })
-    }
-
-    onClickDelete = emailID => {
-        this.props
-            .deleteEmail({
-                email_id: emailID,
-                access_token: Auth.getToken()
-            })
-            .then(res => {})
-            .catch(res => {
-                this.setState({
-                    emailError: {
-                        id: emailID,
-                        error: get(res, 'error', '')
-                    }
-                })
-            })
-    }
-
-    onClickUpdate = emailID => {
-        this.props
-            .updateEmail({
-                email_id: emailID,
-                access_token: Auth.getToken()
-            })
-            .then(res => {})
-            .catch(res => {
-                this.setState({
-                    emailError: {
-                        id: emailID,
-                        error: get(res, 'error', '')
-                    }
-                })
-            })
-    }
 
     handleSocialConnect = (token, backend) => {
         const datas = {
@@ -243,25 +96,20 @@ class SocialSettings extends Component {
     }
 
     render() {
-        const twitterLoginUrl =
-            process.env.NODE_ENV === 'development'
-                ? 'http://localhost:8000/api/v1/profile/socialauths/connecttwitter/'
-                : '/api/v1/profile/socialauths/connecttwitter/'
-        const twitterRequestTokenUrl =
-            process.env.NODE_ENV === 'development'
-                ? 'http://localhost:8000/api/v1/auth/twitter/getrequesttoken/'
-                : '/api/v1/auth/twitter/getrequesttoken/'
+        const twitterLoginUrl = Config.get('API_ROOT') + '/profile/socialauths/connecttwitter/'
+        const twitterRequestTokenUrl = Config.get('API_ROOT') + '/auth/twitter/getrequesttoken/'
         return (
             <CardContent>
-                <div className="settings-section">
-                    <div className="section-title">Social Accounts</div>
+                <div className="details-section">
+                    <div className="title">Social Accounts</div>
+                    <br />
                     <div className="social-accounts-list">
                         {!!this.state.connectedSocials &&
                             this.state.connectedSocials.map((x, i) => (
                                 <div
                                     className={`social-account account-${
                                         x.provider
-                                    }`}
+                                        }`}
                                     onClick={() =>
                                         this.onClickDisconnect(x.id, x.provider)
                                     }
@@ -313,53 +161,33 @@ class SocialSettings extends Component {
                                         </div>
                                     </FacebookLogin>
                                 ) : (
-                                    <TwitterLogin
-                                        key={i}
-                                        tag="div"
-                                        loginUrl={twitterLoginUrl}
-                                        requestTokenUrl={twitterRequestTokenUrl}
-                                        customHeaders={{
-                                            'access-token': Auth.getToken()
-                                        }}
-                                        onSuccess={this.handleTwitterConnect}
-                                        onFailure={err => console.log(err)}>
-                                        <div
-                                            className="social-account account-new"
-                                            key={i}>
-                                            <div className="social-account-icon">
-                                                <i className="fa fa-twitter" />
+                                            <TwitterLogin
+                                                key={i}
+                                                tag="div"
+                                                loginUrl={twitterLoginUrl}
+                                                requestTokenUrl={twitterRequestTokenUrl}
+                                                customHeaders={{
+                                                    'access-token': Auth.getToken()
+                                                }}
+                                                onSuccess={this.handleTwitterConnect}
+                                                onFailure={err => console.log(err)}>
+                                                <div
+                                                    className="social-account account-new"
+                                                    key={i}>
+                                                    <div className="social-account-icon">
+                                                        <i className="fa fa-twitter" />
+                                                    </div>
+                                                    <div className="social-account-name">
+                                                        Twitter
                                             </div>
-                                            <div className="social-account-name">
-                                                Twitter
-                                            </div>
-                                        </div>
-                                    </TwitterLogin>
-                                )
+                                                </div>
+                                            </TwitterLogin>
+                                        )
                             })}
                     </div>
                     {!!this.state.socialError && (
                         <p className="text-danger">{this.state.socialError}</p>
                     )}
-                </div>
-                <div className="settings-section">
-                    <div className="section-title">My Emails</div>
-                    {this.props.emails.map((x, i) => (
-                        <EmailComponent
-                            email={x}
-                            key={i}
-                            onClickDelete={this.onClickDelete}
-                            onClickUpdate={this.onClickUpdate}
-                            error={this.state.emailError}
-                        />
-                    ))}
-                    <EmailEditComponent
-                        emailValue={this.state.emailInput}
-                        isEditing={this.state.isEditing}
-                        onClickAddNew={this.onClickAddNew}
-                        onChangeEmailInput={this.onChangeEmailInput}
-                        onClickSave={this.onClickSave}
-                        emailInputError={this.state.emailInputError}
-                    />
                 </div>
             </CardContent>
         )

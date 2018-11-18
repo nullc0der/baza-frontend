@@ -1,15 +1,13 @@
 import React from 'react'
+import Config from 'utils/config'
 
 const DocumentBlock = props => {
     const { className, documentUrl, documentId, deleteFn } = props
     const documentUrlSplitted = documentUrl.split('/')
+    const href = Config.get('DOCUMENT_ROOT') + documentUrl
     return (
         <a
-            href={
-                process.env.NODE_ENV === 'development'
-                    ? 'http://localhost:8000' + documentUrl
-                    : documentUrl
-            }
+            href={href}
             target="_blank"
             style={{ textDecoration: 'none', color: '#273951' }}>
             <div className={className}>

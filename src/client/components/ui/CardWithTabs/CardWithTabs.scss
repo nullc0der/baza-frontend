@@ -42,8 +42,8 @@ $ui-card-radius: 3px;
     color: #fff;
     .header-title {
         padding: 14px 18px;
-        font-weight: $font-weight-semibold;
-        font-size: 16px;
+        font-weight: $font-weight-bold;
+        font-size: 15px;
     }
     .header-subtitle {
         opacity: 0.6;
@@ -93,6 +93,7 @@ $ui-card-radius: 3px;
 :local(.container) {
     .ui-card-header-tabs {
         display: flex;
+        margin-top: 1px;
         align-items: flex-end;
         overflow-x: auto;
         width: 100%;
@@ -102,6 +103,8 @@ $ui-card-radius: 3px;
         padding: 14px 18px;
         position: relative;
         flex-shrink: 0;
+        color: rgba(#fff, 0.5);
+        font-weight: $font-weight-bold;
         &:after {
             position: absolute;
             bottom: 0;
@@ -114,9 +117,14 @@ $ui-card-radius: 3px;
             transition: max-height 0.12s ease;
         }
         &.is-active {
+            color: rgba(#fff, 1);
             &:after {
                 max-height: 3px;
             }
+        }
+        &.fill-mode {
+            flex: 1;
+            text-align: center;
         }
     }
 }

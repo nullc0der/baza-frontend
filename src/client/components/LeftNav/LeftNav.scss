@@ -16,6 +16,7 @@ $sidebar-menu-width: $admin-primary-sidebar-menu-width;
     top: 0;
     left: 0;
     bottom: 0;
+	box-shadow: 5px 0px 30px 0px rgba(#000, 0.15);
 
     .leftnav-backdrop {
         display: none;
@@ -226,13 +227,13 @@ $sidebar-menu-width: $admin-primary-sidebar-menu-width;
             border-radius: 50%;
         }
         &.is-online:after {
-            background-color: $color_lime500;
+            background-color: $success;
         }
         &.is-away:after {
             background-color: $warning;
         }
         &.is-busy:after {
-            background-color: $color-red700;
+            background-color: $danger;
         }
     }
 

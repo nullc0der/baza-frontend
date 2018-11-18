@@ -2,7 +2,7 @@ const PATHS = require('../../paths')
 
 
 
-module.exports = function CreateJSLoader(){
+module.exports = function CreateJSLoader() {
 	const envOptions = {
 		cacheDirectory: process.env.NODE_ENV !== 'production',
 		compact: process.env.NODE_ENV === 'production',

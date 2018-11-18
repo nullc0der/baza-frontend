@@ -1,12 +1,14 @@
 {
-    "extends": "react-app",
-    "rules": {
-      "jsx-a11y/href-no-hash": "off"
-    },
-    "globals": {
-      "__SERVER__": false,
-      "__DEV__": false,
-      "__TEST__": false,
-      "$": true
-    }
+  "extends": "react-app",
+  "rules": {
+    "jsx-a11y/href-no-hash": "off",
+    "jsx-a11y/anchor-is-valid": "off",
+    "react/jsx-no-target-blank": "off"
+  },
+  "globals": {
+    "__SERVER__": false,
+    "__DEV__": false,
+    "__TEST__": false,
+    "$": true
+  }
 }

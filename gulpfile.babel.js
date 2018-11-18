@@ -114,7 +114,8 @@ gulp.task('sync:server', cb => {
         proxy: {
             '**': 'http://0.0.0.0:' + Config.NODE_PORT
         },
-        before: function(app) {
+        before: function (app) {
+            app.use(webpackHotMiddleware(clientCompiler, { publicPath: webpackClientConfig.output.publicPath }))
             // app.use(errorOverlayMiddleware());
         }
     })
@@ -156,7 +157,7 @@ gulp.task('dev', cb => {
     run_seq(
         'clean',
         'copy',
-        'build:dll',
+        // 'build:dll',
         'build:client',
         'build:server',
         'sync:server',

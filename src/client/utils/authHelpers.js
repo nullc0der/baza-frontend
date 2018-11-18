@@ -1,15 +1,10 @@
 import { create } from 'apisauce'
-
+import Config from './config'
 import { store, removeLocalState } from 'store'
 import { actions as authActions } from 'store/Auth'
 
-const baseURL =
-    process.env.NODE_ENV === 'development'
-        ? 'http://localhost:8000/api/v1/auth/'
-        : '/api/v1/auth/'
-
 const api = create({
-    baseURL: baseURL,
+    baseURL: `${Config.get('API_ROOT')}/auth`,
     headers: {
         Accept: 'application/json'
     }
