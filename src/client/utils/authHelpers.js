@@ -71,7 +71,7 @@ export default class Auth {
             }).then(response => {
                 if (response.ok) {
                     store.dispatch(authActions.deauthenticateUser())
-                    removeLocalState()
+                    removeLocalState('baza-auth')
                     resolve(true)
                 }
                 resolve(false)
@@ -128,12 +128,12 @@ export default class Auth {
         if (auth.expiresIn !== '') {
             if (new Date(auth.expiresIn) < new Date()) {
                 store.dispatch(authActions.deauthenticateUser())
-                removeLocalState()
+                removeLocalState('baza-auth')
                 return false
             }
         } else {
             store.dispatch(authActions.deauthenticateUser())
-            removeLocalState()
+            removeLocalState('baza-auth')
             return false
         }
         return true
@@ -180,10 +180,7 @@ export default class Auth {
         })
     }
 
-    static twoFactorLogin(
-        code = '',
-        uuid = ''
-    ) {
+    static twoFactorLogin(code = '', uuid = '') {
         return new Promise((resolve, reject) => {
             api.setHeader('Content-Type', 'application/json')
             const data = {

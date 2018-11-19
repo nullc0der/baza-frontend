@@ -5,7 +5,7 @@ import Raven from 'raven-js'
 // import { AppContainer } from 'react-hot-loader'
 // import { BrowserRouter } from "react-router-dom";
 
-import { configureStore, loadLocalState, saveLocalState } from './store/index'
+import { configureStore, loadLocalState, saveLocalUIState } from './store/index'
 
 import createHistory from 'history/createBrowserHistory'
 // import {ConnectedRouter} from 'react-router-redux'
@@ -19,18 +19,20 @@ const history = createHistory()
 const initialState = window.INITIAL_STATE || {}
 
 // Check if a localState is present
-const localState = loadLocalState() || {}
+const uiState = loadLocalState() || {}
+
+const authState = loadLocalState('baza-auth') || {}
 
 // Combine the final state
-const finalState = { ...localState, ...initialState }
+const finalState = { ...authState, ...uiState, ...initialState }
 
 // Initialize our store
 const store = configureStore(finalState, history)
 
 //Save a local copy whenever store changes
 store.subscribe(() => {
-    const { UserProfile, ...others } = store.getState()
-    saveLocalState(others)
+    const { UserProfile, Auth, ...others } = store.getState()
+    saveLocalUIState('baza-ui', others)
 })
 
 // Usually you'd want to remove server copy of minimum css in SSR here

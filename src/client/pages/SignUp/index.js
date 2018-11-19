@@ -8,7 +8,7 @@ import { connect } from 'react-redux'
 
 import TwitterLogin from 'react-twitter-auth'
 
-import { store, saveLocalState } from 'store'
+import { store, saveLocalAuthState } from 'store'
 import { actions as authActions } from 'store/Auth'
 import Auth from 'utils/authHelpers'
 import Header from 'components/Header'
@@ -140,7 +140,9 @@ class SignUpPage extends Component {
                         shouldRedirect: true,
                         redirectURL: '/profile/'
                     })
-                    saveLocalState(store.getState())
+                    saveLocalAuthState('baza-auth', {
+                        Auth: store.getState().Auth
+                    })
                 }
             } else {
                 this.setState({
@@ -200,7 +202,8 @@ class SignUpPage extends Component {
     render() {
         const cx = classnames(s.container, 'signup-page')
         const twitterLoginUrl = Config.get('API_ROOT') + '/auth/twitter/login/'
-        const twitterRequestTokenUrl = Config.get('API_ROOT') + '/auth/twitter/getrequesttoken/'
+        const twitterRequestTokenUrl =
+            Config.get('API_ROOT') + '/auth/twitter/getrequesttoken/'
         return this.state.shouldRedirect ? (
             <Redirect
                 to={{
@@ -213,147 +216,147 @@ class SignUpPage extends Component {
                 }}
             />
         ) : (
-                <div className={cx}>
-                    <Header invert inCenter />
-                    <div className="container-fluid page-layer px-0">
-                        <div className="row h-100 no-gutters">
-                            <div className="col-md-6 signup-container">
-                                {!this.state.registerSuccessText ? (
-                                    <div className="flex-vertical align-items-center justify-content-center text-center p-4">
-                                        <h4> Hi There! </h4>
-                                        <p>
-                                            {' '}
-                                            Ready to create your awesome account{' '}
-                                        </p>
+            <div className={cx}>
+                <Header invert inCenter />
+                <div className="container-fluid page-layer px-0">
+                    <div className="row h-100 no-gutters">
+                        <div className="col-md-6 signup-container">
+                            {!this.state.registerSuccessText ? (
+                                <div className="flex-vertical align-items-center justify-content-center text-center p-4">
+                                    <h4> Hi There! </h4>
+                                    <p>
+                                        {' '}
+                                        Ready to create your awesome account{' '}
+                                    </p>
 
-                                        <form
-                                            className="signup-form my-2"
-                                            onSubmit={this.onRegisterClick}>
-                                            <TextField
-                                                id="username"
-                                                label="Username"
-                                                className="mt-3"
-                                                errorState={
-                                                    this.state.errorText.username
-                                                }
-                                                onChange={this.onInputChange}
-                                                value={
-                                                    this.state.inputValues.username
-                                                }
-                                                icon={
-                                                    <i className="material-icons">
-                                                        perm_identity
+                                    <form
+                                        className="signup-form my-2"
+                                        onSubmit={this.onRegisterClick}>
+                                        <TextField
+                                            id="username"
+                                            label="Username"
+                                            className="mt-3"
+                                            errorState={
+                                                this.state.errorText.username
+                                            }
+                                            onChange={this.onInputChange}
+                                            value={
+                                                this.state.inputValues.username
+                                            }
+                                            icon={
+                                                <i className="material-icons">
+                                                    perm_identity
                                                 </i>
-                                                }
-                                            />
-                                            <TextField
-                                                id="email"
-                                                label="Email"
-                                                className="mt-3"
-                                                errorState={
-                                                    this.state.errorText.email
-                                                }
-                                                onChange={this.onInputChange}
-                                                value={this.state.inputValues.email}
-                                                icon={
-                                                    <i className="material-icons">
-                                                        email
+                                            }
+                                        />
+                                        <TextField
+                                            id="email"
+                                            label="Email"
+                                            className="mt-3"
+                                            errorState={
+                                                this.state.errorText.email
+                                            }
+                                            onChange={this.onInputChange}
+                                            value={this.state.inputValues.email}
+                                            icon={
+                                                <i className="material-icons">
+                                                    email
                                                 </i>
-                                                }
-                                            />
-                                            <EnhancedPasswordField
-                                                id="password"
-                                                label="Password"
-                                                className="mt-3"
-                                                errorState={
-                                                    this.state.errorText.password
-                                                }
-                                                onChange={this.onInputChange}
-                                                value={
-                                                    this.state.inputValues.password
-                                                }
-                                                icon={
-                                                    <i className="material-icons">
-                                                        lock_outline
+                                            }
+                                        />
+                                        <EnhancedPasswordField
+                                            id="password"
+                                            label="Password"
+                                            className="mt-3"
+                                            errorState={
+                                                this.state.errorText.password
+                                            }
+                                            onChange={this.onInputChange}
+                                            value={
+                                                this.state.inputValues.password
+                                            }
+                                            icon={
+                                                <i className="material-icons">
+                                                    lock_outline
                                                 </i>
-                                                }
-                                                checkStrength={true}
-                                            />
-                                            <EnhancedPasswordField
-                                                id="password1"
-                                                label="Confirm Password"
-                                                className="mt-3"
-                                                errorState={
-                                                    this.state.errorText.password1
-                                                }
-                                                onChange={this.onInputChange}
-                                                value={
-                                                    this.state.inputValues.password1
-                                                }
-                                                icon={
-                                                    <i className="material-icons">
-                                                        lock_outline
+                                            }
+                                            checkStrength={true}
+                                        />
+                                        <EnhancedPasswordField
+                                            id="password1"
+                                            label="Confirm Password"
+                                            className="mt-3"
+                                            errorState={
+                                                this.state.errorText.password1
+                                            }
+                                            onChange={this.onInputChange}
+                                            value={
+                                                this.state.inputValues.password1
+                                            }
+                                            icon={
+                                                <i className="material-icons">
+                                                    lock_outline
                                                 </i>
-                                                }
-                                            />
-                                            {this.state.errorText.nonField && (
-                                                <div className="well mb-2 mt-2 error-div">
-                                                    {this.state.errorText.nonField.map(
-                                                        (x, i) => (
-                                                            <p key={i}>{x}</p>
-                                                        )
-                                                    )}
-                                                </div>
-                                            )}
-                                            <div className="well text-center mt-3">
-                                                <p> or signup with </p>
-                                                <ul className="list-inline social-login-list">
-                                                    <li className="list-inline-item">
-                                                        <GoogleLogin
-                                                            tag="div"
-                                                            handleGoogleLogin={
-                                                                this
-                                                                    .handleSocialLogin
-                                                            }
-                                                        />
-                                                    </li>
-                                                    <li className="list-inline-item">
-                                                        <FacebookLogin
-                                                            tag="div"
-                                                            handleFacebookLogin={
-                                                                this
-                                                                    .handleSocialLogin
-                                                            }
-                                                        />
-                                                    </li>
-                                                    <li className="list-inline-item">
-                                                        <TwitterLogin
-                                                            tag="div"
-                                                            loginUrl={
-                                                                twitterLoginUrl
-                                                            }
-                                                            requestTokenUrl={
-                                                                twitterRequestTokenUrl
-                                                            }
-                                                            onSuccess={
-                                                                this
-                                                                    .handleTwitterLogin
-                                                            }
-                                                            onFailure={err =>
-                                                                console.log(err)
-                                                            }>
-                                                            <i className="fa fa-twitter" />
-                                                        </TwitterLogin>
-                                                    </li>
-                                                </ul>
+                                            }
+                                        />
+                                        {this.state.errorText.nonField && (
+                                            <div className="well mb-2 mt-2 error-div">
+                                                {this.state.errorText.nonField.map(
+                                                    (x, i) => (
+                                                        <p key={i}>{x}</p>
+                                                    )
+                                                )}
                                             </div>
-                                            <button
-                                                className="mt-2 btn btn-dark btn-block"
-                                                onClick={this.onRegisterClick}>
-                                                {' '}
-                                                Sign Up{' '}
-                                            </button>
-                                            {/* <div className="form-check form-check-inline mt-2 text-left">
+                                        )}
+                                        <div className="well text-center mt-3">
+                                            <p> or signup with </p>
+                                            <ul className="list-inline social-login-list">
+                                                <li className="list-inline-item">
+                                                    <GoogleLogin
+                                                        tag="div"
+                                                        handleGoogleLogin={
+                                                            this
+                                                                .handleSocialLogin
+                                                        }
+                                                    />
+                                                </li>
+                                                <li className="list-inline-item">
+                                                    <FacebookLogin
+                                                        tag="div"
+                                                        handleFacebookLogin={
+                                                            this
+                                                                .handleSocialLogin
+                                                        }
+                                                    />
+                                                </li>
+                                                <li className="list-inline-item">
+                                                    <TwitterLogin
+                                                        tag="div"
+                                                        loginUrl={
+                                                            twitterLoginUrl
+                                                        }
+                                                        requestTokenUrl={
+                                                            twitterRequestTokenUrl
+                                                        }
+                                                        onSuccess={
+                                                            this
+                                                                .handleTwitterLogin
+                                                        }
+                                                        onFailure={err =>
+                                                            console.log(err)
+                                                        }>
+                                                        <i className="fa fa-twitter" />
+                                                    </TwitterLogin>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <button
+                                            className="mt-2 btn btn-dark btn-block"
+                                            onClick={this.onRegisterClick}>
+                                            {' '}
+                                            Sign Up{' '}
+                                        </button>
+                                        {/* <div className="form-check form-check-inline mt-2 text-left">
                                         <input
                                             className="form-check-input"
                                             type="checkbox"
@@ -367,72 +370,91 @@ class SignUpPage extends Component {
                                             Yes! Add me to your newsletter list{' '}
                                         </label>
                                     </div> */}
-                                        </form>
-                                    </div>
-                                ) : (
-                                        <div className="flex-vertical justify-content-center text-center p-4 register-success-container">
-                                            <p>{this.state.registerSuccessText}</p>
-                                        </div>
-                                    )}
-                            </div>
-                            <div className="col-md-6 carousel-container bg-dark">
-                                <Carousel className="signup-carousel h-100">
-                                    <div className="carousel-item active">
-                                        <div
-                                            className="page-layer bg"
-                                            style={{
-                                                backgroundImage: `url(/public/img/signup/martin-luther-king.png)`
-                                            }}
-                                        />
-                                        <div className="carousel-item-content">
-                                            <h3>
-                                                "I’m now convinced that the simplest approach will prove to be the most effective the solution to poverty is to abolish it directly by a now widely discussed measure: the guaranteed income."
+                                    </form>
+                                </div>
+                            ) : (
+                                <div className="flex-vertical justify-content-center text-center p-4 register-success-container">
+                                    <p>{this.state.registerSuccessText}</p>
+                                </div>
+                            )}
+                        </div>
+                        <div className="col-md-6 carousel-container bg-dark">
+                            <Carousel className="signup-carousel h-100">
+                                <div className="carousel-item active">
+                                    <div
+                                        className="page-layer bg"
+                                        style={{
+                                            backgroundImage: `url(/public/img/signup/martin-luther-king.png)`
+                                        }}
+                                    />
+                                    <div className="carousel-item-content">
+                                        <h3>
+                                            "I’m now convinced that the simplest
+                                            approach will prove to be the most
+                                            effective the solution to poverty is
+                                            to abolish it directly by a now
+                                            widely discussed measure: the
+                                            guaranteed income."
                                         </h3>
-                                            <p className="section-title-underlined underline-center">
-                                                ~ Martin Luther King Jr
+                                        <p className="section-title-underlined underline-center">
+                                            ~ Martin Luther King Jr
                                             <br />
-                                                Where Do We Go from Here : Chaos or Community (1967)
+                                            Where Do We Go from Here : Chaos or
+                                            Community (1967)
                                         </p>
-                                        </div>
                                     </div>
-                                    <div className="carousel-item">
-                                        <div
-                                            className="page-layer bg"
-                                            style={{
-                                                backgroundImage: `url(/public/img/signup/erich-fromm.png)`
-                                            }}
-                                        />
-                                        <div className="carousel-item-content">
-                                            <h3>
-                                                "Guaranteed income would not only establish freedom as a reality rather than a slogan, it would also establish a principle deeply rooted in Western religious and humanist tradition: man has the right to live, regardless!"
+                                </div>
+                                <div className="carousel-item">
+                                    <div
+                                        className="page-layer bg"
+                                        style={{
+                                            backgroundImage: `url(/public/img/signup/erich-fromm.png)`
+                                        }}
+                                    />
+                                    <div className="carousel-item-content">
+                                        <h3>
+                                            "Guaranteed income would not only
+                                            establish freedom as a reality
+                                            rather than a slogan, it would also
+                                            establish a principle deeply rooted
+                                            in Western religious and humanist
+                                            tradition: man has the right to
+                                            live, regardless!"
                                         </h3>
-                                            <p className="section-title-underlined underline-center">
-                                                ~ Erich Fromm
+                                        <p className="section-title-underlined underline-center">
+                                            ~ Erich Fromm
                                         </p>
-                                        </div>
                                     </div>
-                                    <div className="carousel-item">
-                                        <div
-                                            className="page-layer bg"
-                                            style={{
-                                                backgroundImage: `url(/public/img/signup/mark-zuckerberg.jpg)`
-                                            }}
-                                        />
-                                        <div className="carousel-item-content">
-                                            <h3>
-                                                "We should have a society that measures progress not just by economic metrics like GDP, but by how many of us have a role we find the meaningful. We should explore ideas like universal basic income to make sure everyone has a cushion to try new ideas."
+                                </div>
+                                <div className="carousel-item">
+                                    <div
+                                        className="page-layer bg"
+                                        style={{
+                                            backgroundImage: `url(/public/img/signup/mark-zuckerberg.jpg)`
+                                        }}
+                                    />
+                                    <div className="carousel-item-content">
+                                        <h3>
+                                            "We should have a society that
+                                            measures progress not just by
+                                            economic metrics like GDP, but by
+                                            how many of us have a role we find
+                                            the meaningful. We should explore
+                                            ideas like universal basic income to
+                                            make sure everyone has a cushion to
+                                            try new ideas."
                                         </h3>
-                                            <p className="section-title-underlined underline-center">
-                                                ~ Mark Zuckerberg
+                                        <p className="section-title-underlined underline-center">
+                                            ~ Mark Zuckerberg
                                         </p>
-                                        </div>
                                     </div>
-                                </Carousel>
-                            </div>
+                                </div>
+                            </Carousel>
                         </div>
                     </div>
                 </div>
-            )
+            </div>
+        )
     }
 }
 

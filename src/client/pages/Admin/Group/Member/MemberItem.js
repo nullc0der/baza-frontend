@@ -3,6 +3,7 @@ import classnames from 'classnames'
 import find from 'lodash/find'
 import chunk from 'lodash/chunk'
 import get from 'lodash/get'
+import isEmpty from 'lodash/isEmpty'
 import Avatar from 'components/Avatar'
 import Dialog from 'components/ui/Dialog'
 
@@ -155,11 +156,12 @@ class MemberItem extends Component {
                                 {' '}
                                 {fullName || userName}{' '}
                                 <span className="username">@{userName}</span>{' '}
-                                {memberId === viewingUserProfile.user.id && (
-                                    <span className="badge badge-success d-none d-md-inline">
-                                        This is you
-                                    </span>
-                                )}
+                                {!isEmpty(viewingUserProfile) &&
+                                    memberId === viewingUserProfile.user.id && (
+                                        <span className="badge badge-success d-none d-md-inline">
+                                            This is you
+                                        </span>
+                                    )}
                             </div>
                             <div
                                 className={`status text-capitalize is-${get(

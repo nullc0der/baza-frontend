@@ -6,7 +6,7 @@ import get from 'lodash/get'
 
 import Auth from 'utils/authHelpers'
 
-import { store, saveLocalState } from 'store'
+import { store, saveLocalAuthState } from 'store'
 import { actions as authActions } from 'store/Auth'
 import Header from 'components/Header'
 import TextField from 'components/ui/TextField'
@@ -47,7 +47,9 @@ class TwoFactorPage extends Component {
                     )
                 )
                 if (locationState.rememberMe || responseData.from_social) {
-                    saveLocalState(store.getState())
+                    saveLocalAuthState('baza-auth', {
+                        Auth: store.getState().Auth
+                    })
                 }
                 this.setState({
                     shouldRedirect: true
