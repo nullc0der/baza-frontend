@@ -10,45 +10,38 @@ import EmailTypeDropdown from 'components/EmailTypeDropdown';
 import noop from 'lodash/noop'
 
 const EmailComponent = props => {
-    const { email, error, onClickDelete, onClickUpdate } = props
+    const { email, error, onClickEdit, onClickUpdate } = props
     return (
         <Fragment>
             <div className="email-item mb-3">
-                <div className='row no-gutters'>
-                    <div className='col-md-4'>
+                <div>
+                    <div>
                         <p>Email Type </p>
                     </div>
-                    <div className='col-md-8 text-right'>
-                        <div
-                            className={`badge badge-pill ${email.primary ? 'badge-info' : 'badge-light'}`}
-                            onClick={email.primary ? null : () => onClickUpdate(email.id)}>
-                            Primary
-                        </div>
-                        <div
-                            className={`badge badge-pill ${email.verified ? 'badge-success' : 'badge-light'}`}>
-                            Verified
-                        </div>
-                    </div>
-                </div>
-                <div className='row no-gutters mt-1'>
-                    <div className='col-md-5'>
+                    <div>
                         <p>{email.email}</p>
                     </div>
-                    <div className='col-md-7 text-right'>
-                        <div className='badge badge-pill badge-warning'>Edit</div>
-                        {!email.primary && (
+                    {email.id === error.id && (
+                        <p className="text-danger">{error.error}</p>
+                    )}
+                    <div className='mt-1 d-flex align-items-center justify-content-between'>
+                        <div>
                             <div
-                                className="badge badge-delete badge-pill badge-danger"
-                                onClick={() => onClickDelete(email.id)}>
-                                <i className='fa fa-trash' />
+                                className={`badge badge-pill ${email.primary ? 'badge-info' : 'badge-light'}`}
+                                onClick={email.primary ? null : () => onClickUpdate(email.id)}>
+                                Primary
                             </div>
-                        )}
+                            <div
+                                className={`badge badge-pill ${email.verified ? 'badge-success' : 'badge-light'}`}>
+                                Verified
+                            </div>
+                        </div>
+                        <div>
+                            <div className='badge badge-pill badge-warning' onClick={onClickEdit}>Edit</div>
+                        </div>
                     </div>
                 </div>
             </div>
-            {email.id === error.id && (
-                <p className="text-danger">{error.error}</p>
-            )}
         </Fragment>
     )
 }
@@ -57,17 +50,21 @@ const EmailEditComponent = props => {
     const {
         emailValue,
         isEditing,
+        isEditable,
         onClickAddNew,
         onClickCancel,
+        onClickDelete,
         onChangeEmailInput,
         emailInputError,
-        onClickSave
+        onClickSave,
+        email,
+        onClickUpdate
     } = props
     return (
         <div className="email-item">
-            {isEditing ? (
+            {isEditing || isEditable ? (
                 <Fragment>
-                    <div className='d-flex align-items-center'>
+                    <div>
                         <div className='d-flex flex-1 align-items-center'>
                             <div className='email-icon'>
                                 <i className='fa fa-envelope-o' />
@@ -77,9 +74,6 @@ const EmailEditComponent = props => {
                                 onChange={noop}
                             />
                         </div>
-                        <div className='badge badge-pill badge-success' onClick={onClickSave}>Save</div>
-                    </div>
-                    <div className='d-flex align-items-center'>
                         <div className='d-flex flex-1 align-items-center'>
                             <TextField
                                 id="email"
@@ -90,7 +84,34 @@ const EmailEditComponent = props => {
                                 value={emailValue}
                             />
                         </div>
-                        <div className='badge badge-pill badge-danger' onClick={onClickCancel}>Cancel</div>
+                    </div>
+                    <div className='d-flex align-items-center mb-2 justify-content-between'>
+                        <div className='flex-1'>
+                            {isEditable && <div
+                                className={`badge badge-pill ${email.primary ? 'badge-info' : 'badge-light'}`}
+                                onClick={email.primary ? null : () => onClickUpdate(email.id)}>
+                                Primary
+                            </div>}
+                            {isEditable && <div
+                                className={`badge badge-pill ${email.verified ? 'badge-success' : 'badge-light'}`}>
+                                Verify
+                            </div>}
+                        </div>
+                        <div>
+                            {isEditable && !email.primary && (
+                                <div
+                                    className="badge badge-delete badge-pill badge-danger"
+                                    onClick={() => onClickDelete(email.id)}>
+                                    <i className='fa fa-trash' />
+                                </div>
+                            )}
+                            <div className='badge badge-pill badge-success' onClick={onClickSave}>
+                                <i className='fa fa-check' />
+                            </div>
+                            <div className='badge badge-pill badge-danger' onClick={onClickCancel}>
+                                <i className='fa fa-remove' />
+                            </div>
+                        </div>
                     </div>
                 </Fragment>
             ) : (
@@ -111,6 +132,7 @@ class EmailDetails extends Component {
         },
         emailInput: '',
         emailInputError: null,
+        editableIndex: null
     }
 
     componentDidMount = () => {
@@ -187,19 +209,47 @@ class EmailDetails extends Component {
             })
     }
 
+    setEditable = (email, editableIndex) => {
+        this.setState({
+            editableIndex,
+            isEditing: true,
+            emailInput: email.email
+        })
+    }
+
+    cancelEditable = () => {
+        this.setState({
+            editableIndex: null,
+            isEditing: false,
+            emailInput: '',
+            emailInputError: ''
+        })
+    }
+
     render() {
         return (
             <CardContent className='details-section'>
                 <div className="title">My Emails</div>
                 <br />
                 {this.props.emails.map((x, i) => (
-                    <EmailComponent
-                        email={x}
-                        key={i}
-                        onClickDelete={this.onClickDelete}
-                        onClickUpdate={this.onClickUpdate}
-                        error={this.state.emailError}
-                    />
+                    this.state.editableIndex === i
+                        ? <EmailEditComponent
+                            key={i}
+                            email={x}
+                            emailValue={this.state.emailInput}
+                            isEditable={true}
+                            onChangeEmailInput={this.onChangeEmailInput}
+                            onClickSave={this.onClickUpdate}
+                            onClickDelete={this.onClickDelete}
+                            onClickCancel={this.cancelEditable}
+                            emailInputError={this.state.emailInputError} />
+                        : <EmailComponent
+                            email={x}
+                            key={i}
+                            onClickEdit={() => this.setEditable(x, i)}
+                            onClickDelete={this.onClickDelete}
+                            onClickUpdate={this.onClickUpdate}
+                            error={this.state.emailError} />
                 ))}
                 <EmailEditComponent
                     emailValue={this.state.emailInput}

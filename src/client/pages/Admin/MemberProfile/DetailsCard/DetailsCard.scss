@@ -165,6 +165,9 @@
             margin-left: 4px;
             border-bottom-color: rgba($dark, 0.2);
         }
+        .ui-textfield-error {
+            left: 12px;
+        }
     }
 
     .incode-dropdown-group {
@@ -192,16 +195,15 @@
         width: 24px;
         padding-top: 5px;
     }
-    .badge {
-        min-width: 80px;
+    .badge.badge-pill {
         margin-left: 0;
+        min-width: initial;
+        i {
+            font-size: 12px;
+        }
         & + .badge {
             margin-left: 12px;
         }
-    }
-    .badge-delete {
-        min-width: initial;
-        i { font-size: 12px; }
     }
     .email-add-type-dropdown {
         flex: 1;

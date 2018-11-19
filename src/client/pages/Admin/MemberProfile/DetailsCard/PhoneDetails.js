@@ -37,21 +37,21 @@ const PhoneField = props => {
             <div className='phone-number-value'>{phoneNumber.phone_number} </div>
             <div className='d-flex align-items-center justify-content-between mt-1'>
                 <div>
-                    {!phoneNumber.primary && (
+                    {phoneNumber.primary && (
                         <div
                             className="badge badge-info">
                             Primary
                                 {/* <i className="fa fa-check" title="set primary" /> */}
                         </div>
                     )}
-                    {!phoneNumber.primary && (
-                        <div
-                            className={`badge ${phoneNumber.verified ? 'badge-success' : 'badge-light'}`}
-                            onClick={() => phoneNumber.verified && onClickSetPrimary(phoneNumber.id)}>
-                            {phoneNumber.verified ? 'Verified' : 'Unverified'}
-                            {/* <i className="fa fa-check" title="set primary" /> */}
-                        </div>
-                    )}
+
+                    <div
+                        className={`badge ${phoneNumber.verified ? 'badge-success' : 'badge-light'}`}
+                        onClick={() => phoneNumber.verified && onClickSetPrimary(phoneNumber.id)}>
+                        {phoneNumber.verified ? 'Verified' : 'Unverified'}
+                        {/* <i className="fa fa-check" title="set primary" /> */}
+                    </div>
+
                 </div>
                 <div className="badge badge-warning" onClick={onClickEdit}> Edit </div>
             </div>
@@ -61,59 +61,80 @@ const PhoneField = props => {
 
 
 
-const PhoneAddField = props => {
-    const {
-        onPhoneInputChange,
-        onPhoneTypeClick,
-        phoneTypeSelected,
-        onClickSave,
-        onClickCancel,
-        errors
-    } = props
-    return (
-        <div className="phone-add-field phone-input mt-2">
-            <div className='d-flex align-items-center'>
-                <div className='phone-icon'>
-                    <i className='fa fa-phone' />
+class PhoneAddField extends Component {
+    state = {
+        phoneTypeSelected: null,
+        phoneNumber: null
+    }
+
+    componentWillReceiveProps = (nextProps) => {
+
+    }
+
+    render() {
+        const {
+            onPhoneInputChange,
+            onPhoneTypeClick,
+            phoneTypeSelected,
+            phoneNumberValue,
+            onClickSave,
+            onClickCancel,
+            onClickDelete,
+            errors
+        } = this.props
+
+        const phoneType = this.state.phoneTypeSelected || phoneTypeSelected
+        const phoneNumber = this.state.phoneNumber || phoneNumberValue
+
+        return (
+            <div className="phone-add-field phone-input mt-2">
+                <div className='d-flex align-items-center'>
+                    <div className='phone-icon'>
+                        <i className='fa fa-phone' />
+                    </div>
+                    <PhoneTypeDropdown
+                        className='phone-type-dropdown flex-1'
+                        value={phoneType}
+                        onChange={onPhoneTypeClick}
+                    />
                 </div>
-                <PhoneTypeDropdown
-                    className='phone-type-dropdown flex-1'
-                    value={phoneTypeSelected}
-                    onChange={onPhoneTypeClick}
-                />
-            </div>
-            <div className='d-flex align-items-center'>
-                <PhoneNumberField
-                    showIcon={false}
-                    label=''
-                    className='phone-number-field'
-                    placeholder='Phone Number'
-                    onChange={onPhoneInputChange}
-                    errorState={errors.phoneNumber}
-                />
-                <div className="row no-gutters">
-                    {errors.phoneNumberType && (
-                        <div className="col">
-                            <p className="text-danger">
-                                Please select phone number type
-                            </p>
+                <div className='d-flex align-items-center'>
+                    <PhoneNumberField
+                        showIcon={false}
+                        label=''
+                        defaultValue={phoneNumber}
+                        className='phone-number-field'
+                        placeholder='Phone Number'
+                        onChange={onPhoneInputChange}
+                        errorState={errors.phoneNumber}
+                    />
+                    <div className="row no-gutters">
+                        {errors.phoneNumberType && (
+                            <div className="col">
+                                <p className="text-danger">
+                                    Please select phone number type
+                                </p>
+                            </div>
+                        )}
+                    </div>
+                </div>
+                <div className={`d-flex align-items-center justify-content-between ${errors.phoneNumber ? 'mt-3' : 'mt-1'} `}>
+                    <div className='flex-1' />
+                    <div>
+                        {typeof onClickDelete === 'function' && <div className='badge badge-pill badge-dark badge-dense' onClick={onClickSave} title='Save'>
+                            <i className='fa fa-trash-o' />
+                        </div>}
+                        <div className='badge badge-pill badge-dark badge-dense' onClick={onClickSave} title='Save'>
+                            <i className='fa fa-check' />
                         </div>
-                    )}
-                </div>
-            </div>
-            <div className='mt-1 d-flex align-items-center justify-content-between'>
-                <div className='flex-1' />
-                <div>
-                    <div className='badge badge-pill badge-dark badge-dense' onClick={onClickSave} title='Save'>
-                        <i className='fa fa-check' />
-                    </div>
-                    <div className='badge badge-pill badge-dark badge-dense' onClick={onClickCancel} title='Cancel'>
-                        <i className='fa fa-remove' />
+                        <div className='badge badge-pill badge-dark badge-dense' onClick={onClickCancel} title='Cancel'>
+                            <i className='fa fa-remove' />
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    )
+        )
+    }
 }
 
 class PhoneDetails extends Component {
@@ -122,7 +143,8 @@ class PhoneDetails extends Component {
         phoneNumberType: '',
         addPhoneNumberShown: false,
         phoneNumberError: null,
-        phoneNumberTypeError: null
+        phoneNumberTypeError: null,
+        editableIndex: null,
     }
 
     componentDidMount() {
@@ -192,6 +214,24 @@ class PhoneDetails extends Component {
         this.setState({ addPhoneNumberShown: false })
     }
 
+    setEditable = (phone, editableIndex) => {
+        this.setState({
+            editableIndex,
+            phoneNumberType: phone.phone_number_type,
+            phoneNumber: phone.phone_number
+        })
+    }
+
+    cancelEditable = () => {
+        this.setState({
+            editableIndex: null,
+            phoneNumber: '',
+            phoneNumberType: '',
+            phoneNumberError: null,
+            phoneNumberTypeError: null
+        })
+    }
+
     renderOneDetailItem = (detail, index) => {
         return (
             <div className="detail-item" key={index}>
@@ -205,25 +245,6 @@ class PhoneDetails extends Component {
     }
 
     render() {
-        // const activities = [
-        //     {
-        //         label: 'Join date',
-        //         icon: 'fa-plus',
-        //         value: new Date(
-        //             get(this.props.profile.user, 'date_joined', null)
-        //         ).toLocaleString()
-        //     },
-        //     {
-        //         label: 'Last login',
-        //         icon: 'fa-clock-o',
-        //         value: get(this.props.profile.user, 'last_login', null)
-        //             ? new Date(
-        //                 get(this.props.profile.user, 'last_login', null)
-        //             ).toLocaleString()
-        //             : 'No last login data'
-        //     }
-        // ]
-
         return (
             <CardContent>
                 <div className="details-section">
@@ -232,11 +253,14 @@ class PhoneDetails extends Component {
                         {this.props.phoneNumbers.map((x, i) => (
                             this.state.editableIndex === i
                                 ? <PhoneAddField
-                                    phoneTypeSelected={x.phone_number_type}
+                                    key={i}
+                                    phoneNumberValue={this.state.phoneNumber}
+                                    phoneTypeSelected={this.state.phoneNumberType}
                                     onPhoneInputChange={this.onChangePhoneNumber}
                                     onPhoneTypeClick={this.onClickPhoneNumberType}
+                                    onClickDelete={this.onClickDelete}
                                     onClickSave={this.onClickSave}
-                                    onClickCancel={this.onClickAddCancel}
+                                    onClickCancel={this.cancelEditable}
                                     errors={{
                                         phoneNumber: this.state.phoneNumberError,
                                         phoneNumberType: this.state.phoneNumberTypeError
