@@ -172,8 +172,8 @@ class AdminContainer extends Component {
                     <section className="content-inner">
                         {AdminRoutes(this.props.location)}
                         {AdminOverlays(this.props.location)}
+                        <Footer />
                     </section>
-                    <Footer />
                 </section>
 
                 {/* <RightNav

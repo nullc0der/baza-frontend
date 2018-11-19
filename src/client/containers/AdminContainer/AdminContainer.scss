@@ -26,7 +26,7 @@ body.is-admin-ui {
 
 :local(.content) {
     @include _absolute-layer();
-    bottom: $admin-footer-height;
+    // bottom: $admin-footer-height;
     left: $admin-sidebar-width;
 
     overflow: hidden;

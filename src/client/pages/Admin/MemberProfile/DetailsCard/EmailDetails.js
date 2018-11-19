@@ -100,15 +100,15 @@ const EmailEditComponent = props => {
                         <div>
                             {isEditable && !email.primary && (
                                 <div
-                                    className="badge badge-delete badge-pill badge-danger"
+                                    className="badge badge-delete badge-pill badge-dark"
                                     onClick={() => onClickDelete(email.id)}>
                                     <i className='fa fa-trash' />
                                 </div>
                             )}
-                            <div className='badge badge-pill badge-success' onClick={onClickSave}>
+                            <div className='badge badge-pill badge-dark' onClick={onClickSave}>
                                 <i className='fa fa-check' />
                             </div>
-                            <div className='badge badge-pill badge-danger' onClick={onClickCancel}>
+                            <div className='badge badge-pill badge-dark' onClick={onClickCancel}>
                                 <i className='fa fa-remove' />
                             </div>
                         </div>
