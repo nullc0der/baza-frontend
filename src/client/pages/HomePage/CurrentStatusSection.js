@@ -3,6 +3,7 @@ import classnames from 'classnames'
 
 import DonationProgressBar from 'components/DonationProgressBar'
 import DonationList from 'components/DonationList'
+import VideoPlayer from 'components/VideoPlayer'
 
 import { Link } from 'react-router-dom'
 
@@ -15,14 +16,18 @@ const CurrentStatusSection = props => {
                 <h3 className="text-center mb-3"> Current Status </h3>
                 <div className="row mb-5">
                     <div className="col-12 mx-auto">
-                        <div className="embed-responsive embed-responsive-16by9">
+                        {/* <div className="embed-responsive embed-responsive-16by9">
                             <video
                                 title="Baza Intro"
                                 className="embed-responsive-item"
                                 src="/public/videos/Baza Intro.mp4"
                                 controls
                             />
-                        </div>
+                        </div> */}
+                        <VideoPlayer
+                            src="/public/videos/Baza Intro.mp4"
+                            poster="/public/videothumbnails/Baza Intro.jpeg"
+                        />
                     </div>
                 </div>
 
@@ -42,7 +47,7 @@ const CurrentStatusSection = props => {
                         <h4 className="section-title-underlined">
                             Current Status
                         </h4>
-                        <p className='mb-6 mb-md-5 mb-lg-5 mb-xl-5'>
+                        <p className="mb-6 mb-md-5 mb-lg-5 mb-xl-5">
                             For the current distribution to take place,
                             donations made must reach the required goal of
                             $2160. Once this goal is reached, an automatic equal

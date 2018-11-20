@@ -1,0 +1,28 @@
+@import '~video-react/styles/scss/video-react';
+
+:local(.container) {
+    .video-react {
+        .video-react-big-play-button {
+            display: none;
+        }
+        .video-react-control-bar {
+            height: 4em;
+        }
+        .video-react-control {
+            &::before {
+                font-size: 2em;
+                line-height: 2;
+            }
+        }
+        .video-react-time-control {
+            font-size: 1.2em;
+            line-height: 3.4;
+        }
+        .video-react-volume-bar {
+            margin: 1.6em 0.45em;
+            &.video-react-slider-horizontal {
+                height: 0.5em;
+            }
+        }
+    }
+}
