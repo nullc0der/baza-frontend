@@ -20,7 +20,7 @@ export default class ChatBodyItem extends Component {
     }
 
     renderAttachment = filetype => {
-        const fileURL = Config.get('API_ROOT') + this.props.fileurl
+        const fileURL = Config.get('DOCUMENT_ROOT') + this.props.fileurl
         switch (filetype.split('/')[0]) {
             case 'image':
                 return (
@@ -108,8 +108,8 @@ export default class ChatBodyItem extends Component {
                                     sheetSize={16}
                                 />
                             ) : (
-                                    x + ' '
-                                )
+                                x + ' '
+                            )
                         })}
                     </Linkify>
                 </div>

@@ -8,7 +8,7 @@ import rootReducer from './rootReducer'
 import debounce from 'lodash/debounce'
 
 // This is the timeout for debounced store save
-const STORE_TIMEOUT = 3000
+const STORE_TIMEOUT = 1000
 
 const debug = require('debug')('baza:store')
 
@@ -28,7 +28,7 @@ function _saveLocalAuthState(keyName = 'baza-auth', providedState = {}) {
     debug('Auth state synced to local')
 }
 
-export const saveLocalAuthState = debounce(_saveLocalAuthState, 1000, {
+export const saveLocalAuthState = debounce(_saveLocalAuthState, STORE_TIMEOUT, {
     trailing: true
 })
 

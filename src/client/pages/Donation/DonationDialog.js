@@ -26,7 +26,7 @@ class DonationDialog extends Component {
         isOtherInputVisible: false,
         selectedCurrency: 'USD',
         otherInputAmount: 200,
-        selectedAmount: 0,
+        selectedAmount: 27,
         inputValues: {
             name: '',
             email: '',

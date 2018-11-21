@@ -74,7 +74,7 @@ export default class ProfileCard extends Component {
         { id: 5, name: 'Business' },
         { id: 6, name: 'Government' },
         { id: 7, name: 'Blog' },
-        { id: 8, name: 'Nonprofit Organaization' },
+        { id: 8, name: 'Nonprofit Organization' },
         { id: 9, name: 'Other' }
     ]
 

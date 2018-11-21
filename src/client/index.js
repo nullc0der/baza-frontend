@@ -31,7 +31,7 @@ const store = configureStore(finalState, history)
 
 //Save a local copy whenever store changes
 store.subscribe(() => {
-    const { UserProfile, Auth, ...others } = store.getState()
+    const { UserProfile, Auth, Messenger, ...others } = store.getState()
     saveLocalUIState('baza-ui', others)
 })
 

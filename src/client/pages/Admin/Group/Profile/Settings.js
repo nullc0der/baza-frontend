@@ -80,8 +80,9 @@ export default class HeaderImages extends Component {
                                     {new Date(
                                         this.props.flaggedForDeleteOn
                                     ).toLocaleString()}
-                                    , if it is not intentional edit group data
-                                    within this period
+                                    , if it is not intentional edit group
+                                    profile within this period to prevent
+                                    deletion
                                 </p>
                             </div>
                         ) : (

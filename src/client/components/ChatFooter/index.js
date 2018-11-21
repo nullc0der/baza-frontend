@@ -222,7 +222,7 @@ export default class ChatFooter extends Component {
                             placeholder="Type here..."
                             spellCheck={true}
                             value={this.state.chatMessage}
-                            onInput={this.onChatSend}
+                            onChange={this.onChatSend}
                             onFocus={onChatInputFocus}
                             data-lpignore={true}
                         />

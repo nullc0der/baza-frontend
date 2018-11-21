@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import { connect } from 'react-redux'
 import _ from 'lodash'
@@ -98,22 +97,6 @@ class Messenger extends Component {
             </div>
         )
     }
-}
-
-Messenger.propTypes = {
-    rooms: PropTypes.array.isRequired,
-    chats: PropTypes.object.isRequired,
-    onlineUsers: PropTypes.array.isRequired,
-    websocketTypingStatus: PropTypes.number.isRequired,
-    isLoading: PropTypes.bool,
-    hasError: PropTypes.array.isRequired,
-    selected: PropTypes.number.isRequired,
-    miniChats: PropTypes.array.isRequired,
-    fetchData: PropTypes.func.isRequired,
-    selectRoom: PropTypes.func.isRequired,
-    changeSearchText: PropTypes.func.isRequired,
-    clearChat: PropTypes.func.isRequired,
-    closeMiniChat: PropTypes.func.isRequired
 }
 
 const filterRooms = (rooms, searchText) => {

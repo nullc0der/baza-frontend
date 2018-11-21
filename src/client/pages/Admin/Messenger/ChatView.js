@@ -1,5 +1,4 @@
 import React, { Component, Fragment } from 'react'
-import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import { connect } from 'react-redux'
 import _ from 'lodash'
@@ -313,21 +312,6 @@ class ChatView extends Component {
             </div>
         )
     }
-}
-
-ChatView.propTypes = {
-    chats: PropTypes.object.isRequired,
-    selected: PropTypes.number.isRequired,
-    isLoading: PropTypes.bool.isRequired,
-    hasError: PropTypes.array.isRequired,
-    fetchData: PropTypes.func.isRequired,
-    sendChat: PropTypes.func.isRequired,
-    updateRoom: PropTypes.func.isRequired,
-    deleteRoom: PropTypes.func.isRequired,
-    deleteChats: PropTypes.func.isRequired,
-    updateHeaderVisibility: PropTypes.func.isRequired,
-    updateChatReadStatus: PropTypes.func.isRequired,
-    uploadProgress: PropTypes.object
 }
 
 const mapStateToProps = state => ({

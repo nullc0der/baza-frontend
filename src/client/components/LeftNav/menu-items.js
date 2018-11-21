@@ -7,7 +7,7 @@ module.exports = [
             {
                 name: 'Profile',
                 href: '/profile',
-                icon: 'fa fa-fw fa-user'
+                icon: 'fas fa-portrait'
             },
             {
                 name: 'Wallets',
@@ -23,7 +23,7 @@ module.exports = [
     },
     {
         name: 'Community',
-        icon: 'fa fa-fw fa-compass',
+        icon: 'fa fa-fw fa-globe',
         href: '',
         children: [
             {
@@ -66,12 +66,12 @@ module.exports = [
     },
     {
         name: 'Applications',
-        icon: 'fa fa-fw fa-futbol-o',
+        icon: 'fas fa-toolbox',
         href: '',
         children: [
             {
                 name: 'Messenger',
-                icon: 'fa fa-fw fa-comments',
+                icon: 'fa fa-fw fa-comment',
                 href: '/messenger'
             }
         ]

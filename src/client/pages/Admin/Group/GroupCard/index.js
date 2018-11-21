@@ -37,7 +37,7 @@ class GroupCard extends Component {
                         style={{
                             backgroundImage: `url(${
                                 !isEmpty(headerURL)
-                                    ? Config.get('API_ROOT') +
+                                    ? Config.get('DOCUMENT_ROOT') +
                                       headerURL.full_size
                                     : '/public/img/group/group-header-default.png'
                             })`
@@ -56,7 +56,7 @@ class GroupCard extends Component {
                         style={{
                             backgroundImage: `url(${
                                 !isEmpty(logoURL)
-                                    ? Config.get('API_ROOT') +
+                                    ? Config.get('DOCUMENT_ROOT') +
                                       logoURL.thumbnail_92
                                     : ''
                             })`
