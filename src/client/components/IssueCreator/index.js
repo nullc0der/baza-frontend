@@ -1,12 +1,16 @@
 import React, { Component } from 'react'
 import classnames from 'classnames'
 import get from 'lodash/get'
+import mapKeys from 'lodash/mapKeys'
+import find from 'lodash/find'
+import isEmpty from 'lodash/isEmpty'
 
-import { issueCreator } from 'api/issuecreator'
+import { createIssue, getIssueTypes } from 'api/issuecreator'
 
 import Dialog from 'components/ui/Dialog'
 import TextField from 'components/ui/TextField'
 import DropZoneWrapper from 'components/ui/DropZoneWrapper'
+import SelectDropdown from 'components/ui/SelectDropdown/SimpleSelectDropdown'
 
 import s from './IssueCreator.scss'
 
@@ -15,15 +19,31 @@ class IssueCreator extends Component {
         inputValues: {
             subject: '',
             description: '',
+            issueTypeID: '',
             attachment: null
         },
         formErrors: {
             subject: null,
             description: null,
             attachment: null,
+            issueTypeID: null,
             nonField: null
         },
-        submitDisabled: false
+        submitDisabled: false,
+        issueTypes: []
+    }
+
+    componentDidMount = () => {
+        getIssueTypes().then(res => {
+            const issueTypes = get(res, 'data', []).map(x =>
+                mapKeys(x, (v, k) =>
+                    k === 'name' ? 'label' : k === 'id' ? 'value' : k
+                )
+            )
+            this.setState({
+                issueTypes
+            })
+        })
     }
 
     onInputChange = (id, value) => {
@@ -31,6 +51,15 @@ class IssueCreator extends Component {
             inputValues: {
                 ...prevState.inputValues,
                 [id]: value
+            }
+        }))
+    }
+
+    onDDChange = value => {
+        this.setState(prevState => ({
+            inputValues: {
+                ...prevState.inputValues,
+                issueTypeID: value
             }
         }))
     }
@@ -66,12 +95,13 @@ class IssueCreator extends Component {
         const data = new FormData()
         data.append('subject', this.state.inputValues.subject)
         data.append('description', this.state.inputValues.description)
+        data.append('issue_type_id', this.state.inputValues.issueTypeID)
         if (this.state.inputValues.attachment) {
             for (const attachment of this.state.inputValues.attachment) {
                 data.append('attachments', attachment)
             }
         }
-        issueCreator(data)
+        createIssue(data)
             .then(response =>
                 this.setState(
                     {
@@ -84,7 +114,8 @@ class IssueCreator extends Component {
                             subject: null,
                             description: null,
                             attachment: null,
-                            nonField: null
+                            nonField: null,
+                            issueTypeID: null
                         },
                         submitDisabled: false
                     },
@@ -97,7 +128,8 @@ class IssueCreator extends Component {
                         subject: get(responseData, 'subject', null),
                         description: get(responseData, 'description', null),
                         attachment: get(responseData, 'attachments', null),
-                        nonField: get(responseData, 'non_field_errors', null)
+                        nonField: get(responseData, 'non_field_errors', null),
+                        issueTypeID: get(responseData, 'issue_type_id', null)
                     },
                     submitDisabled: false
                 })
@@ -107,12 +139,28 @@ class IssueCreator extends Component {
     render() {
         const { isOpen, className, onRequestClose } = this.props
         const cx = classnames(s.container, className)
+        const ddValue = find(this.state.issueTypes, {
+            value: this.state.inputValues.issueTypeID
+        })
         return (
             <Dialog
                 className={cx}
                 isOpen={isOpen}
                 title="Post an issue"
                 onRequestClose={onRequestClose}>
+                <SelectDropdown
+                    className="mb-3 issue-dropdown"
+                    id="issueType"
+                    placeholder="Issue Type"
+                    value={isEmpty(ddValue) ? '' : ddValue.label}
+                    items={this.state.issueTypes}
+                    onChange={this.onDDChange}
+                />
+                {!!this.state.formErrors.issueTypeID && (
+                    <p className="text-danger">
+                        {this.state.formErrors.issueTypeID}
+                    </p>
+                )}
                 <TextField
                     id="subject"
                     label="Subject"

@@ -5,11 +5,11 @@ import PropTypes from 'prop-types'
 import TextField from 'components/ui/TextField'
 
 import s from './SelectDropdown.scss'
-import noop from 'lodash/noop';
+import noop from 'lodash/noop'
 
 export const SelectDropdownItemShape = PropTypes.shape({
     label: PropTypes.string,
-    value: PropTypes.string.isRequired
+    value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired
 })
 
 export default class SelectDropdown extends Component {
@@ -22,7 +22,9 @@ export default class SelectDropdown extends Component {
 
     static defaultProps = {
         items: [],
-        itemRenderer: function itemRenderer(item, index) { return item.label },
+        itemRenderer: function itemRenderer(item, index) {
+            return item.label
+        },
         label: 'Select Dropdown Label'
     }
 

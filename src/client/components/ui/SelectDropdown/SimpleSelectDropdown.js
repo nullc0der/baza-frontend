@@ -24,7 +24,6 @@ export default class SimpleSelectDropdown extends Component {
     }
 
     handleClick = (e, item, index) => {
-        console.log('got click', item)
         this.props.onChange(item.value)
         this.toggleOpen()
     }
@@ -33,7 +32,7 @@ export default class SimpleSelectDropdown extends Component {
         return (
             <div
                 key={index}
-                className='ui-select-dropdown-item'
+                className="ui-select-dropdown-item"
                 onClick={e => this.handleClick(e, item, index)}>
                 {item.label}
             </div>
@@ -41,12 +40,7 @@ export default class SimpleSelectDropdown extends Component {
     }
 
     render() {
-        const {
-            items,
-            value,
-            placeholder,
-            className
-        } = this.props
+        const { items, value, placeholder, className } = this.props
 
         const { isOpen } = this.state
 
@@ -54,10 +48,13 @@ export default class SimpleSelectDropdown extends Component {
 
         return (
             <div className={cx}>
-                <div className='select-value-field' onClick={this.toggleOpen}>
+                <div className="select-value-field" onClick={this.toggleOpen}>
                     {value ? value : placeholder}
                 </div>
-                <div className={`ui-select-dropdown-menu ${isOpen ? 'is-open' : ''}`}>
+                <div
+                    className={`ui-select-dropdown-menu ${
+                        isOpen ? 'is-open' : ''
+                    }`}>
                     {items.map(this.renderOneOption)}
                 </div>
             </div>
