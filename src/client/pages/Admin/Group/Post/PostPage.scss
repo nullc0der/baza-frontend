@@ -347,6 +347,31 @@ $background_color_22: $color_deepPurple500;
                 }
             }
         }
+        .link-popup {
+            display: none;
+            width: 200px;
+            position: absolute;
+            top: 65px;
+            right: 115px;
+            padding: 20px;
+            background-color: $light;
+            border-radius: 3px;
+            z-index: 2;
+            @include _shadow_2();
+            &.visible {
+                display: block;
+            }
+            .actions-row {
+                .badge {
+                    padding: 5px 16px;
+                    cursor: pointer;
+                    margin-left: 0;
+                    & + .badge {
+                        margin-left: 12px;
+                    }
+                }
+            }
+        }
     }
     .mde-text {
         textarea {

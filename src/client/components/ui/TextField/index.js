@@ -87,10 +87,9 @@ export default class TextField extends Component {
                 />
                 {_Label}
                 {_ValidationIcon}
-                {errorState &&
-                    errorState !== 'loading' && (
-                        <div className="ui-textfield-error"> {errorState} </div>
-                    )}
+                {errorState && errorState !== 'loading' && (
+                    <div className="ui-textfield-error"> {errorState} </div>
+                )}
             </div>
         )
     }

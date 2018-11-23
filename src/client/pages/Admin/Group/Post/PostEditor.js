@@ -4,13 +4,27 @@ import find from 'lodash/find'
 
 import ReactMde, { ReactMdeCommands, ReactMdeTextHelper } from 'react-mde'
 
+import TextField from 'components/ui/TextField'
+
 import { uploadImage } from 'api/group-post'
 
 class PostEditor extends Component {
     state = {
         editorVisible: false,
-        reactMdeValue: { text: '' },
+        reactMdeValue: {
+            text: '',
+            scrollTop: 0,
+            selection: {
+                end: 0,
+                start: 0
+            }
+        },
         previewVisible: false,
+        linkPopupVisible: false,
+        linkPopupValues: {
+            title: '',
+            url: ''
+        },
         editingPost: -1
     }
 
@@ -67,17 +81,20 @@ class PostEditor extends Component {
                 const {
                     newText,
                     insertionLength
-                } = ReactMdeTextHelper.insertText(text, '![', selection.start)
+                } = ReactMdeTextHelper.insertText(text, ' ![', selection.start)
                 const finalText = ReactMdeTextHelper.insertText(
                     newText,
-                    `${fileName}](${res.data.image_url})`,
+                    `${fileName}](${res.data.image_url}) `,
                     selection.end + insertionLength
                 ).newText
                 this.setState({
                     reactMdeValue: {
                         text: finalText,
                         scrollTop,
-                        selection
+                        selection: {
+                            start: finalText.length,
+                            end: finalText.length
+                        }
                     }
                 })
             })
@@ -106,14 +123,78 @@ class PostEditor extends Component {
         }
     }
 
+    toggleLinkPopup = () => {
+        this.setState({
+            linkPopupVisible: !this.state.linkPopupVisible,
+            linkPopupValues: {
+                title: '',
+                url: ''
+            }
+        })
+    }
+
+    onLinkPopupInputChange = (id, value) => {
+        this.setState(prevState => ({
+            linkPopupValues: {
+                ...prevState.linkPopupValues,
+                [id]: value
+            }
+        }))
+    }
+
+    onClickInsertLink = () => {
+        const { text, selection, scrollTop } = this.state.reactMdeValue
+        let { title, url } = this.state.linkPopupValues
+        if (!url.startsWith('http')) {
+            url = 'http://' + url
+        }
+        const { newText, insertionLength } = ReactMdeTextHelper.insertText(
+            text,
+            ' [',
+            selection.start
+        )
+        const finalText = ReactMdeTextHelper.insertText(
+            newText,
+            `${title}](${url}) `,
+            selection.end + insertionLength
+        ).newText
+        this.setState({
+            reactMdeValue: {
+                text: finalText,
+                scrollTop,
+                selection: {
+                    start: finalText.length,
+                    end: finalText.length
+                }
+            },
+            linkPopupVisible: !this.state.linkPopupVisible,
+            linkPopupValues: {
+                title: '',
+                url: ''
+            }
+        })
+    }
+
     imageCommand = {
         icon: 'image',
         tooltip: 'Insert a picture',
         execute: (text, selection) => {
             $('#imageInput').click()
             return {
-                text: text,
-                selection: selection
+                text,
+                selection
+            }
+        }
+    }
+
+    insertLinkCommand = {
+        icon: 'link',
+        tooltip: 'Insert a link',
+        execute: (text, selection) => {
+            this.toggleLinkPopup()
+            return {
+                text,
+                selection
             }
         }
     }
@@ -121,23 +202,59 @@ class PostEditor extends Component {
     render() {
         const { className } = this.props
 
-        const { editorVisible, previewVisible } = this.state
+        const { editorVisible, previewVisible, linkPopupVisible } = this.state
 
         const cx = classnames(className, 'ui-post-editor')
 
         let editorCommands = [
             ReactMdeCommands.getDefaultCommands()[0],
-            ReactMdeCommands.getDefaultCommands()[1].slice(0, 3),
+            ReactMdeCommands.getDefaultCommands()[1].slice(1, 3),
             ReactMdeCommands.getDefaultCommands()[2]
         ]
-        editorCommands.push([this.imageCommand])
+        editorCommands.push([this.imageCommand, this.insertLinkCommand])
 
         return (
             <div className={cx}>
                 <div
                     className={`editor-area ${editorVisible ? 'visible' : ''}`}>
+                    <div
+                        className={`link-popup ${!!linkPopupVisible &&
+                            'visible'}`}>
+                        <TextField
+                            id="title"
+                            className="mb-2"
+                            label="Title"
+                            onChange={this.onLinkPopupInputChange}
+                            value={this.state.linkPopupValues.title}
+                        />
+                        <TextField
+                            id="url"
+                            className="mb-2"
+                            label="Url"
+                            onChange={this.onLinkPopupInputChange}
+                            value={this.state.linkPopupValues.url}
+                        />
+                        <div className="d-flex actions-row">
+                            <div className="flex-1" />
+                            <div
+                                className="badge badge-pill badge-dark badge-dense"
+                                onClick={this.onClickInsertLink}
+                                title="add">
+                                <i className="fa fa-check" />
+                            </div>
+                            <div
+                                className="badge badge-pill badge-dark badge-dense"
+                                title="cancel"
+                                onClick={this.toggleLinkPopup}>
+                                <i className="fa fa-remove" />
+                            </div>
+                        </div>
+                    </div>
                     <ReactMde
-                        textAreaProps={{ placeholder: 'Type here' }}
+                        textAreaProps={{
+                            placeholder: 'Type here',
+                            disabled: linkPopupVisible
+                        }}
                         value={this.state.reactMdeValue}
                         visibility={{
                             preview: previewVisible,
