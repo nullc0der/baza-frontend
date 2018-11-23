@@ -11,10 +11,6 @@ const PHONE_TYPE_OPTIONS = [
 ]
 
 class PhoneTypeDropdown extends Component {
-    onChange = (e, value) => {
-        console.log('clicked type option', e, value)
-        this.props.onChange(value)
-    }
     render() {
         const id = `phone-type-dropdown-${++counter}`
         const value = this.props.value
@@ -28,7 +24,7 @@ class PhoneTypeDropdown extends Component {
                 placeholder='Phone Type'
                 value={value}
                 items={PHONE_TYPE_OPTIONS}
-                onChange={this.onChange} />
+                onChange={this.props.onChange} />
         )
     }
 }

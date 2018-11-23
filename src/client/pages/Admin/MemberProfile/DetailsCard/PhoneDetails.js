@@ -10,7 +10,7 @@ import s from './DetailsCard.scss'
 import { actions as userProfileActions } from 'store/UserProfile'
 
 const PhoneField = props => {
-    const { phoneNumber, onClickDelete, onClickSetPrimary } = props
+    const { phoneNumber, onClickEdit, onClickSetPrimary } = props
 
     // const icons = {
     //     home: 'fa fa-home',
@@ -30,41 +30,30 @@ const PhoneField = props => {
 
     return (
         <div className={cx}>
-            <div className='row no-gutters align-items-center'>
-                <div className='col-6 phone-type-col'>
-                    <i className='fa fa-phone' />
-                    <span className='ml-2 text-capitalize'>{phoneNumber.phone_number_type}</span>
-                </div>
-                <div className='col-6 text-right'>
+            <div className='phone-type-col'>
+                <i className='fa fa-phone' />
+                <span className='ml-2 text-capitalize'>{phoneNumber.phone_number_type}</span>
+            </div>
+            <div className='phone-number-value'>{phoneNumber.phone_number} </div>
+            <div className='d-flex align-items-center justify-content-between mt-1'>
+                <div>
                     {phoneNumber.primary && (
                         <div
                             className="badge badge-info">
                             Primary
-                            {/* <i className="fa fa-check" title="set primary" /> */}
+                                {/* <i className="fa fa-check" title="set primary" /> */}
                         </div>
                     )}
-                    {!phoneNumber.primary && (
-                        <div
-                            className={`badge ${phoneNumber.verified ? 'badge-success' : 'badge-light'}`}
-                            onClick={() => phoneNumber.verified && onClickSetPrimary(phoneNumber.id)}>
-                            {phoneNumber.verified ? 'Verified' : 'Unverified'}
-                            {/* <i className="fa fa-check" title="set primary" /> */}
-                        </div>
-                    )}
-                </div>
-            </div>
-            <div className='row phone-value-row align-items-center no-gutters'>
-                <div className='col-6'>
-                    <span className='phone-number-value'>{phoneNumber.phone_number}</span>
-                </div>
-                <div className='col-6 text-right'>
-                    <div className="badge badge-warning"> Edit </div>
+
                     <div
-                        className="badge badge-danger delete-number"
-                        onClick={() => onClickDelete(phoneNumber.id)}>
-                        <i className="fa fa-trash" title="delete" />
+                        className={`badge ${phoneNumber.verified ? 'badge-success' : 'badge-light'}`}
+                        onClick={() => phoneNumber.verified && onClickSetPrimary(phoneNumber.id)}>
+                        {phoneNumber.verified ? 'Verified' : 'Unverified'}
+                        {/* <i className="fa fa-check" title="set primary" /> */}
                     </div>
+
                 </div>
+                <div className="badge badge-warning" onClick={onClickEdit}> Edit </div>
             </div>
         </div>
     )
@@ -72,38 +61,48 @@ const PhoneField = props => {
 
 
 
-const PhoneAddField = props => {
-    const {
-        onPhoneInputChange,
-        onPhoneTypeClick,
-        phoneTypeSelected,
-        onClickSave,
-        onClickCancel,
-        errors
-    } = props
-    return (
-        <div className="phone-add-field phone-input mt-2">
-            <div className='d-flex align-items-center'>
-                <div className='d-flex align-items-center flex-1'>
+class PhoneAddField extends Component {
+    state = {
+        phoneTypeSelected: null,
+        phoneNumber: null
+    }
+
+    componentWillReceiveProps = (nextProps) => {
+
+    }
+
+    render() {
+        const {
+            onPhoneInputChange,
+            onPhoneTypeClick,
+            phoneTypeSelected,
+            phoneNumberValue,
+            onClickSave,
+            onClickCancel,
+            onClickDelete,
+            errors
+        } = this.props
+
+        const phoneType = this.state.phoneTypeSelected || phoneTypeSelected
+        const phoneNumber = this.state.phoneNumber || phoneNumberValue
+
+        return (
+            <div className="phone-add-field phone-input mt-2">
+                <div className='d-flex align-items-center'>
                     <div className='phone-icon'>
                         <i className='fa fa-phone' />
                     </div>
                     <PhoneTypeDropdown
                         className='phone-type-dropdown flex-1'
-                        value={phoneTypeSelected}
-                        onChange={(value) => {
-                            console.log('clicked phone type', value)
-                            onPhoneTypeClick(value)
-                        }}
+                        value={phoneType}
+                        onChange={onPhoneTypeClick}
                     />
                 </div>
-                <div className='badge badge-success' onClick={onClickSave}>Save</div>
-            </div>
-            <div className='d-flex align-items-center'>
-                <div className='d-flex align-items-center flex-1'>
+                <div className='d-flex align-items-center'>
                     <PhoneNumberField
                         showIcon={false}
                         label=''
+                        defaultValue={phoneNumber}
                         className='phone-number-field'
                         placeholder='Phone Number'
                         onChange={onPhoneInputChange}
@@ -114,64 +113,28 @@ const PhoneAddField = props => {
                             <div className="col">
                                 <p className="text-danger">
                                     Please select phone number type
-                            </p>
+                                </p>
                             </div>
                         )}
                     </div>
                 </div>
-                <div className='badge badge-danger' onClick={onClickCancel} >Cancel</div>
+                <div className={`d-flex align-items-center justify-content-between ${errors.phoneNumber ? 'mt-3' : 'mt-1'} `}>
+                    <div className='flex-1' />
+                    <div>
+                        {typeof onClickDelete === 'function' && <div className='badge badge-pill badge-dark badge-dense' onClick={onClickSave} title='Save'>
+                            <i className='fa fa-trash-o' />
+                        </div>}
+                        <div className='badge badge-pill badge-dark badge-dense' onClick={onClickSave} title='Save'>
+                            <i className='fa fa-check' />
+                        </div>
+                        <div className='badge badge-pill badge-dark badge-dense' onClick={onClickCancel} title='Cancel'>
+                            <i className='fa fa-remove' />
+                        </div>
+                    </div>
+                </div>
             </div>
-            {/* <div className="row no-gutters text-center mt-2">
-                <div
-                    className={`badge ${
-                        !!(phoneTypeSelected === 'home')
-                            ? 'badge-info'
-                            : 'badge-light'
-                        } col mt-1 mb-1`}
-                    onClick={() => onPhoneTypeClick('home')}>
-                    <i className="fa fa-home" /> Home
-                </div>
-                <div
-                    className={`badge ${
-                        !!(phoneTypeSelected === 'office')
-                            ? 'badge-success'
-                            : 'badge-light'
-                        } col mt-1 mb-1`}
-                    onClick={() => onPhoneTypeClick('office')}>
-                    <i className="fa fa-building" /> Office
-                </div>
-                <div
-                    className={`badge ${
-                        !!(phoneTypeSelected === 'emergency')
-                            ? 'badge-danger'
-                            : 'badge-light'
-                        } col mt-1 mb-1`}
-                    onClick={() => onPhoneTypeClick('emergency')}>
-                    <i className="fa fa-asterisk" /> Emergency
-                </div>
-                <div
-                    className={`badge ${
-                        !!(phoneTypeSelected === 'mobile')
-                            ? 'badge-warning'
-                            : 'badge-light'
-                        } col mt-1 mb-1`}
-                    onClick={() => onPhoneTypeClick('mobile')}>
-                    <i className="fa fa-mobile" /> Mobile
-                </div>
-            </div> */}
-
-            {/* <div
-                className="btn btn-block btn-sm btn-dark"
-                onClick={onClickSave}>
-                Save
-            </div>
-            <div
-                className='btn btn-block btn-sm btn-dark'
-                onClick={onClickCancel}>
-                Cancel
-            </div> */}
-        </div>
-    )
+        )
+    }
 }
 
 class PhoneDetails extends Component {
@@ -180,7 +143,8 @@ class PhoneDetails extends Component {
         phoneNumberType: '',
         addPhoneNumberShown: false,
         phoneNumberError: null,
-        phoneNumberTypeError: null
+        phoneNumberTypeError: null,
+        editableIndex: null,
     }
 
     componentDidMount() {
@@ -250,6 +214,24 @@ class PhoneDetails extends Component {
         this.setState({ addPhoneNumberShown: false })
     }
 
+    setEditable = (phone, editableIndex) => {
+        this.setState({
+            editableIndex,
+            phoneNumberType: phone.phone_number_type,
+            phoneNumber: phone.phone_number
+        })
+    }
+
+    cancelEditable = () => {
+        this.setState({
+            editableIndex: null,
+            phoneNumber: '',
+            phoneNumberType: '',
+            phoneNumberError: null,
+            phoneNumberTypeError: null
+        })
+    }
+
     renderOneDetailItem = (detail, index) => {
         return (
             <div className="detail-item" key={index}>
@@ -263,37 +245,34 @@ class PhoneDetails extends Component {
     }
 
     render() {
-        // const activities = [
-        //     {
-        //         label: 'Join date',
-        //         icon: 'fa-plus',
-        //         value: new Date(
-        //             get(this.props.profile.user, 'date_joined', null)
-        //         ).toLocaleString()
-        //     },
-        //     {
-        //         label: 'Last login',
-        //         icon: 'fa-clock-o',
-        //         value: get(this.props.profile.user, 'last_login', null)
-        //             ? new Date(
-        //                 get(this.props.profile.user, 'last_login', null)
-        //             ).toLocaleString()
-        //             : 'No last login data'
-        //     }
-        // ]
-
         return (
             <CardContent>
                 <div className="details-section">
                     <div className="title">CONTACT</div>
                     <div className="details-list phone-section mt-2">
                         {this.props.phoneNumbers.map((x, i) => (
-                            <PhoneField
-                                key={i}
-                                phoneNumber={x}
-                                onClickDelete={this.onClickDelete}
-                                onClickSetPrimary={this.onClickSetPrimary}
-                            />
+                            this.state.editableIndex === i
+                                ? <PhoneAddField
+                                    key={i}
+                                    phoneNumberValue={this.state.phoneNumber}
+                                    phoneTypeSelected={this.state.phoneNumberType}
+                                    onPhoneInputChange={this.onChangePhoneNumber}
+                                    onPhoneTypeClick={this.onClickPhoneNumberType}
+                                    onClickDelete={this.onClickDelete}
+                                    onClickSave={this.onClickSave}
+                                    onClickCancel={this.cancelEditable}
+                                    errors={{
+                                        phoneNumber: this.state.phoneNumberError,
+                                        phoneNumberType: this.state.phoneNumberTypeError
+                                    }}
+                                />
+                                : <PhoneField
+                                    key={i}
+                                    phoneNumber={x}
+                                    onClickEdit={() => this.setEditable(x, i)}
+                                    onClickDelete={this.onClickDelete}
+                                    onClickSetPrimary={this.onClickSetPrimary}
+                                />
                         ))}
                         {this.state.addPhoneNumberShown && (
                             <PhoneAddField

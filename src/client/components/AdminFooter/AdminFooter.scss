@@ -2,14 +2,16 @@
 
 :local(.container) {
   background-color: #fff;
-  padding: 12px;
+  padding: 12px 30px;
   font-size: 13px;
-  position: fixed;
+  position: relative;
   bottom: 0;
   height: $admin-footer-height;
-  right: 0;
-  left: $admin-sidebar-width;
+  right: -30px;
+  left: -30px;
   transition: left 0.16s ease;
+  margin-bottom: -1 * $admin-footer-height;
+  width: calc(100% + 60px);
   z-index: 2000;
   // border-top: 1px rgba(#000, 0.12) solid;
   @include media-breakpoint-down(md, $grid-breakpoints) {

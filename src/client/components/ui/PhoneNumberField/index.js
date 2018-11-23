@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import classnames from 'classnames'
-
+import takeRight from 'lodash/takeRight'
+import find from 'lodash/find'
 import TextField from 'components/ui/TextField'
 
 import COUNTRYCODES from './countryCodes'
@@ -8,7 +9,7 @@ import s from './PhoneNumberField.scss'
 
 const InternationalCodeDropDown = props => {
     return (
-        <div className="incode-dropdown-group btn-group col-5 col-md-3">
+        <div className={props.className}>
             <button
                 type="button"
                 className="btn dropdown-toggle"
@@ -34,9 +35,34 @@ const InternationalCodeDropDown = props => {
 }
 
 class PhoneNumberField extends Component {
-    state = {
-        selectedCode: { name: 'United States', dial_code: '+1', code: 'US' },
-        phoneNumber: ''
+
+    constructor(props) {
+        super(props)
+        this.state = {
+            selectedCode: { name: 'United States', dial_code: '+1', code: 'US' },
+            phoneNumber: '',
+            ...this.parseDefaultValue(props.defaultValue)
+        }
+    }
+
+    parseDefaultValue = () => {
+        const { defaultValue } = this.props
+        if (!defaultValue || typeof defaultValue !== 'string') {
+            return {}
+        }
+
+        const phoneNumber = takeRight(defaultValue.split(''), 10).join('')
+        const dial_code = defaultValue.split(phoneNumber)[0]
+
+        const selectedCode = find(COUNTRYCODES, { dial_code })
+        console.log('Parsed default number: ', dial_code, phoneNumber, selectedCode)
+        return { selectedCode, phoneNumber }
+    }
+
+    componentWillReceiveProps = (nextProps) => {
+        if (!this.props.defaultValue && this.props.defaultValue !== nextProps.defaultValue) {
+            this.setState(this.parseDefaultValue(nextProps.defaultValue))
+        }
     }
 
     onDropDownItemClick = (e, item) => {
@@ -77,6 +103,7 @@ class PhoneNumberField extends Component {
         return (
             <div className={cx}>
                 <InternationalCodeDropDown
+                    className="incode-dropdown-group btn-group number-code-dropdown"
                     selectedCode={this.state.selectedCode}
                     onDropDownItemClick={this.onDropDownItemClick}
                 />
@@ -84,7 +111,7 @@ class PhoneNumberField extends Component {
                     id="phoneNumber"
                     label={label}
                     placeholder={placeholder}
-                    className="col-7 col-md-9"
+                    className="flex-1 number-input pl-1"
                     icon={
                         showIcon ? <i className="material-icons">phone</i> : ''
                     }

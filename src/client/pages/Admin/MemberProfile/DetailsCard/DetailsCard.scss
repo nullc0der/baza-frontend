@@ -45,9 +45,18 @@
     .badge {
         padding: 5px 16px;
         border-radius: 12px;
-        margin-left: 12px;
+        margin-left: 0;
         color: #fff;
         cursor: pointer;
+        & + .badge {
+            margin-left: 12px;
+        }
+        &.badge-dense {
+            min-width: initial;
+            i {
+                font-size: 14px;
+            }
+        }
     }
 
 
@@ -154,6 +163,10 @@
         flex: 1;
         .ui-textfield input {
             margin-left: 4px;
+            border-bottom-color: rgba($dark, 0.2);
+        }
+        .ui-textfield-error {
+            left: 12px;
         }
     }
 
@@ -182,16 +195,15 @@
         width: 24px;
         padding-top: 5px;
     }
-    .badge {
-        min-width: 80px;
+    .badge.badge-pill {
         margin-left: 0;
+        min-width: initial;
+        i {
+            font-size: 12px;
+        }
         & + .badge {
             margin-left: 12px;
         }
-    }
-    .badge-delete {
-        min-width: initial;
-        i { font-size: 12px; }
     }
     .email-add-type-dropdown {
         flex: 1;

@@ -81,7 +81,7 @@ $trust-grey: rgb(215, 218, 223);
     width: 100%;
 }
 
-:local(.container) path#value {
+:local(.container) #gauge-container.can-animate path#value {
     will-change: auto;
     transition: all 0.5s ease-in-out;
 }
