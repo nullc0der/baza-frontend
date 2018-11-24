@@ -20,7 +20,7 @@ module.exports = [
         status: 'done'
     },
     {
-        title: 'Teach Team and Feature Development',
+        title: 'Tech Team and Feature Development',
         date: '2018-Q1',
         status: 'done'
     },
