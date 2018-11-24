@@ -111,6 +111,7 @@ class AdminContainer extends Component {
                 break
             default:
                 this.props.receivedNotification(message.data)
+                $('#notification-tone')[0].play()
                 break
         }
     }
@@ -118,9 +119,11 @@ class AdminContainer extends Component {
     onMessengerWebSocketData = data => {
         switch (data.message.type) {
             case 'add_message':
+                // TODO: This logics needs refactoring
                 if (this.shouldOpenMinichat(data.message.chatroom.id)) {
                     this.props.addChatRoom(data.message.chatroom)
                     this.props.openMiniChat(data.message.chatroom.id)
+                    $('#messenger-tone')[0].play()
                     if (!this.isChatEmpty(data.message.chatroom.id)) {
                         this.props.setTypingStatus(0)
                         this.props.recievedChatOnWebsocket(
@@ -136,9 +139,10 @@ class AdminContainer extends Component {
                     )
                 }
                 if (
-                    $(window).width() > 768 &&
+                    $(window).width() < 768 &&
                     this.isChatEmpty(data.message.chatroom.id)
                 ) {
+                    $('#messenger-tone')[0].play()
                     this.props.addChatRoom(data.message.chatroom)
                 }
                 break
