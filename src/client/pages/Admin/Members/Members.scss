@@ -23,13 +23,16 @@
             }
         }
         &.is-online {
-            border-top: 5px solid $color_lime500;
+            border-top: 5px solid $success;
         }
         &.is-away {
             border-top: 5px solid $warning;
         }
         &.is-busy {
             border-top: 5px solid $danger;
+        }
+        &.is-idle {
+            border-top: 5px solid $info;
         }
     }
     .member-image {

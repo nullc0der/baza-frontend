@@ -26,6 +26,29 @@ class LeftNav extends Component {
 
     componentDidMount = () => {
         this.setMenuItems()
+        window.addEventListener(
+            'blur',
+            () => this.props.setUserStatus('idle'),
+            false
+        )
+        window.addEventListener(
+            'focus',
+            () => this.props.setUserStatus('online'),
+            false
+        )
+    }
+
+    componentWillUnmount = () => {
+        window.removeEventListener(
+            'blur',
+            () => this.props.setUserStatus('online'),
+            false
+        )
+        window.removeEventListener(
+            'focus',
+            () => this.props.setUserStatus('online'),
+            false
+        )
     }
 
     componentDidUpdate = prevProps => {
@@ -266,7 +289,7 @@ class LeftNav extends Component {
                                         (item, i) => (
                                             <div
                                                 key={i}
-                                                className="dropdown-item text-capitalize"
+                                                className={`dropdown-item text-capitalize is-${item}`}
                                                 onClick={() =>
                                                     setUserStatus(item)
                                                 }>

@@ -33,8 +33,7 @@ import AdminOverlays from './AdminOverlays'
 class AdminContainer extends Component {
     state = {
         isLeftNavOpen: false,
-        isRightNavOpen: false,
-        webSocketMessage: {}
+        isRightNavOpen: false
     }
 
     componentDidMount = () => {
@@ -46,13 +45,6 @@ class AdminContainer extends Component {
         document.body.classList.remove('is-admin-ui')
     }
     componentDidUpdate = prevProps => {
-        if (prevProps.userStatus !== this.props.userStatus) {
-            this.setState({
-                webSocketMessage: {
-                    status: this.props.userStatus
-                }
-            })
-        }
         if (
             prevProps.notificationSystemData !==
             this.props.notificationSystemData
@@ -182,7 +174,7 @@ class AdminContainer extends Component {
                 <WebSocketWrapper
                     url="/ws/users/"
                     onWebSocketData={this.onWebSocketData}
-                    message={this.state.webSocketMessage}
+                    message={{ status: this.props.userStatus }}
                 />
                 <WebSocketWrapper
                     url="/ws/messenger/"

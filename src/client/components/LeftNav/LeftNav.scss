@@ -235,12 +235,35 @@ $sidebar-menu-width: $admin-primary-sidebar-menu-width;
         &.is-busy:after {
             background-color: $danger;
         }
+        &.is-idle:after {
+            background-color: $info;
+        }
     }
 
     .dropdown-menu {
         margin-top: 10px;
         .dropdown-item {
             cursor: pointer;
+            position: relative;
+            padding: 0.25rem 2rem;
+            &:before {
+                position: absolute;
+                left: 10px;
+                top: 8px;
+                @include dimensions($circle-size);
+                background-color: rgba(#000, 0.12);
+                content: '';
+                border-radius: 50%;
+            }
+            &.is-online:before {
+                background-color: $success;
+            }
+            &.is-away:before {
+                background-color: $warning;
+            }
+            &.is-busy:before {
+                background-color: $danger;
+            }
         }
     }
 }

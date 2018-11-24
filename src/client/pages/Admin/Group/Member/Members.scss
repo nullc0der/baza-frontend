@@ -144,6 +144,11 @@
                         background-color: $danger;
                     }
                 }
+                &.is-idle {
+                    &:before {
+                        background-color: $info;
+                    }
+                }
             }
         }
     }

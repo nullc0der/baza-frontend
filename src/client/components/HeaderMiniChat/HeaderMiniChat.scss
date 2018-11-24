@@ -1,17 +1,10 @@
 @import 'ui';
-$color_1: #fff;
-$color_2: $admin-primary;
-$background_color_1: #fff;
-$background_color_2: rgba(0, 0, 0, 0.12);
-$background_color_3: $color-lime500;
-$background_color_4: $warning;
-$background_color_5: #f2f2f2;
 
 :local(.container) {
     display: inline-block;
 }
 :local(.label) {
-    color: $color_1;
+    color: #fff;
     padding: 13px 8px 12px 8px;
     .label-image {
         width: 24px;
@@ -46,7 +39,7 @@ $background_color_5: #f2f2f2;
     }
 }
 :local(.item).has_unread {
-    color: $color_2;
+    color: $admin-primary;
 }
 :local(.miniChatHolder) {
     position: fixed;
@@ -56,14 +49,14 @@ $background_color_5: #f2f2f2;
     align-items: flex-end;
     .mini-chat {
         border: 1px rgba(0, 0, 0, 0.12) solid;
-        background-color: $background_color_1;
+        background-color: #fff;
         border-radius: 2px 2px 0 0;
         height: 340px;
         font-size: 12px;
         width: 300px;
         margin-right: 24px;
         .chat-header {
-            background-color: $background_color_1;
+            background-color: #fff;
             border-bottom: 1px rgba(0, 0, 0, 0.12) solid;
             padding: 4px 12px;
             position: relative;
@@ -84,17 +77,17 @@ $background_color_5: #f2f2f2;
                 z-index: 200;
                 height: 3px;
                 content: '';
-                background-color: $background_color_2;
+                background-color: rgba(0, 0, 0, 0.12);
             }
         }
         .chat-header.is-online {
             &:after {
-                background-color: $background_color_3;
+                background-color: $success;
             }
         }
         .chat-header.is-away {
             &:after {
-                background-color: $background_color_4;
+                background-color: $warning;
             }
         }
         .chat-header.is-busy {
@@ -102,8 +95,13 @@ $background_color_5: #f2f2f2;
                 background-color: $danger;
             }
         }
+        .chat-header.is-idle {
+            &:after {
+                background-color: $info;
+            }
+        }
         .chat-body {
-            background-color: $background_color_5;
+            background-color: #f2f2f2;
             overflow-y: auto;
             .chat-body-item {
                 &.in-left {

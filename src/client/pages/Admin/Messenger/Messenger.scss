@@ -233,13 +233,16 @@ $sidebar_width: 210px;
                 background-color: rgba(#000, 0.12);
             }
             &.is-online:before {
-                background-color: $color-lime500;
+                background-color: $success;
             }
             &.is-away:before {
                 background-color: $warning;
             }
             &.is-busy:before {
                 background-color: $danger;
+            }
+            &.is-idle:before {
+                background-color: $info;
             }
         }
     }
