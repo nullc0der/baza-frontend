@@ -26,6 +26,7 @@ class LeftNav extends Component {
 
     componentDidMount = () => {
         this.setMenuItems()
+        this.props.fetchSiteOwnerGroup()
         window.addEventListener(
             'blur',
             () => this.props.setUserStatus('idle'),
@@ -192,8 +193,6 @@ class LeftNav extends Component {
                 ...menuItems,
                 this.getSiteOwnerGroupMenu(this.props.siteOwnerGroup)
             ]
-        } else {
-            this.props.fetchSiteOwnerGroup()
         }
         if (this.props.lastSelectedGroup) {
             const group = this.props.groups.filter(

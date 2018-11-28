@@ -51,7 +51,7 @@ export default class HeaderImages extends Component {
                             <input
                                 className="form-check-input"
                                 type="checkbox"
-                                onClick={() =>
+                                onChange={() =>
                                     this.props.toggleInputs('autoApprovePost')
                                 }
                                 checked={this.props.autoApprovePost}
@@ -62,7 +62,7 @@ export default class HeaderImages extends Component {
                             <input
                                 className="form-check-input"
                                 type="checkbox"
-                                onClick={() =>
+                                onChange={() =>
                                     this.props.toggleInputs(
                                         'autoApproveComment'
                                     )

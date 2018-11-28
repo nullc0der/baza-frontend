@@ -1,7 +1,9 @@
 @import 'ui';
 
 :local(.container) {
-    height: 40px;
+    position: relative;
+    flex-shrink: 0;
+    height: $admin-notification-bar-height;
     background-color: $info;
     padding: 0 30px;
     box-shadow: inset 1px 1px 3px rgba(0, 0, 0, 0.23);
