@@ -23,8 +23,12 @@ $color_2: rgba(0, 0, 0, 0.5);
         }
     }
     .Linkify {
+        // Both line needed
         word-break: break-all;
-        display: block;
+        word-break: break-word;
+        a {
+            display: inline-block;
+        }
     }
     .img-attachment {
         max-width: 400px;
