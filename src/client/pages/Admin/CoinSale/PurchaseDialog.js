@@ -17,7 +17,7 @@ import { CurrencyDropdown } from './CoinSale'
 // import { CONVERSION_TABLE } from './data'
 
 import s from './CoinSale.scss'
-import Config from 'utils/config';
+import Config from 'utils/config'
 
 export default class PurchaseDialog extends Component {
     state = {
@@ -143,8 +143,8 @@ export default class PurchaseDialog extends Component {
                             style={{ marginLeft: '8px' }}
                         />
                     ) : (
-                            <i className="material-icons">arrow_forward</i>
-                        )}
+                        <i className="material-icons">arrow_forward</i>
+                    )}
                 </button>
                 <div className="form-check form-check-inline mt-2 mb-2">
                     <input
@@ -222,16 +222,17 @@ export default class PurchaseDialog extends Component {
                 <PaymentBadges />
             </Dialog>
         ) : (
-                <Dialog
-                    className={s.purchaseDialog}
-                    isOpen={this.props.isOpen}
-                    onRequestClose={this.props.onRequestClose}>
-                    <div className="row">
-                        <div className="col-md-12 text-center">
-                            You need to be logged in first to purchase coin.
+            <Dialog
+                className={s.notAuthenticatedDialog}
+                isOpen={this.props.isOpen}
+                onRequestClose={this.props.onRequestClose}>
+                <div className="row">
+                    <div className="col-md-12 text-center">
+                        You need to be logged in first to participate in a
+                        fundraiser.
                     </div>
-                    </div>
-                </Dialog>
-            )
+                </div>
+            </Dialog>
+        )
     }
 }

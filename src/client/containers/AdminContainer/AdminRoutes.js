@@ -10,7 +10,7 @@ import MembersPage from 'pages/Admin/Members'
 import MessengerPage from 'pages/Admin/Messenger'
 import GroupPage from 'pages/Admin/Group'
 
-//TODO: I think routing is not done properly by me, improve when
+// TODO: I think routing is not done properly by me, improve when
 // some extra time
 
 const AdminRoutes = location => (

@@ -206,3 +206,12 @@ $purchase-button-height: 50px;
         }
     }
 }
+
+:local(.notAuthenticatedDialog) {
+    .modal-dialog {
+        width: 30vw;
+        @include media-breakpoint-down(sm, $grid-breakpoints) {
+            width: auto;
+        }
+    }
+}
