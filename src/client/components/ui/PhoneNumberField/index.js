@@ -19,7 +19,15 @@ const InternationalCodeDropDown = props => {
                 {props.selectedCode.dial_code}
             </button>
             <div className="dropdown-menu dropdown-menu-right">
-                {COUNTRYCODES.map((x, i) => {
+                <div className="search-input">
+                    <TextField
+                        id="countrySearch"
+                        label="Search country"
+                        onChange={props.onSearchInputChange}
+                        value={props.searchInputValue}
+                    />
+                </div>
+                {props.countryCodes.map((x, i) => {
                     return (
                         <div
                             key={i}
@@ -35,14 +43,28 @@ const InternationalCodeDropDown = props => {
 }
 
 class PhoneNumberField extends Component {
-
     constructor(props) {
         super(props)
         this.state = {
-            selectedCode: { name: 'United States', dial_code: '+1', code: 'US' },
+            selectedCode: {
+                name: 'United States',
+                dial_code: '+1',
+                code: 'US'
+            },
+            countryCodes: COUNTRYCODES,
+            searchInputValue: '',
             phoneNumber: '',
             ...this.parseDefaultValue(props.defaultValue)
         }
+    }
+
+    onSearchInputChange = (id, value) => {
+        this.setState({
+            searchInputValue: value,
+            countryCodes: COUNTRYCODES.filter(x =>
+                x.name.toLowerCase().startsWith(value.toLowerCase())
+            )
+        })
     }
 
     parseDefaultValue = () => {
@@ -55,12 +77,14 @@ class PhoneNumberField extends Component {
         const dial_code = defaultValue.split(phoneNumber)[0]
 
         const selectedCode = find(COUNTRYCODES, { dial_code })
-        console.log('Parsed default number: ', dial_code, phoneNumber, selectedCode)
         return { selectedCode, phoneNumber }
     }
 
-    componentWillReceiveProps = (nextProps) => {
-        if (!this.props.defaultValue && this.props.defaultValue !== nextProps.defaultValue) {
+    componentWillReceiveProps = nextProps => {
+        if (
+            !this.props.defaultValue &&
+            this.props.defaultValue !== nextProps.defaultValue
+        ) {
             this.setState(this.parseDefaultValue(nextProps.defaultValue))
         }
     }
@@ -99,19 +123,28 @@ class PhoneNumberField extends Component {
             label = 'Phone no.',
             placeholder = ''
         } = this.props
-        const cx = classnames(s.container, className, 'row', 'no-gutters')
+        const cx = classnames(
+            s.container,
+            className,
+            'row',
+            'no-gutters',
+            'ui-phone-number-field'
+        )
         return (
             <div className={cx}>
                 <InternationalCodeDropDown
                     className="incode-dropdown-group btn-group number-code-dropdown"
                     selectedCode={this.state.selectedCode}
                     onDropDownItemClick={this.onDropDownItemClick}
+                    countryCodes={this.state.countryCodes}
+                    searchInputValue={this.state.searchInputValue}
+                    onSearchInputChange={this.onSearchInputChange}
                 />
                 <TextField
                     id="phoneNumber"
                     label={label}
                     placeholder={placeholder}
-                    className="flex-1 number-input pl-1"
+                    className="flex-1 number-input"
                     icon={
                         showIcon ? <i className="material-icons">phone</i> : ''
                     }

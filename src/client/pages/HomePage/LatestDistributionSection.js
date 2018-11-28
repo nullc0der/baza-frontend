@@ -7,7 +7,7 @@ const LIST = [
         title: 1987,
         subtitle: 'Donor',
         description:
-            'Donors are patrons members that contribute towards the foundation & token distribution'
+            'Donors are patron members that contribute towards the foundation & token distribution'
     },
     {
         image: '/public/img/latest-distribution/baz-distributed.svg',
@@ -21,7 +21,7 @@ const LIST = [
         title: 10432,
         subtitle: 'Recipients',
         description:
-            'Recipients are our qualifying platform members who receive the distributed token'
+            'Recipients are our qualifying platform members who receive the distributed token.'
     }
 ]
 

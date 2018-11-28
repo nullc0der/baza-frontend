@@ -25,7 +25,6 @@ const ContactInformation = props => {
                 errorState={props.errors.email}
             />
             <PhoneNumberField
-                className="phone-number-field mb-3"
                 onChange={props.onInputChange}
                 errorState={props.errors.phoneNumber}
             />

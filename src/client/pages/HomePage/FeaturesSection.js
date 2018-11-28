@@ -17,29 +17,31 @@ const FEATURES = [
         title: 'COMMUNITY',
         subtitle: 'Support',
         description:
-            'Join the Foundation become a continued member and one of our patrons'
+            'Join the Foundation to become a platform member and patron'
     },
     {
         image: '/public/img/features/store-locally.svg',
         title: 'STORE LOCALLY',
         subtitle: 'Decentralize',
         description:
-            'Download and store your Baza Tokens on your choice of operating system'
+            'Download and store your Baza token on your choice of operating system'
     }
 ]
 
 class FeatureItem extends Component {
-    renderAnimatedCount = (title) => {
+    renderAnimatedCount = title => {
         return (
-            <CountUp start={0} end={title} delay={0} duration={3} separator=','>
-                {({ countUpRef }) => <div>
-                    <span ref={countUpRef}></span>
-                </div>}
+            <CountUp start={0} end={title} delay={0} duration={3} separator=",">
+                {({ countUpRef }) => (
+                    <div>
+                        <span ref={countUpRef} />
+                    </div>
+                )}
             </CountUp>
         )
     }
 
-    renderSection = (isVisible) => {
+    renderSection = isVisible => {
         const {
             iconClassName,
             image,
@@ -56,26 +58,19 @@ class FeatureItem extends Component {
                 </div>
                 <div className={buttonClassName}>
                     <div className="feature-title">
-                        {isVisible
-                            ? this.renderAnimatedCount(title)
-                            : title
-                        }
+                        {isVisible ? this.renderAnimatedCount(title) : title}
                     </div>
-                    <div className="feature-subtitle">
-                        {subtitle}
-                    </div>
+                    <div className="feature-subtitle">{subtitle}</div>
                 </div>
-                <div className="text-center">
-                    {description}
-                </div>
+                <div className="text-center">{description}</div>
             </Fragment>
         )
     }
 
     render() {
-        const cx = 'col-md-6 col-lg-4 col-xl-4 feature-item px-1 pb-3 pb-md-0 pb-lg-0 pb-xl-0' + (this.props.index === 0
-            ? ' mt-0 mt-md-3 mt-xl-3 mt-lg-3'
-            : ' mt-3')
+        const cx =
+            'col-md-6 col-lg-4 col-xl-4 feature-item px-1 pb-3 pb-md-0 pb-lg-0 pb-xl-0' +
+            (this.props.index === 0 ? ' mt-0 mt-md-3 mt-xl-3 mt-lg-3' : ' mt-3')
 
         if (!this.props.animateCount) {
             return <div className={cx}> {this.renderSection()} </div>
@@ -115,7 +110,8 @@ const FeaturesSection = props => {
                             image={feature.image}
                             description={feature.description}
                             iconClassName={iconClassName}
-                            buttonClassName={buttonClassName} />
+                            buttonClassName={buttonClassName}
+                        />
                     ))}
                 </div>
             </div>

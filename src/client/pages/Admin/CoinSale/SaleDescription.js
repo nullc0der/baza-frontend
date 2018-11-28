@@ -39,18 +39,21 @@ const SaleDescription = props => {
                 <div className="col-md-10 col-sm-12 col-xs-12 mx-auto">
                     <h4 className="title">DETAILS</h4>
                     <p>
-                        Coin sales help us raise funds, strengthen our
-                        foundation, build platform features, gain value and show
-                        returns. All buyers are required to have an account for
-                        participation in all Initial Coin Offering ( ICO )
-                        sales. Be sure to create an account before the sale
-                        begins. After sale, all unsold tokens will be destroyed.
+                        Fundraisers are separate from the distribution donation
+                        process. Your help towards the Foundation fundraiser,
+                        strengthens the foundation, builds platform features,
+                        values the token, pours fresh coffee into our workaholic
+                        mugs, increases platform security, and moves basic
+                        income forward. All participants will be required to
+                        have an account to join in on the fundraiser. Each
+                        donation will be rewarded with Baz tokens. Any remaining
+                        series tokens destroyed.
                     </p>
                     <div className="row sale-item-container">
                         <SaleItem
                             status="sold-out"
-                            title="Pre-Coin Sale"
-                            amount="1.3M USD"
+                            title="Pre-Fundraiser"
+                            amount="1.5M USD"
                         />
 
                         <SaleItem

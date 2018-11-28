@@ -37,9 +37,10 @@ const CurrentStatusSection = props => {
                             Distribution Process
                         </h4>
                         <p>
-                            When the amount donated reaches USD 2 per recipient
-                            & Administration fee + Development fund of 8%, then
-                            the distribution will take place. The next
+                            We receive donations from donors and when the amount
+                            reaches USD 2 per recipient, donation plus
+                            administration fee + development fund + processor
+                            fee, then the distribution will take place. The next
                             distribution is based on the total new recipient
                             signups plus the current ones.
                         </p>
@@ -51,8 +52,10 @@ const CurrentStatusSection = props => {
                             For the current distribution to take place,
                             donations made must reach the required goal of
                             $2160. Once this goal is reached, an automatic equal
-                            release of the redeemable baza tokens will be
-                            distributed to the qualifying account holders.
+                            release of the baza tokens will be distributed to
+                            the qualifying account holders, which will be
+                            redeemable on accepted exchanges after Series B
+                            Fundraiser.
                         </p>
                         <DonationProgressBar max={1500} value={1088} />
                         <div className="pt-3">

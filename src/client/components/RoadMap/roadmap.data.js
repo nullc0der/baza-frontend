@@ -36,28 +36,29 @@ module.exports = [
         status: 'done'
     },
     {
-        title: `Non-Profit Inc. Status, Pre-Coin Sale, Token to Bank API, Exchange Listing, Desktop Wallet`,
+        title: `Beta Release / Desktop Beta Wallets / Production Site / Pre-Fundraiser Series`,
         date: '2018-Q4',
         status: 'active'
     },
     {
         title:
-            '501(c)(3) Non-Profit Status / Full Distribution Starts / Administration Tech Team / Series A Sale',
+            '501(c)(3) Non-Profit Status / Administration Tech Team / Series A Fundraiser / Full Distribution Starts',
         date: '2019-Q1',
         status: 'pending'
     },
     {
-        title: 'Feature Expansion / Marketplace',
+        title:
+            'Feature Expansion / Exchange Listings / Group Expansion / Blog Feature',
         date: '2019-Q2',
         status: 'pending'
     },
     {
-        title: 'Series B ICO',
+        title: 'Marketplace / Series B Fundraiser',
         date: '2019-Q3',
         status: 'pending'
     },
     {
-        title: 'Full Board / Full Decentral Platform',
+        title: 'Full Board / Full Decentral Beta Platform',
         date: '2019-Q4',
         status: 'pending'
     }

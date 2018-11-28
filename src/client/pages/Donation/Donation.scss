@@ -126,4 +126,22 @@ $dialog-padding-y: map-get($spacers, 3);
             visibility: visible;
         }
     }
+
+    .ui-phone-number-field {
+        background-color: $light;
+        padding: 1rem 0.5rem;
+        .btn {
+            background-color: $light;
+        }
+        .ui-textfield-input {
+            &:focus,
+            &.has-value {
+                & + .ui-textfield-label {
+                    .label-icon {
+                        margin-bottom: -7px;
+                    }
+                }
+            }
+        }
+    }
 }

@@ -53,7 +53,7 @@ export default class WhitePaperSection extends React.Component {
                             <div className="download-whitepaper-btn">
                                 <a
                                     href="/public/files/baza_white-paper_v1.pdf"
-                                    target='_blank'
+                                    target="_blank"
                                     className="btn btn-dark">
                                     Download White Paper
                                 </a>
