@@ -13,10 +13,22 @@
     .label-text {
         margin-left: 8px;
     }
+    .has-unread-message {
+        width: 5px;
+        height: 5px;
+        background-color: #fff;
+        display: inline-block;
+        position: absolute;
+        right: 8px;
+        top: 12px;
+        border-radius: 50%;
+        animation: glow 5s infinite;
+    }
 }
 :local(.item) {
     padding: 10px 12px;
     border-bottom: 1px rgba(0, 0, 0, 0.12) solid;
+    cursor: pointer;
     .item-details {
         overflow: hidden;
         margin-left: 5px;
@@ -38,7 +50,7 @@
         margin-top: 5px;
     }
 }
-:local(.item).has_unread {
+:local(.item).has-unread {
     color: $admin-primary;
 }
 :local(.miniChatHolder) {
@@ -119,5 +131,20 @@
         .ui-chat-footer {
             display: none;
         }
+    }
+}
+
+@keyframes glow {
+    0% {
+        box-shadow: 0 0 -10px #fff;
+    }
+    40% {
+        box-shadow: 0 0 20px #fff;
+    }
+    60% {
+        box-shadow: 0 0 20px #fff;
+    }
+    100% {
+        box-shadow: 0 0 -10px #fff;
     }
 }

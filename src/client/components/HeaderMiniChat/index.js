@@ -27,7 +27,9 @@ class HeaderMiniChat extends Component {
         return (
             <div
                 onClick={this.openMiniChat(item)}
-                className={`flex-horizontal ${c.item}`}>
+                className={`flex-horizontal ${c.item} ${!!Boolean(
+                    item.unread_count
+                ) && 'has-unread'}`}>
                 <Avatar
                     size={42}
                     otherProfile={{
@@ -45,6 +47,16 @@ class HeaderMiniChat extends Component {
         )
     }
 
+    showIndicator = () => {
+        let hasUnread = 0
+        for (const room of this.props.rooms) {
+            if (room.unread_count) {
+                hasUnread += room.unread_count
+            }
+        }
+        return Boolean(hasUnread)
+    }
+
     render() {
         const { className } = this.props
 
@@ -55,6 +67,7 @@ class HeaderMiniChat extends Component {
         const label = (
             <span className={labelClass}>
                 <i className="fa fa-fw fa-comment-o" />
+                {this.showIndicator() && <i className="has-unread-message" />}
             </span>
         )
 
