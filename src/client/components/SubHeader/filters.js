@@ -3,7 +3,7 @@ export const FILTERS = {
         enabledFilters: ['approved', 'pending', 'declined', 'incomplete'],
         disabledFilters: []
     },
-    members: {
+    'community/members': {
         enabledFilters: ['online', 'offline'],
         disabledFilters: []
     },

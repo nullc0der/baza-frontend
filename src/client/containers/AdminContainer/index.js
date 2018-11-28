@@ -88,19 +88,15 @@ class AdminContainer extends Component {
         this.props.setOnlineUsers(get(data.message, 'online_users', []))
     }
 
-    shouldOpenMinichat = chatroomId => {
-        if (
-            $(window).width() > 768 &&
-            chatroomId !== this.props.selectedChatroom &&
-            this.props.minichats.indexOf(chatroomId) === -1
-        ) {
-            return true
-        }
-        return false
+    isChatEmpty = chatroomID => {
+        return isEmpty(this.props.chats[chatroomID])
     }
 
-    isChatEmpty = chatroomId => {
-        return isEmpty(this.props.chats[chatroomId])
+    shouldPlayMessengerTone = chatroomID => {
+        return (
+            chatroomID !== this.props.selectedChatroom &&
+            this.props.minichats.indexOf(chatroomID) === -1
+        )
     }
 
     onNotificationWebSocketData = data => {
@@ -119,18 +115,9 @@ class AdminContainer extends Component {
     onMessengerWebSocketData = data => {
         switch (data.message.type) {
             case 'add_message':
-                // TODO: This logics needs refactoring
-                if (this.shouldOpenMinichat(data.message.chatroom.id)) {
+                const chatroomID = data.message.chatroom.id
+                if (this.isChatEmpty(chatroomID)) {
                     this.props.addChatRoom(data.message.chatroom)
-                    this.props.openMiniChat(data.message.chatroom.id)
-                    $('#messenger-tone')[0].play()
-                    if (!this.isChatEmpty(data.message.chatroom.id)) {
-                        this.props.setTypingStatus(0)
-                        this.props.recievedChatOnWebsocket(
-                            data.message.chatroom,
-                            data.message.message
-                        )
-                    }
                 } else {
                     this.props.setTypingStatus(0)
                     this.props.recievedChatOnWebsocket(
@@ -138,12 +125,8 @@ class AdminContainer extends Component {
                         data.message.message
                     )
                 }
-                if (
-                    $(window).width() < 768 &&
-                    this.isChatEmpty(data.message.chatroom.id)
-                ) {
+                if (this.shouldPlayMessengerTone(chatroomID)) {
                     $('#messenger-tone')[0].play()
-                    this.props.addChatRoom(data.message.chatroom)
                 }
                 break
             case 'delete_message':
