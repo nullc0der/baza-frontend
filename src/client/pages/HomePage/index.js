@@ -32,7 +32,7 @@ class HomePage extends Component {
                 <ParallaxContainer
                     id="hero-section"
                     className="top-parallax-section flex-vertical"
-                    backgroundImage="/public/img/75.jpg">
+                    backgroundImage="/public/img/hero_image.jpg">
                     <div className="flex-vertical fill">
                         <Header inCenter showDonateButton scrollspy />
                         <div className="container fill flex-vertical">
