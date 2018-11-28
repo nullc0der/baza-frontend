@@ -22,10 +22,9 @@ $purchase-button-height: 50px;
     }
     .title.top-title {
         position: relative;
-        top: -36px;
-        left: 0px;
+        top: 0;
+        left: 0;
         text-align: center;
-        margin-bottom: -30px;
     }
     @include media-breakpoint-down(sm, $grid-breakpoints) {
         padding-top: map-get($spacers, 4);
