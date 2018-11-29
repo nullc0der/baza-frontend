@@ -22,7 +22,7 @@ const createDateText = (title, date) => {
 const PurchaseButton = props => {
     const percentage = props.isSaleOpen ? props.percentage : 0
     const buttonText = props.isSaleOpen
-        ? createDateText('Fundraiser Remaining', props.endTime)
+        ? createDateText('Fundraiser Begins', props.endTime)
         : props.isSaleWaiting
         ? createDateText('Next Release', props.endTime)
         : props.buttonText
