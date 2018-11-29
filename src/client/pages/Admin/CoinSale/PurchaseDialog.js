@@ -136,7 +136,7 @@ export default class PurchaseDialog extends Component {
                     className="btn btn-dark btn-block"
                     onClick={this.handleSubmit}
                     disabled={this.state.paymentProcessing}>
-                    <span>PURCHASE</span>
+                    <span>DONATE</span>
                     {this.state.paymentProcessing ? (
                         <i
                             className="fa fa-spin fa-spinner"
@@ -167,9 +167,9 @@ export default class PurchaseDialog extends Component {
         return Auth.isAuthenticated() ? (
             <Dialog
                 className={s.purchaseDialog}
-                title="Purchase BAZ Coins"
+                title="Donate to Fundraiser"
                 isOpen={this.props.isOpen}
-                footer="Contact your credit card holder about Baza Foundation purchase and limits to avoid any bank issues"
+                footer="Contact your credit card holder about Baza Foundation donation and limits to avoid any bank issues"
                 onRequestClose={this.props.onRequestClose}>
                 <div className="row">
                     <div className="col-md-5">
@@ -193,14 +193,15 @@ export default class PurchaseDialog extends Component {
                             errorState={this.state.purchaseAmountError}
                         />
                         <div className="baz-conversion well p-2 mt-3">
-                            {this.state.conversion}{' '}
+                            {this.state.conversion.toFixed(5)}{' '}
                             <span className="baz-unit">BAZ</span>
                         </div>
                         {this.state.coinPurchaseDone && (
                             <div className="well mt-2 error-well text-center">
                                 <p className="mb-0">
-                                    Thank you for purchasing baza, your wallet
-                                    will be updated soon
+                                    Thank you for donating to the Foundation,
+                                    your token reward will be updated to your
+                                    wallet soon.
                                 </p>
                             </div>
                         )}

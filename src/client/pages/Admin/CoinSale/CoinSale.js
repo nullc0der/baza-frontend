@@ -31,9 +31,8 @@ export const CurrencyDropdown = props => (
 const TitleAndProgress = props => (
     <div className="row">
         <div className="col-md-8 mx-auto">
-            <h4 className="title top-title">
-                BAZA FOUNDATION 1.5M PRE-FUNDRAISER
-            </h4>
+            <h4 className="title top-title">BAZA FOUNDATION FUNDRAISER</h4>
+            <h4 className="title top-title">1.5M USD GOAL</h4>
             <ProgressBar
                 activeText={props.progressCurrentText}
                 percentage={props.percentage}

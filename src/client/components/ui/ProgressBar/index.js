@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import classnames from 'classnames'
 
 import s from './ProgressBar.scss'
@@ -18,19 +18,21 @@ export default class ProgressBar extends Component {
             <div className={cx}>
                 <div className="ui-progress-end-text">{endText}</div>
                 {percentage === 0 && (
-                    <span className="ui-progress-active-text zero-raised">
-                        {!!currentTooltipText && (
-                            <div className="ui-progress-tooltip current-tooltip">
-                                {currentTooltipText}
-                                <div className="ui-progress-progress-sm-text">
-                                    {activeText}
-                                </div>
-                            </div>
-                        )}
-                        <span className="ui-progress-progress-text">
+                    <Fragment>
+                        <div className="ui-progress-start-text">
                             {activeText}
+                        </div>
+                        <span className="ui-progress-active-text zero-value">
+                            {!!currentTooltipText && (
+                                <div className="ui-progress-tooltip current-tooltip">
+                                    {currentTooltipText}
+                                    <div className="ui-progress-progress-sm-text">
+                                        {activeText}
+                                    </div>
+                                </div>
+                            )}
                         </span>
-                    </span>
+                    </Fragment>
                 )}
                 <div
                     className="ui-progress-bar ui-progress-animated"

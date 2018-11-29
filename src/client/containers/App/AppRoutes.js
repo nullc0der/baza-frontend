@@ -9,6 +9,9 @@ import EmailVerificationPage from 'pages/SignUp/EmailVerification'
 import ForgotPasswordPage from 'pages/SignUp/ForgotPasswordPage'
 import AddSocialEmailPage from 'pages/SignUp/AddSocialEmailPage'
 import TwoFactorPage from 'pages/SignUp/TwoFactorPage'
+import PrivacyPolicyPage from 'pages/SignUp/PrivacyPolicyPage'
+import TermsOfServicePage from 'pages/SignUp/TermsOfServicePage'
+import CookiePolicyPage from 'pages/SignUp/CookiePolicyPage'
 
 import AdminContainer from 'containers/AdminContainer/index'
 
@@ -31,6 +34,9 @@ const AppRoutes = location => (
         />
         <Route path="/addemail/" exact component={AddSocialEmailPage} />
         <Route path="/twofactor/" exact component={TwoFactorPage} />
+        <Route path="/privacy-policy/" exact component={PrivacyPolicyPage} />
+        <Route path="/terms-of-service/" exact component={TermsOfServicePage} />
+        <Route path="/cookie-policy/" exact component={CookiePolicyPage} />
         <Route path="/profile" component={AdminContainer} />
         <Route path="/coinsale" component={AdminContainer} />
         <Route path="/wallets" component={AdminContainer} />

@@ -31,13 +31,17 @@ $ui-progress-border-radius: 14px;
         color: #fff;
         font-weight: $font-weight-bold;
         position: relative;
-    }
-    .ui-progress-active-text {
-        &.zero-raised {
-            padding: 0 16px;
-            color: rgba($dark, 0.5);
+        &.zero-value {
+            padding: 0 45px;
+            @include media-breakpoint-down(sm, $grid-breakpoints) {
+                .current-tooltip {
+                    margin-right: -75px;
+                    top: -75px;
+                }
+            }
         }
     }
+    .ui-progress-start-text,
     .ui-progress-end-text {
         position: absolute;
         right: 16px;
@@ -47,6 +51,10 @@ $ui-progress-border-radius: 14px;
         @include media-breakpoint-down(sm, $grid-breakpoints) {
             display: none;
         }
+    }
+    .ui-progress-start-text {
+        right: unset;
+        left: 16px;
     }
     .ui-progress-progress-text {
         @include media-breakpoint-down(sm, $grid-breakpoints) {
@@ -72,11 +80,11 @@ $ui-progress-border-radius: 14px;
         }
     }
     .current-tooltip {
-        top: -75px;
+        top: -55px;
         padding-bottom: 50px;
         text-align: center;
         right: 50%;
-        width: 120px;
+        width: 150px;
         margin-right: -60px;
         font-weight: $font-weight-bold;
         transform-origin: center bottom;

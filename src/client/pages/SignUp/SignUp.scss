@@ -25,7 +25,7 @@
         bottom: 0;
         pointer-events: none;
         content: '';
-        box-shadow: inset 0px 0px 50px 0px rgba(0,0,0,0.3);
+        box-shadow: inset 0px 0px 50px 0px rgba(0, 0, 0, 0.3);
     }
 
     @include media-breakpoint-down(sm, $grid-breakpoints) {
@@ -327,5 +327,37 @@
                 margin-left: 10%;
             }
         }
+    }
+}
+
+:local(.staticPage) {
+    .app-header {
+        z-index: $zindex-fixed;
+        .menu-icon {
+            color: $dark;
+            border: none;
+        }
+        .navbar-toggler {
+            border-color: transparent;
+        }
+    }
+
+    .app-header + .page-layer {
+        padding-top: $header-height;
+    }
+
+    .page-layer {
+        overflow-y: auto;
+    }
+
+    @include media-breakpoint-down(sm, $grid-breakpoints) {
+        .staticpage-container {
+            overflow: initial;
+        }
+    }
+    .staticpage-container {
+        background: url('/public/img/hero_image.jpg') no-repeat center center
+            fixed;
+        background-size: cover;
     }
 }

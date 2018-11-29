@@ -4,10 +4,10 @@ import classnames from 'classnames'
 import s from './Footer.scss'
 
 const FOOTER_LINKS = [
-    { label: 'Privacy Policy', href: '#' },
-    { label: 'Terms and Conditions', href: '#' },
-    { label: 'Donate', href: '#!donate' },
-    { label: 'Code of Conduct', href: '#' }
+    { label: 'Privacy Policy', href: '/privacy-policy/' },
+    { label: 'Terms and Conditions', href: '/terms-of-service/' },
+    { label: 'Cookie Policy', href: '/cookie-policy/' },
+    { label: 'Donate', href: '#!donate' }
 ]
 
 export default class Footer extends Component {

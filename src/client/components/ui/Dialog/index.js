@@ -72,10 +72,13 @@ export default class Dialog extends Component {
                 aria-hidden="true">
                 <div className={backdropClass} onClick={this.onRequestClose} />
                 {!!isOpen && (
+                    // HACK: The in is a hack found from https://github.com/reactjs/react-transition-group/issues/216
+                    // Check more on it when gets some time
                     <CSSTransition
                         classNames="fade"
                         appear
-                        timeout={500}>
+                        timeout={500}
+                        in={true}>
                         <div
                             className="modal-dialog modal-dialog-centered"
                             role="document">
