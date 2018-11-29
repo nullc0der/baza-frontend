@@ -38,8 +38,8 @@ const TitleAndProgress = props => (
                 activeText={props.progressCurrentText}
                 percentage={props.percentage}
                 endText={props.progressEndText}
-                currentTooltipText="Coins Sold"
-                endTooltipText="Coins Remaining"
+                currentTooltipText="Tokens Rewarded"
+                endTooltipText="Tokens Remaining"
             />
         </div>
     </div>

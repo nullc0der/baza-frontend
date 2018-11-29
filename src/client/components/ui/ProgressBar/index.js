@@ -17,10 +17,8 @@ export default class ProgressBar extends Component {
         return (
             <div className={cx}>
                 <div className="ui-progress-end-text">{endText}</div>
-                <div
-                    className="ui-progress-bar ui-progress-animated"
-                    style={{ width: `${percentage}%` }}>
-                    <span className="ui-progress-active-text">
+                {percentage === 0 && (
+                    <span className="ui-progress-active-text zero-raised">
                         {!!currentTooltipText && (
                             <div className="ui-progress-tooltip current-tooltip">
                                 {currentTooltipText}
@@ -33,6 +31,28 @@ export default class ProgressBar extends Component {
                             {activeText}
                         </span>
                     </span>
+                )}
+                <div
+                    className="ui-progress-bar ui-progress-animated"
+                    style={{
+                        width: `${percentage}%`,
+                        padding: `${percentage === 0 && '0'}`
+                    }}>
+                    {percentage > 0 && (
+                        <span className="ui-progress-active-text">
+                            {!!currentTooltipText && (
+                                <div className="ui-progress-tooltip current-tooltip">
+                                    {currentTooltipText}
+                                    <div className="ui-progress-progress-sm-text">
+                                        {activeText}
+                                    </div>
+                                </div>
+                            )}
+                            <span className="ui-progress-progress-text">
+                                {activeText}
+                            </span>
+                        </span>
+                    )}
                 </div>
                 {!!endTooltipText && (
                     <div className="ui-progress-tooltip end-tooltip">

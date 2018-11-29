@@ -51,13 +51,13 @@ const SaleDescription = props => {
                     </p>
                     <div className="row sale-item-container">
                         <SaleItem
-                            status="sold-out"
+                            status="available"
                             title="Pre-Fundraiser"
                             amount="1.5M USD"
                         />
 
                         <SaleItem
-                            status="almost-gone"
+                            status="available"
                             title="Series A"
                             amount="15M USD"
                         />

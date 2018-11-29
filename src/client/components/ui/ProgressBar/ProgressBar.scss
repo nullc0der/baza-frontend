@@ -32,6 +32,12 @@ $ui-progress-border-radius: 14px;
         font-weight: $font-weight-bold;
         position: relative;
     }
+    .ui-progress-active-text {
+        &.zero-raised {
+            padding: 0 16px;
+            color: rgba($dark, 0.5);
+        }
+    }
     .ui-progress-end-text {
         position: absolute;
         right: 16px;
@@ -66,7 +72,7 @@ $ui-progress-border-radius: 14px;
         }
     }
     .current-tooltip {
-        top: -55px;
+        top: -75px;
         padding-bottom: 50px;
         text-align: center;
         right: 50%;
