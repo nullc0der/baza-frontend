@@ -16,14 +16,6 @@ const CurrentStatusSection = props => {
                 <h3 className="text-center mb-3"> Current Status </h3>
                 <div className="row mb-5">
                     <div className="col-12 mx-auto">
-                        {/* <div className="embed-responsive embed-responsive-16by9">
-                            <video
-                                title="Baza Intro"
-                                className="embed-responsive-item"
-                                src="/public/videos/Baza Intro.mp4"
-                                controls
-                            />
-                        </div> */}
                         <VideoPlayer
                             src="/public/videos/Baza Intro.mp4"
                             poster="/public/videothumbnails/Baza Intro.jpeg"
@@ -57,7 +49,7 @@ const CurrentStatusSection = props => {
                             redeemable on accepted exchanges after Series B
                             Fundraiser.
                         </p>
-                        <DonationProgressBar max={1500} value={1088} />
+                        <DonationProgressBar max={1500} value={10} />
                         <div className="pt-3">
                             <Link to="/#!donate" className="btn btn-dark">
                                 Donate Now
