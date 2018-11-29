@@ -16,8 +16,7 @@ const FEATURES = [
         image: '/public/img/features/community.svg',
         title: 'COMMUNITY',
         subtitle: 'Support',
-        description:
-            'Join the Foundation to become a platform member and patron'
+        description: 'Join the Foundation to become a platform or patron member'
     },
     {
         image: '/public/img/features/store-locally.svg',
