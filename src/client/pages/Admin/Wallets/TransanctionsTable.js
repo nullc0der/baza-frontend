@@ -22,10 +22,13 @@ export const TransanctionStatus = ({ status, className }) => {
     return <div className={cx}>{capitalize(status)}</div>
 }
 
-export const TransanctionFromTo = ({ transanction }) =>
-    `${transanction.account.user.username} -> ${
-        transanction.to_account.user.username
-    }`
+export const TransanctionFromTo = ({ transanction }) => {
+    return transanction.account
+        ? `${transanction.account.user.username} -> ${
+              transanction.to_account.user.username
+          }`
+        : `Baza Foundation -> ${transanction.to_account.user.username}`
+}
 
 export const TransanctionDate = ({ date }) =>
     moment(date).format('MM/DD/YYYY, h:mm a')

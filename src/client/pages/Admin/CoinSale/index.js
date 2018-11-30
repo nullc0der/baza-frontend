@@ -1,10 +1,13 @@
 import React, { Component } from 'react'
 import classnames from 'classnames'
 import PropTypes from 'prop-types'
+import get from 'lodash/get'
 
 import CoinSale from './CoinSale'
 import PurchaseButton from './PurchaseButton'
 import PurchaseDialog from './PurchaseDialog'
+
+import { getTotalCoinPurchased } from 'api/coinsale'
 
 import { DateTime } from 'luxon'
 
@@ -72,6 +75,11 @@ export default class CoinSalePage extends Component {
 
     componentDidMount = () => {
         this.startIntervalTimer()
+        getTotalCoinPurchased().then(res =>
+            this.setState({
+                totalSoldCoins: get(res.data, 'total_purchased', 0)
+            })
+        )
     }
 
     startIntervalTimer = () => {
