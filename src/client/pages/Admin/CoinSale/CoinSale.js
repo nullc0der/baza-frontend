@@ -48,8 +48,8 @@ const CoinSale = props => {
     const {
         totalAvailableCoins,
         selectedCurrency,
-        onCurrencySelect,
-        totalSoldCoins
+        totalSoldCoins,
+        onDonateButtonClick
     } = props
 
     const progressEndText =
@@ -63,10 +63,15 @@ const CoinSale = props => {
     )
     return (
         <Fragment>
-            <CurrencyDropdown
+            {/* <CurrencyDropdown
                 selectedCurrency={selectedCurrency}
                 onCurrencySelect={onCurrencySelect}
-            />
+            /> */}
+            <button
+                className="btn btn-light currency-dropdown-group"
+                onClick={onDonateButtonClick}>
+                Donate
+            </button>
             <TitleAndProgress
                 progressEndText={progressEndText}
                 percentage={progressPercentage}

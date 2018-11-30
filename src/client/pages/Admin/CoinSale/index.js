@@ -132,6 +132,7 @@ export default class CoinSalePage extends Component {
                         isSaleWaiting={isSaleWaiting}
                         selectedCurrency={selectedCurrency}
                         onCurrencySelect={this.onCurrencySelect}
+                        onDonateButtonClick={this.openPurchaseDialog}
                     />
                 </div>
                 <PurchaseButton

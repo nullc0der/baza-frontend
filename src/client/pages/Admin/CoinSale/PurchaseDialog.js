@@ -1,8 +1,6 @@
 import React, { Component } from 'react'
 import Dialog from 'components/ui/Dialog'
-import classnames from 'classnames'
 import { create } from 'apisauce'
-import { Elements, StripeProvider } from 'react-stripe-elements'
 import get from 'lodash/get'
 
 // import last from 'lodash/last'
@@ -10,8 +8,7 @@ import get from 'lodash/get'
 import Auth from 'utils/authHelpers'
 
 import TextField from 'components/ui/TextField'
-import { PaymentBadges } from 'components/PaymentInformation'
-import StripePaymentForm from 'components/StripePaymentForm'
+import PayPalPayment from 'components/PayPalPayment'
 
 import { CurrencyDropdown } from './CoinSale'
 // import { CONVERSION_TABLE } from './data'
@@ -26,9 +23,7 @@ export default class PurchaseDialog extends Component {
         perDollarCost: 0,
         purchaseAmountError: null,
         nonFieldErrors: null,
-        coinPurchaseDone: false,
-        paymentProcessing: false,
-        submitClicked: false
+        coinPurchaseDone: false
     }
 
     componentDidMount = () => {
@@ -45,7 +40,7 @@ export default class PurchaseDialog extends Component {
             }).then(response => {
                 if (response.ok) {
                     this.setState({
-                        conversion: response.data,
+                        conversion: parseFloat(response.data),
                         perDollarCost: response.data
                     })
                 }
@@ -75,92 +70,30 @@ export default class PurchaseDialog extends Component {
         this.props.onCurrencySelect(currency)
     }
 
-    purchaseCoin = token => {
-        if (token) {
-            const api = create({
-                baseURL: Config.get('API_ROOT'),
-                headers: {
-                    Accept: 'application/json'
-                }
-            })
-            api.setHeader('Authorization', `Bearer ${Auth.getToken()}`)
-            api.post('/purchasecoin/', {
-                price: this.state.purchaseAmount,
-                currency: this.props.selectedCurrency,
-                stripe_token: token,
-                coin_name: 'proxcdb'
-            }).then(response => {
-                if (response.ok) {
-                    this.setState({
-                        coinPurchaseDone: true
-                    })
-                } else {
-                    this.setState({
-                        purchaseAmountError: get(response.data, 'price', null),
-                        nonFieldErrors: get(
-                            response.data,
-                            'non_field_errors',
-                            null
-                        )
-                    })
-                }
+    onPaymentAuthorized = () => {
+        const api = create({
+            baseURL: Config.get('API_ROOT'),
+            headers: {
+                Accept: 'application/json'
+            }
+        })
+        api.setHeader('Authorization', `Bearer ${Auth.getToken()}`)
+        api.post('/purchasecoin/', {
+            price: this.state.purchaseAmount,
+            currency: this.props.selectedCurrency,
+            coin_name: 'proxcdb'
+        }).then(response => {
+            if (response.ok) {
                 this.setState({
-                    paymentProcessing: false,
-                    submitClicked: false
+                    coinPurchaseDone: true
                 })
-            })
-        } else {
-            this.setState({
-                paymentProcessing: false,
-                submitClicked: false
-            })
-        }
-    }
-
-    handleSubmit = e => {
-        e.preventDefault()
-        this.setState({
-            submitClicked: true,
-            paymentProcessing: true
+            } else {
+                this.setState({
+                    purchaseAmountError: get(response.data, 'price', null),
+                    nonFieldErrors: get(response.data, 'non_field_errors', null)
+                })
+            }
         })
-    }
-
-    getSubmitButton = device => {
-        const cx = classnames('mt-2 mb-2 button-purchase-wrap', {
-            'd-none d-md-block d-lg-block d-xl-block': device === 'desktop',
-            'd-md-none d-lg-none d-xl-none': device === 'mobile'
-        })
-        return (
-            <div className={cx}>
-                <button
-                    className="btn btn-dark btn-block"
-                    onClick={this.handleSubmit}
-                    disabled={this.state.paymentProcessing}>
-                    <span>DONATE</span>
-                    {this.state.paymentProcessing ? (
-                        <i
-                            className="fa fa-spin fa-spinner"
-                            style={{ marginLeft: '8px' }}
-                        />
-                    ) : (
-                        <i className="material-icons">arrow_forward</i>
-                    )}
-                </button>
-                <div className="form-check form-check-inline mt-2 mb-2">
-                    <input
-                        className="form-check-input"
-                        type="checkbox"
-                        id="add_to_newsletter"
-                        value="add_to_newsletter"
-                    />
-                    <label
-                        className="form-check-label"
-                        htmlFor="add_to_newsletter">
-                        Yes! Add me to your newsletter list
-                    </label>
-                </div>
-            </div>
-        )
     }
 
     render() {
@@ -172,7 +105,7 @@ export default class PurchaseDialog extends Component {
                 footer="Contact your credit card holder about Baza Foundation donation and limits to avoid any bank issues"
                 onRequestClose={this.props.onRequestClose}>
                 <div className="row">
-                    <div className="col-md-5">
+                    <div className="col-md-12">
                         {this.state.nonFieldErrors && (
                             <div className="well mb-2 mt-2 error-well">
                                 {this.state.nonFieldErrors.map((x, i) => (
@@ -193,7 +126,7 @@ export default class PurchaseDialog extends Component {
                             errorState={this.state.purchaseAmountError}
                         />
                         <div className="baz-conversion well p-2 mt-3">
-                            {this.state.conversion.toFixed(5)}{' '}
+                            {this.state.conversion}{' '}
                             <span className="baz-unit">BAZ</span>
                         </div>
                         {this.state.coinPurchaseDone && (
@@ -205,22 +138,13 @@ export default class PurchaseDialog extends Component {
                                 </p>
                             </div>
                         )}
-                        {this.getSubmitButton('desktop')}
-                    </div>
-                    <div className="col-md-7 mt-2 mt-md-0 mt-lg-0 mt-xl-0">
-                        <StripeProvider apiKey="pk_test_brOdNv1xxyyZ8GiqvRF9H9ID">
-                            <Elements>
-                                <StripePaymentForm
-                                    onTokenReceive={this.purchaseCoin}
-                                    className="mt-3"
-                                    submitClicked={this.state.submitClicked}
-                                />
-                            </Elements>
-                        </StripeProvider>
+                        <PayPalPayment
+                            className="mt-3"
+                            amount={this.state.purchaseAmount}
+                            onPaymentAuthorized={this.onPaymentAuthorized}
+                        />
                     </div>
                 </div>
-                {this.getSubmitButton('mobile')}
-                <PaymentBadges />
             </Dialog>
         ) : (
             <Dialog

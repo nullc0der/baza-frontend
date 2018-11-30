@@ -188,6 +188,12 @@ $purchase-button-height: 50px;
 
 :local(.container),
 :local(.purchaseDialog) {
+    .modal-dialog {
+        width: 370px;
+        @include media-breakpoint-down(sm, $grid-breakpoints) {
+            width: auto;
+        }
+    }
     .currency-dropdown-group {
         position: absolute;
         right: 0;
