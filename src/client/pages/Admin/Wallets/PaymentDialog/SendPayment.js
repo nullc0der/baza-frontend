@@ -6,6 +6,7 @@ import { jsonAPI } from 'api/base'
 
 import TextField from 'components/ui/TextField'
 import SelectDropdown from 'components/ui/SelectDropdown'
+import Avatar from 'components/Avatar'
 
 const calcTotal = (amount, txfee) => {
     return parseFloat(amount) + parseFloat(txfee)
@@ -97,6 +98,22 @@ class SendPayment extends Component {
         this.props.onSendSubmitClick(this.state.inputValues)
     }
 
+    userDDRenderer = item => {
+        return (
+            <div className="flex flex-horizontal a-center">
+                <Avatar
+                    own={false}
+                    otherProfile={{
+                        username: item.user.username,
+                        profile_photo: item.user.user_image_url,
+                        default_avatar_color: item.user.user_avatar_color
+                    }}
+                />
+                <span className="ml-1">{item.label}</span>
+            </div>
+        )
+    }
+
     render() {
         const cx = classnames('send-payment payment-tab-content flex-vertical')
         const amount =
@@ -115,9 +132,7 @@ class SendPayment extends Component {
                         errorState={this.state.inputError.nonField || null}
                         items={this.state.userList}
                         onDDItemClick={this.onDDItemClick}
-                        itemRenderer={(item, index) => {
-                            return <span>{item.label}</span>
-                        }}
+                        itemRenderer={this.userDDRenderer}
                         autoComplete="off"
                         data-lpignore="true"
                     />

@@ -56,6 +56,9 @@ $text-color: rgba($dark, 0.5);
         height: 50px;
         color: #fff;
     }
+    .ui-select-dropdown-menu {
+        max-height: 200px;
+    }
 }
 
 :local(.container) .transanction-info {
