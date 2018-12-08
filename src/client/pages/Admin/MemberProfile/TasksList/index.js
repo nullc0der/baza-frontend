@@ -38,7 +38,7 @@ class TasksList extends Component {
 
     render() {
         return (
-            <BasicCard title="Tasks List" className={s.container}>
+            <BasicCard title="Trust Tasks" className={s.container}>
                 {this.props.tasks.map(this.renderOneTask)}
             </BasicCard>
         )
