@@ -27,9 +27,12 @@
         top: 4px;
         right: 1rem;
         font-size: 12px;
+        text-decoration: none;
         // background-color: rgba($dark, 0.1);
         // padding: 3px 6px;
         // border-radius: 12px 0 0 12px;
+        &:hover {
+            color: #fff;
+        }
     }
 }
-

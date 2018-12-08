@@ -28,7 +28,7 @@ export default class SettingsCard extends Component {
     }
     render() {
         return (
-            <Card className="settings-card">
+            <Card className="settings-card" id="security">
                 <CardHeader title="SECURITY">
                     <CardHeaderTabs
                         onTabClick={this.onTabClick}
@@ -42,7 +42,9 @@ export default class SettingsCard extends Component {
                         onChangeIndex={this.changeSwipeIndex}>
                         <SetPassword />
                         <TwoFactor />
-                        <ActivityLog visible={this.state.selectedTabIndex === 2} />
+                        <ActivityLog
+                            visible={this.state.selectedTabIndex === 2}
+                        />
                     </SwipeableViews>
                 </CardBody>
             </Card>

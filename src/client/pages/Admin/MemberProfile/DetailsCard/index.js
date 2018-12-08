@@ -20,8 +20,9 @@ class DetailsCard extends Component {
         return (
             <SwipeableCard
                 className={cx}
-                headerTitle='DETAILS'
-                tabs={DETAILS_CARD_TABS}>
+                headerTitle="DETAILS"
+                tabs={DETAILS_CARD_TABS}
+                id="details">
                 <PhoneDetails />
                 <EmailDetails />
                 <SocialDetails />

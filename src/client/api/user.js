@@ -171,3 +171,8 @@ export const fetchActivityLog = () => {
     const url = '/mock/activity-log'
     return jsonAPI(api => api.get(url), { mock: true })
 }
+
+export const fetchUserTasks = () => {
+    const url = '/profile/tasks/'
+    return jsonAPI(api => api.get(url))
+}

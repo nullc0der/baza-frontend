@@ -31,13 +31,13 @@ export default class SwipeableCard extends Component {
         this.fixHeight(bodyBounds.height)
     }
 
-    fixHeight = (height) => {
+    fixHeight = height => {
         this.bodyContainer.querySelectorAll('.ui-card-content').forEach(el => {
             el.style.height = height + 'px'
         })
     }
 
-    fixSwipeableContainerHeight = (childContainerRef) => {
+    fixSwipeableContainerHeight = childContainerRef => {
         const childBounds = childContainerRef.getBoundingClientRect()
         this.fixHeight(childBounds.height)
     }
@@ -73,18 +73,21 @@ export default class SwipeableCard extends Component {
             hasSearch = false,
             searchValue = '',
             searchPlaceholder = 'Search',
-            children
+            children,
+            id = ''
         } = this.props
 
         return (
-            <Card className={className}>
+            <Card className={className} id={id}>
                 <CardHeader title={headerTitle} subtitle={headerSubtitle}>
-                    {hasSearch && <CardSearchBar
-                        placeholder={searchPlaceholder}
-                        value={searchValue}
-                        onChange={this.props.onSearchChange}
-                        onSearchClick={this.props.onSearchIconClick}
-                    />}
+                    {hasSearch && (
+                        <CardSearchBar
+                            placeholder={searchPlaceholder}
+                            value={searchValue}
+                            onChange={this.props.onSearchChange}
+                            onSearchClick={this.props.onSearchIconClick}
+                        />
+                    )}
                     <CardHeaderTabs
                         fill={fillTabs}
                         onTabClick={this.onTabClick}
@@ -92,7 +95,10 @@ export default class SwipeableCard extends Component {
                         tabs={tabs}
                     />
                 </CardHeader>
-                <CardBody ref={node => { this.bodyContainer = node }}>
+                <CardBody
+                    ref={node => {
+                        this.bodyContainer = node
+                    }}>
                     <SwipeableViews
                         index={this.state.selectedTabIndex}
                         onChangeIndex={this.changeSwipeIndex}>

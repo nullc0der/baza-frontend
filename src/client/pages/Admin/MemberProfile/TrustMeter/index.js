@@ -1,15 +1,12 @@
 import React, { Component } from 'react'
 import CountUp from 'react-countup'
+import { connect } from 'react-redux'
 import BasicCard from '../BasicCard'
 
 import s from './TrustMeter.scss'
-import SVGDial from './SVGDial';
+import SVGDial from './SVGDial'
 
 class TrustMeter extends Component {
-    state = {
-        value: 40
-    }
-
     // componentDidMount = () => {
     //     this.intervals = []
     //     const el = document.querySelector(`.${s.container}`)
@@ -24,20 +21,40 @@ class TrustMeter extends Component {
     // }
 
     render() {
-        const { value } = this.state
+        const { trustPercentage } = this.props
         return (
-            <BasicCard title='Trust Meter' className={s.container}>
-                <SVGDial value={value} />
-                <CountUp start={0} end={value} delay={0} duration={2} suffix='%' separator=''>
-                    {({ countUpRef }) => <div>
-                        <div className='trust-percentage' ref={countUpRef}></div>
-                    </div>}
+            <BasicCard title="Trust Meter" className={s.container}>
+                <SVGDial value={trustPercentage} />
+                <CountUp
+                    start={0}
+                    end={trustPercentage}
+                    delay={0}
+                    duration={2}
+                    suffix="%"
+                    separator="">
+                    {({ countUpRef }) => (
+                        <div>
+                            <div
+                                className="trust-percentage"
+                                ref={countUpRef}
+                            />
+                        </div>
+                    )}
                 </CountUp>
                 {/* <div className='trust-percentage'>{value}%</div> */}
-                <div className='trust-message'>You are in top 10%</div>
+                <div className="trust-message">You are in top 10%</div>
             </BasicCard>
         )
     }
 }
 
-export default TrustMeter
+const mapStateToProps = state => ({
+    trustPercentage: state.UserProfile.trustPercentage
+})
+
+const mapDispatchToProps = dispatch => ({})
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(TrustMeter)
