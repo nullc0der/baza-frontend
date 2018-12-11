@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import classnames from 'classnames'
 import get from 'lodash/get'
+import isEmpty from 'lodash/isEmpty'
 import Dialog from 'components/ui/Dialog'
 
 import { Link, Redirect } from 'react-router-dom'
@@ -38,7 +39,8 @@ class LoginDialog extends Component {
         email: '',
         emailVerificationRequired: false,
         redirectURL: '',
-        uuid: ''
+        uuid: '',
+        resendEmailValidationInfo: {}
     }
 
     closeLoginModal = () => {
@@ -204,6 +206,26 @@ class LoginDialog extends Component {
         }
     }
 
+    resendVerificationEmail = () => {
+        Auth.resendEmailValidation(this.state.email)
+            .then(res =>
+                this.setState({
+                    resendEmailValidationInfo: {
+                        status: 'success',
+                        text: `A verification email sent to ${this.state.email}`
+                    }
+                })
+            )
+            .catch(res =>
+                this.setState({
+                    resendEmailValidationInfo: {
+                        status: 'error',
+                        text: 'Something went wrong, please try later'
+                    }
+                })
+            )
+    }
+
     render() {
         const cx = classnames(s.loginDialog, 'login-dialog')
         const { originURL } = this.props.location.state || {
@@ -272,6 +294,24 @@ class LoginDialog extends Component {
                         <div className="well mb-2 error-div">
                             Please verify your email id, We have sent an email
                             containing verification url at {this.state.email}
+                            <p
+                                className="mt-1 resend-mail"
+                                onClick={this.resendVerificationEmail}>
+                                Resend verification email
+                            </p>
+                        </div>
+                    )}
+                    {!isEmpty(this.state.resendEmailValidationInfo) && (
+                        <div className="well mb-2 resend-mail-info">
+                            <p
+                                className={`text-${
+                                    this.state.resendEmailValidationInfo
+                                        .status === 'success'
+                                        ? 'success'
+                                        : 'danger'
+                                }`}>
+                                {this.state.resendEmailValidationInfo.text}
+                            </p>
                         </div>
                     )}
                     <button
