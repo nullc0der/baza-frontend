@@ -92,8 +92,8 @@ export const updateProfilePhoneNumber = datas => {
     return jsonAPI(api => api.put(url, datas))
 }
 
-export const fetchProfileEmails = access_token => {
-    const url = `/profile/emails/?access_token=${access_token}`
+export const fetchProfileEmails = () => {
+    const url = `/profile/emails/`
     return jsonAPI(api => api.get(url))
 }
 

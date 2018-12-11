@@ -10,7 +10,8 @@ export default class SimpleSelectDropdown extends Component {
         items: PropTypes.arrayOf(SelectDropdownItemShape).isRequired,
         onChange: PropTypes.func.isRequired,
         value: PropTypes.string,
-        placeholder: PropTypes.string
+        placeholder: PropTypes.string,
+        errorState: PropTypes.string
     }
 
     state = {
@@ -40,7 +41,7 @@ export default class SimpleSelectDropdown extends Component {
     }
 
     render() {
-        const { items, value, placeholder, className } = this.props
+        const { items, value, placeholder, errorState, className } = this.props
 
         const { isOpen } = this.state
 
@@ -51,6 +52,7 @@ export default class SimpleSelectDropdown extends Component {
                 <div className="select-value-field" onClick={this.toggleOpen}>
                     {value ? value : placeholder}
                 </div>
+                {errorState && <p className="text-danger">{errorState}</p>}
                 <div
                     className={`ui-select-dropdown-menu ${
                         isOpen ? 'is-open' : ''

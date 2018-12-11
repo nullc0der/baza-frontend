@@ -497,7 +497,7 @@ const UPDATE_PROFILE_EMAIL_SUCCESS = createAction(
 )
 const updateProfileEmailSuccess = response => ({
     type: UPDATE_PROFILE_EMAIL_SUCCESS,
-    profileEmailID: Number(get(response, 'data', '-1'))
+    profileEmail: get(response, 'data', {})
 })
 
 const UPDATE_PROFILE_EMAIL_FAILURE = createAction(
@@ -770,10 +770,16 @@ export default function UserProfileReducer(state = INITIAL_STATE, action) {
             return {
                 ...state,
                 profileEmails: state.profileEmails.map(x => {
-                    x.id === action.profileEmailID
-                        ? (x.primary = true)
-                        : (x.primary = false)
-                    return x
+                    return x.id === action.profileEmail.id
+                        ? action.profileEmail
+                        : {
+                              ...x,
+                              primary: x.primary
+                                  ? action.profileEmail.primary
+                                      ? false
+                                      : true
+                                  : false
+                          }
                 }),
                 isLoading: false
             }

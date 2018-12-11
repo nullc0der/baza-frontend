@@ -196,4 +196,20 @@ export default class Auth {
             })
         })
     }
+
+    static resendEmailValidation(email) {
+        return new Promise((resolve, reject) => {
+            api.setHeader('Content-Type', 'application/json')
+            const data = {
+                email
+            }
+            api.post('resendemailverification/', data).then(response => {
+                if (response.ok) {
+                    resolve(response.data)
+                } else {
+                    reject(response.data)
+                }
+            })
+        })
+    }
 }

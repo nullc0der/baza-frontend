@@ -1,4 +1,4 @@
-@import "ui";
+@import 'ui';
 
 :local(.container) {
     .ui-card-content {
@@ -38,6 +38,10 @@
         p {
             margin: 0;
         }
+        .email-item-error {
+            font-size: 14px;
+            font-weight: 400;
+        }
         @include media-breakpoint-up(md, $grid-breakpoints) {
             max-width: 450px;
         }
@@ -58,7 +62,6 @@
             }
         }
     }
-
 
     .social-accounts-list {
         display: flex;
@@ -146,7 +149,6 @@
         min-width: initial;
     }
 }
-
 
 :local(.container) .phone-add-field {
     i {

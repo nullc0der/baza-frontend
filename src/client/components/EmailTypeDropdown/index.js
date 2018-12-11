@@ -11,8 +11,7 @@ const EMAIL_TYPE_OPTIONS = [
 ]
 
 class EmailTypeDropdown extends Component {
-    onChange = (e, value) => {
-        console.log('clicked type option', e, value)
+    onChange = value => {
         this.props.onChange(value)
     }
     render() {
@@ -25,13 +24,14 @@ class EmailTypeDropdown extends Component {
             <SelectDropdown
                 className={this.props.className}
                 id={id}
-                placeholder='Email Type'
+                placeholder="Email Type"
                 value={value}
+                errorState={this.props.errorState}
                 items={EMAIL_TYPE_OPTIONS}
-                onChange={this.onChange} />
+                onChange={this.onChange}
+            />
         )
     }
 }
-
 
 export default EmailTypeDropdown
