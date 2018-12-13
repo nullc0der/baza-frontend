@@ -21,13 +21,14 @@ class PhoneTypeDropdown extends Component {
             <SelectDropdown
                 className={this.props.className}
                 id={id}
-                placeholder='Phone Type'
+                placeholder="Phone Type"
                 value={value}
                 items={PHONE_TYPE_OPTIONS}
-                onChange={this.props.onChange} />
+                onChange={this.props.onChange}
+                errorState={this.props.errorState}
+            />
         )
     }
 }
-
 
 export default PhoneTypeDropdown

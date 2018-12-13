@@ -19,7 +19,8 @@ const INITIAL_STATE = {
         list: []
     },
     tasks: [],
-    trustPercentage: 0
+    trustPercentage: 0,
+    trustPercentile: 0
 }
 
 const createAction = str => `USER_PROFILE_${str}`
@@ -536,25 +537,12 @@ const fetchActivityLogFailure = err => ({
     error: err.message
 })
 
-const FETCH_USER_TASKS = createAction('FETCH_USER_TASKS')
-const fetchUserTasks = () => dispatch => {
-    return DispatchAPI(dispatch, ProfileAPI.fetchUserTasks, {
-        success: fetchUserTasksSuccess,
-        failure: fetchUserTasksFailure
-    })
-}
-
-const FETCH_USER_TASKS_SUCCESS = createAction('FETCH_USER_TASKS_SUCCESS')
-const fetchUserTasksSuccess = response => ({
-    type: FETCH_USER_TASKS_SUCCESS,
-    tasks: get(response.data, 'tasks', []),
-    trustPercentage: get(response.data, 'trust_percentage', 0)
-})
-
-const FETCH_USER_TASKS_FAILURE = createAction('FETCH_USER_TASKS_FAILURE')
-const fetchUserTasksFailure = err => ({
-    type: FETCH_USER_TASKS_FAILURE,
-    error: err
+const UPDATE_USER_TASKS = createAction('UPDATE_USER_TASKS')
+const updateUserTasks = message => ({
+    type: UPDATE_USER_TASKS,
+    tasks: get(message, 'tasks', []),
+    trustPercentage: get(message, 'trust_percentage', 0),
+    trustPercentile: get(message, 'trust_percentile', 0)
 })
 
 export const actions = {
@@ -580,7 +568,8 @@ export const actions = {
     deleteProfileEmail,
     setUserStatus,
     fetchActivityLog,
-    fetchUserTasks
+    updateUserTasks,
+    updateProfilePhoneNumbersuccess
 }
 
 export default function UserProfileReducer(state = INITIAL_STATE, action) {
@@ -605,8 +594,6 @@ export default function UserProfileReducer(state = INITIAL_STATE, action) {
         case SAVE_PROFILE_EMAIL:
         case DELETE_PROFILE_EMAIL:
         case UPDATE_PROFILE_EMAIL:
-        case FETCH_USER_TASKS:
-            return { ...state, isLoading: true, hasError: false }
         case FETCH_PROFILE_FAILURE:
         case SAVE_PROFILE_FAILURE:
         case FETCH_PROFILE_IMAGES_FAILURE:
@@ -627,8 +614,6 @@ export default function UserProfileReducer(state = INITIAL_STATE, action) {
         case SAVE_PROFILE_EMAIL_FAILURE:
         case DELETE_PROFILE_EMAIL_FAILURE:
         case UPDATE_PROFILE_EMAIL_FAILURE:
-        case FETCH_USER_TASKS_FAILURE:
-            return { ...state, isLoading: false, hasError: action.error }
         case FETCH_PROFILE_SUCCESS:
         case SAVE_PROFILE_SUCCESS:
             return { ...state, isLoading: false, profile: action.profile }
@@ -756,7 +741,14 @@ export default function UserProfileReducer(state = INITIAL_STATE, action) {
                 phoneNumbers: state.phoneNumbers.map(x => {
                     return x.id === action.phoneNumber.id
                         ? action.phoneNumber
-                        : { ...x, primary: false }
+                        : {
+                              ...x,
+                              primary: x.primary
+                                  ? action.phoneNumber.primary
+                                      ? false
+                                      : true
+                                  : false
+                          }
                 }),
                 isLoading: false
             }
@@ -825,11 +817,12 @@ export default function UserProfileReducer(state = INITIAL_STATE, action) {
                 ...state,
                 activityLog: { isLoading: false, list: [...action.list] }
             }
-        case FETCH_USER_TASKS_SUCCESS:
+        case UPDATE_USER_TASKS:
             return {
                 ...state,
                 tasks: action.tasks,
-                trustPercentage: action.trustPercentage
+                trustPercentage: action.trustPercentage,
+                trustPercentile: action.trustPercentile
             }
         default:
             return state

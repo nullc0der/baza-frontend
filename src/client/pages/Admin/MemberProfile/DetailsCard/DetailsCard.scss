@@ -35,8 +35,12 @@
     .email-item {
         font-size: 14px;
         margin-bottom: 10px;
-        p {
-            margin: 0;
+        color: $dark;
+        .email-type-col {
+            font-weight: $font-weight-bold;
+        }
+        .email-value {
+            margin-top: 4px;
         }
         .email-item-error {
             font-size: 14px;

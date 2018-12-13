@@ -1,14 +1,15 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import BasicCard from '../BasicCard'
+import WebSocketWrapper from 'components/WebSocketWrapper'
 
 import { actions as profileActions } from 'store/UserProfile'
 
 import s from './TasksList.scss'
 
 class TasksList extends Component {
-    componentDidMount() {
-        this.props.fetchUserTasks()
+    updateUserTasks = data => {
+        this.props.updateUserTasks(data.message)
     }
 
     renderOneTask = (task, index) => {
@@ -40,6 +41,10 @@ class TasksList extends Component {
         return (
             <BasicCard title="Trust Tasks" className={s.container}>
                 {this.props.tasks.map(this.renderOneTask)}
+                <WebSocketWrapper
+                    url="/ws/profiletasks/"
+                    onWebSocketData={this.updateUserTasks}
+                />
             </BasicCard>
         )
     }
@@ -50,7 +55,8 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-    fetchUserTasks: () => dispatch(profileActions.fetchUserTasks())
+    updateUserTasks: message =>
+        dispatch(profileActions.updateUserTasks(message))
 })
 
 export default connect(

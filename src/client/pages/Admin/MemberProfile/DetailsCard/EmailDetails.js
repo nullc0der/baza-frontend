@@ -22,56 +22,53 @@ const EmailComponent = props => {
     return (
         <Fragment>
             <div className="email-item mb-3">
-                <div>
+                <div className="email-type-col">
+                    <i className="fa fa-envelope" />
+                    <span className="ml-2 text-capitalize">
+                        {
+                            find(EMAIL_TYPE_OPTIONS, {
+                                value: email.email_type
+                            }).label
+                        }
+                    </span>
+                </div>
+                <div className="email-value">
+                    <span>{email.email}</span>
+                </div>
+                {email.id === error.id && (
+                    <span className="text-danger email-item-error">
+                        {error.error}
+                    </span>
+                )}
+                <div className="mt-1 d-flex align-items-center justify-content-between">
                     <div>
-                        <p>
-                            {
-                                find(EMAIL_TYPE_OPTIONS, {
-                                    value: email.email_type
-                                }).label
-                            }
-                        </p>
-                    </div>
-                    <div>
-                        <p>{email.email}</p>
-                    </div>
-                    {email.id === error.id && (
-                        <p className="text-danger email-item-error">
-                            {error.error}
-                        </p>
-                    )}
-                    <div className="mt-1 d-flex align-items-center justify-content-between">
-                        <div>
-                            <div
-                                className={`badge badge-pill ${
-                                    email.primary ? 'badge-info' : 'badge-light'
-                                }`}
-                                onClick={
-                                    email.primary
-                                        ? undefined
-                                        : () =>
-                                              onClickSetPrimary(
-                                                  email.id,
-                                                  !email.primary
-                                              )
-                                }>
-                                Primary
-                            </div>
-                            <div
-                                className={`badge badge-pill ${
-                                    email.verified
-                                        ? 'badge-success'
-                                        : 'badge-light'
-                                }`}>
-                                Verified
-                            </div>
+                        <div
+                            className={`badge badge-pill ${
+                                email.primary ? 'badge-info' : 'badge-light'
+                            }`}
+                            onClick={
+                                email.primary
+                                    ? undefined
+                                    : () =>
+                                          onClickSetPrimary(
+                                              email.id,
+                                              !email.primary
+                                          )
+                            }>
+                            Primary
                         </div>
-                        <div>
-                            <div
-                                className="badge badge-pill badge-warning"
-                                onClick={onClickEdit}>
-                                Edit
-                            </div>
+                        <div
+                            className={`badge badge-pill ${
+                                email.verified ? 'badge-success' : 'badge-light'
+                            }`}>
+                            Verified
+                        </div>
+                    </div>
+                    <div>
+                        <div
+                            className="badge badge-pill badge-warning"
+                            onClick={onClickEdit}>
+                            Edit
                         </div>
                     </div>
                 </div>
@@ -111,7 +108,9 @@ const EmailEditComponent = props => {
                                 className="email-add-type-dropdown"
                                 value={emailType}
                                 onChange={onChangeEmailType}
-                                errorState={emailTypeError}
+                                errorState={
+                                    emailTypeError && 'Please select email type'
+                                }
                             />
                         </div>
                         <div className="d-flex flex-1 align-items-center">

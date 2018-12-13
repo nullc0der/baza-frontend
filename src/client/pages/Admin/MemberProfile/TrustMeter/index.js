@@ -21,7 +21,7 @@ class TrustMeter extends Component {
     // }
 
     render() {
-        const { trustPercentage } = this.props
+        const { trustPercentage, trustPercentile } = this.props
         return (
             <BasicCard title="Trust Meter" className={s.container}>
                 <SVGDial value={trustPercentage} />
@@ -42,14 +42,17 @@ class TrustMeter extends Component {
                     )}
                 </CountUp>
                 {/* <div className='trust-percentage'>{value}%</div> */}
-                <div className="trust-message">You are in top 10%</div>
+                <div className="trust-message">
+                    You are in top {trustPercentile}%
+                </div>
             </BasicCard>
         )
     }
 }
 
 const mapStateToProps = state => ({
-    trustPercentage: state.UserProfile.trustPercentage
+    trustPercentage: state.UserProfile.trustPercentage,
+    trustPercentile: state.UserProfile.trustPercentile
 })
 
 const mapDispatchToProps = dispatch => ({})

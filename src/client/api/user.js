@@ -166,13 +166,18 @@ export const disableTwoFactor = password => {
     )
 }
 
+export const sendPhoneVerification = phoneNumberID => {
+    const url = `/profile/validatephone/?id=${phoneNumberID}`
+    return jsonAPI(api => api.get(url))
+}
+
+export const validatePhone = datas => {
+    const url = '/profile/validatephone/'
+    return jsonAPI(api => api.post(url, datas))
+}
+
 // Mock APIs
 export const fetchActivityLog = () => {
     const url = '/mock/activity-log'
     return jsonAPI(api => api.get(url), { mock: true })
-}
-
-export const fetchUserTasks = () => {
-    const url = '/profile/tasks/'
-    return jsonAPI(api => api.get(url))
 }

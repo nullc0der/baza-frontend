@@ -121,7 +121,8 @@ class PhoneNumberField extends Component {
             className,
             showIcon = true,
             label = 'Phone no.',
-            placeholder = ''
+            placeholder = '',
+            disabled
         } = this.props
         const cx = classnames(
             s.container,
@@ -151,6 +152,7 @@ class PhoneNumberField extends Component {
                     onChange={this.onInputChange}
                     value={this.state.phoneNumber}
                     errorState={this.props.errorState}
+                    disabled={disabled}
                 />
             </div>
         )

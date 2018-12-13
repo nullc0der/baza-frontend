@@ -5,61 +5,114 @@ import get from 'lodash/get'
 import { CardContent } from 'components/ui/CardWithTabs'
 import PhoneNumberField from 'components/ui/PhoneNumberField'
 import PhoneTypeDropdown from 'components/PhoneTypeDropdown'
+import TextField from 'components/ui/TextField'
+
+import { sendPhoneVerification, validatePhone } from 'api/user'
+
 import s from './DetailsCard.scss'
 
 import { actions as userProfileActions } from 'store/UserProfile'
 
-const PhoneField = props => {
-    const { phoneNumber, onClickEdit, onClickSetPrimary } = props
-
-    // const icons = {
-    //     home: 'fa fa-home',
-    //     emergency: 'fa fa-exclamation-triangle',
-    //     office: 'fa fa-building',
-    //     mobile: 'fa fa-mobile'
-    // }
-
-    // const badgeClass = {
-    //     home: 'badge-info',
-    //     emergency: 'badge-danger',
-    //     office: 'badge-success',
-    //     mobile: 'badge-warning'
-    // }
-
+const PhoneVerificationField = props => {
+    const {
+        phoneNumber,
+        verificationFieldValue,
+        verificationFieldError,
+        onClickCancel,
+        onClickVerify,
+        onClickResend,
+        onVerificationFieldUpdate
+    } = props
     const cx = classnames(s.phoneField, 'phone-number')
 
     return (
         <div className={cx}>
-            <div className='phone-type-col'>
-                <i className='fa fa-phone' />
-                <span className='ml-2 text-capitalize'>{phoneNumber.phone_number_type}</span>
-            </div>
-            <div className='phone-number-value'>{phoneNumber.phone_number} </div>
-            <div className='d-flex align-items-center justify-content-between mt-1'>
-                <div>
-                    {phoneNumber.primary && (
-                        <div
-                            className="badge badge-info">
-                            Primary
-                                {/* <i className="fa fa-check" title="set primary" /> */}
-                        </div>
-                    )}
-
-                    <div
-                        className={`badge ${phoneNumber.verified ? 'badge-success' : 'badge-light'}`}
-                        onClick={() => phoneNumber.verified && onClickSetPrimary(phoneNumber.id)}>
-                        {phoneNumber.verified ? 'Verified' : 'Unverified'}
-                        {/* <i className="fa fa-check" title="set primary" /> */}
-                    </div>
-
+            <TextField
+                id="verificationField"
+                label={`Enter the verification code sent to ${phoneNumber}`}
+                value={verificationFieldValue}
+                onChange={onVerificationFieldUpdate}
+                errorState={verificationFieldError}
+            />
+            <div
+                className={`d-flex align-items-center justify-content-between ${
+                    verificationFieldError ? 'mt-3' : 'mt-1'
+                }`}>
+                <div className="badge badge-warning" onClick={onClickResend}>
+                    Resend Code
                 </div>
-                <div className="badge badge-warning" onClick={onClickEdit}> Edit </div>
+                <div className="flex-1" />
+                <div
+                    className="badge badge-pill badge-dark badge-dense"
+                    onClick={onClickVerify}
+                    title="Submit">
+                    <i className="fa fa-check" />
+                </div>
+                <div
+                    className="badge badge-pill badge-dark badge-dense"
+                    onClick={onClickCancel}
+                    title="cancel">
+                    <i className="fa fa-times" />
+                </div>
             </div>
         </div>
     )
 }
 
+const PhoneField = props => {
+    const {
+        phoneNumber,
+        onClickEdit,
+        onClickSetPrimary,
+        onClickVerification
+    } = props
 
+    const cx = classnames(s.phoneField, 'phone-number')
+
+    return (
+        <div className={cx}>
+            <div className="phone-type-col">
+                <i className="fa fa-phone" />
+                <span className="ml-2 text-capitalize">
+                    {phoneNumber.phone_number_type}
+                </span>
+            </div>
+            <div className="phone-number-value">
+                {phoneNumber.phone_number}{' '}
+            </div>
+            <div className="d-flex align-items-center justify-content-between mt-1">
+                <div>
+                    <div
+                        className={`badge ${
+                            phoneNumber.primary ? 'badge-info' : 'badge-light'
+                        }`}
+                        onClick={() =>
+                            !phoneNumber.primary &&
+                            onClickSetPrimary(phoneNumber.id)
+                        }>
+                        Primary
+                    </div>
+                    <div
+                        className={`badge ${
+                            phoneNumber.verified
+                                ? 'badge-success'
+                                : 'badge-light'
+                        }`}
+                        onClick={() =>
+                            !phoneNumber.verified &&
+                            onClickVerification(phoneNumber.id)
+                        }>
+                        {phoneNumber.verified ? 'Verified' : 'Verify'}
+                    </div>
+                </div>
+                <div className="badge badge-warning" onClick={onClickEdit}>
+                    {' '}
+                    Edit{' '}
+                </div>
+            </div>
+        </div>
+    )
+}
 
 class PhoneAddField extends Component {
     state = {
@@ -67,12 +120,11 @@ class PhoneAddField extends Component {
         phoneNumber: null
     }
 
-    componentWillReceiveProps = (nextProps) => {
-
-    }
+    componentWillReceiveProps = nextProps => {}
 
     render() {
         const {
+            isNew = false,
             onPhoneInputChange,
             onPhoneTypeClick,
             phoneTypeSelected,
@@ -88,47 +140,57 @@ class PhoneAddField extends Component {
 
         return (
             <div className="phone-add-field phone-input mt-2">
-                <div className='d-flex align-items-center'>
-                    <div className='phone-icon'>
-                        <i className='fa fa-phone' />
+                <div className="d-flex align-items-center">
+                    <div className="phone-icon">
+                        <i className="fa fa-phone" />
                     </div>
                     <PhoneTypeDropdown
-                        className='phone-type-dropdown flex-1'
+                        className="phone-type-dropdown flex-1"
                         value={phoneType}
                         onChange={onPhoneTypeClick}
+                        errorState={
+                            errors.phoneNumberType &&
+                            'Please select phone number type'
+                        }
                     />
                 </div>
-                <div className='d-flex align-items-center'>
+                <div className="d-flex align-items-center">
                     <PhoneNumberField
                         showIcon={false}
-                        label=''
+                        label=""
                         defaultValue={phoneNumber}
-                        className='phone-number-field'
-                        placeholder='Phone Number'
+                        className="phone-number-field"
+                        placeholder="Phone Number"
                         onChange={onPhoneInputChange}
                         errorState={errors.phoneNumber}
+                        disabled={!isNew}
                     />
-                    <div className="row no-gutters">
-                        {errors.phoneNumberType && (
-                            <div className="col">
-                                <p className="text-danger">
-                                    Please select phone number type
-                                </p>
+                </div>
+                <div
+                    className={`d-flex align-items-center justify-content-between ${
+                        errors.phoneNumber ? 'mt-3' : 'mt-1'
+                    } `}>
+                    <div className="flex-1" />
+                    <div>
+                        {typeof onClickDelete === 'function' && (
+                            <div
+                                className="badge badge-pill badge-dark badge-dense"
+                                onClick={onClickDelete}
+                                title="Delete">
+                                <i className="fa fa-trash-o" />
                             </div>
                         )}
-                    </div>
-                </div>
-                <div className={`d-flex align-items-center justify-content-between ${errors.phoneNumber ? 'mt-3' : 'mt-1'} `}>
-                    <div className='flex-1' />
-                    <div>
-                        {typeof onClickDelete === 'function' && <div className='badge badge-pill badge-dark badge-dense' onClick={onClickSave} title='Save'>
-                            <i className='fa fa-trash-o' />
-                        </div>}
-                        <div className='badge badge-pill badge-dark badge-dense' onClick={onClickSave} title='Save'>
-                            <i className='fa fa-check' />
+                        <div
+                            className="badge badge-pill badge-dark badge-dense"
+                            onClick={onClickSave}
+                            title="Save">
+                            <i className="fa fa-check" />
                         </div>
-                        <div className='badge badge-pill badge-dark badge-dense' onClick={onClickCancel} title='Cancel'>
-                            <i className='fa fa-remove' />
+                        <div
+                            className="badge badge-pill badge-dark badge-dense"
+                            onClick={onClickCancel}
+                            title="Cancel">
+                            <i className="fa fa-remove" />
                         </div>
                     </div>
                 </div>
@@ -141,17 +203,20 @@ class PhoneDetails extends Component {
     state = {
         phoneNumber: '',
         phoneNumberType: '',
+        verificationFieldValue: '',
         addPhoneNumberShown: false,
         phoneNumberError: null,
         phoneNumberTypeError: null,
+        verificationFieldError: null,
         editableIndex: null,
+        verificationIndex: null
     }
 
     componentDidMount() {
         this.props
             .fetchPhoneNumbers()
-            .then(res => { })
-            .catch(res => { })
+            .then(res => {})
+            .catch(res => {})
     }
 
     onClickSave = () => {
@@ -180,8 +245,10 @@ class PhoneDetails extends Component {
             .deletePhoneNumber({
                 id: phoneNumberID
             })
-            .then(res => { })
-            .catch(res => { })
+            .then(res => {
+                this.cancelEditable()
+            })
+            .catch(res => {})
     }
 
     onClickSetPrimary = phoneNumberID => {
@@ -190,8 +257,8 @@ class PhoneDetails extends Component {
                 id: phoneNumberID,
                 primary: true
             })
-            .then(res => { })
-            .catch(res => { })
+            .then(res => {})
+            .catch(res => {})
     }
 
     onChangePhoneNumber = (id, value) => {
@@ -204,6 +271,23 @@ class PhoneDetails extends Component {
         this.setState({
             phoneNumberType: numberType
         })
+    }
+
+    onClickUpdate = phoneNumberID => {
+        this.props
+            .updatePhoneNumber({
+                id: phoneNumberID,
+                phone_number_type: this.state.phoneNumberType
+            })
+            .then(res => {
+                this.cancelEditable()
+            })
+            .catch(res => {
+                this.setState({
+                    error: get(res, 'non_field_errors', ''),
+                    emailTypeError: get(res, 'phone_number_type', null)
+                })
+            })
     }
 
     onClickAdd = () => {
@@ -222,6 +306,12 @@ class PhoneDetails extends Component {
         })
     }
 
+    onClickPhoneNumberType = value => {
+        this.setState({
+            phoneNumberType: value
+        })
+    }
+
     cancelEditable = () => {
         this.setState({
             editableIndex: null,
@@ -232,16 +322,45 @@ class PhoneDetails extends Component {
         })
     }
 
-    renderOneDetailItem = (detail, index) => {
-        return (
-            <div className="detail-item" key={index}>
-                <div className="label">
-                    <i className={`fa ${detail.icon}`} />
-                    <span className="ml-1">{detail.label}</span>
-                </div>
-                <div className="value">{detail.value}</div>
-            </div>
-        )
+    onClickVerification = phoneNumberID => {
+        sendPhoneVerification(phoneNumberID)
+            .then(() =>
+                this.setState({
+                    verificationIndex: phoneNumberID,
+                    verificationFieldValue: '',
+                    verificationFieldError: null
+                })
+            )
+            .catch(() => {})
+    }
+
+    onPhoneVerificationCancel = () => {
+        this.setState({
+            verificationIndex: null,
+            verificationFieldValue: '',
+            verificationFieldError: null
+        })
+    }
+
+    onPhoneVerificationFieldUpdate = (id, value) => {
+        this.setState({
+            verificationFieldValue: value
+        })
+    }
+
+    onPhoneVerificationVerify = () => {
+        validatePhone({
+            verification_code: this.state.verificationFieldValue
+        })
+            .then(res => {
+                this.onPhoneVerificationCancel()
+                this.props.updatePhoneNumberSuccess(res)
+            })
+            .catch(res => {
+                this.setState({
+                    verificationFieldError: get(res, 'verification_code', null)
+                })
+            })
     }
 
     render() {
@@ -250,32 +369,71 @@ class PhoneDetails extends Component {
                 <div className="details-section">
                     <div className="title">CONTACT</div>
                     <div className="details-list phone-section mt-2">
-                        {this.props.phoneNumbers.map((x, i) => (
-                            this.state.editableIndex === i
-                                ? <PhoneAddField
+                        {this.props.phoneNumbers.map((x, i) =>
+                            this.state.editableIndex === i ? (
+                                <PhoneAddField
                                     key={i}
                                     phoneNumberValue={this.state.phoneNumber}
-                                    phoneTypeSelected={this.state.phoneNumberType}
-                                    onPhoneInputChange={this.onChangePhoneNumber}
-                                    onPhoneTypeClick={this.onClickPhoneNumberType}
-                                    onClickDelete={this.onClickDelete}
-                                    onClickSave={this.onClickSave}
+                                    phoneTypeSelected={
+                                        this.state.phoneNumberType
+                                    }
+                                    onPhoneInputChange={
+                                        this.onChangePhoneNumber
+                                    }
+                                    onPhoneTypeClick={
+                                        this.onClickPhoneNumberType
+                                    }
+                                    onClickDelete={() =>
+                                        this.onClickDelete(x.id)
+                                    }
+                                    onClickSave={() => this.onClickUpdate(x.id)}
                                     onClickCancel={this.cancelEditable}
                                     errors={{
-                                        phoneNumber: this.state.phoneNumberError,
-                                        phoneNumberType: this.state.phoneNumberTypeError
+                                        phoneNumber: this.state
+                                            .phoneNumberError,
+                                        phoneNumberType: this.state
+                                            .phoneNumberTypeError
                                     }}
                                 />
-                                : <PhoneField
+                            ) : this.state.verificationIndex === x.id ? (
+                                <PhoneVerificationField
+                                    key={i}
+                                    phoneNumber={x.phone_number}
+                                    verificationFieldValue={
+                                        this.state.verificationFieldValue
+                                    }
+                                    verificationFieldError={
+                                        this.state.verificationFieldError
+                                    }
+                                    onClickCancel={
+                                        this.onPhoneVerificationCancel
+                                    }
+                                    onClickVerify={
+                                        this.onPhoneVerificationVerify
+                                    }
+                                    onClickResend={() =>
+                                        this.onClickVerification(x.id)
+                                    }
+                                    onVerificationFieldUpdate={
+                                        this.onPhoneVerificationFieldUpdate
+                                    }
+                                />
+                            ) : (
+                                <PhoneField
                                     key={i}
                                     phoneNumber={x}
                                     onClickEdit={() => this.setEditable(x, i)}
                                     onClickDelete={this.onClickDelete}
                                     onClickSetPrimary={this.onClickSetPrimary}
+                                    onClickVerification={
+                                        this.onClickVerification
+                                    }
                                 />
-                        ))}
+                            )
+                        )}
                         {this.state.addPhoneNumberShown && (
                             <PhoneAddField
+                                isNew={true}
                                 phoneTypeSelected={this.state.phoneNumberType}
                                 onPhoneInputChange={this.onChangePhoneNumber}
                                 onPhoneTypeClick={this.onClickPhoneNumberType}
@@ -283,7 +441,8 @@ class PhoneDetails extends Component {
                                 onClickCancel={this.onClickAddCancel}
                                 errors={{
                                     phoneNumber: this.state.phoneNumberError,
-                                    phoneNumberType: this.state.phoneNumberTypeError
+                                    phoneNumberType: this.state
+                                        .phoneNumberTypeError
                                 }}
                             />
                         )}
@@ -291,22 +450,17 @@ class PhoneDetails extends Component {
                             <div
                                 className="text-center"
                                 onClick={this.onClickAdd}>
-                                <span className='badge badge-light'>Add More</span>
+                                <span className="badge badge-light">
+                                    Add More
+                                </span>
                             </div>
                         )}
                     </div>
                 </div>
-                {/* <div className="details-section mt-2">
-                    <div className="title">ACTIVITIES</div>
-                    <div className="details-list">
-                        {activities.map(this.renderOneDetailItem)}
-                    </div>
-                </div> */}
             </CardContent>
         )
     }
 }
-
 
 const mapStateToProps = state => ({
     phoneNumbers: state.UserProfile.phoneNumbers,
@@ -325,6 +479,11 @@ const mapDispatchToProps = dispatch => ({
     },
     updatePhoneNumber(datas) {
         return dispatch(userProfileActions.updateProfilePhoneNumber(datas))
+    },
+    updatePhoneNumberSuccess(response) {
+        return dispatch(
+            userProfileActions.updateProfilePhoneNumbersuccess(response)
+        )
     }
 })
 
