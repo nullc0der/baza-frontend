@@ -83,11 +83,10 @@ export default class SubscribedGroups extends Component {
         return (
             <CardContent>
                 <div className="settings-section">
-                    <div className='section-title'>
-                        <span className='mr-2'>CURRENT PASSWORD</span>
+                    <div className="section-title">
+                        <span className="mr-2">CURRENT PASSWORD</span>
                         <span className="badge badge-pill badge-light ml-0">
-                            If no password set till now, leave it
-                            blank
+                            If no password set till now, leave it blank
                         </span>
                     </div>
                     <div className="password-section">
@@ -99,7 +98,7 @@ export default class SubscribedGroups extends Component {
                             value={this.state.inputValues.currentPassword}
                             onChange={this.onInputChange}
                         />
-                        <div className='section-title mt-3'>NEW PASSWORD</div>
+                        <div className="section-title mt-3">NEW PASSWORD</div>
                         <EnhancedPasswordField
                             id="newPassword1"
                             label="Enter New Password"
@@ -120,16 +119,18 @@ export default class SubscribedGroups extends Component {
                             value={this.state.inputValues.newPassword2}
                             onChange={this.onInputChange}
                         />
-                        {this.state.errorValues.nonField &&
-                            this.state.errorValues.nonField.map((x, i) => (
-                                <p key={i} className="text-danger">
-                                    {x}
-                                </p>
-                            ))}
-                        <p className="text-success">
-                            {this.state.passwordChangeSuccessText}
-                        </p>
-                        <div className='text-right'>
+                        <div className="password-change-info">
+                            {this.state.errorValues.nonField &&
+                                this.state.errorValues.nonField.map((x, i) => (
+                                    <p key={i} className="text-danger">
+                                        {x}
+                                    </p>
+                                ))}
+                            <p className="text-success">
+                                {this.state.passwordChangeSuccessText}
+                            </p>
+                        </div>
+                        <div className="text-right">
                             <button
                                 className="btn btn-change-password btn-dark btn-sm"
                                 onClick={this.onClickChange}>

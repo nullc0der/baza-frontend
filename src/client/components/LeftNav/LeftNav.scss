@@ -67,14 +67,15 @@ $sidebar-menu-width: $admin-primary-sidebar-menu-width;
                     display: none;
                 }
             }
-            .menu-search .search-input {
-                color: rgba(#fff, 0);
+            .menu-search,
+            .search-input {
+                color: rgba(#fff, 0) !important;
                 &::placeholder {
                     opacity: 0;
                 }
             }
             .search-icon {
-                right: 28px;
+                right: 30px !important;
             }
 
             .sidebar-menu {
@@ -132,14 +133,14 @@ $sidebar-menu-width: $admin-primary-sidebar-menu-width;
                     }
                 }
                 &:hover {
-                    width: auto;
+                    //width: auto;
                     background-color: $admin-primary;
                     color: #fff;
                     @include media-breakpoint-down(md, $grid-breakpoints) {
                         width: $admin-sidebar-width - 40px;
                     }
                     .menu-dropdown {
-                        width: 177px;
+                        width: 205px;
                         max-height: 999px;
                         overflow: visible;
                         color: #878787;

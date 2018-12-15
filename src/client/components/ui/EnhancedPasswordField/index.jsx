@@ -109,7 +109,7 @@ export default class EnhancedPasswordField extends Component {
                     </i>
                 </div>
                 {!!(!isEmpty(strengthBar) & showStrength) && (
-                    <div className="password-strength text-left mt-2">
+                    <div className="password-strength text-left my-2">
                         <p className="password-strength-info">
                             Password strength:{' '}
                             <span

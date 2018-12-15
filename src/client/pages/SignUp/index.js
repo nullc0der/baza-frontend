@@ -73,9 +73,11 @@ class SignUpPage extends Component {
                         if (responseData.email_verification === 'mandatory') {
                             this.setState({
                                 registerSuccessText:
-                                    'Registration is successful \n' +
-                                    'We have sent an email to your provided email.\n' +
-                                    'Please verify your email to continue.'
+                                    'Registration was successful.\n' +
+                                    'We sent an email to the one provided.\n' +
+                                    'Please check your email to verify and continue.\n' +
+                                    '\n' +
+                                    'Note: Check your spam folder if it is not in your inbox.'
                             })
                         } else {
                             this.setState({
@@ -123,11 +125,11 @@ class SignUpPage extends Component {
                 ) {
                     this.setState({
                         registerSuccessText:
-                            'Registration is successful \n' +
-                            'We have sent an email to ' +
-                            get(responseData, 'email', '') +
+                            'Registration was successful.\n' +
+                            'We sent an email to the one provided in your social account.\n' +
+                            'Please check your email to verify and continue.\n' +
                             '\n' +
-                            'Please verify your email to continue.'
+                            'Note: Check your spam folder if it is not in your inbox.'
                     })
                 } else {
                     this.props.authenticateUser(
@@ -281,6 +283,10 @@ class SignUpPage extends Component {
                                                 </i>
                                             }
                                             checkStrength={true}
+                                            showStrength={
+                                                this.state.inputValues.password
+                                                    .length > 0
+                                            }
                                         />
                                         <EnhancedPasswordField
                                             id="password1"
@@ -373,7 +379,7 @@ class SignUpPage extends Component {
                                     </form>
                                 </div>
                             ) : (
-                                <div className="flex-vertical justify-content-center text-center p-4 register-success-container">
+                                <div className="flex-vertical justify-content-center align-items-center p-4 register-success-container">
                                     <p>{this.state.registerSuccessText}</p>
                                 </div>
                             )}

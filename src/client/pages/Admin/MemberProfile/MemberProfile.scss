@@ -340,7 +340,10 @@ $references-card-tint: #f5a623;
         font-size: 14px;
         margin-bottom: map-get($spacers, 2);
     }
-    .ui-textfield, .btn-change-password {
+    .ui-textfield,
+    .btn-change-password,
+    .password-strength,
+    .password-change-info {
         margin-left: map-get($spacers, 2);
         width: calc(100% - 2rem);
     }
@@ -429,7 +432,6 @@ $references-card-tint: #f5a623;
         padding-top: 0;
         // padding-bottom: 12px;
     }
-
 }
 
 :local(.activityLog) {
