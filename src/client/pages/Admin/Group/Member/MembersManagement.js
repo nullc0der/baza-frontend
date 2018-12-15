@@ -5,6 +5,7 @@ import { Redirect } from 'react-router-dom'
 import union from 'lodash/union'
 import isEmpty from 'lodash/isEmpty'
 import includes from 'lodash/includes'
+import debounce from 'lodash/debounce'
 
 import MemberItem from './MemberItem'
 import CommunityUser from './CommunityUser'
@@ -150,13 +151,19 @@ class MembersManagement extends Component {
         )
     }
 
+    getCommunityMembers = debounce(
+        searchString =>
+            getCommunityMembers(this.props.groupID, searchString).then(res => {
+                this.setState({ communityUserList: res.data })
+            }),
+        1000
+    )
+
     setUsers = (list, onlineUsers, searchString = '', filters = []) => {
         let tempList = []
         let filteredItems = []
         if (includes(filters, 'Baza Members') && searchString.length) {
-            getCommunityMembers(this.props.groupID, searchString).then(res => {
-                this.setState({ communityUserList: res.data })
-            })
+            this.getCommunityMembers(searchString)
         } else {
             this.setState({ communityUserList: [] })
         }

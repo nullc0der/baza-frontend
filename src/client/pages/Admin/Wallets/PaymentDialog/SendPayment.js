@@ -3,6 +3,7 @@ import classnames from 'classnames'
 import PropTypes from 'prop-types'
 
 import { jsonAPI } from 'api/base'
+import debounce from 'lodash/debounce'
 
 import TextField from 'components/ui/TextField'
 import SelectDropdown from 'components/ui/SelectDropdown'
@@ -52,7 +53,7 @@ class SendPayment extends Component {
         })
     }
 
-    fetchProxcUserList = value => {
+    _fetchProxcUserList = value => {
         if (value.length) {
             const url = '/proxc/users/'
             jsonAPI(api => api.get(url, { username: value }))
@@ -66,6 +67,8 @@ class SendPayment extends Component {
             this.clearUserList()
         }
     }
+
+    fetchProxcUserList = debounce(this._fetchProxcUserList, 1000)
 
     onInputChange = (id, value) => {
         if (id === 'username') {
