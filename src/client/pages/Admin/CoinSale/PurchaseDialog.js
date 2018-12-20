@@ -1,14 +1,15 @@
 import React, { Component } from 'react'
 import Dialog from 'components/ui/Dialog'
 import { create } from 'apisauce'
-import get from 'lodash/get'
+// import get from 'lodash/get'
 
 // import last from 'lodash/last'
 
 import Auth from 'utils/authHelpers'
 
 import TextField from 'components/ui/TextField'
-import PayPalPayment from 'components/PayPalPayment'
+
+import CoinbaseButton from 'components/CoinbaseButton'
 
 import { CurrencyDropdown } from './CoinSale'
 // import { CONVERSION_TABLE } from './data'
@@ -23,7 +24,7 @@ export default class PurchaseDialog extends Component {
         perDollarCost: 0,
         purchaseAmountError: null,
         nonFieldErrors: null,
-        coinPurchaseDone: false
+        coinPurchaseDone: ''
     }
 
     componentDidMount = () => {
@@ -70,29 +71,24 @@ export default class PurchaseDialog extends Component {
         this.props.onCurrencySelect(currency)
     }
 
-    onPaymentAuthorized = () => {
-        const api = create({
-            baseURL: Config.get('API_ROOT'),
-            headers: {
-                Accept: 'application/json'
-            }
+    onChargeSuccess = () => {
+        this.setState({
+            coinPurchaseDone:
+                'Thank you for donating to the Foundation, your token reward will be updated to your wallet soon.'
         })
-        api.setHeader('Authorization', `Bearer ${Auth.getToken()}`)
-        api.post('/purchasecoin/', {
-            price: this.state.purchaseAmount,
-            currency: this.props.selectedCurrency,
-            coin_name: 'proxcdb'
-        }).then(response => {
-            if (response.ok) {
-                this.setState({
-                    coinPurchaseDone: true
-                })
-            } else {
-                this.setState({
-                    purchaseAmountError: get(response.data, 'price', null),
-                    nonFieldErrors: get(response.data, 'non_field_errors', null)
-                })
-            }
+    }
+
+    onChargeFailure = () => {
+        this.setState({
+            coinPurchaseDone:
+                "Your payment couldn't be processed, please try again"
+        })
+    }
+
+    onPaymentDetected = () => {
+        this.setState({
+            coinPurchaseDone: `A payment has been detected, but it is not confirmed yet,
+                you will get an email on confirm and reward will be updated to your wallet`
         })
     }
 
@@ -102,7 +98,7 @@ export default class PurchaseDialog extends Component {
                 className={s.purchaseDialog}
                 title="Donate to Fundraiser"
                 isOpen={this.props.isOpen}
-                footer="Contact your credit card holder about Baza Foundation donation and limits to avoid any bank issues"
+                // footer="Contact your credit card holder about Baza Foundation donation and limits to avoid any bank issues"
                 onRequestClose={this.props.onRequestClose}>
                 <div className="row">
                     <div className="col-md-12">
@@ -129,19 +125,19 @@ export default class PurchaseDialog extends Component {
                             {this.state.conversion}{' '}
                             <span className="baz-unit">BAZ</span>
                         </div>
-                        {this.state.coinPurchaseDone && (
+                        {this.state.coinPurchaseDone.length > 0 && (
                             <div className="well mt-2 error-well text-center">
                                 <p className="mb-0">
-                                    Thank you for donating to the Foundation,
-                                    your token reward will be updated to your
-                                    wallet soon.
+                                    {this.state.coinPurchaseDone}
                                 </p>
                             </div>
                         )}
-                        <PayPalPayment
+                        <CoinbaseButton
                             className="mt-3"
-                            amount={this.state.purchaseAmount}
-                            onPaymentAuthorized={this.onPaymentAuthorized}
+                            amount={Number(this.state.purchaseAmount)}
+                            onChargeSuccess={this.onChargeSuccess}
+                            onChargeFailure={this.onChargeFailure}
+                            onPaymentDetected={this.onPaymentDetected}
                         />
                     </div>
                 </div>
