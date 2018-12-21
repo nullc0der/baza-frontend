@@ -74,7 +74,7 @@ export default class PurchaseDialog extends Component {
     onChargeSuccess = () => {
         this.setState({
             coinPurchaseDone:
-                'Thank you for donating to the Foundation, your token reward will be updated to your wallet soon.'
+                'Thank you for funding the Foundation, your token reward will be updated to your online wallet soon.'
         })
     }
 
@@ -88,7 +88,7 @@ export default class PurchaseDialog extends Component {
     onPaymentDetected = () => {
         this.setState({
             coinPurchaseDone: `A payment has been detected, but it is not confirmed yet,
-                you will get an email on confirm and reward will be updated to your wallet`
+                you will get an email on confirm and your reward will be updated to your online wallet`
         })
     }
 
