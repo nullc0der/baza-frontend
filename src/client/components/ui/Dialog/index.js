@@ -53,7 +53,8 @@ export default class Dialog extends Component {
             isOpen,
             title,
             footer,
-            showClose = true
+            showClose = true,
+            hideModalContent = false
         } = this.props
 
         const cx = classnames(s.container, 'ui-dialog modal', className, {
@@ -61,6 +62,9 @@ export default class Dialog extends Component {
         })
         const backdropClass = classnames('modal-backdrop', {
             show: isOpen
+        })
+        const modalContentClass = classnames('modal-content', {
+            hide: hideModalContent
         })
 
         const modalMarkup = (
@@ -72,7 +76,7 @@ export default class Dialog extends Component {
                 aria-hidden="true">
                 <div className={backdropClass} onClick={this.onRequestClose} />
                 {!!isOpen && (
-                    // HACK: The in is a hack found from https://github.com/reactjs/react-transition-group/issues/216
+                    // HACK: The 'in' prop is a hack found from https://github.com/reactjs/react-transition-group/issues/216
                     // Check more on it when gets some time
                     <CSSTransition
                         classNames="fade"
@@ -83,7 +87,7 @@ export default class Dialog extends Component {
                             className="modal-dialog modal-dialog-centered"
                             role="document">
                             <div
-                                className="modal-content"
+                                className={modalContentClass}
                                 ref={node => (this.modalContent = node)}>
                                 <div className="modal-header">
                                     {!!title && (

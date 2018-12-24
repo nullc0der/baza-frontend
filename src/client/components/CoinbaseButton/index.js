@@ -16,7 +16,8 @@ class CoinbaseButton extends Component {
         amount: PropTypes.number.isRequired,
         onChargeSuccess: PropTypes.func,
         onChargeFailure: PropTypes.func,
-        onPaymentDetected: PropTypes.func
+        onPaymentDetected: PropTypes.func,
+        onCoinbaseLoad: PropTypes.func
     }
 
     state = {
@@ -43,7 +44,8 @@ class CoinbaseButton extends Component {
             className,
             onChargeFailure,
             onChargeSuccess,
-            onPaymentDetected
+            onPaymentDetected,
+            onCoinbaseLoad
         } = this.props
         const cx = classnames(s.container, className)
         return (
@@ -60,7 +62,8 @@ class CoinbaseButton extends Component {
                         className="btn btn-dark btn-block"
                         onChargeFailure={onChargeFailure}
                         onChargeSuccess={onChargeSuccess}
-                        onPaymentDetected={onPaymentDetected}>
+                        onPaymentDetected={onPaymentDetected}
+                        onLoad={onCoinbaseLoad}>
                         Pay with Coinbase
                     </CoinbaseCommerceButton>
                 )}

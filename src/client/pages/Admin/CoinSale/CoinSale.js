@@ -74,7 +74,7 @@ const CoinSale = props => {
             </button>
             <TitleAndProgress
                 progressEndText={progressEndText}
-                percentage={progressPercentage}
+                percentage={progressPercentage > 17 ? progressPercentage : 17}
                 progressCurrentText={progressCurrentText}
             />
             <div className="flex-1" />

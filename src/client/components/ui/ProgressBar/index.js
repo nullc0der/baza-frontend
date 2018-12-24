@@ -38,7 +38,7 @@ export default class ProgressBar extends Component {
                     className="ui-progress-bar ui-progress-animated"
                     style={{
                         width: `${percentage}%`,
-                        padding: `${percentage === 0 && '0'}`
+                        padding: `${percentage === 0 ? '0' : '0 16px'}`
                     }}>
                     {percentage > 0 && (
                         <span className="ui-progress-active-text">

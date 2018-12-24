@@ -24,7 +24,8 @@ export default class PurchaseDialog extends Component {
         perDollarCost: 0,
         purchaseAmountError: null,
         nonFieldErrors: null,
-        coinPurchaseDone: ''
+        coinPurchaseDone: '',
+        isPurchaseDialogContentHidden: false
     }
 
     componentDidMount = () => {
@@ -92,6 +93,12 @@ export default class PurchaseDialog extends Component {
         })
     }
 
+    onCoinbaseLoad = () => {
+        this.setState({
+            isPurchaseDialogContentHidden: true
+        })
+    }
+
     render() {
         return Auth.isAuthenticated() ? (
             <Dialog
@@ -99,7 +106,8 @@ export default class PurchaseDialog extends Component {
                 title="Donate to Fundraiser"
                 isOpen={this.props.isOpen}
                 // footer="Contact your credit card holder about Baza Foundation donation and limits to avoid any bank issues"
-                onRequestClose={this.props.onRequestClose}>
+                onRequestClose={this.props.onRequestClose}
+                hideModalContent={this.state.isPurchaseDialogContentHidden}>
                 <div className="row">
                     <div className="col-md-12">
                         {this.state.nonFieldErrors && (
@@ -138,6 +146,7 @@ export default class PurchaseDialog extends Component {
                             onChargeSuccess={this.onChargeSuccess}
                             onChargeFailure={this.onChargeFailure}
                             onPaymentDetected={this.onPaymentDetected}
+                            onCoinbaseLoad={this.onCoinbaseLoad}
                         />
                     </div>
                 </div>

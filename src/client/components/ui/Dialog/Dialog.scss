@@ -22,6 +22,9 @@ $dialog-title-padding-x: 50px;
     }
     .modal-content {
         border-radius: 10px;
+        &.hide {
+            margin-left: -9999px;
+        }
     }
     .modal-footer {
         border-radius: 0 0 10px 10px;
