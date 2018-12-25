@@ -26,11 +26,16 @@ class CoinbaseButton extends Component {
     }
 
     onClickContinue = () => {
-        initiatePayment(this.props.amount)
+        const { amount } = this.props
+        initiatePayment(amount)
             .then(res => {
-                this.setState({
-                    chargeID: get(res.data, 'charge_id', null)
-                })
+                const chargeID = get(res.data, 'charge_id', null)
+                this.setState(
+                    {
+                        chargeID
+                    },
+                    () => this.props.onChargeIDChange(amount, chargeID)
+                )
             })
             .catch(err => {
                 this.setState({

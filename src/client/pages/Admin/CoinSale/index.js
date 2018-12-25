@@ -6,6 +6,7 @@ import get from 'lodash/get'
 import CoinSale from './CoinSale'
 import PurchaseButton from './PurchaseButton'
 import PurchaseDialog from './PurchaseDialog'
+import CoinbaseInfoDialog from 'components/CoinbaseButton/CoinbaseInfoDialog'
 
 import { getTotalCoinPurchased } from 'api/coinsale'
 
@@ -66,6 +67,10 @@ export default class CoinSalePage extends Component {
             hours: 0,
             minutes: 0,
             seconds: 0
+        },
+        coinbaseInfo: {
+            purchaseAmountInLocal: 1,
+            chargeID: null
         }
     }
 
@@ -118,6 +123,15 @@ export default class CoinSalePage extends Component {
         console.log('selected currency: ', currency)
     }
 
+    onChargeIDChange = (purchaseAmountInLocal, chargeID) => {
+        this.setState({
+            coinbaseInfo: {
+                purchaseAmountInLocal,
+                chargeID
+            }
+        })
+    }
+
     render() {
         const cx = classnames(s.container, this.props.className)
 
@@ -143,6 +157,15 @@ export default class CoinSalePage extends Component {
                         onDonateButtonClick={this.openPurchaseDialog}
                     />
                 </div>
+                {!!(
+                    this.state.coinbaseInfo.chargeID &&
+                    !this.state.isPurchaseDialogOpen
+                ) && (
+                    <CoinbaseInfoDialog
+                        className="mb-2"
+                        chargeID={this.state.coinbaseInfo.chargeID}
+                    />
+                )}
                 <PurchaseButton
                     buttonText="PURCHASE"
                     isSaleOpen={isSaleOpen}
@@ -157,6 +180,7 @@ export default class CoinSalePage extends Component {
                         onCurrencySelect={this.onCurrencySelect}
                         isOpen={this.state.isPurchaseDialogOpen}
                         onRequestClose={this.closePurchaseDialog}
+                        onChargeIDChange={this.onChargeIDChange}
                     />
                 )}
             </div>

@@ -147,6 +147,7 @@ export default class PurchaseDialog extends Component {
                             onChargeFailure={this.onChargeFailure}
                             onPaymentDetected={this.onPaymentDetected}
                             onCoinbaseLoad={this.onCoinbaseLoad}
+                            onChargeIDChange={this.props.onChargeIDChange}
                         />
                     </div>
                 </div>
