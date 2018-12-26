@@ -162,7 +162,6 @@ export default class CoinSalePage extends Component {
                     !this.state.isPurchaseDialogOpen
                 ) && (
                     <CoinbaseInfoDialog
-                        className="mb-2"
                         chargeID={this.state.coinbaseInfo.chargeID}
                     />
                 )}
