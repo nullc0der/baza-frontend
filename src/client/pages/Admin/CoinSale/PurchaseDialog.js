@@ -159,8 +159,7 @@ export default class PurchaseDialog extends Component {
                 onRequestClose={this.props.onRequestClose}>
                 <div className="row">
                     <div className="col-md-12 text-center">
-                        You need to be logged in first to participate in a
-                        fundraiser.
+                        Please sign in to participate in fundraiser.
                     </div>
                 </div>
             </Dialog>
