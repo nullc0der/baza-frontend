@@ -39,7 +39,7 @@ class HomePage extends Component {
                             <div className="row fill align-items-center justify-content-center">
                                 <div className="col-sm-12 col-xs-12 mx-auto">
                                     <h2 className="hero-title text-center">
-                                        Baza Token (BAZ)
+                                        Baza Foundation
                                     </h2>
                                     <h4 className="hero-subtitle mb-3 text-center">
                                         Because everyone needs a basic

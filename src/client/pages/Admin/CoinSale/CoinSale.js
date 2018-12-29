@@ -70,7 +70,7 @@ const CoinSale = props => {
             <button
                 className="btn btn-light currency-dropdown-group"
                 onClick={onDonateButtonClick}>
-                Donate
+                Purchase
             </button>
             <TitleAndProgress
                 progressEndText={progressEndText}

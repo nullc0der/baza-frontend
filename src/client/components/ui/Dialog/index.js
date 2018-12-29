@@ -21,7 +21,7 @@ export default class Dialog extends Component {
     }
 
     componentDidUpdate = () => {
-        this.toggleBodyScroll(this.props.isOpen)
+        //this.toggleBodyScroll(this.props.isOpen)
     }
 
     onRequestClose = () => {

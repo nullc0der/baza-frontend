@@ -70,12 +70,12 @@ $dialog-title-padding-x: 50px;
         padding: $dialog-title-padding-y $dialog-title-padding-x 0;
     }
 
-    @include media-breakpoint-up(md, $grid-breakpoints) {
-        .modal-dialog {
-            max-height: 90vw;
-            overflow-y: auto;
-        }
-    }
+    // @include media-breakpoint-up(md, $grid-breakpoints) {
+    //     .modal-dialog {
+    //         max-height: 90vw;
+    //         overflow-y: auto;
+    //     }
+    // }
 
     @include media-breakpoint-down(sm, $grid-breakpoints) {
         .modal-dialog {

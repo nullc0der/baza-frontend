@@ -81,7 +81,9 @@ class TransanctionsDialog extends Component {
                         <LabelledValue
                             label="Date"
                             value={
-                                <TransanctionDate date={transanction.date} />
+                                <TransanctionDate
+                                    date={transanction.timestamp}
+                                />
                             }
                         />
                     </div>
@@ -125,4 +127,7 @@ const mapDispatchToProps = dispatch => ({
     }
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(TransanctionsDialog)
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(TransanctionsDialog)
