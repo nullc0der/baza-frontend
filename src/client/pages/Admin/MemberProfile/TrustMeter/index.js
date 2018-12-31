@@ -23,7 +23,7 @@ class TrustMeter extends Component {
     render() {
         const { trustPercentage, trustPercentile } = this.props
         return (
-            <BasicCard title="Trust Meter" className={s.container}>
+            <BasicCard title="Validation Meter" className={s.container}>
                 <SVGDial value={trustPercentage} />
                 <CountUp
                     start={0}
