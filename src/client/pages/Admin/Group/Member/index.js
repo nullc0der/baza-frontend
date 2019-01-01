@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import classnames from 'classnames'
+import Helmet from 'react-helmet'
 
 import s from './Members.scss'
 import MembersManagement from './MembersManagement'
@@ -15,6 +16,9 @@ class MembersManagementPage extends Component {
         const notificationClass = classnames(s.notifications, 'flex-1')
         return (
             <div className={cx}>
+                <Helmet
+                    title={`Group | ${this.props.match.params.id} | Members`}
+                />
                 <MembersManagement
                     className={managementClass}
                     groupID={this.props.match.params.id}

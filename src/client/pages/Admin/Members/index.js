@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import classnames from 'classnames'
 import { connect } from 'react-redux'
 import _ from 'lodash'
+import Helmet from 'react-helmet'
 
 import { actions as usersActions } from 'store/Users'
 import { actions as messengerActions } from 'store/Messenger'
@@ -64,13 +65,8 @@ class Members extends Component {
             }
         }
         this.setState({
-            users: finalUsers.sort(
-                (a, b) =>
-                    a.username > b.username
-                        ? 1
-                        : b.username > a.username
-                            ? -1
-                            : 0
+            users: finalUsers.sort((a, b) =>
+                a.username > b.username ? 1 : b.username > a.username ? -1 : 0
             )
         })
     }
@@ -94,6 +90,7 @@ class Members extends Component {
 
         return (
             <div className={cx}>
+                <Helmet title="Members" />
                 {this.state.users.map((x, i) => (
                     <MemberTile
                         key={i}

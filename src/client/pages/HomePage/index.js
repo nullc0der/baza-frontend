@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import classnames from 'classnames'
 
+import Helmet from 'react-helmet'
+
 // import ContentWithImage from 'components/FullScreenPages/ContentWithImage'
 import Header from 'components/Header'
 import Footer from 'components/Footer'
@@ -29,6 +31,7 @@ class HomePage extends Component {
         const cx = classnames('home-page')
         return (
             <div className={cx}>
+                <Helmet title="Baza Foundation"/>
                 <ParallaxContainer
                     id="hero-section"
                     className="top-parallax-section flex-vertical"

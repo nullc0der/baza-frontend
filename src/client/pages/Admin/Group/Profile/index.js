@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from 'react'
 import isEmpty from 'lodash/isEmpty'
 import { Redirect } from 'react-router-dom'
+import Helmet from 'react-helmet'
 
 import { connect } from 'react-redux'
 
@@ -46,6 +47,11 @@ class GroupProfile extends Component {
                 {!isEmpty(this.state.groupData) &&
                     (isAdmin(this.state.groupData.user_permission_set) ? (
                         <Fragment>
+                            <Helmet
+                                title={`Group | ${
+                                    this.props.match.params.id
+                                } | Profile`}
+                            />
                             <div className="col-12 col-md-3">
                                 <ProfileCard
                                     group={this.state.groupData}

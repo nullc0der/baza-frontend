@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import classnames from 'classnames'
 import { connect } from 'react-redux'
+import Helmet from 'react-helmet'
 import _ from 'lodash'
 
 import c from './Messenger.scss'
@@ -81,6 +82,7 @@ class Messenger extends Component {
         const title = this.getTitle(rooms, selected)
         return (
             <div className={cx}>
+                <Helmet title="Messenger" />
                 <Sidebar
                     selected={selected}
                     hasErrored={hasErrored}

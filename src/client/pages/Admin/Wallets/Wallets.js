@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import classnames from 'classnames'
+import Helmet from 'react-helmet'
 
 import s from './Wallets.scss'
 
@@ -43,6 +44,7 @@ class WalletsPage extends Component {
         const cx = classnames(s.container)
         return (
             <div className={cx}>
+                <Helmet title="Wallets" />
                 <AccountsSidebar
                     onRequestReceive={this.openReceiveDialog}
                     onRequestSend={this.openSendDialog}

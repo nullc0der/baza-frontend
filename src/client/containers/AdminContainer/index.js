@@ -152,7 +152,10 @@ class AdminContainer extends Component {
     render() {
         return Auth.isAuthenticated() && Auth.isTokenNotExpired() ? (
             <section className={s.container}>
-                <Helmet titleTemplate="%s | Baza" defaultTitle="Baza" />
+                <Helmet
+                    titleTemplate="%s | Baza Foundation"
+                    defaultTitle="Baza Foundation"
+                />
                 <NotificationSystem
                     ref="notificationSystem"
                     style={this.notificationSystemStyle}
