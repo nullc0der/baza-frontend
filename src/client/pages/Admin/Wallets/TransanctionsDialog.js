@@ -8,7 +8,8 @@ import { actions as walletTransanctionActions } from 'store/WalletTransanctions'
 import {
     TransanctionStatus,
     TransanctionFromTo,
-    TransanctionDate
+    TransanctionDate,
+    TransanctionReceipt
 } from './TransanctionsTable'
 
 const LabelledValue = ({ className, label, value }) => (
@@ -92,6 +93,18 @@ class TransanctionsDialog extends Component {
                             className="transanction-amount"
                             label="Amount"
                             value={transanction.amount.toLocaleString()}
+                        />
+                    </div>
+                </div>
+                <div className="row mt-3">
+                    <div className="col-4">
+                        <LabelledValue
+                            label="Receipt"
+                            value={
+                                <TransanctionReceipt
+                                    receiptLink={transanction.receipt_link}
+                                />
+                            }
                         />
                     </div>
                 </div>

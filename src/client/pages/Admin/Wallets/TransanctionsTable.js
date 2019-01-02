@@ -33,6 +33,14 @@ export const TransanctionFromTo = ({ transanction }) => {
 export const TransanctionDate = ({ date }) =>
     moment(date).format('MM/DD/YYYY, h:mm a')
 
+export const TransanctionReceipt = ({ receiptLink }) => {
+    return receiptLink ? (
+        <a href={`${receiptLink}`} className="receipt-link" target="_blank">
+            <i className="fa fa-arrow-circle-right" />
+        </a>
+    ) : null
+}
+
 class TransanctionsTable extends Component {
     componentDidMount = () => {
         const { selectedWalletId } = this.props
@@ -97,6 +105,13 @@ class TransanctionsTable extends Component {
                 id: 'amount',
                 Header: 'Amount',
                 accessor: d => `${d.amount.toLocaleString()}`
+            },
+            {
+                id: 'receipt',
+                Header: 'Receipt',
+                accessor: d => (
+                    <TransanctionReceipt receiptLink={d.receipt_link} />
+                )
             }
         ]
 
