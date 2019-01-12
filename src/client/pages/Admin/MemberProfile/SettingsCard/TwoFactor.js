@@ -26,14 +26,24 @@ export default class TwoFactor extends Component {
         otp: '',
         password: '',
         passwordError: null,
-        provisioningUri: ''
+        provisioningUri: '',
+        hasUsablePassword: false
     }
 
     componentDidMount() {
         getTwoFactorStatus()
             .then(res => {
                 this.setState({
-                    twoFactorEnabled: get(res.data, 'two_factor_enabled', false)
+                    twoFactorEnabled: get(
+                        res.data,
+                        'two_factor_enabled',
+                        false
+                    ),
+                    hasUsablePassword: get(
+                        res.data,
+                        'has_usable_password',
+                        false
+                    )
                 })
             })
             .catch(res => {})
@@ -97,11 +107,13 @@ export default class TwoFactor extends Component {
         this.setState({
             twoFactorEnableDialogIsOpen: !this.state.twoFactorEnableDialogIsOpen
         })
-        getProvisioningUri().then(res => {
-            this.setState({
-                provisioningUri: get(res.data, 'provisioning_uri', '')
+        if (this.state.hasUsablePassword) {
+            getProvisioningUri().then(res => {
+                this.setState({
+                    provisioningUri: get(res.data, 'provisioning_uri', '')
+                })
             })
-        })
+        }
     }
 
     toggleTwoFactorDisableDialog = () => {
@@ -180,35 +192,58 @@ export default class TwoFactor extends Component {
                             isOpen={this.state.twoFactorEnableDialogIsOpen}
                             title="Enable Two Factor"
                             onRequestClose={this.toggleTwoFactorEnableDialog}>
-                            <div className="text-center">
-                                <p>Scan this QR code with your authenticator</p>
-                                {this.state.provisioningUri && (
-                                    <Qrcode
-                                        value={this.state.provisioningUri}
-                                        size={200}
-                                    />
-                                )}
-                                <p className="mt-3">
-                                    Then type your code below and click submit
-                                </p>
-                                <div className="ml-3 mr-3">
-                                    <TextField
-                                        id="twoFactorCode"
-                                        label="Code"
-                                        className={`${
-                                            this.state.error ? 'mb-3' : 'mb-1'
-                                        }`}
-                                        onChange={this.onTwoFactorCodeChange}
-                                        value={this.state.otp}
-                                        errorState={this.state.error}
-                                    />
-                                    <button
-                                        className="btn btn-block btn-sm btn-dark"
-                                        onClick={this.onClickVerifyTwoFactor}>
-                                        Submit
-                                    </button>
+                            {this.state.hasUsablePassword ? (
+                                <div className="text-center">
+                                    <p>
+                                        Scan this QR code with your
+                                        authenticator
+                                    </p>
+                                    {this.state.provisioningUri && (
+                                        <Qrcode
+                                            value={this.state.provisioningUri}
+                                            size={200}
+                                        />
+                                    )}
+                                    <p className="mt-3">
+                                        Then type your code below and click
+                                        submit
+                                    </p>
+                                    <div className="ml-3 mr-3">
+                                        <TextField
+                                            id="twoFactorCode"
+                                            label="Code"
+                                            className={`${
+                                                this.state.error
+                                                    ? 'mb-3'
+                                                    : 'mb-1'
+                                            }`}
+                                            onChange={
+                                                this.onTwoFactorCodeChange
+                                            }
+                                            value={this.state.otp}
+                                            errorState={this.state.error}
+                                        />
+                                        <button
+                                            className="btn btn-block btn-sm btn-dark"
+                                            onClick={
+                                                this.onClickVerifyTwoFactor
+                                            }>
+                                            Submit
+                                        </button>
+                                    </div>
                                 </div>
-                            </div>
+                            ) : (
+                                <div className="text-center">
+                                    <span>
+                                        You have not set a password yet.
+                                    </span>
+                                    <br />
+                                    <span>
+                                        Please set a password before enabling
+                                        two factor authentication.
+                                    </span>
+                                </div>
+                            )}
                         </Dialog>
                         <Dialog
                             className={s.container}
