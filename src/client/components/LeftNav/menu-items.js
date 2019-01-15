@@ -72,7 +72,7 @@ module.exports = [
             {
                 name: 'Hashtag Banner',
                 icon: 'fa fa-fw fa-dashboard',
-                href: ''
+                href: '/hashtag'
             },
             {
                 name: 'Messenger',
