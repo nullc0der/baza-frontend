@@ -128,6 +128,7 @@
         "redux": "^4.0.1",
         "redux-thunk": "^2.3.0",
         "redux-tooltip": "^0.7.2",
+        "request": "^2.88.0",
         "reselect": "^4.0.0",
         "run-sequence": "^2.2.1",
         "rupture": "^0.7.1",

@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import CircularImage from 'components/ui/CircularImage'
@@ -6,6 +7,50 @@ import ProfileGallery from './ProfileGallery'
 
 import s from './HashTag.scss'
 import EditImage from './EditImage';
+
+// function imageToDataURL(imageSrc) {
+//     const img = document.createElement('img')
+//     img.crossOrigin = 'Anonymous'
+//     const canvas = document.createElement('canvas')
+
+//     return new Promise((resolve, reject) => {
+//         img.onload = function () {
+//             canvas.height = img.naturalHeight
+//             canvas.width = img.naturalWidth
+
+//             let ctx = canvas.getContext('2d');
+//             ctx.drawImage(img, img.naturalWidth, img.naturalHeight)
+//             resolve(canvas.toDataURL())
+//         }
+
+//         img.onerror = function () {
+//             reject(new Error('Cannot load image'))
+//         }
+
+//         img.src = imageSrc
+//     })
+// }
+
+// function downloadDataURI(dataURI) {
+//     var buffer = new ArrayBuffer(dataURI.length)
+//     var view = new Uint8Array(buffer)
+
+//     for (let i = 0; i < dataURI.length; i++) {
+//         view[i] = dataURI.charCodeAt(i) & 0xff;
+//     }
+//     var mimeType = 'image/png'
+//     var blob;
+//     try {
+//         blob = new Blob([buffer], { type: mimeType });
+//     } catch (e) {
+//         var bb = new (window.WebKitBlobBuilder || window.MozBlobBuilder)();
+//         bb.append(buffer);
+//         blob = bb.getBlob(mimeType);
+//     }
+
+//     var url = (window.webkitURL || window.URL).createObjectURL(blob)
+//     return url
+// }
 
 class HashTagContent extends Component {
     static propTypes = {
@@ -34,6 +79,17 @@ class HashTagContent extends Component {
         }
     }
 
+    onGalleryImageSelect = (imageSrc) => {
+        const safeImageUrl = '/get-safe-image?src=' + encodeURIComponent(imageSrc)
+        console.log('selecting: ', safeImageUrl)
+        this.setState({ previewImage: safeImageUrl, showCropper: true })
+        // imageToDataURL(safeImageUrl).then((dataUrl) => {
+        //     this.setState({ previewImage: dataUrl, showCropper: true })
+        // }).catch(err => {
+        //     alert(err.message)
+        // })
+    }
+
     onEditDone = (croppedImage) => {
         this.setState({ croppedImage }, this.onCropperClose)
     }
@@ -43,9 +99,27 @@ class HashTagContent extends Component {
         this.setState({ showCropper: false, previewImage: '' })
     }
 
+    getFinalImageURL = () => {
+        const { croppedImage } = this.state
+        if (!croppedImage) {
+            return '#'
+        }
+
+        return croppedImage
+    }
+
+    getImageFromSocial = () => {
+        console.log('will fetch and set image from social network')
+    }
+
+    uploadImageToSocial = () => {
+        console.log('will upload image to social network')
+    }
+
     render() {
         const cx = classnames(s.contentView)
         const { previewImage, showCropper, croppedImage } = this.state
+        const { selectedProvider } = this.props
         return (
             <div className={cx}>
                 <h3 className='content-title'>
@@ -68,27 +142,40 @@ class HashTagContent extends Component {
                         <i className='fa fa-cloud-upload'></i>
                         <input className='input-file' type='file' accept="image/*" name='localImage' onChange={this.onImageUpload} />
                     </div>
-                    <div className='btn btn-light'>
-                        Use from Facebook
+                    <div className='btn btn-light' onClick={this.getImageFromSocial}>
+                        Use from {selectedProvider.name}
                         <i className='fa fa-facebook-f'></i>
                     </div>
-                    <div className='btn btn-light'>
+                    <div className='btn btn-light' onClick={this.setBannerBG}>
                         Change Background Color
                         <i className='fa fa-eyedropper'></i>
                     </div>
-                    <div className='btn btn-light'>
+                    <div className='btn btn-light' onClick={this.setBannerTextColor}>
                         Change Text Color
                         <i className='fa fa-eyedropper'></i>
                     </div>
                 </div>
-                <ProfileGallery />
+                <ProfileGallery
+                    onImageSelect={this.onGalleryImageSelect}
+                />
                 <div className='final-actions actions'>
-                    <div className='btn btn-dark btn-large'>Download Image</div>
-                    <div className='btn btn-dark btn-large btn-fb'>Upload to Facebook</div>
+                    <a
+                        className='btn btn-dark btn-large btn-download'
+                        download='baza-avatar.png'
+                        href={this.getFinalImageURL(croppedImage)}>
+                        Download Image
+                    </a>
+                    <div
+                        className={`btn btn-dark btn-large ${selectedProvider.className}`}
+                        onClick={this.uploadImageToSocial}>Upload to {selectedProvider.name}</div>
                 </div>
             </div>
         )
     }
 }
 
-export default HashTagContent
+const mapStateToProps = state => ({
+    selectedProvider: state.HashTag.providers[state.HashTag.selectedProvider]
+})
+
+export default connect(mapStateToProps)(HashTagContent)

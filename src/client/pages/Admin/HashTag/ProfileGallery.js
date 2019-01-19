@@ -19,6 +19,7 @@ class ProfileGallery extends Component {
         const src = Config.get('DOCUMENT_ROOT') + image.photo
         return <CircularImage
             className='upload-gallery-item'
+            onClick={e => this.props.onImageSelect(src)}
             key={image.id}
             size={64}
             src={src} />
@@ -29,7 +30,7 @@ class ProfileGallery extends Component {
 
         return (
             <div className={s.profileGallery}>
-                <div className='gallery-title'></div>
+                <div className='gallery-title'>Upload from gallery</div>
                 <div className='gallery-list'>
                     {userImages.map(this.renderOneImage)}
                 </div>

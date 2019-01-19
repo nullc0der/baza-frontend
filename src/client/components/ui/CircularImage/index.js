@@ -8,7 +8,8 @@ const CircularImage = (props) => {
         src,
         alt = '',
         style,
-        size = 48
+        size = 48,
+        ...otherProps
     } = props
 
     const cx = classnames(s.container, className)
@@ -18,7 +19,7 @@ const CircularImage = (props) => {
         ...style
     }
     return (
-        <div className={cx} style={combinedStyle}>
+        <div className={cx} style={combinedStyle} {...otherProps}>
             <img className='circular-img' alt={alt} src={src} />
         </div>
     )

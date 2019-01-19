@@ -5,20 +5,39 @@ import Dialog from 'components/ui/Dialog'
 
 import s from './HashTag.scss'
 
+function getRoundedCanvas(sourceCanvas) {
+    var canvas = document.createElement('canvas');
+    var context = canvas.getContext('2d');
+    var width = sourceCanvas.width;
+    var height = sourceCanvas.height;
+    canvas.width = width;
+    canvas.height = height;
+    context.imageSmoothingEnabled = true;
+    context.drawImage(sourceCanvas, 0, 0, width, height);
+    context.globalCompositeOperation = 'destination-in';
+    context.beginPath();
+    context.arc(width / 2, height / 2, Math.min(width, height) / 2, 0, 2 * Math.PI, true);
+    context.fill();
+    return canvas;
+}
+
 export default class EditImage extends Component {
     state = {
-        editedImage: ''
+        editedImage: '',
+    }
+
+    isRemoteImage = () => {
+        return this.props.src.substr(4) === 'http'
     }
 
     componentDidMount = () => {
         this.cropper = new Cropper(this.img, {
             initialAspectRatio: 1,
+            aspectRatio: 1,
             ready: () => {
                 this.beginCrop()
             }
         })
-
-        window.xx = this
     }
 
     componentWillUnmount = () => {
@@ -30,8 +49,9 @@ export default class EditImage extends Component {
     }
 
     onEditDone = () => {
-        const cropped = this.cropper.getCroppedCanvas()
-        const image = cropped.toDataURL('image/jpeg')
+        const croppedCanvas = this.cropper.getCroppedCanvas()
+        const roundedCanvas = getRoundedCanvas(croppedCanvas)
+        const image = roundedCanvas.toDataURL('image/png')
 
         this.props.onEditDone(image)
     }
