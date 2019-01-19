@@ -11,12 +11,16 @@ class ProfileGallery extends Component {
         userImages: PropTypes.array
     }
 
+    componentDidMount = () => {
+        this.props.fetchUserImages()
+    }
+
     renderOneImage = (image, index) => {
         const src = Config.get('DOCUMENT_ROOT') + image.photo
         return <CircularImage
             className='upload-gallery-item'
             key={image.id}
-            size={96}
+            size={64}
             src={src} />
     }
 

@@ -1,4 +1,6 @@
 @import 'ui';
+@import '~cropperjs/dist/cropper.min.css';
+
 $hashtag_sidebar_width: 250px;
 
 :local(.container) {
@@ -119,6 +121,19 @@ $hashtag_sidebar_width: 250px;
     }
 }
 
+:local(.contentView) .btn-upload-local {
+    position: relative;
+    .input-file {
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        opacity: 0;
+        z-index: 2;
+    }
+}
+
 :local(.contentView) .actions {
     width: 100%;
     display: flex;
@@ -130,14 +145,14 @@ $hashtag_sidebar_width: 250px;
     }
 
     .btn-large {
-        padding: 1.5rem;
+        padding: 1.1rem;
         text-align: center;
         width: 48%;
-        font-size: 1.4rem;
+        font-size: 1rem;
     }
 }
 
-:local(.contentView) .upload-gallery {
+:local(.profileGallery) {
     border-radius: 4px;
     background-color: rgba($dark, 0.1);
     padding: 32px;
@@ -149,5 +164,43 @@ $hashtag_sidebar_width: 250px;
         float: left;
         margin-right: map-get($spacers, 2);
         margin-bottom: map-get($spacers, 2);
+    }
+}
+
+
+:local(.editImage) {
+    .cropper-container {
+        margin-left: auto;
+        margin-right: auto;
+    }
+    .cropper-view-box,
+    .cropper-crop-box {
+        border-radius: 50%;
+    }
+
+    .cropper-view-box {
+        outline: 0;
+    }
+
+    .image-to-edit {
+        max-width: 100%;
+    }
+
+    .modal-title {
+        padding-top: 1rem;
+    }
+    .modal-body {
+        padding: 1rem 30px;
+    }
+    .modal-footer {
+        border-top: none;
+        padding: 0 1rem 1rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        .btn + .btn {
+            margin-left: 2rem;
+        }
     }
 }

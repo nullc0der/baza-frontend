@@ -1,6 +1,6 @@
 import { Component } from 'react'
 
-import Sockette from 'sockette'
+import Sockette from 'sockette/dist/sockette'
 
 import Auth from 'utils/authHelpers'
 
