@@ -4,22 +4,18 @@ import { connect } from 'react-redux'
 import { push } from 'react-router-redux'
 import isBoolean from 'lodash/isBoolean'
 import get from 'lodash/get'
-import { Elements, StripeProvider } from 'react-stripe-elements'
-import { create } from 'apisauce'
 
 import Auth from 'utils/authHelpers'
 
 import TextField from 'components/ui/TextField'
 import Dialog from 'components/ui/Dialog'
 
-import { PaymentBadges } from 'components/PaymentInformation'
-import StripePaymentForm from 'components/StripePaymentForm'
+import CoinbaseButton from 'components/CoinbaseButton'
 
 import { CurrencyDropdown } from 'pages/Admin/CoinSale/CoinSale'
 
 import s from './Donation.scss'
 import ContactInformation from './ContactInformation'
-import Config from 'utils/config'
 
 class DonationDialog extends Component {
     state = {
@@ -39,9 +35,8 @@ class DonationDialog extends Component {
             amount: '',
             nonField: ''
         },
-        paymentSuccess: false,
-        paymentProcessing: false,
-        submitClicked: false
+        donationDone: '',
+        isDonateDialogContentHidden: false
     }
 
     toggleOtherInput = (force, amount) => {
@@ -109,63 +104,48 @@ class DonationDialog extends Component {
         }))
     }
 
-    submitDonation = token => {
-        if (token) {
-            const api = create({
-                baseURL: Config.get('API_ROOT'),
-                headers: {
-                    Accept: 'application/json'
-                }
-            })
-            let url = '/donate/anon/'
-            if (Auth.isAuthenticated()) {
-                api.setHeader('Authorization', `Bearer ${Auth.getToken()}`)
-                url = '/donate/'
-            }
-            api.post(url, {
-                stripe_token: token,
-                amount: this.state.selectedAmount,
-                name: this.state.inputValues.name,
-                email: this.state.inputValues.email,
-                phone_no: this.state.inputValues.phoneNumber
-            }).then(response => {
-                if (response.ok) {
-                    this.setState({
-                        paymentSuccess: true
-                    })
-                } else {
-                    this.setState({
-                        errorValues: {
-                            name: get(response.data, 'name', null),
-                            email: get(response.data, 'email', null),
-                            phoneNumber: get(response.data, 'phone_no', null),
-                            nonField: get(
-                                response.data,
-                                'non_field_errors',
-                                null
-                            ),
-                            amount: get(response.data, 'amount', null)
-                        }
-                    })
-                }
-                this.setState({
-                    paymentProcessing: false,
-                    submitClicked: false
-                })
-            })
-        } else {
-            this.setState({
-                paymentProcessing: false,
-                submitClicked: false
-            })
-        }
+    onChargeSuccess = () => {
+        this.setState({
+            donationDone: 'Thank you for donating to the Foundation'
+        })
     }
 
-    handleSubmit = e => {
-        e.preventDefault()
+    onChargeFailure = () => {
         this.setState({
-            submitClicked: true,
-            paymentProcessing: true
+            donationDone: "Your payment couldn't be processed, please try again"
+        })
+    }
+
+    onPaymentDetected = () => {
+        this.setState({
+            donationDone: `A payment has been detected, but it is not confirmed yet,
+                you will get an email on confirm.`
+        })
+    }
+
+    onCoinbaseLoad = () => {
+        this.setState({
+            isDonateDialogContentHidden: true
+        })
+    }
+
+    onCoinbaseClosed = () => {
+        this.setState({
+            isDonateDialogContentHidden: false
+        })
+    }
+
+    onInitiatePaymentSuccess = data => {}
+
+    onInitiatePaymentFailure = err => {
+        this.setState({
+            errorValues: {
+                name: get(err, 'name', null),
+                email: get(err, 'email', null),
+                phoneNumber: get(err, 'phone_no', null),
+                nonField: get(err, 'non_field_errors', null),
+                amount: get(err, 'amount', null)
+            }
         })
     }
 
@@ -179,12 +159,16 @@ class DonationDialog extends Component {
                 <br /> Support!
             </p>
         )
+        const initiatePaymentURL = Auth.isAuthenticated()
+            ? '/donate/initiate/'
+            : '/donate/initiate/anon/'
         return (
             <Dialog
                 className={cx}
                 isOpen={true}
                 title={_dialogTitle}
-                onRequestClose={this.closeDonationDialog}>
+                onRequestClose={this.closeDonationDialog}
+                hideModalContent={this.state.isDonateDialogContentHidden}>
                 <div className="donate-buttons flex-horizontal">
                     <button
                         className={`btn btn-outline-dark ${
@@ -265,24 +249,45 @@ class DonationDialog extends Component {
                             </div>
                         )}
                         <div className="row mb-1">
-                            <div className="col-md-5 mt-4">
+                            <div className="col-md-12 mt-4">
                                 <ContactInformation
                                     onInputChange={this.onInputChange}
                                     values={this.state.inputValues}
                                     errors={this.state.errorValues}
                                 />
-                                <button
-                                    onClick={this.handleSubmit}
-                                    className="btn btn-dark btn-block mt-2"
-                                    disabled={this.state.paymentProcessing}>
-                                    DONATE&nbsp;
-                                    <i
-                                        className={`fa fa-spin fa-spinner payment-processing-icon ${!!this
-                                            .state.paymentProcessing &&
-                                            'show'}`}
-                                    />
-                                </button>
-                                <div className="form-check form-check-inline mt-2 mb-2">
+                                {this.state.donationDone.length > 0 && (
+                                    <div className="well mt-2 error-well text-center">
+                                        <p className="mb-0">
+                                            {this.state.coinPurchaseDone}
+                                        </p>
+                                    </div>
+                                )}
+                                <CoinbaseButton
+                                    className="mt-3"
+                                    title="Donate with CoinBase"
+                                    data={{
+                                        amount: Number(
+                                            this.state.selectedAmount
+                                        ),
+                                        name: this.state.inputValues.name,
+                                        email: this.state.inputValues.email,
+                                        phone_no: this.state.inputValues
+                                            .phoneNumber
+                                    }}
+                                    initiatePaymentURL={initiatePaymentURL}
+                                    onChargeSuccess={this.onChargeSuccess}
+                                    onChargeFailure={this.onChargeFailure}
+                                    onPaymentDetected={this.onPaymentDetected}
+                                    onCoinbaseLoad={this.onCoinbaseLoad}
+                                    onCoinbaseClosed={this.onCoinbaseClosed}
+                                    onInitiatePaymentSuccess={
+                                        this.onInitiatePaymentSuccess
+                                    }
+                                    onInitiatePaymentFailure={
+                                        this.onInitiatePaymentFailure
+                                    }
+                                />
+                                {/* <div className="form-check form-check-inline mt-2 mb-2">
                                     <input
                                         className="form-check-input"
                                         type="checkbox"
@@ -294,32 +299,11 @@ class DonationDialog extends Component {
                                         htmlFor="add_to_newsletter">
                                         Yes! Add me to your newsletter list
                                     </label>
-                                </div>
-                            </div>
-                            <div className="col-md-7 mt-3">
-                                <StripeProvider apiKey="pk_test_brOdNv1xxyyZ8GiqvRF9H9ID">
-                                    <Elements>
-                                        <StripePaymentForm
-                                            onTokenReceive={this.submitDonation}
-                                            submitClicked={
-                                                this.state.submitClicked
-                                            }
-                                        />
-                                    </Elements>
-                                </StripeProvider>
+                                </div> */}
                             </div>
                         </div>
-                        {this.state.paymentSuccess && (
-                            <div className="well mb-2 mt-2 error-well text-center">
-                                <p>
-                                    Thank you for your support, your payment
-                                    processed successfully.
-                                </p>
-                            </div>
-                        )}
                     </div>
                 </div>
-                <PaymentBadges />
             </Dialog>
         )
     }

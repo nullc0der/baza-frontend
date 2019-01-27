@@ -6,7 +6,7 @@ $dialog-padding-y: map-get($spacers, 3);
 
 :local(.donationDialog) {
     .modal-dialog {
-        width: 830px;
+        width: 500px;
         max-width: 90vw;
     }
     .modal-body {

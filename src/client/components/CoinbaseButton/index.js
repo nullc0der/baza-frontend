@@ -13,44 +13,51 @@ import { initiatePayment } from 'api/coinbasepay'
 
 class CoinbaseButton extends Component {
     static propTypes = {
-        amount: PropTypes.number.isRequired,
+        initiatePaymentURL: PropTypes.string.isRequired,
+        data: PropTypes.object.isRequired,
         onChargeSuccess: PropTypes.func,
         onChargeFailure: PropTypes.func,
         onPaymentDetected: PropTypes.func,
-        onCoinbaseLoad: PropTypes.func
+        onCoinbaseLoad: PropTypes.func,
+        onInitiatePaymentSuccess: PropTypes.func,
+        onInitiatePaymentFailure: PropTypes.func
     }
 
     state = {
-        chargeID: null,
-        errorState: null
+        chargeID: null
     }
 
     onClickContinue = () => {
-        const { amount } = this.props
-        initiatePayment(amount)
+        const {
+            data,
+            initiatePaymentURL,
+            onInitiatePaymentFailure,
+            onInitiatePaymentSuccess
+        } = this.props
+        initiatePayment(initiatePaymentURL, data)
             .then(res => {
                 const chargeID = get(res.data, 'charge_id', null)
                 this.setState(
                     {
                         chargeID
                     },
-                    () => this.props.onChargeIDChange(amount, chargeID)
+                    () => onInitiatePaymentSuccess(res.data)
                 )
             })
             .catch(err => {
-                this.setState({
-                    errorState: "Can't initiate payment now, please try later"
-                })
+                onInitiatePaymentFailure(err)
             })
     }
 
     render() {
         const {
+            title = 'Pay with CoinBase',
             className,
             onChargeFailure,
             onChargeSuccess,
             onPaymentDetected,
-            onCoinbaseLoad
+            onCoinbaseLoad,
+            onCoinbaseClosed
         } = this.props
         const cx = classnames(s.container, className)
         return (
@@ -68,11 +75,11 @@ class CoinbaseButton extends Component {
                         onChargeFailure={onChargeFailure}
                         onChargeSuccess={onChargeSuccess}
                         onPaymentDetected={onPaymentDetected}
-                        onLoad={onCoinbaseLoad}>
-                        Pay with Coinbase
+                        onLoad={onCoinbaseLoad}
+                        onModalClosed={onCoinbaseClosed}>
+                        {title}
                     </CoinbaseCommerceButton>
                 )}
-                <p className="text-danger my-1">{this.state.errorState}</p>
             </div>
         )
     }

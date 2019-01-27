@@ -2,16 +2,14 @@ import React, { Component } from 'react'
 import classnames from 'classnames'
 import { connect } from 'react-redux'
 import WorldMap from 'components/WorldMap'
+import WebSocketWrapper from 'components/WebSocketWrapper'
 
 import { actions as donationActions } from 'store/Donations'
 
 class MapSection extends Component {
-    componentDidMount = () => {
-        this._fetchInterval = setInterval(this.props.fetchDonations, 7000)
-    }
-
-    componentWillUnmount = () => {
-        clearInterval(this._fetchInterval)
+    onWebSocketData = data => {
+        const { message } = data
+        this.props.receivedDonationDataOnWS(message)
     }
 
     render() {
@@ -23,9 +21,17 @@ class MapSection extends Component {
                     <h3 className="text-center mb-4 mb-md-0 mb-lg-0 mb-xl-0">
                         Live Donations
                         <br />
-                        <small> Track live donations and distributions around the world </small>
+                        <small>
+                            {' '}
+                            Track live donations and distributions around the
+                            world{' '}
+                        </small>
                     </h3>
                     <WorldMap donations={this.props.list} />
+                    <WebSocketWrapper
+                        url="/ws/donation/"
+                        onWebSocketData={this.onWebSocketData}
+                    />
                 </div>
             </div>
         )
@@ -37,8 +43,8 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-    fetchDonations() {
-        return dispatch(donationActions.fetchDonations())
+    receivedDonationDataOnWS(data) {
+        return dispatch(donationActions.receivedDonationDataOnWS(data))
     }
 })
 

@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import Dialog from 'components/ui/Dialog'
 import { create } from 'apisauce'
-// import get from 'lodash/get'
+import get from 'lodash/get'
 
 // import last from 'lodash/last'
 
@@ -99,13 +99,31 @@ export default class PurchaseDialog extends Component {
         })
     }
 
+    onCoinbaseClosed = () => {
+        this.setState({
+            isPurchaseDialogContentHidden: false
+        })
+    }
+
+    onInitiatePaymentSuccess = data => {
+        this.props.onChargeIDChange(
+            Number(this.state.purchaseAmount),
+            data.charge_id
+        )
+    }
+
+    onInitiatePaymentFailure = err => {
+        this.setState({
+            nonFieldErrors: get(err, 'non_field_errors', null)
+        })
+    }
+
     render() {
         return Auth.isAuthenticated() ? (
             <Dialog
                 className={s.purchaseDialog}
                 title="Donate to Fundraiser"
                 isOpen={this.props.isOpen}
-                // footer="Contact your credit card holder about Baza Foundation donation and limits to avoid any bank issues"
                 onRequestClose={this.props.onRequestClose}
                 hideModalContent={this.state.isPurchaseDialogContentHidden}>
                 <div className="row">
@@ -142,12 +160,19 @@ export default class PurchaseDialog extends Component {
                         )}
                         <CoinbaseButton
                             className="mt-3"
-                            amount={Number(this.state.purchaseAmount)}
+                            data={{ amount: Number(this.state.purchaseAmount) }}
+                            initiatePaymentURL="/coinbase/initiate/1/"
                             onChargeSuccess={this.onChargeSuccess}
                             onChargeFailure={this.onChargeFailure}
                             onPaymentDetected={this.onPaymentDetected}
                             onCoinbaseLoad={this.onCoinbaseLoad}
-                            onChargeIDChange={this.props.onChargeIDChange}
+                            onCoinbaseClosed={this.onCoinbaseClosed}
+                            onInitiatePaymentSuccess={
+                                this.onInitiatePaymentSuccess
+                            }
+                            onInitiatePaymentFailure={
+                                this.onInitiatePaymentFailure
+                            }
                         />
                     </div>
                 </div>
