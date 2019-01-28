@@ -126,6 +126,7 @@
         "react-timeago": "^4.1.9",
         "react-transition-group": "2.x",
         "react-twitter-auth": "^0.0.12",
+        "reactstrap": "^7.1.0",
         "redux": "^4.0.1",
         "redux-thunk": "^2.3.0",
         "redux-tooltip": "^0.7.2",

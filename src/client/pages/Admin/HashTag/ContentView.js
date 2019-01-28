@@ -6,10 +6,10 @@ import classnames from 'classnames'
 import ColorPicker from 'components/ui/ColorPicker'
 
 import CircularImage from 'components/ui/CircularImage'
+import ImageEditor from 'components/ImageEditor'
 import ProfileGallery from './ProfileGallery'
 
 import s from './HashTag.scss'
-import EditImage from './EditImage';
 import SVGTemplate from './SVGTemplate';
 import { Promise } from 'q';
 
@@ -206,7 +206,8 @@ class HashTagContent extends Component {
                 <h3 className='content-title'>
                     Basic Income Hashtag App
                 </h3>
-                {showCropper && <EditImage
+                {showCropper && <ImageEditor
+                    cropRounded
                     src={previewImage}
                     onEditDone={this.onEditDone}
                     onRequestClose={this.onCropperClose} />}
