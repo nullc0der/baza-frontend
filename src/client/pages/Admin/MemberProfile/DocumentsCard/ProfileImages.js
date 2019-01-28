@@ -44,6 +44,7 @@ class ProfileImages extends Component {
 
     onEditDone = (croppedImage) => {
         this.setState({ filePreview: croppedImage })
+        this.closeCropper()
         const data = new FormData()
         data.append('photo', croppedImage)
         this.props
@@ -51,13 +52,15 @@ class ProfileImages extends Component {
             .then(res =>
                 this.setState({
                     imageUploading: false,
-                    uploadDonePercent: 0
+                    uploadDonePercent: 0,
+                    filePreview: ''
                 })
             )
             .catch(res => {
                 this.setState({
                     imageUploading: false,
-                    uploadDonePercent: 0
+                    uploadDonePercent: 0,
+                    filePreview: ''
                 })
             })
     }
