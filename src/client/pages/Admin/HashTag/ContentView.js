@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import PropTypes from 'prop-types'
 import classnames from 'classnames'
 
 import ColorPicker from 'components/ui/ColorPicker'
@@ -101,9 +100,6 @@ function downloadAs(filename, data) {
 }
 
 class HashTagContent extends Component {
-    static propTypes = {
-        selectedProvider: PropTypes.string,
-    }
 
     state = {
         previewImage: '',

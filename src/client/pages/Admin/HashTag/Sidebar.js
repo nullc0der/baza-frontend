@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import classnames from 'classnames'
 
@@ -8,12 +7,6 @@ import { actions as hashtagActions } from 'store/HashTag'
 import s from './HashTag.scss'
 
 class HashTagSidebar extends Component {
-
-    static propTypes = {
-        providers: PropTypes.array.isRequired,
-        onProviderChange: PropTypes.func.isRequired,
-        selectedProvider: PropTypes.string.isRequired
-    }
 
     componentDidMount = () => {
         this.props.fetchProviders()

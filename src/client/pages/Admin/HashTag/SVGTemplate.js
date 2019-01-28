@@ -3,19 +3,19 @@ import React from 'react'
 const SVGTemplate = ({ id, semiCircleColor, textColor, imageData }) => (
     <svg id={id} className='svg-template-image' width="129px" height="128px" viewBox="0 0 129 128" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink">
         <defs></defs>
-        <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Page-1" stroke="none" strokeWidth="1" fill="none" fillRule="evenodd">
             <g id="ImageTemplate" transform="translate(-3.000000, 0.000000)">
                 <g id="imageGroup" transform="translate(4.000000, 0.000000)">
                     <image id="Bitmap" x="0" y="0" width="128" height="128" xlinkHref={imageData} />
                 </g>
-                <g id="outerContainer" transform="translate(3.000000, 0.000000)" fill="transparent" fill-rule="nonzero">
+                <g id="outerContainer" transform="translate(3.000000, 0.000000)" fill="transparent" fillRule="nonzero">
                     <path d="M64.86,128 L0.86,128 L0.86,64 C0.86,99.346224 29.513776,128 64.86,128 Z" id="Shape"></path>
                     <path d="M0.86,64 L0.86,0 L64.86,0 C29.513776,-2.164332e-15 0.86,28.653776 0.86,64 Z" id="Shape"></path>
                     <path d="M128.86,0 L128.86,64 C128.86,28.653776 100.206224,2.164332e-15 64.86,0 L128.86,0 Z" id="Shape"></path>
                     <path d="M128.86,64 L128.86,128 L64.86,128 C100.206224,128 128.86,99.346224 128.86,64 Z" id="Shape"></path>
                 </g>
-                <path d="M108.86,64 C108.86,86.6436747 90.5036747,105 67.86,105 C45.2163253,105 26.86,86.6436747 26.86,64 L3.86,64 C3.86,99.346224 32.513776,128 67.86,128 C103.206224,128 131.86,99.346224 131.86,64 L108.86,64 Z" id="semiCircle" fill={semiCircleColor} fill-rule="nonzero" opacity="0.26"></path>
-                <g id="text" transform="translate(0.000000, 63.000000)" fill={textColor} font-family="Raleway-Bold, Raleway" font-size="22" font-weight="bold">
+                <path d="M108.86,64 C108.86,86.6436747 90.5036747,105 67.86,105 C45.2163253,105 26.86,86.6436747 26.86,64 L3.86,64 C3.86,99.346224 32.513776,128 67.86,128 C103.206224,128 131.86,99.346224 131.86,64 L108.86,64 Z" id="semiCircle" fill={semiCircleColor} fillRule="nonzero" opacity="0.26"></path>
+                <g id="text" transform="translate(0.000000, 63.000000)" fill={textColor} fontFamily="Raleway-Bold, Raleway" fontSize="22" fontWeight="bold">
                     <g id="#" transform="translate(15.599455, 12.442278) rotate(76.660751) translate(-15.599455, -12.442278) translate(7.099455, -1.057722)">
                         <text>
                             <tspan x="0.11262279" y="21.534036">#</tspan>
