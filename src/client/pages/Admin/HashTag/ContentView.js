@@ -10,8 +10,8 @@ import ProfileGallery from './ProfileGallery'
 import NotConnectedDialog from './NotConnectedDialog'
 
 import s from './HashTag.scss'
-import SVGTemplate from './SVGTemplate';
-import { Promise } from 'q';
+import SVGTemplate from './SVGTemplate'
+import { actions as hashtagActions } from 'store/HashTag'
 
 // function imageToDataURL(imageSrc) {
 //     const img = document.createElement('img')
@@ -164,10 +164,33 @@ class HashTagContent extends Component {
 
     getImageFromSocial = () => {
         console.log('will fetch and set image from social network')
+        const provider = this.props.selectedProvider.name.toLowerCase()
+        this.setState({ isDownloading: true })
+        this.props.downloadPhotoFromSocial(provider)
+            .then(response => {
+                this.setState({ isDownloading: false, previewImage: response.photo_url, showCropper: true })
+            }).catch(err => {
+                this.setState({ isDownloading: false })
+                alert(err.message)
+            })
     }
 
     uploadImageToSocial = () => {
         console.log('will upload image to social network')
+
+        const { selectedProvider } = this.props
+        const { croppedImage } = this.state
+
+        this.setState({ isUploading: true })
+        this.props.uploadPhotoToSocial(
+            selectedProvider.name.toLowerCase(),
+            croppedImage
+        ).then(() => {
+            this.setState({ isUploading: false })
+        }).catch(err => {
+            this.setState({ isUploading: false })
+            alert(err.message)
+        })
     }
 
     onSemiCircleColorChange = (color) => {
@@ -193,7 +216,9 @@ class HashTagContent extends Component {
             textColor,
             semiCircleColor,
             showTextColorPicker,
-            showBGColorPicker
+            showBGColorPicker,
+            isDownloading,
+            isUploading
         } = this.state
 
         const { selectedProvider } = this.props
@@ -231,7 +256,10 @@ class HashTagContent extends Component {
                     </div>
                     <div className='btn btn-light' onClick={this.getImageFromSocial}>
                         Use from {selectedProvider.name}
-                        <i className='fa fa-facebook-f'></i>
+                        {isDownloading
+                            ? <i className={`fa fa-spinner fa-pulse fa-fw`}></i>
+                            : <i className={`fa fa-${selectedProvider.icon}`}></i>
+                        }
                     </div>
                     <div
                         className='btn btn-light position-relative'
@@ -269,7 +297,10 @@ class HashTagContent extends Component {
                     </div>
                     <div
                         className={`btn btn-dark btn-large ${selectedProvider.className}`}
-                        onClick={this.uploadImageToSocial}>Upload to {selectedProvider.name}</div>
+                        onClick={this.uploadImageToSocial}>
+                        Upload to {selectedProvider.name}
+                        {isUploading && <i className={`fa fa-spinner fa-pulse fa-fw fa-2x`}></i>}
+                    </div>
                 </div>
             </div>
         )
@@ -280,4 +311,13 @@ const mapStateToProps = state => ({
     selectedProvider: state.HashTag.providers[state.HashTag.selectedProvider]
 })
 
-export default connect(mapStateToProps)(HashTagContent)
+const mapDispatchToProps = dispatch => ({
+    uploadPhotoToSocial(provider, photo) {
+        return dispatch(hashtagActions.uploadImage(provider, photo))
+    },
+    downloadPhotoFromSocial(provider) {
+        return dispatch(hashtagActions.downloadImage(provider))
+    }
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(HashTagContent)

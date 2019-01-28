@@ -80,7 +80,6 @@ const fetchProvidersFailure = err => ({
     error: err.message
 })
 
-
 export const actions = {
     changeProvider,
     downloadImage,
