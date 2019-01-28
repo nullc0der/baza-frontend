@@ -8,6 +8,7 @@ import ColorPicker from 'components/ui/ColorPicker'
 import CircularImage from 'components/ui/CircularImage'
 import ImageEditor from 'components/ImageEditor'
 import ProfileGallery from './ProfileGallery'
+import NotConnectedDialog from './NotConnectedDialog'
 
 import s from './HashTag.scss'
 import SVGTemplate from './SVGTemplate';
@@ -206,6 +207,9 @@ class HashTagContent extends Component {
                 <h3 className='content-title'>
                     Basic Income Hashtag App
                 </h3>
+                {
+                    !selectedProvider.connected && <NotConnectedDialog provider={selectedProvider} />
+                }
                 {showCropper && <ImageEditor
                     cropRounded
                     src={previewImage}

@@ -1,12 +1,14 @@
 import { DispatchAPI } from 'api/base'
 import * as SocialProvidersAPI from 'api/social-providers'
 
+const DEFAULT_PROVIDERS = [
+    { name: 'Twitter', icon: 'twitter', className: 'btn-twitter', connected: false },
+    { name: 'Facebook', icon: 'facebook-f', className: 'btn-fb', connected: false }
+]
+
 const createAction = str => `HASHTAG_${str}`
 const INITIAL_STATE = {
-    providers: [
-        { name: 'Google+', icon: 'google-plus', className: 'btn-gplus' },
-        { name: 'Facebook', icon: 'facebook-f', className: 'btn-fb' }
-    ],
+    providers: DEFAULT_PROVIDERS,
     selectedProvider: 0
 }
 
@@ -59,11 +61,31 @@ const uploadImageFailure = (err) => ({
     error: err.message
 })
 
+const FETCH_PROVIDERS = createAction('FETCH_PROVIDERS')
+const fetchProviders = () => (dispatch) => {
+    dispatch({ type: FETCH_PROVIDERS })
+    return DispatchAPI(dispatch, SocialProvidersAPI.fetchProviders(), {
+        success: fetchProvidersSuccess,
+        failure: fetchProvidersFailure
+    })
+}
+const FETCH_PROVIDERS_SUCCESS = createAction('FETCH_PROVIDERS_SUCCESS')
+const fetchProvidersSuccess = response => ({
+    type: FETCH_PROVIDERS_SUCCESS,
+    providers: response.data
+})
+const FETCH_PROVIDERS_FAILURE = createAction('FETCH_PROVIDERS_FAILURE')
+const fetchProvidersFailure = err => ({
+    type: FETCH_PROVIDERS_FAILURE,
+    error: err.message
+})
+
 
 export const actions = {
     changeProvider,
     downloadImage,
-    uploadImage
+    uploadImage,
+    fetchProviders
 }
 
 export default function HashTag(state = INITIAL_STATE, action) {
@@ -75,17 +97,27 @@ export default function HashTag(state = INITIAL_STATE, action) {
             }
         case DOWNLOAD_IMAGE:
         case UPLOAD_IMAGE:
+        case FETCH_PROVIDERS:
             return { ...state, isLoading: true, hasError: false }
 
         case DOWNLOAD_IMAGE_FAILURE:
         case UPLOAD_IMAGE_FAILURE:
+        case FETCH_PROVIDERS_FAILURE:
             return { ...state, isLoading: false, hasError: action.error }
 
         case DOWNLOAD_IMAGE_SUCCESS:
             return { ...state, isLoading: false, downloadedImageUrl: action.imageUrl }
         case UPLOAD_IMAGE_SUCCESS:
             return { ...state, isLoading: false, uploadedImageUrl: action.imageUrl }
-
+        case FETCH_PROVIDERS_SUCCESS:
+            return {
+                ...state,
+                isLoading: false,
+                providers: state.providers.map(provider => {
+                    provider.connected = action.providers.some(x => x.provider === provider.name)
+                    return provider
+                })
+            }
         default:
             return state
     }

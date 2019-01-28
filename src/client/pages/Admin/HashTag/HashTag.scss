@@ -12,36 +12,14 @@ $hashtag_sidebar_width: 250px;
     }
 
     .btn-gplus,
-    .btn-fb {
+    .btn-fb,
+    .btn-twitter {
         color: rgba(255, 255, 255, 0.9);
     }
-    .btn-gplus { background-color: rgb(211, 56, 40) }
-    .btn-fb { background-color: rgb(46, 68, 135) }
-}
+    .btn-gplus { background-color: rgb(211, 56, 40); }
+    .btn-fb { background-color: rgb(46, 68, 135); }
+    .btn-twitter { background-color: rgb(62, 162, 240); }
 
-:local(.contentView),
-:local(.sidebar) {
-    background-color: #fff;
-}
-
-:local(.sidebar) {
-    position: relative;
-    z-index: 200;
-    width: $hashtag_sidebar_width;
-    border-radius: 3px 0 0 3px;
-    display: flex;
-    flex-direction: column;
-    padding: map-get($spacers, 2);
-    @include _shadow_1();
-    @include media-breakpoint-down(md, $grid-breakpoints) {
-        position: fixed;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        top: 109px;
-        width: 100vw;
-        z-index: 100;
-    }
     .btn-provider {
         display: flex;
         align-items: center;
@@ -71,6 +49,31 @@ $hashtag_sidebar_width: 250px;
         text-align: center;
         margin-right: 12px;
         background-color: rgba($white, 0.1);
+    }
+}
+
+:local(.contentView),
+:local(.sidebar) {
+    background-color: #fff;
+}
+
+:local(.sidebar) {
+    position: relative;
+    z-index: 200;
+    width: $hashtag_sidebar_width;
+    border-radius: 3px 0 0 3px;
+    display: flex;
+    flex-direction: column;
+    padding: map-get($spacers, 2);
+    @include _shadow_1();
+    @include media-breakpoint-down(md, $grid-breakpoints) {
+        position: fixed;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        top: 109px;
+        width: 100vw;
+        z-index: 100;
     }
 }
 
@@ -192,5 +195,51 @@ $hashtag_sidebar_width: 250px;
             transform: translate3d(0, -2px, 0);
             @include _shadow-2();
         }
+    }
+}
+
+:local(.notConnected) {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 10;
+
+    background-color: rgba($dark, 0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .not-connected-inner {
+        background-color: #fff;
+        border-radius: 6px;
+        padding: 2rem;
+        width: 300px;
+
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .btn-provider {
+        display: inline-flex;
+        margin-bottom: 0;
+    }
+
+    .provider-big-icon {
+        width: 92px;
+        height: 92px;
+        border-radius: 50%;
+        font-size: 2rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .provider-name {
+        text-align: center;
+        padding-right: 1rem;
     }
 }

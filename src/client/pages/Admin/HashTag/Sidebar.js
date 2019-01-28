@@ -15,6 +15,10 @@ class HashTagSidebar extends Component {
         selectedProvider: PropTypes.string.isRequired
     }
 
+    componentDidMount = () => {
+        this.props.fetchProviders()
+    }
+
     renderOneProvider = (provider, index) => {
         const { selectedProvider, onProviderChange } = this.props
         const cx = classnames('btn btn-provider', provider.className, {
@@ -50,11 +54,15 @@ class HashTagSidebar extends Component {
 }
 
 const mapStateToProps = (state) => ({
+    isLoading: state.HashTag.isLoading,
     providers: state.HashTag.providers,
     selectedProvider: state.HashTag.selectedProvider
 })
 
 const mapDispatchToProps = dispatch => ({
+    fetchProviders() {
+        return dispatch(hashtagActions.fetchProviders())
+    },
     onProviderChange(e, index) {
         return dispatch(hashtagActions.changeProvider(index))
     }

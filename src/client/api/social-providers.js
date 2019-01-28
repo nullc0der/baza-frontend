@@ -11,3 +11,8 @@ export const uploadProfileImage = (provider, image) => {
     data.append('image', image)
     return formAPI(api => api.post(url, data))
 }
+
+export const fetchProviders = () => {
+    const url = '/profile/socialauths'
+    return jsonAPI(api => api.get(url))
+}
