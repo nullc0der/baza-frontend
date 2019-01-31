@@ -23,6 +23,7 @@ class DonationDialog extends Component {
         selectedCurrency: 'USD',
         otherInputAmount: 200,
         selectedAmount: 27,
+        isAnonymous: false,
         inputValues: {
             name: '',
             email: '',
@@ -149,6 +150,12 @@ class DonationDialog extends Component {
         })
     }
 
+    handleIsAnonymousChange = () => {
+        this.setState({
+            isAnonymous: !this.state.isAnonymous
+        })
+    }
+
     render() {
         const cx = classnames(s.donationDialog, 'donation-dialog')
         const { selectedDonation } = this.props
@@ -257,6 +264,19 @@ class DonationDialog extends Component {
                                         errors={this.state.errorValues}
                                     />
                                 )}
+                                <input
+                                    name="is_anonymous_checkbox"
+                                    type="checkbox"
+                                    checked={this.state.isAnonymous}
+                                    onChange={this.handleIsAnonymousChange}
+                                    className="mr-1"
+                                />
+                                <label
+                                    htmlFor="is_anonymous_checkbox"
+                                    className="mb-0">
+                                    {' '}
+                                    Donate Anonymously
+                                </label>
                                 {this.state.donationDone.length > 0 && (
                                     <div className="well mt-2 error-well text-center">
                                         <p className="mb-0">
@@ -274,7 +294,8 @@ class DonationDialog extends Component {
                                         name: this.state.inputValues.name,
                                         email: this.state.inputValues.email,
                                         phone_no: this.state.inputValues
-                                            .phoneNumber
+                                            .phoneNumber,
+                                        is_anonymous: this.state.isAnonymous
                                     }}
                                     initiatePaymentURL={initiatePaymentURL}
                                     onChargeSuccess={this.onChargeSuccess}
