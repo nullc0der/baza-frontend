@@ -36,6 +36,7 @@ store.subscribe(() => {
         Messenger,
         UserProfile,
         DistributionSignUp,
+        Donations,
         ...others
     } = store.getState()
     saveLocalUIState('baza-ui', others)

@@ -19,7 +19,7 @@ export const actions = {
 export default function DonationsReducer(state = INITIAL_STATE, action) {
     switch (action.type) {
         case RECEIVED_DONATION_DATA_ON_WS:
-            return { ...state, list: [...state.list, action.data] }
+            return { ...state, list: [action.data] }
         default:
             return state
     }
