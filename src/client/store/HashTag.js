@@ -113,7 +113,7 @@ export default function HashTag(state = INITIAL_STATE, action) {
                 ...state,
                 isLoading: false,
                 providers: state.providers.map(provider => {
-                    provider.connected = action.providers.some(x => x.provider === provider.name)
+                    provider.connected = action.providers.some(x => x.provider === provider.name.toLowerCase())
                     return provider
                 })
             }
