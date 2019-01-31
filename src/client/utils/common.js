@@ -31,11 +31,18 @@ export function getImageURLFromFile(file) {
   }
   return new Promise((resolve, reject) => {
     const reader = new FileReader()
-    reader.onload = function() {
+    reader.onload = function () {
       resolve(reader.result)
     }
     reader.readAsDataURL(file)
   })
+}
+
+export function matchStr(s1, s2) {
+  s1 = (s1 + '').replace(/\s/g, '').toLowerCase()
+  s2 = (s2 + '').replace(/\s/g, '').toLowerCase()
+
+  return s1 === s2
 }
 
 // export function selectState(namespaceKey, childProps) {

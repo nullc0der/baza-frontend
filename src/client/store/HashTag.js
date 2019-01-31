@@ -1,5 +1,6 @@
 import { DispatchAPI } from 'api/base'
 import * as SocialProvidersAPI from 'api/social-providers'
+import { matchStr } from 'utils/common'
 
 const DEFAULT_PROVIDERS = [
     { name: 'Twitter', icon: 'twitter', className: 'btn-twitter', connected: false },
@@ -87,6 +88,13 @@ export const actions = {
     fetchProviders
 }
 
+function toggleConnectedProviders(providers, connectedProviders) {
+    return providers.map(provider => {
+        provider.connected = connectedProviders.some(x => matchStr(x.provider, provider.name))
+        return provider
+    })
+}
+
 export default function HashTag(state = INITIAL_STATE, action) {
     switch (action.type) {
         case CHANGE_PROVIDER:
@@ -112,10 +120,7 @@ export default function HashTag(state = INITIAL_STATE, action) {
             return {
                 ...state,
                 isLoading: false,
-                providers: state.providers.map(provider => {
-                    provider.connected = action.providers.some(x => x.provider === provider.name.toLowerCase())
-                    return provider
-                })
+                providers: toggleConnectedProviders(state.providers, action.providers)
             }
         default:
             return state
