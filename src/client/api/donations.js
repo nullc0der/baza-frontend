@@ -14,3 +14,8 @@ export const getDonationStats = () => {
     const url = '/donate/getstats/'
     return jsonAPI(api => api.get(url))
 }
+
+export const getTotalDonors = () => {
+    const url = '/donate/donors/'
+    return jsonAPI(api => api.get(url))
+}
