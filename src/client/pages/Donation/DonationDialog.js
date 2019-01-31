@@ -250,11 +250,13 @@ class DonationDialog extends Component {
                         )}
                         <div className="row mb-1">
                             <div className="col-md-12 mt-4">
-                                <ContactInformation
-                                    onInputChange={this.onInputChange}
-                                    values={this.state.inputValues}
-                                    errors={this.state.errorValues}
-                                />
+                                {!Auth.isAuthenticated() && (
+                                    <ContactInformation
+                                        onInputChange={this.onInputChange}
+                                        values={this.state.inputValues}
+                                        errors={this.state.errorValues}
+                                    />
+                                )}
                                 {this.state.donationDone.length > 0 && (
                                     <div className="well mt-2 error-well text-center">
                                         <p className="mb-0">
