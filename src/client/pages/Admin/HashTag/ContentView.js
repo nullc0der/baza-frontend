@@ -107,9 +107,17 @@ function checkIfImageExists(imageUrl, suffix = '') {
 
     const url = name + suffix + '.' + extension
     return new Promise((resolve, reject) => {
-        img.onload = () => resolve(url)
-        img.onerror = () => reject(new Error('CANNOT_LOAD_IMAGE'))
+        img.onload = () => {
+            resolve(url)
+            document.body.removeChild(img)
+        }
+        img.onerror = () => {
+            reject(new Error('CANNOT_LOAD_IMAGE'))
+            document.body.removeChild(img)
+        }
         img.src = url
+        img.style.display = 'none'
+        document.body.appendChild(img)
     })
 }
 
