@@ -99,6 +99,20 @@ function downloadAs(filename, data) {
     }, 500)
 }
 
+function checkIfImageExists(imageUrl, suffix = '') {
+    const img = document.createElement('img')
+    const splits = imageUrl.split('.')
+    const extension = splits.pop()
+    const name = splits.join('')
+
+    const url = name + suffix + '.' + extension
+    return new Promise((resolve, reject) => {
+        img.onload = () => resolve(url)
+        img.onerror = () => reject(new Error('CANNOT_LOAD_IMAGE'))
+        img.src = url
+    })
+}
+
 class HashTagContent extends Component {
 
     state = {
@@ -166,13 +180,21 @@ class HashTagContent extends Component {
         console.log('will fetch and set image from social network')
         const provider = this.props.selectedProvider.name.toLowerCase()
         this.setState({ isDownloading: true })
-        this.props.downloadPhotoFromSocial(provider)
-            .then(response => {
-                this.setState({ isDownloading: false, previewImage: response.photo_url, showCropper: true })
-            }).catch(err => {
-                this.setState({ isDownloading: false })
-                alert(err.message)
-            })
+        const imagePromise = this.props.downloadPhotoFromSocial(provider)
+            .then(response => checkIfImageExists(response.photo_url).catch(
+                () => checkIfImageExists(response.photo_url, '_P')
+            ))
+
+        imagePromise
+            .then(this.handleImageLoadSuccess)
+            .catch(this.handleImageLoadError)
+    }
+
+    handleImageLoadSuccess = (imageUrl) => {
+        this.setState({ isDownloading: false, previewImage: imageUrl, showCropper: true })
+    }
+    handleImageLoadError = (err) => {
+        this.setState({ isDownloading: false })
     }
 
     uploadImageToSocial = () => {
