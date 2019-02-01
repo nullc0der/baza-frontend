@@ -45,7 +45,7 @@ export default class GoogleLogin extends Component {
         if (this.state.google.access_token) {
             this.props.handleGoogleLogin(
                 this.state.google.access_token,
-                'google-plus'
+                'google-oauth2'
             )
         } else {
             const auth2 = window.gapi.auth2.getAuthInstance()
@@ -54,7 +54,7 @@ export default class GoogleLogin extends Component {
                 .then(res =>
                     this.props.handleGoogleLogin(
                         res.getAuthResponse().access_token,
-                        'google-plus'
+                        'google-oauth2'
                     )
                 )
         }
@@ -73,7 +73,7 @@ export default class GoogleLogin extends Component {
                 this.props.children
             ) : (
                 <i
-                    className="fa fa-google-plus"
+                    className="fa fa-google"
                     onClick={this.startGoogleSignIn}
                 />
             )
