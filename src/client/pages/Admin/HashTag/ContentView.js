@@ -188,8 +188,12 @@ class HashTagContent extends Component {
 
         const { selectedProvider } = this.props
         const { croppedImage } = this.state
+        if (!croppedImage) {
+            return
+        }
 
-        const imageBlob = dataURLtoBlob(croppedImage)
+        const finalImage = getFinalImagePNG()
+        const imageBlob = dataURLtoBlob(finalImage)
 
         this.setState({ isUploading: true })
         this.props.uploadPhotoToSocial(
