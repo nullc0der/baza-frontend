@@ -13,28 +13,28 @@ import s from './HashTag.scss'
 import SVGTemplate from './SVGTemplate'
 import { actions as hashtagActions } from 'store/HashTag'
 
-// function imageToDataURL(imageSrc) {
-//     const img = document.createElement('img')
-//     img.crossOrigin = 'Anonymous'
-//     const canvas = document.createElement('canvas')
+function imageToDataURL(imageSrc) {
+    const img = document.createElement('img')
+    img.crossOrigin = 'Anonymous'
+    const canvas = document.createElement('canvas')
 
-//     return new Promise((resolve, reject) => {
-//         img.onload = function () {
-//             canvas.height = img.naturalHeight
-//             canvas.width = img.naturalWidth
+    return new Promise((resolve, reject) => {
+        img.onload = function () {
+            canvas.height = img.naturalHeight
+            canvas.width = img.naturalWidth
 
-//             let ctx = canvas.getContext('2d');
-//             ctx.drawImage(img, img.naturalWidth, img.naturalHeight)
-//             resolve(canvas.toDataURL())
-//         }
+            let ctx = canvas.getContext('2d');
+            ctx.drawImage(img, img.naturalWidth, img.naturalHeight)
+            resolve(canvas.toDataURL())
+        }
 
-//         img.onerror = function () {
-//             reject(new Error('Cannot load image'))
-//         }
+        img.onerror = function () {
+            reject(new Error('Cannot load image'))
+        }
 
-//         img.src = imageSrc
-//     })
-// }
+        img.src = imageSrc
+    })
+}
 
 // function downloadDataURI(dataURI) {
 //     var buffer = new ArrayBuffer(dataURI.length)
@@ -193,6 +193,7 @@ class HashTagContent extends Component {
 
         this.props.downloadPhotoFromSocial(provider)
             .then(response => response.data.photo_url)
+            .then(imageToDataURL)
             .then(this.handleImageLoadSuccess)
             .catch(this.handleImageLoadError)
     }
