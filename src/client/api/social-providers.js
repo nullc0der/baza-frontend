@@ -8,7 +8,7 @@ export const fetchProfileImageURL = (provider) => {
 
 export const uploadProfileImage = (provider, photo) => {
     // const url = `/mock/upload-image/${provider}`
-    const url = '/hashtag/uploadimage'
+    const url = '/hashtag/uploadimage/'
     const data = new FormData()
     data.append('provider', provider)
     data.append('photo', photo)
@@ -16,6 +16,6 @@ export const uploadProfileImage = (provider, photo) => {
 }
 
 export const fetchProviders = () => {
-    const url = '/profile/socialauths'
+    const url = '/profile/socialauths/'
     return jsonAPI(api => api.get(url))
 }
