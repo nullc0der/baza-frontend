@@ -24,7 +24,7 @@ function imageToDataURL(imageSrc) {
             canvas.width = img.naturalWidth
 
             let ctx = canvas.getContext('2d');
-            ctx.drawImage(img, img.naturalWidth, img.naturalHeight)
+            ctx.drawImage(img, 0, 0)
             resolve(canvas.toDataURL())
         }
 
