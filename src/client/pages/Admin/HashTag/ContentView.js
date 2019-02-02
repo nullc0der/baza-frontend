@@ -192,6 +192,7 @@ class HashTagContent extends Component {
         this.setState({ isDownloading: true })
 
         this.props.downloadPhotoFromSocial(provider)
+            .then(response => response.data.photo_url)
             .then(this.handleImageLoadSuccess)
             .catch(this.handleImageLoadError)
     }
