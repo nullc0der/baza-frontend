@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 
 import { getImageURLFromFile } from 'utils/common'
 
+import ImageEditor from 'components/ImageEditor'
 import { CardContent } from 'components/ui/CardWithTabs'
 
 import { actions as userProfileActions } from 'store/UserProfile'
@@ -13,46 +14,55 @@ class ProfileImages extends Component {
     state = {
         imageUploading: false,
         uploadDonePercent: 0,
-        filePreview: ''
+        filePreview: '',
+        preCropImage: false,
+        showCropper: false
     }
 
     componentDidMount() {
         this.props
             .fetchProfileImages()
-            .then(res => {})
-            .catch(res => {})
+            .then(res => { })
+            .catch(res => { })
     }
 
     onAddNewClick = () => {
-        this.refs.profilePhotoUploader.click()
+        this.profilePhotoUploader.click()
     }
 
     onFileInputChange = e => {
-        if (e.target.files) {
-            getImageURLFromFile(e.target.files[0]).then(filePreview => {
+        if (!e.target.files) {
+            return
+        }
+
+        getImageURLFromFile(e.target.files[0]).then(preCropImage => {
+            this.setState({ preCropImage, showCropper: true })
+        }).catch(err => {
+            alert(err.message)
+        })
+    }
+
+    onEditDone = (croppedImage) => {
+        this.setState({ filePreview: croppedImage })
+        this.closeCropper()
+        const data = new FormData()
+        data.append('photo', croppedImage)
+        this.props
+            .saveProfileImage(data, this.onProfileImageUpload)
+            .then(res =>
                 this.setState({
-                    filePreview,
-                    imageUploading: true
+                    imageUploading: false,
+                    uploadDonePercent: 0,
+                    filePreview: ''
+                })
+            )
+            .catch(res => {
+                this.setState({
+                    imageUploading: false,
+                    uploadDonePercent: 0,
+                    filePreview: ''
                 })
             })
-            const image = e.target.files[0]
-            const data = new FormData()
-            data.append('photo', image)
-            this.props
-                .saveProfileImage(data, this.onProfileImageUpload)
-                .then(res =>
-                    this.setState({
-                        imageUploading: false,
-                        uploadDonePercent: 0
-                    })
-                )
-                .catch(res => {
-                    this.setState({
-                        imageUploading: false,
-                        uploadDonePercent: 0
-                    })
-                })
-        }
     }
 
     onProfileImageSetActiveClick = imageID => {
@@ -80,7 +90,15 @@ class ProfileImages extends Component {
         })
     }
 
+    closeCropper = () => {
+        this.profilePhotoUploader.value = ''
+        this.setState({ showCropper: false, preCropImage: false })
+    }
+
     render() {
+        const {
+            showCropper, preCropImage
+        } = this.state
         const activeProfilePhoto = this.props.profileImages
             ? this.props.profileImages.filter(x => x.is_active)
             : []
@@ -89,6 +107,12 @@ class ProfileImages extends Component {
             : []
         return (
             <CardContent>
+                {
+                    showCropper && <ImageEditor
+                        src={preCropImage}
+                        onRequestClose={this.closeCropper}
+                        onEditDone={this.onEditDone} />
+                }
                 <div className="profile-images">
                     {activeProfilePhoto.length > 0 && (
                         <ImageBlock
@@ -106,7 +130,7 @@ class ProfileImages extends Component {
                             type="file"
                             accept="image/*"
                             className="input-field"
-                            ref="profilePhotoUploader"
+                            ref={node => this.profilePhotoUploader = node}
                             onChange={this.onFileInputChange}
                         />
                         {this.state.imageUploading ? (
@@ -128,8 +152,8 @@ class ProfileImages extends Component {
                                 </div>
                             </Fragment>
                         ) : (
-                            <i className="fa fa-plus" />
-                        )}
+                                <i className="fa fa-plus" />
+                            )}
                     </div>
                     {otherProfilePhotos.map((x, i) => (
                         <ImageBlock

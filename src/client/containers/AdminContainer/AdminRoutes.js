@@ -8,6 +8,7 @@ import DistributionSignUpPage from 'pages/Admin/DistributionSignUp'
 import MemberProfilePage from 'pages/Admin/MemberProfile'
 import MembersPage from 'pages/Admin/Members'
 import MessengerPage from 'pages/Admin/Messenger'
+import HashTagPage from 'pages/Admin/HashTag'
 import GroupPage from 'pages/Admin/Group'
 
 //TODO: I think routing is not done properly by me, improve when
@@ -16,6 +17,7 @@ import GroupPage from 'pages/Admin/Group'
 const AdminRoutes = location => (
     <Switch location={location}>
         <Route path="/dashboard" exact component={AdminHome} />
+        <Route path="/hashtag" component={HashTagPage} />
         <Route path="/coinsale" component={CoinSalePage} />
         <Route path="/wallets" component={WalletsPage} />
         <Route path="/distribution-signup" component={DistributionSignUpPage} />

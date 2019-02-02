@@ -18,6 +18,7 @@ import Messenger from './Messenger'
 
 import Notifications from './Notifications'
 import Donations from './Donations'
+import HashTag from './HashTag'
 
 export default combineReducers({
     router,
@@ -33,5 +34,6 @@ export default combineReducers({
     Users,
     Messenger,
     Notifications,
-    Donations
+    Donations,
+    HashTag
 })

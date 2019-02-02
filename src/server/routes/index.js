@@ -1,4 +1,5 @@
 import { Router } from 'express'
+import request from 'request'
 import { getClientConfig } from '../config'
 import MockAPI from '../mock'
 const router = Router()
@@ -16,6 +17,11 @@ const StaticRenderer = (req, res, next) => {
 }
 /*eslint-enable*/
 
+const proxySageImage = (req, res) => {
+    res.set('Access-Control-Allow-Origin', '*')
+    request.get(req.query.src).pipe(res)
+}
+
 /**
  * [getRouter Returns main router for application]
  * @param  {object} app     [express.js app object]
@@ -26,6 +32,7 @@ export default function getRouter(app) {
     router.get('/ping', (req, res) => res.status(200).send('pong'))
 
     router.use('/api/v2/mock', MockAPI)
+    router.get('/get-safe-image', proxySageImage)
 
     // No server rendering
     router.get('*', StaticRenderer)
