@@ -35,7 +35,7 @@ import { dataURLtoBlob, imageToDataURL } from 'utils/common'
 //     return url
 // }
 
-function getFinalImagePNG({ asBlob = false }) {
+function getFinalImagePNG() {
     const svg = document.getElementById('final-image-svg')
     const svgStr = new XMLSerializer().serializeToString(svg);
     const canvas = document.createElement('canvas')
@@ -50,9 +50,6 @@ function getFinalImagePNG({ asBlob = false }) {
     var svgBlob = new Blob([svgStr], { type: 'image/svg+xml;charset=utf-8' })
 
     return new Promise((resolve, reject) => {
-        if (asBlob) {
-            resolve(svgBlob)
-        }
         var url = _URL.createObjectURL(svgBlob)
         img.onload = function () {
             ctx.drawImage(img, 0, 0)
@@ -170,14 +167,12 @@ class HashTagContent extends Component {
         if (!croppedImage) {
             return
         }
-
-        const imagePromise = getFinalImagePNG({ asBlob: true })
         // const imageBlob = dataURLtoBlob(finalImage)
 
         this.setState({ isUploading: true })
-        imagePromise.then(imageBlob => this.props.uploadPhotoToSocial(
+        getFinalImagePNG().then(dataUrl => this.props.uploadPhotoToSocial(
             selectedProvider.name.toLowerCase(),
-            imageBlob
+            dataURLtoBlob(dataUrl)
         )).then(() => {
             this.setState({ isUploading: false })
         }).catch(err => {
