@@ -12,29 +12,7 @@ import NotConnectedDialog from './NotConnectedDialog'
 import s from './HashTag.scss'
 import SVGTemplate from './SVGTemplate'
 import { actions as hashtagActions } from 'store/HashTag'
-
-function imageToDataURL(imageSrc) {
-    const img = document.createElement('img')
-    img.crossOrigin = 'Anonymous'
-    const canvas = document.createElement('canvas')
-
-    return new Promise((resolve, reject) => {
-        img.onload = function () {
-            canvas.height = img.naturalHeight
-            canvas.width = img.naturalWidth
-
-            let ctx = canvas.getContext('2d');
-            ctx.drawImage(img, 0, 0)
-            resolve(canvas.toDataURL())
-        }
-
-        img.onerror = function () {
-            reject(new Error('Cannot load image'))
-        }
-
-        img.src = imageSrc
-    })
-}
+import { dataURLtoBlob, imageToDataURL } from 'utils/common'
 
 // function downloadDataURI(dataURI) {
 //     var buffer = new ArrayBuffer(dataURI.length)
@@ -211,10 +189,12 @@ class HashTagContent extends Component {
         const { selectedProvider } = this.props
         const { croppedImage } = this.state
 
+        const imageBlob = dataURLtoBlob(croppedImage)
+
         this.setState({ isUploading: true })
         this.props.uploadPhotoToSocial(
             selectedProvider.name.toLowerCase(),
-            croppedImage
+            imageBlob
         ).then(() => {
             this.setState({ isUploading: false })
         }).catch(err => {
