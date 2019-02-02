@@ -70,6 +70,11 @@ module.exports = [
         href: '',
         children: [
             {
+                name: 'Hashtag Banner',
+                icon: 'fa fa-fw fa-dashboard',
+                href: '/hashtag'
+            },
+            {
                 name: 'Messenger',
                 icon: 'fa fa-fw fa-comment',
                 href: '/messenger'

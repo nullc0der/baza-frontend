@@ -45,6 +45,7 @@ const AppRoutes = location => (
         <Route path="/community/2/members" component={AdminContainer} />
         <Route path="/community/2/groups" component={AdminContainer} />
         <Route path="/messenger" component={AdminContainer} />
+        <Route path="/hashtag" component={AdminContainer} />
         <Route component={NotFoundPage} />
     </Switch>
 )
