@@ -35,7 +35,7 @@ import { dataURLtoBlob, imageToDataURL } from 'utils/common'
 //     return url
 // }
 
-function getFinalImagePNG() {
+function getFinalImagePNG({ asBlob = false }) {
     const svg = document.getElementById('final-image-svg')
     const svgStr = new XMLSerializer().serializeToString(svg);
     const canvas = document.createElement('canvas')
@@ -48,9 +48,12 @@ function getFinalImagePNG() {
     const img = new Image()
 
     var svgBlob = new Blob([svgStr], { type: 'image/svg+xml;charset=utf-8' })
-    var url = _URL.createObjectURL(svgBlob)
 
     return new Promise((resolve, reject) => {
+        if (asBlob) {
+            resolve(svgBlob)
+        }
+        var url = _URL.createObjectURL(svgBlob)
         img.onload = function () {
             ctx.drawImage(img, 0, 0)
             let finalImage = canvas.toDataURL("image/png")
@@ -76,30 +79,6 @@ function downloadAs(filename, data) {
         document.body.removeChild(el)
     }, 500)
 }
-
-function checkIfImageExists(imageUrl, suffix = '') {
-    const img = document.createElement('img')
-    const splits = imageUrl.split('.')
-    const extension = splits.pop()
-    const name = splits.join('')
-
-    const url = name + suffix + '.' + extension
-    return new Promise((resolve, reject) => {
-        img.onload = () => {
-            resolve(url)
-            document.body.removeChild(img)
-        }
-        img.onerror = () => {
-            reject(new Error('CANNOT_LOAD_IMAGE'))
-            document.body.removeChild(img)
-        }
-        img.src = url
-        img.style.display = 'none'
-        document.body.appendChild(img)
-    })
-}
-
-window.checkIfImageExists = checkIfImageExists
 
 class HashTagContent extends Component {
 
@@ -192,8 +171,8 @@ class HashTagContent extends Component {
             return
         }
 
-        const finalImage = getFinalImagePNG()
-        const imageBlob = dataURLtoBlob(finalImage)
+        const imageBlob = getFinalImagePNG({ asBlob: true })
+        // const imageBlob = dataURLtoBlob(finalImage)
 
         this.setState({ isUploading: true })
         this.props.uploadPhotoToSocial(
