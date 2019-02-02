@@ -171,14 +171,14 @@ class HashTagContent extends Component {
             return
         }
 
-        const imageBlob = getFinalImagePNG({ asBlob: true })
+        const imagePromise = getFinalImagePNG({ asBlob: true })
         // const imageBlob = dataURLtoBlob(finalImage)
 
         this.setState({ isUploading: true })
-        this.props.uploadPhotoToSocial(
+        imagePromise.then(imageBlob => this.props.uploadPhotoToSocial(
             selectedProvider.name.toLowerCase(),
             imageBlob
-        ).then(() => {
+        )).then(() => {
             this.setState({ isUploading: false })
         }).catch(err => {
             this.setState({ isUploading: false })
