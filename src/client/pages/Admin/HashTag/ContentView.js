@@ -121,6 +121,8 @@ function checkIfImageExists(imageUrl, suffix = '') {
     })
 }
 
+window.checkIfImageExists = checkIfImageExists
+
 class HashTagContent extends Component {
 
     state = {
@@ -188,12 +190,8 @@ class HashTagContent extends Component {
         console.log('will fetch and set image from social network')
         const provider = this.props.selectedProvider.name.toLowerCase()
         this.setState({ isDownloading: true })
-        const imagePromise = this.props.downloadPhotoFromSocial(provider)
-            .then(response => checkIfImageExists(response.photo_url).catch(
-                () => checkIfImageExists(response.photo_url, '_P')
-            ))
 
-        imagePromise
+        this.props.downloadPhotoFromSocial(provider)
             .then(this.handleImageLoadSuccess)
             .catch(this.handleImageLoadError)
     }
