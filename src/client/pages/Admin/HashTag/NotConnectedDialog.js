@@ -35,9 +35,10 @@ class NotConnectedDialog extends Component {
         }
 
         this.setState({ isLoading: true, hasError: false })
-        connectOrDisconnectSocialAuth(datas).then(
-            () => this.setState({ isLoading: false })
-        ).catch(err =>
+        connectOrDisconnectSocialAuth(datas).then(() => {
+            this.setState({ isLoading: false })
+            this.props.fetchProviders()
+        }).catch(err =>
             this.setState({
                 isLoading: false,
                 hasError: get(err, 'error', '')
@@ -50,6 +51,7 @@ class NotConnectedDialog extends Component {
         if (res.status === 200) {
             res.json().then(data => {
                 this.setState({ isLoading: false })
+                this.props.fetchProviders()
             })
         } else {
             res.json().then(data => {
@@ -123,6 +125,9 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
+    fetchProviders() {
+        return dispatch(hashtagActions.fetchProviders())
+    },
     connectTwitter() {
         return dispatch(hashtagActions.connectTwitter())
     },
