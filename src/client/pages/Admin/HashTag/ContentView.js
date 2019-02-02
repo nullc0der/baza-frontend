@@ -48,9 +48,9 @@ function getFinalImagePNG() {
     const img = new Image()
 
     var svgBlob = new Blob([svgStr], { type: 'image/svg+xml;charset=utf-8' })
-    var url = _URL.createObjectURL(svgBlob)
 
     return new Promise((resolve, reject) => {
+        var url = _URL.createObjectURL(svgBlob)
         img.onload = function () {
             ctx.drawImage(img, 0, 0)
             let finalImage = canvas.toDataURL("image/png")
@@ -76,30 +76,6 @@ function downloadAs(filename, data) {
         document.body.removeChild(el)
     }, 500)
 }
-
-function checkIfImageExists(imageUrl, suffix = '') {
-    const img = document.createElement('img')
-    const splits = imageUrl.split('.')
-    const extension = splits.pop()
-    const name = splits.join('')
-
-    const url = name + suffix + '.' + extension
-    return new Promise((resolve, reject) => {
-        img.onload = () => {
-            resolve(url)
-            document.body.removeChild(img)
-        }
-        img.onerror = () => {
-            reject(new Error('CANNOT_LOAD_IMAGE'))
-            document.body.removeChild(img)
-        }
-        img.src = url
-        img.style.display = 'none'
-        document.body.appendChild(img)
-    })
-}
-
-window.checkIfImageExists = checkIfImageExists
 
 class HashTagContent extends Component {
 
@@ -188,14 +164,16 @@ class HashTagContent extends Component {
 
         const { selectedProvider } = this.props
         const { croppedImage } = this.state
-
-        const imageBlob = dataURLtoBlob(croppedImage)
+        if (!croppedImage) {
+            return
+        }
+        // const imageBlob = dataURLtoBlob(finalImage)
 
         this.setState({ isUploading: true })
-        this.props.uploadPhotoToSocial(
+        getFinalImagePNG().then(dataUrl => this.props.uploadPhotoToSocial(
             selectedProvider.name.toLowerCase(),
-            imageBlob
-        ).then(() => {
+            dataURLtoBlob(dataUrl)
+        )).then(() => {
             this.setState({ isUploading: false })
         }).catch(err => {
             this.setState({ isUploading: false })
