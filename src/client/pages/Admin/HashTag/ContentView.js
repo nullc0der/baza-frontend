@@ -173,11 +173,19 @@ class HashTagContent extends Component {
         getFinalImagePNG().then(dataUrl => this.props.uploadPhotoToSocial(
             selectedProvider.name.toLowerCase(),
             dataURLtoBlob(dataUrl)
-        )).then(() => {
+        )).then(response => {
             this.setState({ isUploading: false })
+            this.openFBShare(response.data.url)
         }).catch(err => {
             this.setState({ isUploading: false })
             alert(err.message)
+        })
+    }
+
+    openFBShare = (href) => {
+        window.FB.ui({
+            method: 'share',
+            href
         })
     }
 
