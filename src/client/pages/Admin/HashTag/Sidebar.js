@@ -4,12 +4,20 @@ import classnames from 'classnames'
 
 import { actions as hashtagActions } from 'store/HashTag'
 
+import { injectFBSDK } from 'components/FacebookLogin'
+
 import s from './HashTag.scss'
 
 class HashTagSidebar extends Component {
+    state = {
+        fbReady: false
+    }
 
     componentDidMount = () => {
         this.props.fetchProviders()
+        injectFBSDK(() => {
+            this.setState({ fbReady: true })
+        })
     }
 
     renderOneProvider = (provider, index) => {
