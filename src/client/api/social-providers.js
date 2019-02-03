@@ -1,6 +1,6 @@
 import { jsonAPI, formAPI } from './base'
 
-export const fetchProfileImageURL = (provider) => {
+export const fetchProfileImageURL = provider => {
     // const url = `/mock/download-image/${provider}`
     const url = '/hashtag/downloadsocialimage?provider=' + provider
     return jsonAPI(api => api.get(url))

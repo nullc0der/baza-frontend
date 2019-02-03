@@ -2,10 +2,7 @@ import React, { Component } from 'react'
 
 function initFB(callback) {
     window.FB.init({
-        appId:
-            process.env.NODE_ENV === 'development'
-                ? '238327430291512'
-                : '468956423553849',
+        appId: '468956423553849',
         version: 'v3.0'
     })
     callback()
@@ -14,7 +11,7 @@ function initFB(callback) {
 export function injectFBSDK(callback) {
     const fbReady = window.FB && typeof window.FB === 'object'
     if (!fbReady) {
-        (function (d, s, id) {
+        ;(function(d, s, id) {
             var js,
                 fjs = d.getElementsByTagName(s)[0]
             if (d.getElementById(id)) return
@@ -54,7 +51,7 @@ export default class FacebookLogin extends Component {
             )
         } else {
             window.FB.login(
-                function (response) {
+                function(response) {
                     if (response.authResponse) {
                         handleFacebookLogin(
                             response.authResponse.accessToken,
@@ -79,8 +76,8 @@ export default class FacebookLogin extends Component {
             this.props.children ? (
                 this.props.children
             ) : (
-                    <i className="fa fa-facebook" onClick={this.facebookLogin} />
-                )
+                <i className="fa fa-facebook" onClick={this.facebookLogin} />
+            )
         )
         return facebookBtn
     }
