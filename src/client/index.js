@@ -34,7 +34,6 @@ store.subscribe(() => {
     const {
         Auth,
         Messenger,
-        UserProfile,
         DistributionSignUp,
         Donations,
         ...others
