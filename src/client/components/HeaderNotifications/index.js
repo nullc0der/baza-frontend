@@ -19,7 +19,10 @@ class HeaderNotifications extends Component {
     }
 
     componentDidMount = () => {
-        this.props.fetchNotifications()
+        this.props
+            .fetchNotifications()
+            .then(res => {})
+            .catch(res => {})
     }
 
     toggleOpen = () => {
@@ -91,12 +94,10 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-    fetchNotifications: () => {
-        dispatch(notificationsActions.fetchNotifications())
-    },
-    removeNotification: id => {
-        dispatch(notificationsActions.removeNotification(id))
-    },
+    fetchNotifications: () =>
+        dispatch(notificationsActions.fetchNotifications()),
+    removeNotification: id =>
+        dispatch(notificationsActions.removeNotification(id)),
     showNotification: notification =>
         dispatch(commonActions.addNotification(notification))
 })
