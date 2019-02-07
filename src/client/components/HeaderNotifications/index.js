@@ -19,10 +19,7 @@ class HeaderNotifications extends Component {
     }
 
     componentDidMount = () => {
-        this.props
-            .fetchNotifications()
-            .then(() => {})
-            .catch(() => {})
+        this.props.fetchNotifications()
     }
 
     toggleOpen = () => {
