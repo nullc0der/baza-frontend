@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import get from 'lodash/get'
 import isEmpty from 'lodash/isEmpty'
 import startsWith from 'lodash/startsWith'
 import classnames from 'classnames'
@@ -17,6 +16,8 @@ import { actions as userProfileActions } from 'store/UserProfile'
 import { actions as groupActions } from 'store/Group'
 
 import Avatar from 'components/Avatar'
+
+import { getUsername } from 'utils/common'
 
 class LeftNav extends Component {
     state = {
@@ -266,11 +267,7 @@ class LeftNav extends Component {
                     <div className="user-block flex-horizontal">
                         <Avatar size={48} />
                         <div className="user-details flex-1">
-                            <div className="name">
-                                {' '}
-                                {get(profile, 'username', '') ||
-                                    get(profile.user, 'username', '')}{' '}
-                            </div>
+                            <div className="name"> {getUsername(profile)} </div>
                             <div className="status-dropdown-group btn-group">
                                 <a
                                     className={`text-capitalize status is-${userStatus}`}
