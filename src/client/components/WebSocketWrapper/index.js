@@ -5,6 +5,10 @@ import Sockette from 'sockette/dist/sockette'
 import Auth from 'utils/authHelpers'
 
 export default class WebSocketWrapper extends Component {
+    state = {
+        webSocketOpen: false
+    }
+
     componentDidMount = () => {
         let _url = ''
         const scheme = window.location.protocol === 'https:' ? 'wss' : 'ws'
@@ -22,10 +26,15 @@ export default class WebSocketWrapper extends Component {
     }
 
     componentDidUpdate = prevProps => {
-        if (prevProps.message !== this.props.message) {
+        if (
+            prevProps.message !== this.props.message &&
+            this.state.webSocketOpen
+        ) {
             this.ws.json(this.props.message)
         }
     }
+
+    componentDidCatch = (error, info) => {}
 
     componentWillUnmount = () => {
         this.ws.close(1000)
@@ -37,7 +46,8 @@ export default class WebSocketWrapper extends Component {
                 protocols: `Bearer-${Auth.getToken()}`,
                 timeout: 5e3,
                 maxAttempts: 10,
-                onmessage: e => onWebSocketData(JSON.parse(e.data))
+                onmessage: e => onWebSocketData(JSON.parse(e.data)),
+                onopen: e => this.setState({ webSocketOpen: true })
             })
         } else {
             this.ws = new Sockette(url, {
