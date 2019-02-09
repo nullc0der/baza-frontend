@@ -106,11 +106,13 @@ export function imageToBlob(imageSrc) {
 // }
 
 export function getUsername(profile) {
-    if (profile.hasOwnProperty('username')) {
-        return profile.username
-    } else if (profile.hasOwnProperty('user')) {
-        return profile.user.username
-    } else {
-        return ''
+    if (typeof profile !== 'undefined') {
+        if (profile.hasOwnProperty('username')) {
+            return profile.username
+        }
+        if (profile.hasOwnProperty('user')) {
+            return profile.user.username
+        }
     }
+    return ''
 }
