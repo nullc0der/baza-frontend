@@ -10,6 +10,8 @@ import Auth from 'utils/authHelpers'
 import Dropdown from 'components/ui/Dropdown'
 import Avatar from 'components/Avatar'
 
+import { getUsername } from 'utils/common'
+
 const SAMPLE_USER = [
     {
         image: '',
@@ -103,11 +105,7 @@ class HeaderProfileButton extends Component {
         const label = (
             <div className="profile-button flex-horizontal a-center">
                 <Avatar size={30} />
-                <div className="profile-username">
-                    {' '}
-                    {get(user, 'username', '') ||
-                        get(user.user, 'username', '')}{' '}
-                </div>
+                <div className="profile-username">{getUsername(user)}</div>
             </div>
         )
 
