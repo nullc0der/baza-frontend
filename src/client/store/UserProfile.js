@@ -594,6 +594,7 @@ export default function UserProfileReducer(state = INITIAL_STATE, action) {
         case SAVE_PROFILE_EMAIL:
         case DELETE_PROFILE_EMAIL:
         case UPDATE_PROFILE_EMAIL:
+            return { ...state, isLoading: true, hasError: false }
         case FETCH_PROFILE_FAILURE:
         case SAVE_PROFILE_FAILURE:
         case FETCH_PROFILE_IMAGES_FAILURE:
@@ -614,6 +615,7 @@ export default function UserProfileReducer(state = INITIAL_STATE, action) {
         case SAVE_PROFILE_EMAIL_FAILURE:
         case DELETE_PROFILE_EMAIL_FAILURE:
         case UPDATE_PROFILE_EMAIL_FAILURE:
+            return { ...state, isLoading: false, hasError: action.error }
         case FETCH_PROFILE_SUCCESS:
         case SAVE_PROFILE_SUCCESS:
             return { ...state, isLoading: false, profile: action.profile }

@@ -11,15 +11,18 @@ import { getUsername } from 'utils/common'
 class Avatar extends Component {
     render() {
         const { className, size = 24, own = true, otherProfile } = this.props
-        const userProfile = own ? this.props.userProfile : otherProfile
+        const userProfile = own ? this.props.userProfile || {} : otherProfile
+        const userProfilePhoto = userProfile.hasOwnProperty('profile_photo')
+            ? userProfile.profile_photo
+            : null
         const userName = getUsername(userProfile)
         const cx = classnames(s.container, 'ui-avatar', className, {
-            'img-fluid': userProfile.profile_photo
+            'img-fluid': userProfilePhoto
         })
 
-        const imageSrc = Config.get('DOCUMENT_ROOT') + userProfile.profile_photo
+        const imageSrc = Config.get('DOCUMENT_ROOT') + userProfilePhoto
 
-        return userProfile.profile_photo ? (
+        return userProfilePhoto ? (
             <img
                 className={cx}
                 src={imageSrc}
