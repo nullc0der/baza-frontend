@@ -26,24 +26,24 @@ module.exports = [
         icon: 'fa fa-fw fa-globe',
         href: '',
         children: [
-            {
-                name: 'Ekata Social',
-                icon_type: 'image',
-                icon: '/public/img/ekata.png',
-                href: '',
-                children: [
-                    {
-                        name: 'Groups',
-                        href: '/community/1/groups',
-                        icon: 'fa fa-fw fa-cubes'
-                    },
-                    {
-                        name: 'Members',
-                        href: '',
-                        icon: 'fa fa-fw fa-users'
-                    }
-                ]
-            },
+            // {
+            //     name: 'Ekata Social',
+            //     icon_type: 'image',
+            //     icon: '/public/img/ekata.png',
+            //     href: '',
+            //     children: [
+            //         {
+            //             name: 'Groups',
+            //             href: '/community/1/groups',
+            //             icon: 'fa fa-fw fa-cubes'
+            //         },
+            //         {
+            //             name: 'Members',
+            //             href: '',
+            //             icon: 'fa fa-fw fa-users'
+            //         }
+            //     ]
+            // },
             {
                 name: 'Baza Foundation',
                 icon_type: 'image',

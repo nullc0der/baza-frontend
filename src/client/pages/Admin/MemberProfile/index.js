@@ -7,9 +7,9 @@ import s from './MemberProfile.scss'
 import ProfileCard from './ProfileCard'
 import DocumentsCard from './DocumentsCard'
 import DetailsCard from './DetailsCard'
-import MySelectionCard from './MySelectionCard'
+// import MySelectionCard from './MySelectionCard'
 import SettingsCard from './SettingsCard'
-import ReferencesCard from './ReferencesCard'
+// import ReferencesCard from './ReferencesCard'
 import TrustMeter from './TrustMeter'
 import TasksList from './TasksList'
 import JustDonatedCard from './JustDonatedCard'
@@ -44,17 +44,17 @@ export default class MemberProfile extends Component {
                         <DetailsCard />
                     </div>
                     <div className="col-md-8 mt-3 mt-md-0 mt-lg-0 mt-xl-0">
-                        <MySelectionCard />
+                        <SettingsCard />
                     </div>
                 </div>
-                <div className="row my-3 align-stretch">
+                {/* <div className="row my-3 align-stretch">
                     <div className="col-md-7">
-                        <SettingsCard />
+                        <MySelectionCard />
                     </div>
                     <div className="col-md-5 mt-3 mt-md-0 mt-lg-0 mt-xl-0">
                         <ReferencesCard />
                     </div>
-                </div>
+                </div> */}
             </div>
         )
     }

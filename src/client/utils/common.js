@@ -106,13 +106,14 @@ export function imageToBlob(imageSrc) {
 // }
 
 export function getUsername(profile) {
+    let username = ''
     if (typeof profile !== 'undefined') {
         if (profile.hasOwnProperty('username')) {
-            return profile.username
+            username = profile.username
         }
         if (profile.hasOwnProperty('user')) {
-            return profile.user.username
+            username = profile.user.username
         }
     }
-    return ''
+    return username
 }

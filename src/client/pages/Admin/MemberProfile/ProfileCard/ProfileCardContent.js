@@ -6,6 +6,32 @@ import Autocomplete from 'react-google-autocomplete'
 import { CardContent } from 'components/ui/CardWithTabs'
 import EditableInputField from 'components/ui/EditableInputField'
 
+const GENDERS = [
+    {
+        name: 'Male',
+        value: 'male'
+    },
+    {
+        name: 'Female',
+        value: 'female'
+    },
+    {
+        name: 'Other',
+        value: 'other'
+    },
+    {
+        name: 'Quality Person',
+        value: 'quality_person'
+    }
+]
+
+const GENDERSMAP = {
+    male: 'Male',
+    female: 'Female',
+    other: 'Other',
+    quality_person: 'Quality Person'
+}
+
 const ProfileDetail = props => (
     <div className={`profile-detail ${props.className}`}>
         <div className="label">{props.label}</div>
@@ -19,19 +45,21 @@ const GenderDropdown = props => {
             <div className="gender-dropdown-group btn-group">
                 <button
                     type="button"
-                    className="btn btn-block btn-light btn-sm dropdown-toggle text-capitalize"
+                    className="btn btn-block btn-light btn-sm dropdown-toggle"
                     data-toggle="dropdown"
                     aria-haspopup="true"
                     aria-expanded="false">
-                    {props.gender ? props.gender : 'male'}
+                    {props.gender
+                        ? GENDERSMAP[props.gender]
+                        : GENDERSMAP.quality_person}
                 </button>
                 <div className="dropdown-menu dropdown-menu-right">
-                    {['male', 'female', 'other'].map((item, i) => (
+                    {GENDERS.map((item, i) => (
                         <div
                             key={i}
-                            className="dropdown-item text-capitalize"
-                            onClick={() => props.onGenderSelect(item)}>
-                            {item}
+                            className="dropdown-item"
+                            onClick={() => props.onGenderSelect(item.value)}>
+                            {item.name}
                         </div>
                     ))}
                 </div>
@@ -103,15 +131,15 @@ const ProfileCardContent = props => {
                                     errorState={get(errors, 'gender', '')}
                                 />
                             ) : (
-                                    profile.gender
-                                )
+                                GENDERSMAP[profile.gender]
+                            )
                         }
                     />
                 </div>
                 <div className="col-6">
                     <ProfileDetail
                         label="Community"
-                        value="Ekata Social"
+                        value="Baza Foundation"
                         className="text-right"
                     />
                 </div>
@@ -173,8 +201,8 @@ const ProfileCardContent = props => {
                                     </div>
                                 </Fragment>
                             ) : (
-                                    profile.location
-                                )
+                                profile.location
+                            )
                         }
                         className="text-right"
                     />
@@ -187,7 +215,7 @@ const ProfileCardContent = props => {
                         alt="Location"
                         src={`https://maps.googleapis.com/maps/api/staticmap?center=${
                             profile.location
-                            }&zoom=11&scale=1&size=600x250&maptype=roadmap&format=png&visual_refresh=true&key=AIzaSyDqsDgAvVSeYBL2Q7p8x-kAB0lLuwlNW7c`}
+                        }&zoom=11&scale=1&size=600x250&maptype=roadmap&format=png&visual_refresh=true&key=AIzaSyDqsDgAvVSeYBL2Q7p8x-kAB0lLuwlNW7c`}
                     />
                 </div>
             </div>
