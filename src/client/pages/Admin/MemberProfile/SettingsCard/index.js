@@ -9,12 +9,12 @@ import {
 
 import SetPassword from './SetPassword'
 import TwoFactor from './TwoFactor'
-import ActivityLog from './ActivityLog'
+// import ActivityLog from './ActivityLog'
 
 const CARD_TABS = [
     { label: 'Password' },
-    { label: '2 Factor Authentication' },
-    { label: 'Activity Log' }
+    { label: '2 Factor Authentication' }
+    // { label: 'Activity Log' }
 ]
 export default class SettingsCard extends Component {
     state = {
@@ -42,9 +42,9 @@ export default class SettingsCard extends Component {
                         onChangeIndex={this.changeSwipeIndex}>
                         <SetPassword />
                         <TwoFactor />
-                        <ActivityLog
+                        {/* <ActivityLog
                             visible={this.state.selectedTabIndex === 2}
-                        />
+                        /> */}
                     </SwipeableViews>
                 </CardBody>
             </Card>

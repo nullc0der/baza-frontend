@@ -15,17 +15,17 @@ import { DateTime } from 'luxon'
 import s from './CoinSale.scss'
 
 const START_TIME = DateTime.fromObject({
-    year: 2018,
-    month: 11,
-    days: 29,
+    year: 2019,
+    month: 2,
+    days: 12,
     hours: 0,
     minutes: 0,
     seconds: 0
 })
 
 const END_TIME = DateTime.fromObject({
-    year: 2018,
-    month: 12,
+    year: 2019,
+    month: 3,
     days: 29,
     hours: 6,
     minutes: 0,
