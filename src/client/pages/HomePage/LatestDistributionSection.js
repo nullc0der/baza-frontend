@@ -9,7 +9,7 @@ class LatestDistributionSection extends Component {
         list: [
             {
                 image: '/public/img/latest-distribution/baz-distributed.svg',
-                title: 128211,
+                title: 0,
                 subtitle: 'Baz Distributed',
                 description:
                     'Baz are redeemable tokens that are automatically distributed to all qualifying members as basic income'

@@ -3,7 +3,24 @@ import React, { Component } from 'react'
 
 import classnames from 'classnames'
 
+import Config from 'utils/config'
+
 import s from './AdminFooter.scss'
+
+const SITE_TYPE_TEXT_AND_COLOR = {
+    local: {
+        text: 'local',
+        color: 'yellow'
+    },
+    beta: {
+        text: 'beta',
+        color: 'red'
+    },
+    live: {
+        text: 'live',
+        color: 'green'
+    }
+}
 
 export default class Footer extends Component {
     render() {
@@ -14,6 +31,9 @@ export default class Footer extends Component {
             'ui-footer flex-horizontal',
             'a-stretch'
         )
+        const release = Config.get('RELEASE')
+        const releaseCodename = Config.get('RELEASE_CODENAME')
+        const siteType = Config.get('SITE_TYPE')
         return (
             <div className={cx}>
                 <div className="flex-horizontal a-center">
@@ -25,15 +45,16 @@ export default class Footer extends Component {
                 </div>
                 <div className="flex-1" />
                 <div className="flex-horizontal a-center">
-                    <div className="badge badge-pill pill-red pill-beta">
-                        {' '}
-                        beta{' '}
+                    <div
+                        className={`badge badge-pill pill-${
+                            SITE_TYPE_TEXT_AND_COLOR[siteType].color
+                        } pill-site-type`}>
+                        {SITE_TYPE_TEXT_AND_COLOR[siteType].text}
                     </div>
-                    <b>
-                        {' '}
-                        v0.1.1{' '}
-                        {/*TODO: Implement a method to fetch version from git tag*/}{' '}
-                    </b>
+                    <div className="badge badge-pill pill-blue">
+                        {releaseCodename}
+                    </div>
+                    <b>v{release}</b>
                 </div>
             </div>
         )

@@ -31,7 +31,23 @@ class HomePage extends Component {
         const cx = classnames('home-page')
         return (
             <div className={cx}>
-                <Helmet title="Baza Foundation"/>
+                <Helmet>
+                    <title>Baza Foundation</title>
+                    <meta
+                        name="description"
+                        content="A socially responsible digital platform that delivers a transparent and open approach to direct charitable financial giving"
+                    />
+                    <meta property="og:title" content="Baza Foundation" />
+                    <meta
+                        property="og:description"
+                        content="A socially responsible digital platform that delivers a transparent and open approach to direct charitable financial giving"
+                    />
+                    <meta
+                        property="og:image"
+                        content="https://beta.baza.foundation/public/img/baza_logo_600x600.png"
+                    />
+                    <meta property="og:type" content="website" />
+                </Helmet>
                 <ParallaxContainer
                     id="hero-section"
                     className="top-parallax-section flex-vertical"

@@ -71,13 +71,13 @@ class HeaderProfileButton extends Component {
                         {this.getCreatedText(user.date_joined)}{' '}
                     </div>
                 </div>
-                <div className="flex-horizontal user-menu j-between">
-                    <a className="profile-link" href="#">
+                <div className="flex-horizontal user-menu j-around">
+                    {/* <a className="profile-link" href="#">
                         References
-                    </a>
-                    <a className="profile-link" href="#">
-                        Account
-                    </a>
+                    </a> */}
+                    <Link className="profile-link" to="/wallets">
+                        Wallets
+                    </Link>
                     <Link className="profile-link" to="/">
                         Landing
                     </Link>
