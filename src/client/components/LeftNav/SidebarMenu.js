@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import classnames from 'classnames'
 
+import isEmpty from 'lodash/isEmpty'
+
 import { Link } from 'react-router-dom'
 import { withRouter } from 'react-router'
 
@@ -109,57 +111,65 @@ class SidebarMenu extends Component {
                     })}
                 </div>
                 <div className="secondary-menu">
-                    {subMenuItems.map((x, i) => (
-                        <div
-                            key={i}
-                            data-href={x.href}
-                            onClick={
-                                x.href ? this.navigate : this.toggleSubMenu
-                            }
-                            className={this.withActiveClass(
-                                x.href,
-                                'secondary-menu-item no-outline is-clickable'
-                            )}>
-                            <div className="menu-inner">
-                                <span className="menu-icon">
-                                    {x.icon_type === 'image' ? (
-                                        <img src={x.icon} alt="baza-logo-gs" />
-                                    ) : (
-                                        <i className={x.icon} />
-                                    )}
-                                </span>
-                                <span className="menu-name flex-horizontal a-center">
-                                    <span className="flex-1"> {x.name} </span>
-                                    {!!x.children && (
-                                        <div className="menu-dropdown-toggle">
-                                            <i className="fa fa-fw fa-chevron-down" />
-                                        </div>
-                                    )}
-                                </span>
-                            </div>
-                            {!!x.children && (
-                                <div className="menu-dropdown">
-                                    {x.children.map((child, childIndex) => (
-                                        <div
-                                            key={childIndex}
-                                            data-href={child.href}
-                                            onClick={this.navigate}
-                                            className={this.withActiveClass(
-                                                child.href,
-                                                'sub-submenu-item is-clickable'
-                                            )}>
-                                            <span className="sub-submenu-icon">
-                                                <i className={child.icon} />
-                                            </span>
-                                            <span className="sub-submenu-name">
-                                                {child.name}
-                                            </span>
-                                        </div>
-                                    ))}
+                    {subMenuItems.map((x, i) =>
+                        !isEmpty(x) ? (
+                            <div
+                                key={i}
+                                data-href={x.href}
+                                onClick={
+                                    x.href ? this.navigate : this.toggleSubMenu
+                                }
+                                className={this.withActiveClass(
+                                    x.href,
+                                    'secondary-menu-item no-outline is-clickable'
+                                )}>
+                                <div className="menu-inner">
+                                    <span className="menu-icon">
+                                        {x.icon_type === 'image' ? (
+                                            <img
+                                                src={x.icon}
+                                                alt="baza-logo-gs"
+                                            />
+                                        ) : (
+                                            <i className={x.icon} />
+                                        )}
+                                    </span>
+                                    <span className="menu-name flex-horizontal a-center">
+                                        <span className="flex-1">
+                                            {' '}
+                                            {x.name}{' '}
+                                        </span>
+                                        {!!x.children && (
+                                            <div className="menu-dropdown-toggle">
+                                                <i className="fa fa-fw fa-chevron-down" />
+                                            </div>
+                                        )}
+                                    </span>
                                 </div>
-                            )}
-                        </div>
-                    ))}
+                                {!!x.children && (
+                                    <div className="menu-dropdown">
+                                        {x.children.map((child, childIndex) => (
+                                            <div
+                                                key={childIndex}
+                                                data-href={child.href}
+                                                onClick={this.navigate}
+                                                className={this.withActiveClass(
+                                                    child.href,
+                                                    'sub-submenu-item is-clickable'
+                                                )}>
+                                                <span className="sub-submenu-icon">
+                                                    <i className={child.icon} />
+                                                </span>
+                                                <span className="sub-submenu-name">
+                                                    {child.name}
+                                                </span>
+                                            </div>
+                                        ))}
+                                    </div>
+                                )}
+                            </div>
+                        ) : null
+                    )}
                 </div>
             </div>
         )

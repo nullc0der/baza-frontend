@@ -1,4 +1,6 @@
-module.exports = [
+import Config from 'utils/config'
+
+export default [
     {
         name: 'Home',
         icon: 'fa fa-fw fa-home',
@@ -69,11 +71,13 @@ module.exports = [
         icon: 'fas fa-toolbox',
         href: '',
         children: [
-            {
-                name: 'Hashtag Banner',
-                icon: 'fa fa-fw fa-dashboard',
-                href: '/hashtag'
-            },
+            Config.get('SITE_TYPE') !== 'live'
+                ? {
+                      name: 'Hashtag Banner',
+                      icon: 'fa fa-fw fa-dashboard',
+                      href: '/hashtag'
+                  }
+                : {},
             {
                 name: 'Messenger',
                 icon: 'fa fa-fw fa-comment',
