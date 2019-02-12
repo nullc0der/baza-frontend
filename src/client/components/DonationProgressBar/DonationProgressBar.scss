@@ -21,10 +21,11 @@
         font-weight: $font-weight-bold;
     }
 
-    .tooltip-value, .tooltip-max-value {
+    .tooltip-value,
+    .tooltip-max-value {
         margin-left: -40px;
         .tooltip-inner {
-            box-shadow: 0 5px 40px 0 rgba(0,0,0,0.1);
+            box-shadow: 0 5px 40px 0 rgba(0, 0, 0, 0.1);
         }
     }
     // .tooltip-max-value .arrow {
@@ -46,9 +47,15 @@
         margin-right: map-get($spacers, 3);
         align-self: center;
     }
-    @include  media-breakpoint-down(sm, $grid-breakpoints) {
+    @include media-breakpoint-down(sm, $grid-breakpoints) {
         .tooltip-max-value {
             margin-left: -40px;
+        }
+    }
+
+    @include media-breakpoint-down(sm, $grid-breakpoints) {
+        .tooltip-min-value {
+            margin-left: 20px;
         }
     }
 }

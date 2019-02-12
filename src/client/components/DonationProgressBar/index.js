@@ -9,7 +9,7 @@ export default class DonationProgressBar extends Component {
     }
 
     render() {
-        const { className, min = 20, max = 100, value = 10 } = this.props
+        const { className, min = 0, max = 100, value = 10 } = this.props
 
         const cx = classnames(s.container, 'donation-progress-bar', className)
 
@@ -24,7 +24,7 @@ export default class DonationProgressBar extends Component {
                         <div className="align-self-end pr-3">
                             {/* <span className='value'> ${value} </span> */}
                             <div
-                                className="tooltip tooltip-value show bs-tooltip-bottom"
+                                className="tooltip tooltip-value tooltip-min-value show bs-tooltip-bottom"
                                 role="tooltip">
                                 <div className="arrow" />
                                 <div className="tooltip-inner">
