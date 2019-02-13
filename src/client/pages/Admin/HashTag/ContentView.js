@@ -35,7 +35,26 @@ import { dataURLtoBlob, imageToDataURL } from 'utils/common'
 //     return url
 // }
 
-function getFinalImagePNG() {
+function getScalingFactors(context, image, provider) {
+    var x;
+    var y;
+    if (provider.name === 'Facebook') {
+        x = 600;
+        y = 600;
+    } else if (provider.name === 'Twitter') {
+        x = 400;
+        y = 400;
+    } else {
+        throw new Error(`Unknown provider. Cannot get scaling: ` + provider.name)
+    }
+
+    var scaleX = x / image.naturalWidth
+    var scaleY = y / image.naturalHeight
+
+    return { scaleX, scaleY }
+}
+
+function getFinalImagePNG(provider) {
     const svg = document.getElementById('final-image-svg')
     const svgStr = new XMLSerializer().serializeToString(svg);
     const canvas = document.createElement('canvas')
@@ -52,7 +71,12 @@ function getFinalImagePNG() {
     return new Promise((resolve, reject) => {
         var url = _URL.createObjectURL(svgBlob)
         img.onload = function () {
-            ctx.drawImage(img, 0, 0)
+            // ctx.drawImage(img, 0, 0)
+            let { scaleX, scaleY } = getScalingFactors(ctx, img, provider);
+            canvas.width = canvas.width * scaleX
+            canvas.height = canvas.height * scaleY
+            ctx.scale(scaleX, scaleY)   // Scale canvas
+            ctx.drawImage(img, 0, 0)    // Draw the scaled image
             let finalImage = canvas.toDataURL("image/png")
             _URL.revokeObjectURL(url)
             resolve(finalImage)
@@ -126,12 +150,13 @@ class HashTagContent extends Component {
     }
 
     downloadImage = () => {
+        const { selectedProvider } = this.props
         const { croppedImage } = this.state
         if (!croppedImage) {
             return;
         }
 
-        getFinalImagePNG().then(data => {
+        getFinalImagePNG(selectedProvider).then(data => {
             downloadAs('baza-avatar.png', data)
         }).catch(err => {
             alert(err.message)
@@ -170,7 +195,7 @@ class HashTagContent extends Component {
         // const imageBlob = dataURLtoBlob(finalImage)
 
         this.setState({ isUploading: true })
-        getFinalImagePNG().then(dataUrl => this.props.uploadPhotoToSocial(
+        getFinalImagePNG(selectedProvider).then(dataUrl => this.props.uploadPhotoToSocial(
             selectedProvider.name.toLowerCase(),
             dataURLtoBlob(dataUrl)
         )).then(response => {
