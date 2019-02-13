@@ -332,11 +332,15 @@ class HashTagContent extends Component {
                         }`}
                         onClick={this.uploadImageToSocial}>
                         Upload to {selectedProvider.name}
+<<<<<<< HEAD
                         {isUploading && (
                             <i
                                 className={`fa fa-spinner fa-pulse fa-fw fa-2x`}
                             />
                         )}
+=======
+                        {isUploading && <i className={`fa fa-spinner fa-pulse fa-fw`}></i>}
+>>>>>>> local/develop
                     </div>
                 </div>
             </div>
