@@ -193,14 +193,15 @@ class HashTagContent extends Component {
             return
         }
         // const imageBlob = dataURLtoBlob(finalImage)
-
+        const shortName = selectedProvider.name.toLowerCase()
         this.setState({ isUploading: true })
         getFinalImagePNG(selectedProvider).then(dataUrl => this.props.uploadPhotoToSocial(
-            selectedProvider.name.toLowerCase(),
+            shortName,
             dataURLtoBlob(dataUrl)
         )).then(response => {
             this.setState({ isUploading: false })
             this.openFBShare(response.data.url)
+            shortName !== 'facebook' && this.openSuccessDialog(selectedProvider)
         }).catch(err => {
             this.setState({ isUploading: false })
             alert(err.message)
@@ -211,7 +212,14 @@ class HashTagContent extends Component {
         window.FB.ui({
             method: 'share',
             href
-        })
+        }, () => this.openSuccessDialog('facebook'))
+    }
+
+    openSuccessDialog = (provider) => {
+        const message = provider === 'facebook'
+            ? 'Successfully shared image on your wall'
+            : 'Successfully set image as profile picture'
+        alert(message)
     }
 
     onSemiCircleColorChange = (color) => {
