@@ -65,12 +65,17 @@ class NotConnectedDialog extends Component {
 
     renderConnectButton = () => {
         const { provider } = this.props
+        const { isLoading } = this.state
+
         const _button = (
             <div className={`btn btn-provider ${provider.className}`} onClick={this.onConnectClick}>
                 <div className='provider-icon'>
                     <i className={`fa fa-${provider.icon}`} />
                 </div>
-                <div className='provider-name'>Connect to {provider.name}</div>
+                <div className='provider-name'>
+                    Connect to {provider.name}
+                    {isLoading && <i className='fa fa-spinner fa-pulse fa-fw' />}
+                </div>
             </div>
         )
 
@@ -101,6 +106,7 @@ class NotConnectedDialog extends Component {
             className,
             provider
         } = this.props
+
         const cx = classnames(s.notConnected, className)
         return (
             <div className={cx}>

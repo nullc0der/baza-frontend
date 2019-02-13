@@ -140,6 +140,17 @@ $hashtag_sidebar_width: 250px;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    &:not(.final-actions) {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+    &:not(.final-actions) > .btn {
+        min-width: 250px;
+        margin: map-get($spacers, 1) map-get($spacers, 2);
+        flex: 1;
+        flex-grow: 0;
+        flex-shrink: 0;
+    }
 
     .fa {
         margin-left: 0.5rem;

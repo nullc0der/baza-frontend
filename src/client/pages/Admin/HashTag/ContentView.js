@@ -295,7 +295,7 @@ class HashTagContent extends Component {
                         className={`btn btn-dark btn-large ${selectedProvider.className}`}
                         onClick={this.uploadImageToSocial}>
                         Upload to {selectedProvider.name}
-                        {isUploading && <i className={`fa fa-spinner fa-pulse fa-fw fa-2x`}></i>}
+                        {isUploading && <i className={`fa fa-spinner fa-pulse fa-fw`}></i>}
                     </div>
                 </div>
             </div>
