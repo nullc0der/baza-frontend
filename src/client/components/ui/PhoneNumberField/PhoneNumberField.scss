@@ -1,0 +1,20 @@
+@import 'ui';
+
+:local(.container) {
+    .btn {
+        padding: 5px 15px;
+        &:focus {
+            box-shadow: none;
+        }
+    }
+    .dropdown-item {
+        cursor: pointer;
+    }
+    .dropdown-menu {
+        max-height: 300px;
+        overflow-y: auto;
+    }
+    .search-input {
+        padding: $dropdown-item-padding-y $dropdown-item-padding-x;
+    }
+}

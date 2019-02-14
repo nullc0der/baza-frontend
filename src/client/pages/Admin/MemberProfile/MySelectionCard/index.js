@@ -1,18 +1,11 @@
 import React, { Component } from 'react'
-import SwipeableViews from 'react-swipeable-views'
-import {
-  Card,
-  CardHeader,
-  CardHeaderTabs,
-  CardSearchBar,
-  CardBody
-} from 'components/ui/CardWithTabs'
 
 import MyGroups from './MyGroups'
 import JoinedGroups from './JoinedGroups'
 import SubscribedGroups from './SubscribedGroups'
 import MyApps from './MyApps'
 import MyAds from './MyAds'
+import SwipeableCard from 'components/ui/SwipeableCard';
 
 const CARD_TABS = [
   { label: 'My Groups' },
@@ -23,7 +16,6 @@ const CARD_TABS = [
 ]
 export default class MySelectionCard extends Component {
   state = {
-    selectedTabIndex: 0,
     searchValue: ''
   }
 
@@ -34,41 +26,23 @@ export default class MySelectionCard extends Component {
   onSearchIconClick = () => {
     console.log('searching with: ', this.state.searchValue)
   }
-
-  onTabClick = (tab, selectedTabIndex) => {
-    this.setState({ selectedTabIndex })
-  }
-  changeSwipeIndex = selectedTabIndex => {
-    this.setState({ selectedTabIndex })
-  }
   render() {
     return (
-      <Card className="my-selection-card">
-        <CardHeader title="MY SELECTION">
-          <CardSearchBar
-            placeholder="Search Here"
-            value={this.state.searchValue}
-            onChange={this.onSearchValueChange}
-            onSearchClick={this.onSearchIconClick}
-          />
-          <CardHeaderTabs
-            onTabClick={this.onTabClick}
-            selectedIndex={this.state.selectedTabIndex}
-            tabs={CARD_TABS}
-          />
-        </CardHeader>
-        <CardBody>
-          <SwipeableViews
-            index={this.state.selectedTabIndex}
-            onChangeIndex={this.changeSwipeIndex}>
-            <MyGroups />
-            <JoinedGroups />
-            <SubscribedGroups />
-            <MyApps />
-            <MyAds />
-          </SwipeableViews>
-        </CardBody>
-      </Card>
+      <SwipeableCard
+        className='my-selection-card'
+        headerTitle='MY SELECTION'
+        hasSearch
+        searchPlaceholder='Search Here'
+        searchValue={this.state.searchValue}
+        onSearchChange={this.onSearchValueChange}
+        onSearchIconClick={this.onSearchIconClick}
+        tabs={CARD_TABS}>
+        <MyGroups />
+        <JoinedGroups />
+        <SubscribedGroups />
+        <MyApps />
+        <MyAds />
+      </SwipeableCard>
     )
   }
 }

@@ -1,27 +1,94 @@
 import React, { Component } from 'react'
 
 const AccountDetail = ({ label, children }) => (
-  <div className="account-detail">
-    <div className="label">{label}</div>
-    <div className="value">{children}</div>
-  </div>
+    <div className="account-detail">
+        <div className="label">{label}</div>
+        <div className="value">{children}</div>
+    </div>
 )
 
 export default class AccountDetails extends Component {
-  render() {
-    return (
-      <div className="signup-details-section account-details-section">
-        <AccountDetail label="STATUS">
-          <div className="text-success font-weight-semibold">APPROVED</div>
-        </AccountDetail>
+    render() {
+        const { data, onChangeToggles } = this.props
+        const STATUS = ['PENDING', 'APPROVED', 'DECLINED', 'INCOMPLETE']
+        return (
+            <div className="signup-details-section account-details-section">
+                <AccountDetail label="STATUS">
+                    <div className="status-dropdown-group btn-group">
+                        <a
+                            className="text-uppercase"
+                            data-toggle="dropdown"
+                            aria-haspopup="true"
+                            aria-expanded="false">
+                            {data.status}
+                            <i
+                                className="fa fa-caret-down"
+                                style={{ marginLeft: '5px' }}
+                            />
+                        </a>
+                        <div className="dropdown-menu dropdown-menu-right">
+                            {STATUS.map((item, i) => (
+                                <div
+                                    key={i}
+                                    className="dropdown-item"
+                                    onClick={() =>
+                                        onChangeToggles('status', item)
+                                    }>
+                                    {item}
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                </AccountDetail>
 
-        <AccountDetail label="SIGNUP DATE">2016-12-19</AccountDetail>
-        <AccountDetail label="VERIFIED DATE">2016-12-10</AccountDetail>
-        <AccountDetail label="REFERRAL CODE">5kbvnh</AccountDetail>
+                <AccountDetail label="SIGNUP DATE">
+                    {new Date(data.signup_date).toLocaleDateString()}
+                </AccountDetail>
+                <AccountDetail label="VERIFIED DATE">
+                    {data.verified_date &&
+                        new Date(data.verified_date).toLocaleDateString()}
+                </AccountDetail>
+                <AccountDetail label="BIRTHDATE">
+                    {new Date(data.birthdate).toLocaleDateString()}
+                </AccountDetail>
+                <AccountDetail label="REFERRAL CODE">
+                    {data.referral_code}
+                </AccountDetail>
 
-        <AccountDetail label="WALLET ADD." />
-        <AccountDetail label="ON DISTRIBUTION">FALSE</AccountDetail>
-      </div>
-    )
-  }
+                <AccountDetail label="WALLET ADDRESS" />
+                <AccountDetail label="ON DISTRIBUTION">
+                    <div className="distribution-dropdown-group btn-group">
+                        <a
+                            className="text-uppercase"
+                            data-toggle="dropdown"
+                            aria-haspopup="true"
+                            aria-expanded="false">
+                            {data.on_distribution.toString()}
+                            <i
+                                className="fa fa-caret-down"
+                                style={{ marginLeft: '5px' }}
+                            />
+                        </a>
+                        <div className="dropdown-menu dropdown-menu-right">
+                            {['TRUE', 'FALSE'].map((item, i) => (
+                                <div
+                                    key={i}
+                                    className="dropdown-item"
+                                    onClick={() =>
+                                        onChangeToggles('on_distribution', item)
+                                    }>
+                                    {item}
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                </AccountDetail>
+                <AccountDetail label="AUTO APPROVAL FAIL REASONS">
+                    {data.auto_approval_fail_reasons.map((x, i) => (
+                        <p key={i}>{x.reason}</p>
+                    ))}
+                </AccountDetail>
+            </div>
+        )
+    }
 }

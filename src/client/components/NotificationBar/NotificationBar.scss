@@ -1,0 +1,24 @@
+@import 'ui';
+
+:local(.container) {
+    position: relative;
+    flex-shrink: 0;
+    height: $admin-notification-bar-height;
+    background-color: $info;
+    padding: 0 30px;
+    box-shadow: inset 1px 1px 3px rgba(0, 0, 0, 0.23);
+    a {
+        color: $light;
+        text-decoration: none;
+        i {
+            margin-left: 2px;
+            font-size: 12px;
+        }
+        @include media-breakpoint-down(md, $grid-breakpoints) {
+            font-size: 12px;
+            i {
+                font-size: 10px;
+            }
+        }
+    }
+}

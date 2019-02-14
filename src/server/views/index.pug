@@ -3,14 +3,17 @@ extends layout
 block preload
     if is_prod
         link(rel='preload' as='script' href='/public/vendor/jquery/jquery.js')
+        link(rel='preload' as='style' href= webpack_assets['styles.css'])
         link(rel='preload' as='style'  href= webpack_assets['main.css'])
-        link(rel='preload' as='script' href= webpack_assets['manifest.js'])
+        //- link(rel='preload' as='script' href= webpack_assets['manifest.js'])
         link(rel='preload' as='script' href= webpack_assets['vendors.js'])
         link(rel='preload' as='script' href= webpack_assets['main.js'])
 
 block head_styles
+    //- Favicon
+    link(rel="shortcut icon", href="/public/img/favicon.ico", type="image/x-icon")
     //- Fonts
-    link(rel='stylesheet' type='text/css' href='https://fonts.googleapis.com/icon?family=Material+Icons')
+    link(rel='stylesheet' type='text/css' href='/public/css/material-icons.css')
     link(rel='stylesheet' type='text/css' href='https://fonts.googleapis.com/css?family=Raleway:100,300,400,500,600,700,800')
 
     style(id='server-css' type='text/css' rel='stylesheet')!= css
@@ -18,14 +21,26 @@ block head_styles
     //- Assets
     //- link(rel='stylesheet' type='text/css' href='/public/vendor/bootstrap/css/bootstrap.css')
     link(rel='stylesheet' type='text/css' href='/public/vendor/animate.css/animate.css')
+    link(rel='stylesheet', type='text/css' href='https://use.fontawesome.com/releases/v5.5.0/css/all.css')
     link(rel='stylesheet' type='text/css' href='https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css')
 
     if is_prod
+        link(rel='stylesheet' type='text/css' href= webpack_assets['styles.css'])
         link(rel='stylesheet' type='text/css' href= webpack_assets['main.css'])
+
+block head_scripts
+    script("text/javascript").
+        window.googleMapCallback = function () {
+            console.log('google map loaded')
+        }
+    script(type='text/javascript').
+      window.BazaConfig= !{JSON.stringify(bazaConfig)}
 
 block content
     section#root!= html
     section#modal-portal-root
+
+    script(defer async type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDqsDgAvVSeYBL2Q7p8x-kAB0lLuwlNW7c&libraries=places&callback=googleMapCallback")
 
     script(defer type='text/javascript' src='/public/vendor/jquery/jquery.js')
     script(defer type='text/javascript' src='/public/vendor/popper.js/umd/popper.js')
@@ -36,7 +51,8 @@ block content
 
     if is_prod
         script(defer type='text/javascript' src= webpack_assets['vendors.js'])
-    else
-        script(defer type='text/javascript' src= '/public/dll.vendor.js')
+        script(defer type='text/javascript' src= webpack_assets['styles.js'])
 
     script(defer type='text/javascript' src= webpack_assets['main.js'])
+    audio(src="/public/audio/messenger-tone.mp3" id="messenger-tone" style="visibility:hidden")
+    audio(src="/public/audio/notification-tone.mp3" id="notification-tone" style="visibility:hidden")

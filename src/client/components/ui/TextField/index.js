@@ -1,8 +1,7 @@
 import React, { Component } from 'react'
 import classnames from 'classnames'
 
-//eslint-disable-next-line no-unused-vars
-import debounce from 'lodash/debounce'
+//import debounce from 'lodash/debounce'
 
 import s from './TextField.scss'
 
@@ -12,15 +11,15 @@ export default class TextField extends Component {
     }
 
     componentDidMount = () => {
-        // if (this.props.value) {
-        //   this.setState({ value: this.props.value })
-        // }
-        // this._onChange = debounce(this.onChange, 100, { trailing: true })
+        if (this.props.value) {
+            this.setState({ value: this.props.value })
+        }
+        //this._onChange = debounce(this.onChange, 30, { trailing: true })
     }
 
     componentWillReceiveProps = nextProps => {
-        // if (nextProps.value !== this.state.value)
-        //   this.setState({ value: nextProps.value })
+        if (nextProps.value !== this.state.value)
+            this.setState({ value: nextProps.value })
     }
 
     onChange = (id, value) => {
@@ -30,10 +29,10 @@ export default class TextField extends Component {
     }
 
     onInputChange = e => {
+        e.stopPropagation()
         const value = e.target.value
         const id = e.target.id
         this.setState({ value })
-        // this._onChange(value)
         this.onChange(id, value)
     }
 
@@ -83,15 +82,14 @@ export default class TextField extends Component {
                     type={type}
                     className={inputClass}
                     onChange={this.onInputChange}
-                    value={this.state.value || value || ''}
+                    value={value || this.state.value || ''}
                     {...others}
                 />
                 {_Label}
                 {_ValidationIcon}
-                {errorState &&
-                    errorState !== 'loading' && (
-                        <div className="ui-textfield-error"> {errorState} </div>
-                    )}
+                {errorState && errorState !== 'loading' && (
+                    <div className="ui-textfield-error"> {errorState} </div>
+                )}
             </div>
         )
     }

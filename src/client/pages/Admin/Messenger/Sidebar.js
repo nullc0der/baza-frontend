@@ -1,54 +1,76 @@
-import {Component} from 'react'
-import PropTypes   from 'prop-types'
-import classnames  from 'classnames'
+import React, { Component } from 'react'
+import classnames from 'classnames'
 
-import c from './Messenger.styl'
+import c from './Messenger.scss'
 
 import ChatSidebarItem from './ChatSidebarItem'
 
 class Sidebar extends Component {
-	render(){
-		const {
-			selected = null,
-			className,
-			items = []
-		} = this.props;
+    state = {
+        items: []
+    }
 
-		const cx = classnames(c.sidebar, className, 'flex-vertical')
+    componentDidUpdate = prevProps => {
+        if (
+            prevProps.items !== this.props.items ||
+            prevProps.onlineUsers !== this.props.onlineUsers
+        ) {
+            this.setUsers(this.props.items, this.props.onlineUsers)
+        }
+    }
 
-		const selected_chat = items.reduce(function(s, x, index){
-			if (x.id === selected)
-				return index
-			return s
-		}, -1)
+    setUsers = (items, onlineUsers) => {
+        for (const item of items) {
+            item.user['status'] = {}
+            for (const onlineUser of onlineUsers) {
+                if (item.user.id === onlineUser.id) {
+                    item.user['status'] = onlineUser
+                }
+            }
+        }
+        this.setState({
+            items
+        })
+    }
 
-		// console.log('selected chat this time is .. ', selected_chat, selected)
+    render() {
+        const { selected = null, hasError = false, className } = this.props
 
-		return (
-			<div className={cx}>
-				<div className='search-box'>
-					<input
-						type='search'
-						className='search-control'
-						placeholder='Search Users/Groups'/>
-				</div>
-				<div className='items-list scroll-y flex-1'>
-					{
-						items.map((x, i)=>
-							<ChatSidebarItem
-								key={i}
-								selected={selected_chat === i}
-								onClick={(e)=> this.props.onItemClick(x.id)}
-								username={x.username}
-								image={x.image}
-								status={x.status}
-								num_unread={x.num_unread}/>
-						)
-					}
-				</div>
-			</div>
-		)
-	}
+        const cx = classnames(c.sidebar, className, 'flex-vertical')
+
+        const selected_chat = this.state.items.reduce(function(s, x, index) {
+            if (x.id === selected) return index
+            return s
+        }, -1)
+
+        return (
+            <div className={cx}>
+                <div className="search-box">
+                    <input
+                        type="search"
+                        className="search-control"
+                        placeholder="Search Users/Groups"
+                        onChange={this.props.onSearchChange}
+                    />
+                </div>
+                <div className="items-list scroll-y flex-1">
+                    {hasError && <p>Error loading chats</p>}
+                    {this.state.items.map((x, i) => (
+                        <ChatSidebarItem
+                            key={i}
+                            selected={selected_chat === i}
+                            onClick={e => this.props.onItemClick(x.id)}
+                            username={x.user.username}
+                            image={x.user.user_image_url}
+                            avatarColor={x.user.user_avatar_color}
+                            onlineStatus={x.user.status}
+                            numUnread={x.user.unread_count}
+                        />
+                    ))}
+                </div>
+            </div>
+        )
+    }
 }
 
 export default Sidebar

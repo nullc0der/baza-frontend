@@ -6,6 +6,7 @@ import { Link, NavLink } from 'react-router-dom'
 
 import debounce from 'lodash/debounce'
 import { scrollToElement } from 'utils/dom'
+import Auth from 'utils/authHelpers'
 
 import './Header.scss'
 
@@ -16,8 +17,9 @@ const HEADER_ITEMS_LEFT = [
 ]
 
 const HEADER_ITEMS_RIGHT = [
-    { title: 'Latest', href: '/#latest-section' },
-    { title: 'Login', href: '/admin' },
+    // { title: 'Latest', href: '/#latest-section' },
+    { title: 'Login', href: '/profile' },
+    { title: 'Signup', href: '/signup' },
     { title: 'Contact', href: '/#contact-section' }
 ]
 
@@ -111,6 +113,11 @@ export default class Header extends Component {
         const cx = classnames('nav-item', {
             active: item.active
         })
+        if (item.title === 'Login') {
+            if (Auth.isAuthenticated() && Auth.isTokenNotExpired()) {
+                item.title = 'Profile'
+            }
+        }
         return (
             <li className={cx} key={index}>
                 <NavLink

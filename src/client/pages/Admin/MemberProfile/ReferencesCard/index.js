@@ -29,10 +29,6 @@ const REFERENCES_LIST = [
   {
     image: 'https://api.adorable.io/avatars/256/nanu6@adorable.io.png',
     name: 'reference6'
-  },
-  {
-    image: 'https://api.adorable.io/avatars/256/nanu7@adorable.io.png',
-    name: 'reference7'
   }
 ]
 
@@ -40,7 +36,7 @@ export default class ReferencesCard extends Component {
   render() {
     return (
       <Card className="references-card">
-        <CardHeader title="REFERENCES" subtitle="Following User Verified Me" />
+        <CardHeader title="NETWORK" subtitle="My Connections" />
         <CardBody>
           <div className="references-list">
             {REFERENCES_LIST.map((reference, index) => (

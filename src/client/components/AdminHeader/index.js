@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 // import PropTypes from 'prop-types'
 import classnames from 'classnames'
 
-import { actions as runTimeActions } from 'store/Runtime'
+import { actions as userProfileActions } from 'store/UserProfile'
 
 import s from './AdminHeader.scss'
 
@@ -13,7 +13,10 @@ import HeaderProfileButton from './ProfileButton'
 
 class AdminHeader extends Component {
     componentDidMount() {
-        this.props.fetchProfile()
+        this.props
+            .fetchProfile()
+            .then(res => {})
+            .catch(res => {})
     }
 
     render() {
@@ -38,24 +41,27 @@ class AdminHeader extends Component {
                     className={s.profile}
                     user={this.props.profile}
                 />
-                <div
+                {/* <div
                     className="settings-toggle"
                     onClick={this.props.onSettingsToggle}>
                     <i className="material-icons">settings</i>
-                </div>
+                </div> */}
             </div>
         )
     }
 }
 
 const mapStateToProps = state => ({
-    profile: state.Runtime.profile
+    profile: state.UserProfile.profile
 })
 
 const mapDispatchToProps = dispatch => ({
     fetchProfile() {
-        return dispatch(runTimeActions.fetchProfile())
+        return dispatch(userProfileActions.fetchProfile())
     }
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(AdminHeader)
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(AdminHeader)

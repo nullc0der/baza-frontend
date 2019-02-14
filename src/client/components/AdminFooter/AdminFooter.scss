@@ -1,45 +1,53 @@
 @import 'ui';
 
 :local(.container) {
-  background-color: #fff;
-  padding: 12px;
-  font-size: 13px;
-  position: fixed;
-  bottom: 0;
-  height: $admin-footer-height;
-  right: 0;
-  left: $admin-sidebar-width;
-  transition: left 0.16s ease;
-  z-index: 2000;
-  // border-top: 1px rgba(#000, 0.12) solid;
-  @include media-breakpoint-down(md, $grid-breakpoints) {
-    font-size: 12px;
-    display: none;
-  }
+    background-color: #fff;
+    padding: 12px;
+    font-size: 13px;
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    left: $admin-sidebar-width;
+    height: $admin-footer-height;
+    transition: left 0.16s ease;
+    z-index: 2000;
+    // border-top: 1px rgba(#000, 0.12) solid;
+    @include media-breakpoint-down(md, $grid-breakpoints) {
+        font-size: 12px;
+        display: none;
+    }
 
-  .badge-pill {
-    padding: 5px 8px;
-    border-radius: 3px;
-    color: #fff;
-    margin: 0 4px;
-    font-weight: 600;
-    text-align: center;
-    flex-shrink: 0;
-  }
+    .badge-pill {
+        padding: 5px 8px;
+        border-radius: 3px;
+        color: #fff;
+        margin: 0 4px;
+        font-weight: 600;
+        text-align: center;
+        flex-shrink: 0;
+    }
 
-  .pill-red {
-    background-color: $color-red700;
-  }
+    .pill-red {
+        background-color: $color-red700;
+    }
 
-  .pill-blue {
-    background-color: $color-blue700;
-  }
+    .pill-blue {
+        background-color: $color-blue700;
+    }
 
-  .pill-beta {
-    width: 40px;
-  }
+    .pill-yellow {
+        background-color: $color-yellow700;
+    }
 
-  .pill-powered {
-    width: 118px;
-  }
+    .pill-green {
+        background-color: $color-green700;
+    }
+
+    .pill-site-type {
+        width: 40px;
+    }
+
+    .pill-powered {
+        width: 118px;
+    }
 }

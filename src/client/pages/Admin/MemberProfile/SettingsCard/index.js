@@ -1,54 +1,53 @@
 import React, { Component } from 'react'
 import SwipeableViews from 'react-swipeable-views'
 import {
-  Card,
-  CardHeader,
-  CardHeaderTabs,
-  CardOptionsDropdown,
-  CardBody
+    Card,
+    CardHeader,
+    CardHeaderTabs,
+    CardBody
 } from 'components/ui/CardWithTabs'
 
-import SocialSettings from './SocialSettings'
-import PublicVisibility from './PublicVisibility'
-import LandingDropdownLinks from './LandingDropdownLinks'
+import SetPassword from './SetPassword'
+import TwoFactor from './TwoFactor'
+// import ActivityLog from './ActivityLog'
 
-const HEADER_OPTIONS = [{ label: 'Refresh' }]
 const CARD_TABS = [
-  { label: 'Social Settings' },
-  { label: 'Public Visibility' },
-  { label: 'Landing Dropdown Links' }
+    { label: 'Password' },
+    { label: '2 Factor Authentication' }
+    // { label: 'Activity Log' }
 ]
 export default class SettingsCard extends Component {
-  state = {
-    selectedTabIndex: 0
-  }
-  onTabClick = (tab, selectedTabIndex) => {
-    this.setState({ selectedTabIndex })
-  }
-  changeSwipeIndex = selectedTabIndex => {
-    this.setState({ selectedTabIndex })
-  }
-  render() {
-    return (
-      <Card className="settings-card">
-        <CardHeader title="SETTINGS">
-          <CardOptionsDropdown options={HEADER_OPTIONS} />
-          <CardHeaderTabs
-            onTabClick={this.onTabClick}
-            selectedIndex={this.state.selectedTabIndex}
-            tabs={CARD_TABS}
-          />
-        </CardHeader>
-        <CardBody>
-          <SwipeableViews
-            index={this.state.selectedTabIndex}
-            onChangeIndex={this.changeSwipeIndex}>
-            <SocialSettings />
-            <PublicVisibility />
-            <LandingDropdownLinks />
-          </SwipeableViews>
-        </CardBody>
-      </Card>
-    )
-  }
+    state = {
+        selectedTabIndex: 0
+    }
+    onTabClick = (tab, selectedTabIndex) => {
+        this.setState({ selectedTabIndex })
+    }
+    changeSwipeIndex = selectedTabIndex => {
+        this.setState({ selectedTabIndex })
+    }
+    render() {
+        return (
+            <Card className="settings-card" id="security">
+                <CardHeader title="SECURITY">
+                    <CardHeaderTabs
+                        onTabClick={this.onTabClick}
+                        selectedIndex={this.state.selectedTabIndex}
+                        tabs={CARD_TABS}
+                    />
+                </CardHeader>
+                <CardBody>
+                    <SwipeableViews
+                        index={this.state.selectedTabIndex}
+                        onChangeIndex={this.changeSwipeIndex}>
+                        <SetPassword />
+                        <TwoFactor />
+                        {/* <ActivityLog
+                            visible={this.state.selectedTabIndex === 2}
+                        /> */}
+                    </SwipeableViews>
+                </CardBody>
+            </Card>
+        )
+    }
 }

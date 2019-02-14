@@ -1,11 +1,16 @@
 import React, { Component } from 'react'
 import classnames from 'classnames'
+import { Link } from 'react-router-dom'
+import get from 'lodash/get'
 
 import { push } from 'react-router-redux'
 import { connect } from 'react-redux'
 
 import Auth from 'utils/authHelpers'
 import Dropdown from 'components/ui/Dropdown'
+import Avatar from 'components/Avatar'
+
+import { getUsername } from 'utils/common'
 
 const SAMPLE_USER = [
     {
@@ -57,33 +62,30 @@ class HeaderProfileButton extends Component {
         return (
             <div className="profile-menu">
                 <div className="flex-vertical a-center j-center blue-container">
-                    <div className="profile-icon big no-overflow black-bg">
-                        <img
-                            alt=""
-                            className="img-responsive"
-                            src={user.image}
-                        />
-                    </div>
+                    {/* <div className="profile-icon big no-overflow black-bg">
+                        <img alt="" className="img-responsive" src="" />
+                    </div> */}
+                    <Avatar size={92} />
                     <div className="text-center">
                         {' '}
                         {this.getCreatedText(user.date_joined)}{' '}
                     </div>
                 </div>
-                <div className="flex-horizontal user-menu j-between">
-                    <a className="profile-link" href="#">
+                <div className="flex-horizontal user-menu j-around">
+                    {/* <a className="profile-link" href="#">
                         References
-                    </a>
-                    <a className="profile-link" href="#">
-                        Account
-                    </a>
-                    <a className="profile-link" href="#">
+                    </a> */}
+                    <Link className="profile-link" to="/wallets">
+                        Wallets
+                    </Link>
+                    <Link className="profile-link" to="/">
                         Landing
-                    </a>
+                    </Link>
                 </div>
-                <div className="profile-menu-footer flex-horizontal j-between">
-                    <a className="btn footer-btn" href="#">
+                <div className="profile-menu-footer flex-horizontal j-around">
+                    <Link className="btn footer-btn" to="/profile">
                         Profile
-                    </a>
+                    </Link>
                     <a
                         className="btn footer-btn"
                         href="#"
@@ -102,10 +104,8 @@ class HeaderProfileButton extends Component {
 
         const label = (
             <div className="profile-button flex-horizontal a-center">
-                <div className="profile-icon no-overflow">
-                    <img alt="" className="img-fluid" src="{user.image}" />
-                </div>
-                <div className="profile-username"> {user.username} </div>
+                <Avatar size={30} />
+                <div className="profile-username">{getUsername(user)}</div>
             </div>
         )
 
@@ -114,7 +114,7 @@ class HeaderProfileButton extends Component {
                 id="id-header-profile-dropdown"
                 className={cx}
                 label={label}
-                items={[user]}
+                items={[get(user, 'user', {})]}
                 itemRenderer={this.renderProfile}
             />
         )
@@ -129,4 +129,7 @@ const mapDispatchToProps = dispatch => ({
     }
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(HeaderProfileButton)
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(HeaderProfileButton)

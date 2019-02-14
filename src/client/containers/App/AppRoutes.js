@@ -1,23 +1,51 @@
 import React from 'react'
-import { Switch, Route, Redirect } from 'react-router-dom'
+import { Switch, Route } from 'react-router-dom'
 
-import Auth from 'utils/authHelpers'
 import HomePage from 'pages/HomePage'
 import SignUpPage from 'pages/SignUp'
 import NotFoundPage from 'pages/NotFoundPage'
+import ForbiddenPage from 'pages/ForbiddenPage'
+import EmailVerificationPage from 'pages/SignUp/EmailVerification'
+import ForgotPasswordPage from 'pages/SignUp/ForgotPasswordPage'
+import AddSocialEmailPage from 'pages/SignUp/AddSocialEmailPage'
+import TwoFactorPage from 'pages/SignUp/TwoFactorPage'
+import PrivacyPolicyPage from 'pages/SignUp/PrivacyPolicyPage'
+import TermsOfServicePage from 'pages/SignUp/TermsOfServicePage'
+import CookiePolicyPage from 'pages/SignUp/CookiePolicyPage'
 
-import AdminContainer from 'containers/AdminContainer'
+import AdminContainer from 'containers/AdminContainer/index'
 
 const AppRoutes = location => (
     <Switch location={location}>
         <Route path="/" exact component={HomePage} />
         <Route path="/signup" exact component={SignUpPage} />
         <Route path="/404" exact component={NotFoundPage} />
-        {Auth.isAuthenticated() ? (
-            <Route path="/admin" component={AdminContainer} />
-        ) : (
-            <Redirect to="/#!login" />
-        )}
+        <Route path="/403" exact component={ForbiddenPage} />
+        <Route
+            path="/validateemail/:validationKey/"
+            exact
+            component={EmailVerificationPage}
+        />
+        <Route path="/resetpassword" exact component={ForgotPasswordPage} />
+        <Route
+            path="/resetpassword/:resetKey/"
+            exact
+            component={ForgotPasswordPage}
+        />
+        <Route path="/addemail/" exact component={AddSocialEmailPage} />
+        <Route path="/twofactor/" exact component={TwoFactorPage} />
+        <Route path="/privacy-policy/" exact component={PrivacyPolicyPage} />
+        <Route path="/terms-of-service/" exact component={TermsOfServicePage} />
+        <Route path="/cookie-policy/" exact component={CookiePolicyPage} />
+        <Route path="/profile" component={AdminContainer} />
+        <Route path="/coinsale" component={AdminContainer} />
+        <Route path="/wallets" component={AdminContainer} />
+        <Route path="/distribution-signup" component={AdminContainer} />
+        <Route path="/dashboard" component={AdminContainer} />
+        <Route path="/community/2/members" component={AdminContainer} />
+        <Route path="/community/2/groups" component={AdminContainer} />
+        <Route path="/messenger" component={AdminContainer} />
+        <Route path="/hashtag" component={AdminContainer} />
         <Route component={NotFoundPage} />
     </Switch>
 )

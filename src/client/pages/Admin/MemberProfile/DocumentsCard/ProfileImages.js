@@ -1,123 +1,198 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
+import { connect } from 'react-redux'
+
+import { getImageURLFromFile } from 'utils/common'
+
+import ImageEditor from 'components/ImageEditor'
 import { CardContent } from 'components/ui/CardWithTabs'
 
-export default class ProfileImages extends Component {
-  onAddNewClick = () => {
-    console.log('add upload image logic here')
-  }
+import { actions as userProfileActions } from 'store/UserProfile'
 
-  render() {
-    return (
-      <CardContent>
-        <div className="profile-images">
-          <div className="profile-image is-big">
-            <img
-              className="img-fluid"
-              alt=""
-              src="https://api.adorable.io/avatars/512/nanu@adorable.io.png"
-            />
-          </div>
-          <div className="profile-image is-add-new" />
-          <div className="profile-image">
-            <img
-              className="img-fluid"
-              alt=""
-              src="https://api.adorable.io/avatars/512/nanu1@adorable.io.png"
-            />
-          </div>
-          <div className="profile-image">
-            <img
-              className="img-fluid"
-              alt=""
-              src="https://api.adorable.io/avatars/512/nanu2@adorable.io.png"
-            />
-          </div>
-          <div className="profile-image">
-            <img
-              className="img-fluid"
-              alt=""
-              src="https://api.adorable.io/avatars/512/nanu3@adorable.io.png"
-            />
-          </div>
-          <div className="profile-image">
-            <img
-              className="img-fluid"
-              alt=""
-              src="https://api.adorable.io/avatars/512/nanu4@adorable.io.png"
-            />
-          </div>
-          <div className="profile-image">
-            <img
-              className="img-fluid"
-              alt=""
-              src="https://api.adorable.io/avatars/512/nanu5@adorable.io.png"
-            />
-          </div>
-          <div className="profile-image">
-            <img
-              className="img-fluid"
-              alt=""
-              src="https://api.adorable.io/avatars/512/nanu6@adorable.io.png"
-            />
-          </div>
-          <div className="profile-image">
-            <img
-              className="img-fluid"
-              alt=""
-              src="https://api.adorable.io/avatars/512/nanu7@adorable.io.png"
-            />
-          </div>
-          <div className="profile-image">
-            <img
-              className="img-fluid"
-              alt=""
-              src="https://api.adorable.io/avatars/512/nan8@adorable.io.png"
-            />
-          </div>
-          <div className="profile-image">
-            <img
-              className="img-fluid"
-              alt=""
-              src="https://api.adorable.io/avatars/512/nanu9@adorable.io.png"
-            />
-          </div>
-          <div className="profile-image">
-            <img
-              className="img-fluid"
-              alt=""
-              src="https://api.adorable.io/avatars/512/nanu10@adorable.io.png"
-            />
-          </div>
-          <div className="profile-image">
-            <img
-              className="img-fluid"
-              alt=""
-              src="https://api.adorable.io/avatars/512/nanu11@adorable.io.png"
-            />
-          </div>
-          <div className="profile-image">
-            <img
-              className="img-fluid"
-              alt=""
-              src="https://api.adorable.io/avatars/512/nanu12@adorable.io.png"
-            />
-          </div>
-          <div className="profile-image">
-            <img
-              className="img-fluid"
-              alt=""
-              src="https://api.adorable.io/avatars/512/nanu13@adorable.io.png"
-            />
-          </div>
-          <div className="profile-image">
-            <img
-              className="img-fluid"
-              alt=""
-              src="https://api.adorable.io/avatars/512/nanu14@adorable.io.png"
-            />
-          </div>
-        </div>
-      </CardContent>
-    )
-  }
+import ImageBlock from './ImageBlock'
+
+class ProfileImages extends Component {
+    state = {
+        imageUploading: false,
+        uploadDonePercent: 0,
+        filePreview: '',
+        preCropImage: false,
+        showCropper: false
+    }
+
+    componentDidMount() {
+        this.props
+            .fetchProfileImages()
+            .then(res => { })
+            .catch(res => { })
+    }
+
+    onAddNewClick = () => {
+        this.profilePhotoUploader.click()
+    }
+
+    onFileInputChange = e => {
+        if (!e.target.files) {
+            return
+        }
+
+        getImageURLFromFile(e.target.files[0]).then(preCropImage => {
+            this.setState({ preCropImage, showCropper: true })
+        }).catch(err => {
+            alert(err.message)
+        })
+    }
+
+    onEditDone = (croppedImage) => {
+        this.setState({ filePreview: croppedImage })
+        this.closeCropper()
+        const data = new FormData()
+        data.append('photo', croppedImage)
+        this.props
+            .saveProfileImage(data, this.onProfileImageUpload)
+            .then(res =>
+                this.setState({
+                    imageUploading: false,
+                    uploadDonePercent: 0,
+                    filePreview: ''
+                })
+            )
+            .catch(res => {
+                this.setState({
+                    imageUploading: false,
+                    uploadDonePercent: 0,
+                    filePreview: ''
+                })
+            })
+    }
+
+    onProfileImageSetActiveClick = imageID => {
+        const datas = {
+            profile_photo_id: imageID,
+            set_active: true
+        }
+        this.props.updateProfileImage(datas)
+    }
+
+    onProfileImageDeleteClick = imageID => {
+        const datas = {
+            profile_photo_id: imageID
+        }
+        this.props.deleteProfileImage(datas)
+    }
+
+    onProfileImageUpload = value => {
+        let uploadDonePercent = 0
+        if (value.lengthComputable) {
+            uploadDonePercent = (value.loaded / value.total) * 100
+        }
+        this.setState({
+            uploadDonePercent
+        })
+    }
+
+    closeCropper = () => {
+        this.profilePhotoUploader.value = ''
+        this.setState({ showCropper: false, preCropImage: false })
+    }
+
+    render() {
+        const {
+            showCropper, preCropImage
+        } = this.state
+        const activeProfilePhoto = this.props.profileImages
+            ? this.props.profileImages.filter(x => x.is_active)
+            : []
+        const otherProfilePhotos = this.props.profileImages
+            ? this.props.profileImages.filter(x => !x.is_active)
+            : []
+        return (
+            <CardContent>
+                {
+                    showCropper && <ImageEditor
+                        src={preCropImage}
+                        onRequestClose={this.closeCropper}
+                        onEditDone={this.onEditDone} />
+                }
+                <div className="profile-images">
+                    {activeProfilePhoto.length > 0 && (
+                        <ImageBlock
+                            className="profile-image is-big"
+                            imageUrl={activeProfilePhoto[0].userphoto.photo}
+                            imageId={activeProfilePhoto[0].id}
+                            isActive={true}
+                            deleteFn={this.onProfileImageDeleteClick}
+                        />
+                    )}
+                    <div
+                        className="profile-image is-add-new"
+                        onClick={this.onAddNewClick}>
+                        <input
+                            type="file"
+                            accept="image/*"
+                            className="input-field"
+                            ref={node => this.profilePhotoUploader = node}
+                            onChange={this.onFileInputChange}
+                        />
+                        {this.state.imageUploading ? (
+                            <Fragment>
+                                <img
+                                    className="progress-bar-bg"
+                                    src={this.state.filePreview}
+                                    alt="uploading"
+                                />
+                                <div className="progress-bar">
+                                    <div
+                                        className="progress"
+                                        style={{
+                                            width:
+                                                this.state.uploadDonePercent +
+                                                '%'
+                                        }}
+                                    />
+                                </div>
+                            </Fragment>
+                        ) : (
+                                <i className="fa fa-plus" />
+                            )}
+                    </div>
+                    {otherProfilePhotos.map((x, i) => (
+                        <ImageBlock
+                            className="profile-image"
+                            key={i}
+                            imageUrl={x.userphoto.photo}
+                            imageId={x.id}
+                            deleteFn={this.onProfileImageDeleteClick}
+                            setActiveFn={this.onProfileImageSetActiveClick}
+                        />
+                    ))}
+                </div>
+            </CardContent>
+        )
+    }
 }
+
+const mapStateToProps = state => ({
+    profileImages: state.UserProfile.profileImages
+})
+
+const mapDispatchToProps = dispatch => ({
+    fetchProfileImages() {
+        return dispatch(userProfileActions.fetchProfileImages())
+    },
+    saveProfileImage(datas, uploadProgressFn) {
+        return dispatch(
+            userProfileActions.saveProfileImage(datas, uploadProgressFn)
+        )
+    },
+    deleteProfileImage(datas) {
+        return dispatch(userProfileActions.deleteProfileImage(datas))
+    },
+    updateProfileImage(datas) {
+        return dispatch(userProfileActions.updateProfileImage(datas))
+    }
+})
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(ProfileImages)

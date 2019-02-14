@@ -1,51 +1,145 @@
 @import 'ui';
 
 :local(.container) {
-  position: relative;
-  display: inline-block;
+    display: inline-block;
 
-  .notification-label {
-    padding: 13px 8px 12px 8px;
-  }
-
-  .ui-dropdown-toggle {
-    padding: 8px 4px;
-  }
-
-  .notification-item {
-    padding: 13px;
-    border-bottom: 1px rgba(#000, 0.07) solid;
-    color: #999;
-    line-height: 16px;
-    &:hover {
-      background-color: rgba(#000, 0.07);
+    .notification-label {
+        padding: 13px 8px 12px 8px;
+        position: relative;
+        .has-notification {
+            width: 5px;
+            height: 5px;
+            background-color: #fff;
+            display: inline-block;
+            position: absolute;
+            right: 4px;
+            top: 9px;
+            border-radius: 50%;
+            animation: glow 5s infinite;
+        }
     }
-  }
 
-  .notification-icon {
-    @include dimensions(48px);
-    margin-right: 12px;
-    border-radius: 50%;
-    overflow: hidden;
-  }
+    .nc-list-item {
+        padding: 4px 15px;
+        border-bottom: 1px rgba(#000, 0.07) solid;
+        position: relative;
+        &:first-child {
+            border-top: 1px rgba(#000, 0.07) solid;
+        }
+        &:hover {
+            .actions {
+                display: flex;
+            }
+        }
+        &.active {
+            .actions {
+                &.visible {
+                    @include media-breakpoint-down(md, $grid-breakpoints) {
+                        opacity: 1;
+                        width: auto;
+                    }
+                }
+            }
+        }
+        .is-important {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            font-size: 16px;
+        }
 
-  .notification-title {
-    color: #777;
-    font-weight: $font-weight-bold;
-  }
+        .name {
+            font-size: 16px;
+            font-weight: $font-weight-bold;
+        }
 
-  .mark-read-btn {
-    cursor: pointer;
-    transform-origin: center center;
-    transform: scale(1);
-    transition: transform 0.16s ease;
-    &:hover,
-    &:active {
-      color: $admin-primary;
+        .subtext {
+            margin-top: -4px;
+            font-size: 12px;
+        }
+
+        .actions {
+            display: none;
+            position: absolute;
+            right: 0;
+            top: -1px;
+            bottom: -1px;
+            @include media-breakpoint-down(md, $grid-breakpoints) {
+                display: flex;
+                opacity: 0;
+                width: 0;
+                transition: opacity 0.7s ease-in-out;
+            }
+            .reveal-action-icon {
+                display: flex;
+                align-items: center;
+                padding: 10px;
+                background-color: $dark;
+                color: #fff;
+                cursor: pointer;
+                .reverse {
+                    transform: rotate(180deg);
+                    transition: all 0.3s ease-in-out;
+                }
+                .normal {
+                    transition: all 0.3s ease-in-out;
+                }
+            }
+            .buttons-container {
+                display: none;
+                align-items: center;
+                width: auto;
+                opacity: 0;
+                background-color: #eee;
+                transition: opacity 0.7s ease-in-out;
+                box-shadow: inset 5px 0px 10px rgba(0, 0, 0, 0.18);
+                &.shown {
+                    display: flex;
+                    opacity: 1;
+                }
+            }
+            .button {
+                cursor: pointer;
+                font-size: 20px;
+                color: #878787;
+                padding: 18px 10px;
+            }
+        }
+
+        .ui-avatar,
+        .avatar-image {
+            height: 36px;
+            width: 36px;
+            margin-right: 12px;
+        }
     }
-    &:active {
-      color: $admin-secondary;
-      transform: scale(0.9);
+    .mark-read-btn {
+        cursor: pointer;
+        transform-origin: center center;
+        transform: scale(1);
+        transition: transform 0.16s ease;
+        &:hover,
+        &:active {
+            color: $admin-primary;
+        }
+        &:active {
+            color: $admin-secondary;
+            transform: scale(0.9);
+        }
     }
-  }
+}
+
+@keyframes glow {
+    0% {
+        box-shadow: 0 0 -10px #fff;
+    }
+    40% {
+        box-shadow: 0 0 20px #fff;
+    }
+    60% {
+        box-shadow: 0 0 20px #fff;
+    }
+    100% {
+        box-shadow: 0 0 -10px #fff;
+    }
 }

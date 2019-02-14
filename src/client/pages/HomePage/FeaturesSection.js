@@ -1,49 +1,126 @@
-import React from 'react'
+import React, { Fragment, Component } from 'react'
 import classnames from 'classnames'
-
+import CountUp from 'react-countup'
+import TrackVisibility from 'react-on-screen'
 import CoinSale from 'pages/Admin/CoinSale'
 
-const FeatureSelection = props => {
-  const cx = classnames(props.className, 'features-section')
+const FEATURES = [
+    {
+        image: '/public/img/features/mining.svg',
+        title: 'GPU MINING',
+        subtitle: 'Security',
+        description:
+            'Easy entry level GPU mining of the Baza token to support the network'
+    },
+    {
+        image: '/public/img/features/community.svg',
+        title: 'COMMUNITY',
+        subtitle: 'Support',
+        description: 'Join the Foundation to become a platform or patron member'
+    },
+    {
+        image: '/public/img/features/store-locally.svg',
+        title: 'STORE LOCALLY',
+        subtitle: 'Decentralize',
+        description:
+            'Download and store your Baza token on your choice of operating system'
+    }
+]
 
-  return (
-    <div className={cx} id={props.id}>
-      <div className="container page-section">
-        <h3 className="text-center mb-2"> Baza Features </h3>
-        <div className="row">
-          <div className="col-md-4 feature-item mt-3">
-            <div className="feature-icon">
-              <i className="fa fa-cubes" />
-            </div>
-            <div className="text-center">
-              Easy entry level GPU mining of Baza to support the network
-            </div>
-          </div>
-          <div className="col-md-4 feature-item mt-3">
-            <div className="feature-icon">
-              <i className="fa fa-laptop" />
-            </div>
-            <div className="text-center">
-              Download and store your Baza Coins on your choice of OS based
-              computer
-            </div>
-          </div>
-          <div className="col-md-4 feature-item mt-3">
-            <div className="feature-icon">
-              <i className="fa fa-star-half-o" />
-            </div>
-            <div className="text-center">
-              Join the Baza Foundation to become a continue member and follow
-              our progress
-            </div>
-          </div>
-        </div>
-      </div>
-      <div className="container page-section">
-        <CoinSale className="pt-4" />
-      </div>
-    </div>
-  )
+class FeatureItem extends Component {
+    renderAnimatedCount = title => {
+        return (
+            <CountUp start={0} end={title} delay={0} duration={3} separator=",">
+                {({ countUpRef }) => (
+                    <div>
+                        <span ref={countUpRef} />
+                    </div>
+                )}
+            </CountUp>
+        )
+    }
+
+    renderSection = isVisible => {
+        const {
+            iconClassName,
+            image,
+            title,
+            buttonClassName,
+            subtitle,
+            description
+        } = this.props
+
+        return (
+            <Fragment>
+                <div className={iconClassName}>
+                    <img alt={title} src={image} />
+                </div>
+                <div className={buttonClassName}>
+                    <div className="feature-title">
+                        {isVisible ? this.renderAnimatedCount(title) : title}
+                    </div>
+                    <div className="feature-subtitle">{subtitle}</div>
+                </div>
+                <div className="text-center">{description}</div>
+            </Fragment>
+        )
+    }
+
+    render() {
+        const cx =
+            'col-md-6 col-lg-4 col-xl-4 feature-item px-1 pb-3 pb-md-0 pb-lg-0 pb-xl-0' +
+            (this.props.index === 0 ? ' mt-0 mt-md-3 mt-xl-3 mt-lg-3' : ' mt-3')
+
+        if (!this.props.animateCount) {
+            return <div className={cx}> {this.renderSection()} </div>
+        }
+        return (
+            <TrackVisibility
+                once
+                className={cx}
+                partialVisibility={this.props.index >= 1}>
+                {({ isVisible }) => this.renderSection(isVisible)}
+            </TrackVisibility>
+        )
+    }
 }
 
-export default FeatureSelection
+const FeaturesSection = props => {
+    const cx = classnames(props.className, 'features-section')
+    const iconClassName = classnames(props.iconClassName, 'feature-icon')
+    const buttonClassName = classnames(
+        props.buttonClassName,
+        'feature-button btn-rounded-white'
+    )
+    const list = props.list || FEATURES
+    const title = props.title || 'Baza Token'
+    return (
+        <div className={cx} id={props.id}>
+            <div className="container page-section">
+                <h3 className="text-center mb-3"> {title} </h3>
+                <div className="row justify-content-center">
+                    {list.map((feature, i) => (
+                        <FeatureItem
+                            key={feature.title}
+                            animateCount={props.animateCount}
+                            index={i}
+                            title={feature.title}
+                            subtitle={feature.subtitle}
+                            image={feature.image}
+                            description={feature.description}
+                            iconClassName={iconClassName}
+                            buttonClassName={buttonClassName}
+                        />
+                    ))}
+                </div>
+            </div>
+            {!props.noCoinSale && (
+                <div className="container coinsale-section page-section">
+                    <CoinSale className="pt-4" />
+                </div>
+            )}
+        </div>
+    )
+}
+
+export default FeaturesSection

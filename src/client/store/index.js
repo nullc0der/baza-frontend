@@ -7,34 +7,40 @@ import rootReducer from './rootReducer'
 
 import debounce from 'lodash/debounce'
 
-// Store will use this key to check localstorage
-const LOCAL_KEY = 'kanto-state'
-
 // This is the timeout for debounced store save
-const STORE_TIMEOUT = 3000
+const STORE_TIMEOUT = 1000
 
 const debug = require('debug')('baza:store')
 
 export var store
 
-function _saveLocalState(providedState = {}) {
-    localStorage.setItem(LOCAL_KEY, JSON.stringify(providedState))
-    debug('State synced to local')
+function _saveLocalUIState(keyName = 'baza-ui', providedState = {}) {
+    localStorage.setItem(keyName, JSON.stringify(providedState))
+    debug('UI state synced to local')
 }
 
-export const saveLocalState = debounce(_saveLocalState, STORE_TIMEOUT, {
+export const saveLocalUIState = debounce(_saveLocalUIState, STORE_TIMEOUT, {
     trailing: true
 })
 
-export function loadLocalState() {
-    const _state = localStorage.getItem(LOCAL_KEY)
+function _saveLocalAuthState(keyName = 'baza-auth', providedState = {}) {
+    localStorage.setItem(keyName, JSON.stringify(providedState))
+    debug('Auth state synced to local')
+}
+
+export const saveLocalAuthState = debounce(_saveLocalAuthState, STORE_TIMEOUT, {
+    trailing: true
+})
+
+export function loadLocalState(keyName = 'baza-ui') {
+    const _state = localStorage.getItem(keyName)
     if (typeof _state === 'string' && _state[0] === '{')
         return JSON.parse(_state)
     return {}
 }
 
-export function removeLocalState() {
-    localStorage.removeItem(LOCAL_KEY)
+export function removeLocalState(keyName = 'baza-ui') {
+    localStorage.removeItem(keyName)
 }
 
 export function configureStore(initialState = {}, history) {
@@ -50,7 +56,10 @@ export function configureStore(initialState = {}, history) {
               }
 
     // Composed store enhancer
-    const composed = compose(applyMiddleware(...middlewares), devTools)
+    const composed = compose(
+        applyMiddleware(...middlewares),
+        devTools
+    )
 
     // Create the store
     store = createStore(rootReducer, initialState, composed)

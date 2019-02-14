@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   viewBox="0 0 64 64"
+   version="1.1"
+   id="svg27"
+   sodipodi:docname="baza_logo_gs_1.svg"
+   inkscape:version="0.92.3 (2405546, 2018-03-11)">
+  <metadata
+     id="metadata31">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title>Asset 6</dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="1920"
+     inkscape:window-height="1016"
+     id="namedview29"
+     showgrid="false"
+     inkscape:zoom="3.6875"
+     inkscape:cx="-0.40677966"
+     inkscape:cy="32"
+     inkscape:window-x="0"
+     inkscape:window-y="30"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="Layer_1-2" />
+  <defs
+     id="defs9">
+    <style
+       id="style2">.cls-1{fill:url(#radial-gradient);}.cls-2{fill:#1b2b3f;}.cls-3{opacity:0.3;}.cls-4{fill:#fff;}</style>
+    <radialGradient
+       id="radial-gradient"
+       cx="-373.68"
+       cy="521.58"
+       r="8"
+       gradientTransform="translate(1526.73 -2054.3) scale(4)"
+       gradientUnits="userSpaceOnUse">
+      <stop
+         offset="0"
+         stop-color="#ffe920"
+         id="stop4" />
+      <stop
+         offset="1"
+         stop-color="#fdc800"
+         id="stop6" />
+    </radialGradient>
+    <filter
+       style="color-interpolation-filters:sRGB;"
+       inkscape:label="Greyscale"
+       id="filter3738">
+      <feColorMatrix
+         values="0.21 0.72 0.072 0 0 0.21 0.72 0.072 0 0 0.21 0.72 0.072 0 0 0 0 0 1 0 "
+         id="feColorMatrix3736" />
+    </filter>
+  </defs>
+  <title
+     id="title11">Asset 6</title>
+  <g
+     id="Layer_2"
+     data-name="Layer 2"
+     style="filter:url(#filter3738)">
+    <g
+       id="Layer_1-2"
+       data-name="Layer 1">
+      <circle
+         class="cls-1"
+         cx="32"
+         cy="32"
+         r="32"
+         id="circle13" />
+      <path
+         class="cls-2"
+         d="M59,32a24.82,24.82,0,0,1-.8,6.48A27,27,0,0,1,33.52,58.94,9.73,9.73,0,0,1,32,59,27,27,0,1,1,59,32Z"
+         id="path15"
+         style="fill:#808080" />
+      <path
+         class="cls-3"
+         d="M 58.24,38.46 A 27,27 0 0 1 33.52,58.94 L 20.72,46.14 43.36,23.58 Z"
+         id="path17"
+         inkscape:connector-curvature="0"
+         style="display:none;opacity:0.3" />
+      <rect
+         class="cls-4"
+         x="20"
+         y="22.83"
+         width="24"
+         height="24"
+         rx="2.4"
+         ry="2.4"
+         id="rect19" />
+      <rect
+         class="cls-4"
+         x="20"
+         y="17.17"
+         width="6"
+         height="16"
+         id="rect21" />
+      <rect
+         class="cls-2"
+         x="26"
+         y="28.83"
+         width="12"
+         height="12"
+         rx="1.9"
+         ry="1.9"
+         id="rect23"
+         style="fill:#999999" />
+    </g>
+  </g>
+</svg>

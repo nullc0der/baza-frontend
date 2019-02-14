@@ -1,30 +1,30 @@
 @import 'ui';
 
 :local(.container) {
-  color: inherit;
+    color: inherit;
 }
 
 :local(.paymentBadges) {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  .payment-image {
-    height: 26px;
-    width: 120px;
-    background-repeat: no-repeat;
-    background-position: center center;
-    background-size: contain;
-    & + .payment-image {
-      margin-left: map-get($spacers, 2);
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    .payment-image {
+        height: 26px;
+        width: 120px;
+        background-repeat: no-repeat;
+        background-position: center center;
+        background-size: contain;
+        & + .payment-image {
+            margin-left: map-get($spacers, 2);
+        }
     }
-  }
 
-  .payment-image-ssl {
-    background-image: url('/public/img/ssl_encrypted.svg');
-  }
+    .payment-image-ssl {
+        background-image: url('/public/img/ssl_encrypted.svg');
+    }
 
-  .payment-image-stripe {
-    background-image: url('/public/img/powered_by_stripe.svg');
-  }
+    .payment-image-stripe {
+        background-image: url('/public/img/powered_by_stripe.svg');
+    }
 }

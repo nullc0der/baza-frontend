@@ -1,47 +1,108 @@
+@import 'ui';
+$color_1: inherit;
+$color_2: rgba(0, 0, 0, 0.5);
+
 :local(.container) {
-	color: inherit;
-	display: flex;
-	align-items: center;
-	position: relative;
-	justify-content: flex-end;
-	margin: 24px 12px;
-}
-
-:local(.container).in-left {
-	justify-content: flex-start;
-}
-
-:local(.container).in-left .stamp {
-	left: 0;
-	right: initial;
-}
-
-:local(.container).in-left .msg {
-	order: 2;
-}
-
-:local(.container).in-left .ui-avatar {
-	order: 1;
-	margin-left: 0;
-}
-
-:local(.container) .msg {
-	margin-left: 4px;
-	background-color: #fff;
-	padding: 3px 8px;
-	order: 1;
-}
-
-:local(.container) .ui-avatar {
-	order: 2;
-	margin-left: 4px;
-}
-
-:local(.container) .stamp {
-	font-size: 10px;
-	font-weight: 600;
-	opacity: 0.6;
-	position: absolute;
-	bottom: -20px;
-	right: 0;
+    color: $color_1;
+    display: flex;
+    align-items: center;
+    position: relative;
+    justify-content: flex-end;
+    margin: 24px 12px;
+    .msg {
+        margin: 0 4px;
+        background-color: $light;
+        padding: 3px 8px;
+        order: 1;
+        display: block;
+        border-radius: 5px;
+        cursor: pointer;
+        .emoji-mart-emoji {
+            left: 0;
+            top: 5px;
+        }
+    }
+    .Linkify {
+        // Both line needed
+        word-break: break-all;
+        word-break: break-word;
+        a {
+            display: inline-block;
+        }
+    }
+    .img-attachment {
+        max-width: 400px;
+        height: auto;
+        padding: 5px;
+        img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            border-radius: 5px;
+        }
+    }
+    .img-attachment {
+        &.small {
+            width: 160px;
+        }
+    }
+    .video-attachment {
+        max-width: 400px;
+        height: auto;
+        padding: 5px;
+        video {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            border-radius: 5px;
+        }
+    }
+    .video-attachment.small {
+        width: 160px;
+    }
+    .file-attachment {
+        padding: 5px 0;
+        .fa {
+            font-size: 15px;
+            margin-right: 5px;
+            color: $color_2;
+        }
+        a {
+            color: $color_2;
+            text-decoration: none;
+        }
+    }
+    .ui-avatar {
+        order: 2;
+        margin-left: 4px;
+        margin-right: 4px;
+        width: 24px !important;
+        height: 24px !important;
+    }
+    .selectmessage {
+        order: 3;
+    }
+    .stamp {
+        font-size: 10px;
+        font-weight: 600;
+        opacity: 0.6;
+        position: absolute;
+        bottom: -20px;
+        right: 0;
+    }
+    &.in-left {
+        justify-content: flex-start;
+        .stamp {
+            left: 15px;
+        }
+        .msg {
+            order: 3;
+        }
+        .ui-avatar {
+            order: 2;
+        }
+        .selectmessage {
+            order: 1;
+        }
+    }
 }

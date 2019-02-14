@@ -1,0 +1,17 @@
+@import 'ui';
+
+:local(.container) {
+    .coinbase-commerce-iframe-container {
+        background-color: unset;
+    }
+    a {
+        text-decoration: none;
+    }
+}
+
+:local(.coinbaseInfoDialog) {
+    margin-top: -1rem;
+    .btn-link {
+        color: $dark;
+    }
+}

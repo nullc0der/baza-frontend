@@ -1,4 +1,10 @@
 {
-	"NODE_PORT" : 5000,
-	"PROXY_PORT": 5100
+    "NODE_PORT": 5000,
+    "PROXY_PORT": 5100,
+    "API_ROOT": "https://api.baza.foundation/api/v1",
+    "DOCUMENT_ROOT": "https://api.baza.foundation",
+    "MOCK_API_ROOT": "/api/v1",
+    "SITE_TYPE": "local|beta|live",
+    "RELEASE_CODENAME": "Rising Phoenix",
+    "RELEASE": "1.0.0"
 }

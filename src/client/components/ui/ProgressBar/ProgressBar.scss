@@ -4,80 +4,117 @@ $ui-progress-height: 28px;
 $ui-progress-border-radius: 14px;
 
 :local(.container) {
-  margin: 50px 0;
-  height: $ui-progress-height;
-  background-color: rgba($dark, 0.08);
-  border-radius: $ui-progress-border-radius;
-  position: relative;
-  overflow: visible;
-  font-size: 14px;
-  .ui-progress-bar {
-    position: absolute;
-    top: 0;
-    left: 0;
-    padding: 0 16px;
+    margin: 50px 0;
     height: $ui-progress-height;
+    background-color: rgba($dark, 0.08);
     border-radius: $ui-progress-border-radius;
-    background-color: $primary;
-    @include thin-gradient();
-    background-size: 9px $ui-progress-height;
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    transition: all 0.24s ease-in-out;
-  }
-  .ui-progress-active-text {
-    color: #fff;
-    font-weight: $font-weight-bold;
     position: relative;
-  }
-  .ui-progress-end-text {
-    position: absolute;
-    right: 16px;
-    font-weight: $font-weight-semibold;
-    color: rgba($dark, 0.5);
-    top: 4px;
-  }
-  .ui-progress-tooltip {
-    position: absolute;
-    color: rgba($dark, 0.5);
-    font-size: 16px;
-    &:after {
-      position: absolute;
-      font-size: 14px;
-      left: 50%;
-      margin-left: -7px;
-      font-family: 'FontAwesome';
-      content: '\f078';
+    overflow: visible;
+    font-size: 14px;
+    .ui-progress-bar {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: $ui-progress-height;
+        border-radius: $ui-progress-border-radius;
+        background-color: $primary;
+        @include fat-gradient();
+        background-size: $ui-progress-height $ui-progress-height;
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        transition: all 0.24s ease-in-out;
+        @include animate-progress-bar();
     }
-  }
-  .current-tooltip {
-    top: -55px;
-    padding-bottom: 50px;
-    text-align: center;
-    right: 50%;
-    width: 120px;
-    margin-right: -60px;
-    transform-origin: center bottom;
-    &:after {
-      bottom: 30px;
-      content: '\f078';
+    .ui-progress-active-text {
+        color: #fff;
+        font-weight: $font-weight-bold;
+        position: relative;
+        &.zero-value {
+            padding: 0 45px;
+            @include media-breakpoint-down(sm, $grid-breakpoints) {
+                .current-tooltip {
+                    margin-right: -75px;
+                    top: -75px;
+                }
+            }
+        }
     }
-  }
-  .end-tooltip {
-    bottom: -50px;
-    right: 0;
-    padding-top: 50px;
-    transform-origin: center top;
-    &:after {
-      top: 30px;
-      content: '\f077';
+    .ui-progress-start-text,
+    .ui-progress-end-text {
+        position: absolute;
+        right: 16px;
+        font-weight: $font-weight-semibold;
+        color: rgba($dark, 0.5);
+        top: 4px;
+        @include media-breakpoint-down(sm, $grid-breakpoints) {
+            display: none;
+        }
     }
-  }
-  @include media-breakpoint-down(sm, $grid-breakpoints) {
-    .current-tooltip,
+    .ui-progress-start-text {
+        right: unset;
+        left: 16px;
+    }
+    .ui-progress-progress-text {
+        @include media-breakpoint-down(sm, $grid-breakpoints) {
+            display: none;
+        }
+    }
+    .ui-progress-progress-sm-text {
+        @include media-breakpoint-up(md, $grid-breakpoints) {
+            display: none;
+        }
+    }
+    .ui-progress-tooltip {
+        position: absolute;
+        color: rgba($dark, 0.5);
+        font-size: 16px;
+        &:after {
+            position: absolute;
+            font-size: 14px;
+            left: 50%;
+            margin-left: -7px;
+            font-family: 'FontAwesome';
+            content: '\f078';
+        }
+    }
+    .current-tooltip {
+        top: -55px;
+        padding-bottom: 50px;
+        text-align: center;
+        right: 50%;
+        width: 150px;
+        margin-right: -60px;
+        font-weight: $font-weight-bold;
+        transform-origin: center bottom;
+        &:after {
+            bottom: 30px;
+            content: '\f078';
+        }
+        @include media-breakpoint-down(sm, $grid-breakpoints) {
+            top: -90px;
+            width: 150px;
+            margin-right: -90px;
+        }
+    }
     .end-tooltip {
-      transform: scale(0.8);
+        bottom: -50px;
+        right: 0;
+        padding-top: 50px;
+        font-weight: $font-weight-bold;
+        transform-origin: center top;
+        &:after {
+            top: 30px;
+            content: '\f077';
+        }
+        @include media-breakpoint-down(sm, $grid-breakpoints) {
+            bottom: -75px;
+        }
     }
-  }
+    @include media-breakpoint-down(sm, $grid-breakpoints) {
+        .current-tooltip,
+        .end-tooltip {
+            transform: scale(0.8);
+        }
+    }
 }

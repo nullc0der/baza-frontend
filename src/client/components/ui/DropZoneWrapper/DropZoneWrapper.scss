@@ -1,0 +1,29 @@
+@import 'ui';
+
+:local(.container) {
+    width: inherit;
+
+    p {
+        margin: 0;
+    }
+
+    .dropped-files {
+        margin-top: 10px;
+        height: 100px;
+        overflow: hidden;
+        overflow-y: auto;
+        border: 1px solid $dark;
+        padding: 5px;
+        ul {
+            padding: 0;
+            list-style: none;
+        }
+    }
+
+    .remove-file {
+        float: right;
+        margin-right: 10px;
+        margin-top: 5px;
+        cursor: pointer;
+    }
+}

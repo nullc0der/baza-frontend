@@ -1,4 +1,4 @@
-const ExtractTextPlugin = require('extract-text-webpack-plugin')
+const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 
 const PATHS = require('../../paths')
 
@@ -7,7 +7,7 @@ const {
 	_POSTCSS_LOADER
 } = require('./css-loader')
 
-const _SASS_LOADER = (isServer = false)=> ({
+const _SASS_LOADER = (isServer = false) => ({
 	loader: require.resolve('sass-loader'),
 	options: {
 		sourceMap: !isServer && process.env.NODE_ENV !== "production",
@@ -30,7 +30,7 @@ const _SASS_LOADER = (isServer = false)=> ({
 // })
 
 
-const LOADER_DEV = (isServer)=> ({
+const LOADER_DEV = (isServer) => ({
 	test: /\.(sass|scss)$/,
 	use: [
 		require.resolve('style-loader'),
@@ -40,16 +40,14 @@ const LOADER_DEV = (isServer)=> ({
 	]
 })
 
-const LOADER_PROD = (isServer)=> ({
+const LOADER_PROD = (isServer) => ({
 	test: /\.(sass|scss)$/,
-	loader: ExtractTextPlugin.extract({
-		fallback: 'style-loader',
-		use: [
-			_CSS_LOADER(isServer),
-			_POSTCSS_LOADER(isServer),
-			_SASS_LOADER(isServer)
-		]
-	})
+	use: [
+		MiniCssExtractPlugin.loader,
+		_CSS_LOADER(isServer),
+		_POSTCSS_LOADER(isServer),
+		_SASS_LOADER(isServer)
+	]
 })
 
 

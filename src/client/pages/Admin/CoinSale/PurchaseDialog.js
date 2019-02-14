@@ -1,104 +1,193 @@
 import React, { Component } from 'react'
-import classnames from 'classnames'
 import Dialog from 'components/ui/Dialog'
+import { create } from 'apisauce'
+import get from 'lodash/get'
 
 // import last from 'lodash/last'
 
+import Auth from 'utils/authHelpers'
+
 import TextField from 'components/ui/TextField'
-import PaymentInformation, {
-  PaymentBadges
-} from 'components/PaymentInformation'
+
+import CoinbaseButton from 'components/CoinbaseButton'
 
 import { CurrencyDropdown } from './CoinSale'
-import { CONVERSION_TABLE } from './data'
+// import { CONVERSION_TABLE } from './data'
 
 import s from './CoinSale.scss'
+import Config from 'utils/config'
 
 export default class PurchaseDialog extends Component {
-  state = {
-    purchaseAmount: '1',
-    conversion: CONVERSION_TABLE['usd']
-  }
+    state = {
+        purchaseAmount: '1',
+        conversion: 0,
+        perDollarCost: 0,
+        purchaseAmountError: null,
+        nonFieldErrors: null,
+        coinPurchaseDone: '',
+        isPurchaseDialogContentHidden: false
+    }
 
-  updatePurchaseAmount = purchaseAmount => {
-    purchaseAmount = purchaseAmount || 0
-    const conversion = this.convertAmountToBAZ(purchaseAmount)
-    this.setState({ purchaseAmount, conversion })
-  }
+    componentDidMount = () => {
+        if (Auth.isAuthenticated()) {
+            const api = create({
+                baseURL: Config.get('API_ROOT'),
+                headers: {
+                    Accept: 'application/json'
+                }
+            })
+            api.setHeader('Authorization', `Bearer ${Auth.getToken()}`)
+            api.get('/purchasecoin/coinvalue/', {
+                coin_name: 'proxcdb'
+            }).then(response => {
+                if (response.ok) {
+                    this.setState({
+                        conversion: parseFloat(response.data),
+                        perDollarCost: response.data
+                    })
+                }
+            })
+        }
+    }
 
-  convertAmountToBAZ = str => {
-    const amount = (str + '').replace(/\D/g, '') || 0
-    // const unit = last((str + '').split(' '))
-    const unit = this.props.selectedCurrency.toLowerCase()
-    const multiplier = CONVERSION_TABLE[unit]
-    return multiplier ? amount * multiplier : 0
-  }
+    updatePurchaseAmount = (id, purchaseAmount) => {
+        purchaseAmount = purchaseAmount || 0
+        const conversion = this.convertAmountToBAZ(purchaseAmount)
+        this.setState({ purchaseAmount, conversion })
+    }
 
-  onCurrencySelect = currency => {
-    this.setState({
-      conversion: this.state.purchaseAmount * CONVERSION_TABLE[currency.key]
-    })
-    this.props.onCurrencySelect(currency)
-  }
+    convertAmountToBAZ = str => {
+        const amount = (str + '').replace(/\D/g, '') || 0
+        // // const unit = last((str + '').split(' '))
+        // const unit = this.props.selectedCurrency.toLowerCase()
+        // const multiplier = CONVERSION_TABLE[unit]
+        // return multiplier ? amount * multiplier : 0
+        return this.state.perDollarCost * amount
+    }
 
-  getSubmitButton = device => {
-    const cx = classnames('mt-3 mb-2 button-purchase-wrap', {
-      'd-none d-md-block d-lg-block d-xl-block': device === 'desktop',
-      'd-md-none d-lg-none d-xl-none': device === 'mobile'
-    })
-    return (
-      <div className={cx}>
-        <button className="btn btn-dark btn-block">
-          <span>PURCHASE</span>
-          <i className="material-icons">arrow_forward</i>
-        </button>
-        <div className="form-check form-check-inline mt-2 mb-2">
-          <input
-            className="form-check-input"
-            type="checkbox"
-            id="add_to_newsletter"
-            value="add_to_newsletter"
-          />
-          <label className="form-check-label" htmlFor="add_to_newsletter">
-            Yes! Add me to your newsletter list
-          </label>
-        </div>
-      </div>
-    )
-  }
+    onCurrencySelect = currency => {
+        this.setState({
+            conversion: this.state.purchaseAmount * this.state.perDollarCost
+        })
+        this.props.onCurrencySelect(currency)
+    }
 
-  render() {
-    return (
-      <Dialog
-        className={s.purchaseDialog}
-        title="Purchase BAZ Coins"
-        isOpen={this.props.isOpen}
-        footer="Contact your credit card holder about Baza Foundation purchase and limits to avoid any bank issues"
-        onRequestClose={this.props.onRequestClose}>
-        <div className="row">
-          <div className="col-md-5">
-            <CurrencyDropdown
-              selectedCurrency={this.props.selectedCurrency}
-              onCurrencySelect={this.onCurrencySelect}
-            />
-            <div className="text-center">Enter Amount</div>
-            <TextField
-              className="purchase-amount-input"
-              onChange={this.updatePurchaseAmount}
-              value={this.state.purchaseAmount}
-            />
-            <div className="baz-conversion well p-2 mt-3">
-              {this.state.conversion} <span className="baz-unit">BAZ</span>
-            </div>
-            {this.getSubmitButton('desktop')}
-          </div>
-          <div className="col-md-7 mt-2 mt-md-0 mt-lg-0 mt-xl-0">
-            <PaymentInformation />
-          </div>
-        </div>
-        {this.getSubmitButton('mobile')}
-        <PaymentBadges />
-      </Dialog>
-    )
-  }
+    onChargeSuccess = () => {
+        this.setState({
+            coinPurchaseDone:
+                'Thank you for funding the Foundation, your token reward will be updated to your online wallet soon.'
+        })
+    }
+
+    onChargeFailure = () => {
+        this.setState({
+            coinPurchaseDone:
+                "Your payment couldn't be processed, please try again"
+        })
+    }
+
+    onPaymentDetected = () => {
+        this.setState({
+            coinPurchaseDone: `A payment has been detected, but it is not confirmed yet,
+                you will get an email on confirm and your reward will be updated to your online wallet`
+        })
+    }
+
+    onCoinbaseLoad = () => {
+        this.setState({
+            isPurchaseDialogContentHidden: true
+        })
+    }
+
+    onCoinbaseClosed = () => {
+        this.setState({
+            isPurchaseDialogContentHidden: false
+        })
+    }
+
+    onInitiatePaymentSuccess = data => {
+        this.props.onChargeIDChange(
+            Number(this.state.purchaseAmount),
+            data.charge_id
+        )
+    }
+
+    onInitiatePaymentFailure = err => {
+        this.setState({
+            nonFieldErrors: get(err, 'non_field_errors', null)
+        })
+    }
+
+    render() {
+        return Auth.isAuthenticated() ? (
+            <Dialog
+                className={s.purchaseDialog}
+                title="Donate to Fundraiser"
+                isOpen={this.props.isOpen}
+                onRequestClose={this.props.onRequestClose}
+                hideModalContent={this.state.isPurchaseDialogContentHidden}>
+                <div className="row">
+                    <div className="col-md-12">
+                        {this.state.nonFieldErrors && (
+                            <div className="well mb-2 mt-2 error-well">
+                                {this.state.nonFieldErrors.map((x, i) => (
+                                    <p key={i}>{x}</p>
+                                ))}
+                            </div>
+                        )}
+                        <CurrencyDropdown
+                            selectedCurrency={this.props.selectedCurrency}
+                            onCurrencySelect={this.onCurrencySelect}
+                        />
+                        <div className="text-center">Enter Amount</div>
+                        <TextField
+                            id="price"
+                            className="purchase-amount-input"
+                            onChange={this.updatePurchaseAmount}
+                            value={this.state.purchaseAmount}
+                            errorState={this.state.purchaseAmountError}
+                        />
+                        <div className="baz-conversion well p-2 mt-3">
+                            {this.state.conversion}{' '}
+                            <span className="baz-unit">BAZ</span>
+                        </div>
+                        {this.state.coinPurchaseDone.length > 0 && (
+                            <div className="well mt-2 error-well text-center">
+                                <p className="mb-0">
+                                    {this.state.coinPurchaseDone}
+                                </p>
+                            </div>
+                        )}
+                        <CoinbaseButton
+                            className="mt-3"
+                            data={{ amount: Number(this.state.purchaseAmount) }}
+                            initiatePaymentURL="/coinbase/initiate/1/"
+                            onChargeSuccess={this.onChargeSuccess}
+                            onChargeFailure={this.onChargeFailure}
+                            onPaymentDetected={this.onPaymentDetected}
+                            onCoinbaseLoad={this.onCoinbaseLoad}
+                            onCoinbaseClosed={this.onCoinbaseClosed}
+                            onInitiatePaymentSuccess={
+                                this.onInitiatePaymentSuccess
+                            }
+                            onInitiatePaymentFailure={
+                                this.onInitiatePaymentFailure
+                            }
+                        />
+                    </div>
+                </div>
+            </Dialog>
+        ) : (
+            <Dialog
+                className={s.notAuthenticatedDialog}
+                isOpen={this.props.isOpen}
+                onRequestClose={this.props.onRequestClose}>
+                <div className="row">
+                    <div className="col-md-12 text-center">
+                        Please sign in to participate in fundraiser.
+                    </div>
+                </div>
+            </Dialog>
+        )
+    }
 }

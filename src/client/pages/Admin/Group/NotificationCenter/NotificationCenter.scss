@@ -1,0 +1,131 @@
+@import 'ui';
+
+:local(.container) {
+    .nc-header {
+        text-align: center;
+        color: #9b9b9b;
+        font-size: 16px;
+        padding: 4px 12px;
+    }
+    .nc-list {
+        overflow-x: hidden;
+    }
+    .nc-list-item {
+        padding: 10px 15px;
+        border-bottom: 1px rgba(#000, 0.07) solid;
+        position: relative;
+        &:first-child {
+            border-top: 1px rgba(#000, 0.07) solid;
+        }
+        &:hover {
+            @include _shadow_1();
+            @include media-breakpoint-down(md, $grid-breakpoints) {
+                box-shadow: none;
+            }
+            .actions {
+                display: flex;
+            }
+        }
+        &.active {
+            .actions {
+                &.visible {
+                    @include media-breakpoint-down(md, $grid-breakpoints) {
+                        opacity: 1;
+                        width: auto;
+                    }
+                }
+            }
+        }
+        .is-important {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            font-size: 16px;
+        }
+        .details {
+            width: 100%;
+        }
+        .name {
+            font-size: 16px;
+            font-weight: $font-weight-bold;
+        }
+
+        .subtext {
+            margin-top: -4px;
+            font-size: 12px;
+        }
+        .actions {
+            display: none;
+            position: absolute;
+            right: 0;
+            top: -1px;
+            bottom: -1px;
+            @include media-breakpoint-down(md, $grid-breakpoints) {
+                display: flex;
+                opacity: 0;
+                width: 0;
+                transition: opacity 0.7s ease-in-out;
+            }
+            .reveal-action-icon {
+                display: flex;
+                align-items: center;
+                padding: 10px;
+                background-color: $dark;
+                color: #fff;
+                cursor: pointer;
+                .reverse {
+                    transform: rotate(180deg);
+                    transition: all 0.3s ease-in-out;
+                }
+                .normal {
+                    transition: all 0.3s ease-in-out;
+                }
+            }
+            .buttons-container {
+                display: flex;
+                align-items: center;
+                width: 0;
+                opacity: 0;
+                background-color: #eee;
+                transition: opacity 0.7s ease-in-out;
+                box-shadow: inset 5px 0px 10px rgba(0, 0, 0, 0.18);
+                &.shown {
+                    width: auto;
+                    opacity: 1;
+                }
+            }
+            .button {
+                cursor: pointer;
+                font-size: 20px;
+                color: #878787;
+                padding: 18px 10px;
+            }
+        }
+    }
+    .nf-btn {
+        border-radius: 20px;
+        margin-left: 8px;
+        background-color: rgba(#000, 0.12);
+        padding: 2px 12px;
+        color: #fff;
+        cursor: pointer;
+        font-weight: $font-weight-bold;
+        transition: all 0.32s ease-in-out;
+        &.btn-accept {
+            background-color: #4e92df;
+        }
+        &.btn-deny {
+            background-color: #db4d3f;
+        }
+        &:hover {
+            box-shadow: 0 3px 8px 0 rgba(#000, 0.12);
+        }
+    }
+
+    .ui-avatar,
+    .avatar-image {
+        height: 36px;
+        width: 36px;
+        margin-right: 12px;
+    }
+}

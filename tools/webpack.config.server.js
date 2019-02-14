@@ -4,7 +4,9 @@ const nodeExternals = require('webpack-node-externals')
 const ModuleScopePlugin = require('react-dev-utils/ModuleScopePlugin')
 const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin')
 const WatchMissingNodeModulesPlugin = require('react-dev-utils/WatchMissingNodeModulesPlugin')
-const ExtractTextPlugin = require('extract-text-webpack-plugin')
+const MiniCssExtractPlugin = require('mini-css-extract-plugin')
+const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin')
+const CleanStatsPlugin = require('./CleanStatsPlugin')
 const PATHS = require('./paths')
 
 const LOADERS = require('./gulp/loaders')
@@ -22,6 +24,8 @@ const config = {}
 
 // Compile for node.js only mode
 config.target = 'node'
+
+config.mode = IS_PROD ? 'production' : 'development'
 
 // Devtool
 config.devtool = envOption(false, 'inline-source-map', false)
@@ -90,10 +94,16 @@ config.plugins = [
   }),
   new CaseSensitivePathsPlugin(),
   new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
-  new ExtractTextPlugin({
-    filename: 'server.bundle.css',
-    allChunks: true
-  })
+  new MiniCssExtractPlugin({
+    filename: 'server.bundle.css'
+  }),
+  new OptimizeCssAssetsPlugin({
+    assetNameRegExp: /\.optimize\.css$/g,
+    cssProcessor: require('cssnano'),
+    cssProcessorOptions: { discardComments: { removeAll: true } },
+    canPrint: true
+  }),
+  new CleanStatsPlugin()
 ]
 
 // Dev mode specific plugins
@@ -104,7 +114,7 @@ if (IS_DEV) {
 // Production specific plugins
 if (IS_PROD) {
   config.plugins.concat([
-    new webpack.optimize.UglifyJsPlugin({ compress: { warnings: false } })
+    // add prod plugins here
   ])
 }
 

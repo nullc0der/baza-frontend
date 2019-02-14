@@ -1,5 +1,7 @@
 import { Router } from 'express'
-
+import request from 'request'
+import { getClientConfig } from '../config'
+import MockAPI from '../mock'
 const router = Router()
 
 /**
@@ -9,9 +11,16 @@ const router = Router()
  */
 /*eslint-disable*/
 const StaticRenderer = (req, res, next) => {
-    return res.render('index', {})
+    return res.render('index', {
+        bazaConfig: getClientConfig()
+    })
 }
 /*eslint-enable*/
+
+const proxySageImage = (req, res) => {
+    res.set('Access-Control-Allow-Origin', '*')
+    request.get(req.query.src).pipe(res)
+}
 
 /**
  * [getRouter Returns main router for application]
@@ -21,6 +30,9 @@ const StaticRenderer = (req, res, next) => {
 export default function getRouter(app) {
     // Health check
     router.get('/ping', (req, res) => res.status(200).send('pong'))
+
+    router.use('/api/v2/mock', MockAPI)
+    router.get('/get-safe-image', proxySageImage)
 
     // No server rendering
     router.get('*', StaticRenderer)

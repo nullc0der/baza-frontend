@@ -1,0 +1,130 @@
+@import 'ui';
+
+:local(.profileCard) {
+    .ui-group-card {
+        height: 500px;
+        @include _shadow_1();
+        &:hover {
+            @include _shadow-2();
+        }
+    }
+    .modal-dialog {
+        width: 40vw;
+        @include media-breakpoint-down(sm, $grid-breakpoints) {
+            width: auto;
+        }
+        .grouptypes-dropdown-group {
+            width: 100%;
+            .dropdown-toggle {
+                text-decoration: none;
+                border-bottom: 1px solid $dark;
+                width: 100%;
+                padding-bottom: 6px;
+            }
+            .dropdown-toggle,
+            .dropdown-menu {
+                cursor: pointer;
+            }
+        }
+    }
+}
+
+:local(.profileTabs) {
+    &.ui-card {
+        height: 100%;
+    }
+    .ui-card-header {
+        background-color: #00bcd4;
+        opacity: 0.85;
+        &.group-type-art {
+            background-color: #2196f3;
+            opacity: 0.85;
+        }
+        &.group-type-activist {
+            background-color: #ffc107;
+            opacity: 0.85;
+        }
+        &.group-type-political {
+            background-color: #4caf50;
+            opacity: 0.85;
+        }
+        &.group-type-news {
+            background-color: #009688;
+            opacity: 0.85;
+        }
+        &.group-type-business {
+            background-color: #009688;
+            opacity: 0.85;
+        }
+        &.group-type-government {
+            background-color: #795548;
+            opacity: 0.85;
+        }
+        &.group-type-blog {
+            background-color: #ff9800;
+            opacity: 0.85;
+        }
+        &.group-type-nonprofit {
+            background-color: #673ab7;
+            opacity: 0.85;
+        }
+    }
+    .ui-card-content {
+        height: 100%;
+    }
+    .settings-section {
+        .join-status-dropdown {
+            margin-bottom: 10px;
+            p {
+                margin: 0;
+            }
+        }
+        .settings-toggles {
+            label {
+                color: $dark;
+            }
+        }
+        .delete-section {
+            p {
+                margin: 0;
+            }
+            .delete-button {
+                color: #fff;
+            }
+        }
+    }
+    .notifications-section {
+        .notifications {
+            min-height: 320px;
+            .notification {
+                color: #878787;
+                padding: 5px;
+                border-bottom: 1px solid #eee;
+                position: relative;
+                &:hover {
+                    .actions {
+                        display: inline;
+                    }
+                }
+                span,
+                p {
+                    color: inherit;
+                }
+                p {
+                    margin: 0;
+                }
+                .actions {
+                    position: absolute;
+                    top: 10px;
+                    right: 0;
+                    display: none;
+                    i {
+                        cursor: pointer;
+                        margin-left: 10px;
+                        font-size: 20px;
+                    }
+                }
+            }
+        }
+    }
+}

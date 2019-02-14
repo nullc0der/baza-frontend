@@ -1,0 +1,249 @@
+@import 'ui';
+$sidebar_width: 210px;
+
+:local(.container) {
+    color: inherit;
+    height: 100%;
+    @include _shadow_1();
+
+    @include media-breakpoint-down(md, $grid-breakpoints) {
+        padding-bottom: 100px;
+    }
+}
+
+:local(.chatView),
+:local(.sidebar) {
+    background-color: #fff;
+}
+
+:local(.chatView) {
+    position: relative;
+    z-index: 100;
+    flex: 1;
+    border-width: 1px 1px 1px 0;
+    border-radius: 0 3px 3px 0;
+
+    @include media-breakpoint-down(md, $grid-breakpoints) {
+        position: fixed;
+        left: 100vw;
+        right: 0;
+        bottom: 0;
+        top: 109px;
+        width: 100vw;
+        z-index: 300;
+        border-width: 1px;
+        transition: left 0.16s ease-in-out;
+        will-change: left;
+        &.is-open {
+            left: 0;
+        }
+        &.fullscreen {
+            top: 0;
+        }
+    }
+
+    @include media-breakpoint-up(md, $grid-breakpoints) {
+        .mobile-close-chat {
+            display: none;
+        }
+    }
+
+    .header-options {
+        position: absolute;
+        right: 0;
+        cursor: pointer;
+        display: flex;
+        .btn-link {
+            color: #000;
+            &::after {
+                display: none;
+            }
+        }
+    }
+
+    .ui-button {
+        border: none;
+        border-radius: 50%;
+        //overflow: hidden;
+        // border 1px black solid
+        height: 38px;
+        width: 38px;
+    }
+
+    .chatview-header {
+        height: 60px;
+        position: relative;
+        //border-bottom: 1px rgba(#979797, 0.23) solid;
+        padding: 0 20px;
+        .text-session-id {
+            position: absolute;
+            top: 18px;
+            left: 20px;
+            @include media-breakpoint-down(md, $grid-breakpoints) {
+                display: none;
+            }
+        }
+        .text-username {
+            font-weight: $font-weight-bold;
+            font-size: 16px;
+        }
+    }
+
+    .chatview-body {
+        min-height: auto;
+        overflow-y: auto;
+        padding: map-get($spacers, 2);
+        background-color: #fff;
+        // box-shadow 0px 0px 12px 0 rgba(#000, 0.12)
+        @include media-breakpoint-down(md, $grid-breakpoints) {
+            padding: 0;
+        }
+    }
+
+    .chat-body-item {
+        // border 1px rgba(#000, 0.1) solid
+        border-radius: 2px;
+        // background-color #fff
+        width: auto;
+        float: right;
+        clear: both;
+        margin-bottom: 12px;
+        padding: 3px 8px;
+        cursor: default;
+        transform-origin: center center;
+        transition: all 0.12s ease;
+        &.in-left {
+            float: left;
+        }
+        &:hover {
+            // border-color theme_primary
+            // box-shadow 0 2px 6px 0 rgba(#000, 0.12)
+            transform: scale(1.05);
+        }
+    }
+
+    .img-chat-avatar {
+        width: 24px;
+        height: 24px;
+    }
+}
+
+:local(.sidebar) {
+    position: relative;
+    z-index: 200;
+    width: $sidebar_width;
+    border-radius: 3px 0 0 3px;
+    @include _shadow_1();
+
+    @include media-breakpoint-down(md, $grid-breakpoints) {
+        position: fixed;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        top: 109px;
+        width: 100vw;
+        z-index: 100;
+    }
+
+    .search-box {
+        height: 60px;
+        padding: 12px;
+    }
+
+    .search-control {
+        border: 1px rgba(#000, 0.1) solid;
+        width: 100%;
+        height: 36px;
+        padding: 2px 6px;
+        outline: none;
+        background-color: #fff;
+    }
+
+    .items-list {
+        overflow-x: hidden;
+    }
+
+    .chat-sidebar-item {
+        cursor: pointer;
+        border-bottom: 1px $light solid;
+        padding: 12px map-get($spacers, 2);
+        display: flex;
+        align-items: center;
+        background-color: #fff;
+        position: relative;
+        z-index: 100;
+        transition: all 0.16s ease;
+        color: $dark;
+        &:before {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            width: 0px;
+            transition: width 0.2s ease;
+            content: '';
+            background-color: $dark;
+            z-index: 1;
+        }
+        &:hover:not(.is-active) {
+            background-color: $light;
+        }
+        &.is-active {
+            padding: 12px map-get($spacers, 3);
+            &:before {
+                width: 13px;
+            }
+        }
+        &.has-unread {
+            color: #4f4f4f;
+        }
+
+        .item-image {
+            width: 42px;
+            height: 42px;
+            flex-shrink: 0;
+            margin-right: 16px;
+        }
+        .item-details {
+            flex: 1;
+            font-size: 12px;
+        }
+
+        .item-username {
+            font-weight: $font-weight-bold;
+            font-size: 14px;
+            margin-bottom: 5px;
+        }
+
+        .unread-count {
+            margin-left: 4px;
+        }
+        .online-status {
+            position: relative;
+            padding-left: 12px;
+            width: 50px;
+            &:before {
+                position: absolute;
+                top: 5px;
+                left: 0;
+                content: '';
+                width: 8px;
+                height: 8px;
+                border-radius: 50%;
+                background-color: rgba(#000, 0.12);
+            }
+            &.is-online:before {
+                background-color: $success;
+            }
+            &.is-away:before {
+                background-color: $warning;
+            }
+            &.is-busy:before {
+                background-color: $danger;
+            }
+            &.is-idle:before {
+                background-color: $info;
+            }
+        }
+    }
+}

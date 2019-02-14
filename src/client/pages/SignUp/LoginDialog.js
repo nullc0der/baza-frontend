@@ -1,16 +1,24 @@
 import React, { Component } from 'react'
 import classnames from 'classnames'
 import get from 'lodash/get'
-
+import isEmpty from 'lodash/isEmpty'
 import Dialog from 'components/ui/Dialog'
 
-import { Link } from 'react-router-dom'
+import { Link, Redirect } from 'react-router-dom'
 
 import { push } from 'react-router-redux'
 import { connect } from 'react-redux'
 
-import TextField from 'components/ui/TextField'
+import TwitterLogin from 'react-twitter-auth'
+
+import { store, saveLocalAuthState } from 'store'
+import { actions as authActions } from 'store/Auth'
 import Auth from 'utils/authHelpers'
+import Config from 'utils/config'
+import TextField from 'components/ui/TextField'
+import EnhancedPasswordField from 'components/ui/EnhancedPasswordField'
+import FacebookLogin from 'components/FacebookLogin'
+import GoogleLogin from 'components/GoogleLogin'
 
 import s from './SignUp.scss'
 
@@ -25,7 +33,14 @@ class LoginDialog extends Component {
             username: '',
             password: '',
             nonField: ''
-        }
+        },
+        shouldRedirect: false,
+        redirectToOrigin: false,
+        email: '',
+        emailVerificationRequired: false,
+        redirectURL: '',
+        uuid: '',
+        resendEmailValidationInfo: {}
     }
 
     closeLoginModal = () => {
@@ -55,25 +70,187 @@ class LoginDialog extends Component {
         e.preventDefault()
         const { username, password, rememberMe } = this.state.inputValues
         const login = Auth.login(username, password, rememberMe)
-        login.then(responseData => {
-            if (responseData.key) {
-                this.props.navigate('/admin')
+        login
+            .then(responseData => {
+                if (responseData.access_token) {
+                    if (
+                        responseData.email_verification === 'mandatory' &&
+                        !responseData.email_verified
+                    ) {
+                        this.setState({
+                            email: get(responseData, 'email', ''),
+                            emailVerificationRequired: true
+                        })
+                    } else {
+                        store.dispatch(
+                            authActions.authenticateUser(
+                                responseData.access_token,
+                                responseData.email_verification,
+                                responseData.email_verified,
+                                responseData.expires_in
+                            )
+                        )
+                        if (rememberMe) {
+                            saveLocalAuthState('baza-auth', {
+                                Auth: store.getState().Auth
+                            })
+                        }
+                        this.setState({
+                            shouldRedirect: true,
+                            redirectToOrigin: true
+                        })
+                    }
+                } else if (responseData.two_factor_enabled) {
+                    this.setState({
+                        shouldRedirect: true,
+                        redirectURL: '/twofactor/',
+                        uuid: responseData.uuid
+                    })
+                } else {
+                    this.setState({
+                        errorText: {
+                            username: get(responseData, 'username', ''),
+                            password: get(responseData, 'password', ''),
+                            nonField: get(responseData, 'non_field_errors', '')
+                        }
+                    })
+                }
+            })
+            .catch(err => {
+                this.setState(prevState => ({
+                    errorText: {
+                        ...prevState.errorText,
+                        nonField: [err]
+                    }
+                }))
+            })
+    }
+
+    handleSocialLoginResponse = responseData => {
+        if (responseData.access_token) {
+            if (responseData.email_exist) {
+                if (
+                    responseData.email_verification === 'mandatory' &&
+                    !responseData.email_verified
+                ) {
+                    this.setState({
+                        email: get(responseData, 'email', ''),
+                        emailVerificationRequired: true
+                    })
+                } else {
+                    this.props.authenticateUser(
+                        responseData.access_token,
+                        responseData.email_verification,
+                        responseData.email_verified,
+                        responseData.expires_in
+                    )
+                    this.setState({
+                        shouldRedirect: true,
+                        redirectToOrigin: true
+                    })
+                    saveLocalAuthState('baza-auth', {
+                        Auth: store.getState().Auth
+                    })
+                }
             } else {
                 this.setState({
-                    errorText: {
-                        username: get(responseData, 'username', ''),
-                        password: get(responseData, 'password', ''),
-                        nonField: get(responseData, 'non_field_errors', '')
-                    }
+                    shouldRedirect: true,
+                    redirectURL: '/addemail/'
                 })
             }
-        })
+        } else if (responseData.two_factor_enabled) {
+            this.setState({
+                shouldRedirect: true,
+                redirectURL: '/twofactor/',
+                uuid: responseData.uuid
+            })
+        } else {
+            this.setState({
+                errorText: {
+                    nonField: get(responseData, 'non_field_errors', '')
+                }
+            })
+        }
+    }
+
+    handleSocialLogin = (token, backend) => {
+        const convertToken = Auth.convertToken(token, backend)
+        convertToken
+            .then(responseData => {
+                this.handleSocialLoginResponse(responseData)
+            })
+            .catch(err => {
+                this.setState(prevState => ({
+                    errorText: {
+                        ...prevState.errorText,
+                        nonField: get(err, 'non_field_errors', '')
+                    }
+                }))
+            })
+    }
+
+    handleTwitterLogin = res => {
+        if (res.status === 200) {
+            res.json().then(data => {
+                this.handleSocialLoginResponse(data)
+            })
+        } else {
+            res.json().then(data => {
+                this.setState(prevState => ({
+                    errorText: {
+                        ...prevState.errorText,
+                        nonField: get(data, 'non_field_errors', '')
+                    }
+                }))
+            })
+        }
+    }
+
+    resendVerificationEmail = () => {
+        Auth.resendEmailValidation(this.state.email)
+            .then(res =>
+                this.setState({
+                    resendEmailValidationInfo: {
+                        status: 'success',
+                        text: `A verification email sent to ${this.state.email}`
+                    }
+                })
+            )
+            .catch(res =>
+                this.setState({
+                    resendEmailValidationInfo: {
+                        status: 'error',
+                        text: 'Something went wrong, please try later'
+                    }
+                })
+            )
     }
 
     render() {
         const cx = classnames(s.loginDialog, 'login-dialog')
+        const { originURL } = this.props.location.state || {
+            originURL: '/profile'
+        }
+        const twitterLoginUrl = Config.get('API_ROOT') + '/auth/twitter/login/'
+        const twitterRequestTokenUrl =
+            Config.get('API_ROOT') + '/auth/twitter/getrequesttoken/'
 
-        return (
+        return this.state.shouldRedirect ? (
+            this.state.redirectToOrigin ? (
+                <Redirect to={originURL} />
+            ) : (
+                <Redirect
+                    to={{
+                        pathname: this.state.redirectURL,
+                        state: {
+                            rememberMe: this.state.inputValues.rememberMe,
+                            uuid: this.state.uuid,
+                            redirectURL: originURL
+                        }
+                    }}
+                />
+            )
+        ) : (
             <Dialog
                 className={cx}
                 isOpen={true}
@@ -85,6 +262,7 @@ class LoginDialog extends Component {
                         label="Username"
                         className="mb-3"
                         icon={<i className="material-icons">person</i>}
+                        value={this.state.inputValues.username}
                         onChange={this.onInputChange}
                         errorState={
                             this.state.errorText.username.length
@@ -92,12 +270,12 @@ class LoginDialog extends Component {
                                 : null
                         }
                     />
-                    <TextField
+                    <EnhancedPasswordField
                         id="password"
-                        type="password"
                         label="Password"
                         className="mb-3"
                         icon={<i className="material-icons">lock_outline</i>}
+                        value={this.state.inputValues.password}
                         onChange={this.onInputChange}
                         errorState={
                             this.state.errorText.password.length
@@ -112,6 +290,30 @@ class LoginDialog extends Component {
                             ))}
                         </div>
                     )}
+                    {!!this.state.emailVerificationRequired && (
+                        <div className="well mb-2 error-div">
+                            Please verify your email id, We have sent an email
+                            containing verification url at {this.state.email}
+                            <p
+                                className="mt-1 resend-mail"
+                                onClick={this.resendVerificationEmail}>
+                                Resend verification email
+                            </p>
+                        </div>
+                    )}
+                    {!isEmpty(this.state.resendEmailValidationInfo) && (
+                        <div className="well mb-2 resend-mail-info">
+                            <p
+                                className={`text-${
+                                    this.state.resendEmailValidationInfo
+                                        .status === 'success'
+                                        ? 'success'
+                                        : 'danger'
+                                }`}>
+                                {this.state.resendEmailValidationInfo.text}
+                            </p>
+                        </div>
+                    )}
                     <button
                         className="btn btn-dark btn-block"
                         onClick={this.onLoginClick}>
@@ -124,30 +326,47 @@ class LoginDialog extends Component {
                             name="remember_me_check"
                             type="checkbox"
                             checked={this.state.inputValues.rememberMe}
-                            onClick={this.toggleRememberMe}
+                            // onClick={this.toggleRememberMe}
+                            onChange={this.toggleRememberMe}
                         />
                         <label htmlFor="remember_me_check"> Remember Me </label>
                     </div>
                     <div className="col-md-6 mt-3 text-right">
-                        <a
-                            href="#"
+                        <Link
+                            to={{
+                                pathname: 'resetpassword',
+                                state: { fromLogin: true }
+                            }}
                             className="font-weight-bold text-dark forgot-password-link">
                             {' '}
                             Forgot Password{' '}
-                        </a>
+                        </Link>
                     </div>
                 </div>
                 <div className="well text-center mt-3">
                     <p> or login with </p>
                     <ul className="list-inline social-login-list">
                         <li className="list-inline-item">
-                            <i className="fa fa-google-plus" />
+                            <GoogleLogin
+                                tag="div"
+                                handleGoogleLogin={this.handleSocialLogin}
+                            />
                         </li>
                         <li className="list-inline-item">
-                            <i className="fa fa-facebook" />
+                            <FacebookLogin
+                                tag="div"
+                                handleFacebookLogin={this.handleSocialLogin}
+                            />
                         </li>
                         <li className="list-inline-item">
-                            <i className="fa fa-twitter" />
+                            <TwitterLogin
+                                tag="div"
+                                loginUrl={twitterLoginUrl}
+                                requestTokenUrl={twitterRequestTokenUrl}
+                                onSuccess={this.handleTwitterLogin}
+                                onFailure={err => console.log(err)}>
+                                <i className="fa fa-twitter" />
+                            </TwitterLogin>
                         </li>
                     </ul>
                 </div>
@@ -172,7 +391,20 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
     navigate(...args) {
         return dispatch(push(...args))
+    },
+    authenticateUser(authToken, emailVerification, emailVerified, expiresIn) {
+        return dispatch(
+            authActions.authenticateUser(
+                authToken,
+                emailVerification,
+                emailVerified,
+                expiresIn
+            )
+        )
     }
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(LoginDialog)
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(LoginDialog)

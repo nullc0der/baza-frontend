@@ -1,0 +1,16 @@
+@import 'ui';
+
+:local(.container) {
+    .modal-dialog {
+        width: 35vw;
+        @include media-breakpoint-down(md, $grid-breakpoints) {
+            width: auto;
+        }
+    }
+    .issue-dropdown {
+        .select-value-field {
+            padding-left: 0;
+            border-bottom: 1px $dark solid;
+        }
+    }
+}
