@@ -26,7 +26,7 @@ const START_TIME = DateTime.fromObject({
 const END_TIME = DateTime.fromObject({
     year: 2019,
     month: 3,
-    days: 29,
+    days: 31,
     hours: 6,
     minutes: 0,
     seconds: 0
