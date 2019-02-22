@@ -1,15 +1,18 @@
 import React from 'react'
 import { Switch, Route, Redirect } from 'react-router-dom'
 
-import AdminHome from 'pages/Admin/Home'
-import CoinSalePage from 'pages/Admin/CoinSale'
-import WalletsPage from 'pages/Admin/Wallets'
-import DistributionSignUpPage from 'pages/Admin/DistributionSignUp'
-import MemberProfilePage from 'pages/Admin/MemberProfile'
-import MembersPage from 'pages/Admin/Members'
-import MessengerPage from 'pages/Admin/Messenger'
-import HashTagPage from 'pages/Admin/HashTag'
-import GroupPage from 'pages/Admin/Group'
+import createAsyncComponent from 'utils/create-async-component'
+
+const CoinSalePage = createAsyncComponent(() => import('pages/Admin/CoinSale'))
+const WalletsPage = createAsyncComponent(() => import('pages/Admin/Wallets'))
+const DistributionSignUpPage = createAsyncComponent(() => import('pages/Admin/DistributionSignUp'))
+const MembersPage = createAsyncComponent(() => import('pages/Admin/Members'))
+const MessengerPage = createAsyncComponent(() => import('pages/Admin/Messenger'))
+const HashTagPage = createAsyncComponent(() => import('pages/Admin/HashTag'))
+const GroupPage = createAsyncComponent(() => import('pages/Admin/Group'))
+const MemberProfilePage = createAsyncComponent(() => import('pages/Admin/MemberProfile'))
+const AdminHome = createAsyncComponent(() => import('pages/Admin/Home'))
+
 
 // TODO: I think routing is not done properly by me, improve when
 // some extra time

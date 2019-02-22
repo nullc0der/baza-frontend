@@ -6,10 +6,14 @@ const WatchMissingNodeModulesPlugin = require('react-dev-utils/WatchMissingNodeM
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin')
 const ManifestPlugin = require('webpack-manifest-plugin')
+// const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 const CleanStatsPlugin = require('./CleanStatsPlugin')
+const WebpackBar = require('webpackbar')
 
 const PATHS = require('./paths')
 const LOADERS = require('./gulp/loaders')
+
+const moduleList = require('./modules')
 
 const IS_PROD = process.env.NODE_ENV === 'production'
 const IS_TEST = process.env.NODE_ENV === 'test'
@@ -112,7 +116,11 @@ config.plugins = [
         fileName: 'asset-manifest.json',
         publicPath: '/public/'
     }),
-    new CleanStatsPlugin()
+    new CleanStatsPlugin(),
+    // new BundleAnalyzerPlugin(),
+    new WebpackBar({
+        name: 'Baza Frontend'
+    })
 ]
 
 // Dev mode specific plugins
@@ -141,7 +149,7 @@ if (IS_DEV) {
 }
 
 if (IS_PROD) {
-    config.entry.vendors = [PATHS.SRC_CLIENT + '/vendors.js']
+    //config.entry.vendors = [PATHS.SRC_CLIENT + '/vendors.js']
     config.plugins = [
         new MiniCssExtractPlugin({
             filename: '[name].[contenthash].bundle.css',
@@ -171,9 +179,11 @@ config.optimization = {
         name: true,
         cacheGroups: {
             vendors: {
-                test: /\/node_modules\//,
+                test: new RegExp(
+                    `[\\/]node_modules[\\/](${moduleList.join("|")})[\\/]`
+                ),
                 name: 'vendors',
-                minChunks: 3
+                chunks: 'all'
             }
         }
     }

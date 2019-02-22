@@ -70,14 +70,15 @@ gulp.task('build:client', cb => {
 
     // https://github.com/webpack/webpack/issues/2320
     // Bug in webpack, causes multiple compilations
-    var time_shift = 11000 //11s
-    clientCompiler.plugin('watch-run', (watching, cb) => {
-        watching.startTime += time_shift
-        cb()
-    })
-    clientCompiler.plugin('done', stats => {
-        stats.startTime -= time_shift
-    })
+    // looks like this bug is gone after upgrading to webpack 4
+    // var time_shift = 11000 //11s
+    // clientCompiler.plugin('watch-run', (watching, cb) => {
+    //     watching.startTime += time_shift
+    //     cb()
+    // })
+    // clientCompiler.plugin('done', stats => {
+    //     stats.startTime -= time_shift
+    // })
 })
 
 gulp.task('build:server', cb => {
