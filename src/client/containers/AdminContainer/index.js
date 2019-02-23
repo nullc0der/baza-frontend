@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react'
+import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Redirect } from 'react-router-dom'
 import get from 'lodash/get'
@@ -19,6 +19,7 @@ import Footer from 'components/AdminFooter'
 import MiniChat from 'components/HeaderMiniChat/MiniChat'
 import NotificationBar from 'components/NotificationBar'
 import WebSocketWrapper from 'components/WebSocketWrapper'
+import ErrorBoundaryWrap from 'components/ErrorBoundaryWrap'
 
 import { actions as usersActions } from 'store/Users'
 import { actions as messengerActions } from 'store/Messenger'
@@ -175,15 +176,17 @@ class AdminContainer extends Component {
                     url="/ws/notifications/"
                     onWebSocketData={this.onNotificationWebSocketData}
                 />
-                <LeftNav
-                    className={s.leftNav}
-                    open={this.state.isLeftNavOpen}
-                    onRequestToggle={this.toggleLeftNav}
-                />
+                <ErrorBoundaryWrap>
+                    <LeftNav
+                        className={s.leftNav}
+                        open={this.state.isLeftNavOpen}
+                        onRequestToggle={this.toggleLeftNav}
+                    />
+                </ErrorBoundaryWrap>
 
                 <section className={s.content}>
                     {this.props.showHeaders && (
-                        <Fragment>
+                        <ErrorBoundaryWrap>
                             <Header
                                 className={s.header}
                                 onMenuToggle={this.toggleLeftNav}
@@ -191,13 +194,17 @@ class AdminContainer extends Component {
                             />
                             <SubHeader className={s.subHeader} />
                             <NotificationBar />
-                        </Fragment>
+                        </ErrorBoundaryWrap>
                     )}
-                    <section className="content-inner">
-                        {AdminRoutes(this.props.location)}
-                        {AdminOverlays(this.props.location)}
-                    </section>
-                    <Footer />
+                    <ErrorBoundaryWrap>
+                        <section className="content-inner">
+                            {AdminRoutes(this.props.location)}
+                            {AdminOverlays(this.props.location)}
+                        </section>
+                    </ErrorBoundaryWrap>
+                    <ErrorBoundaryWrap>
+                        <Footer />
+                    </ErrorBoundaryWrap>
                 </section>
 
                 {/* <RightNav

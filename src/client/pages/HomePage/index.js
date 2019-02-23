@@ -23,9 +23,9 @@ import { Link } from 'react-router-dom'
 import './HomePage.scss'
 
 class HomePage extends Component {
-    componentDidMount = () => {}
+    componentDidMount = () => { }
 
-    componentWillUnmount = () => {}
+    componentWillUnmount = () => { }
 
     render() {
         const cx = classnames('home-page')

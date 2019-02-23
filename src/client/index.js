@@ -1,7 +1,7 @@
 /*eslint-env browser*/
 import React from 'react'
 import ReactDOM from 'react-dom'
-import Raven from 'raven-js'
+import * as Sentry from '@sentry/browser'
 // import { AppContainer } from 'react-hot-loader'
 // import { BrowserRouter } from "react-router-dom";
 
@@ -72,11 +72,9 @@ const renderApp = Component => {
 // Render the app for first time
 renderApp(Root)
 
-// Configure Raven in production
+// Configure Sentry in production
 if (process.env.NODE_ENV === 'production') {
-    Raven.config(
-        'https://71a017bc7bc94c0b859a265b55294e5f@sentry.io/1210544'
-    ).install()
+    Sentry.init({ dsn: 'https://71a017bc7bc94c0b859a265b55294e5f@sentry.io/1210544' })
 }
 
 // [TODO: Add service worker support,
