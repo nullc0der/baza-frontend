@@ -7,8 +7,9 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin')
 const ManifestPlugin = require('webpack-manifest-plugin')
 // const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
-const CleanStatsPlugin = require('./CleanStatsPlugin')
 const WebpackBar = require('webpackbar')
+const WorkboxPlugin = require('workbox-webpack-plugin')
+const CleanStatsPlugin = require('./CleanStatsPlugin')
 
 const PATHS = require('./paths')
 const LOADERS = require('./gulp/loaders')
@@ -120,7 +121,24 @@ config.plugins = [
     // new BundleAnalyzerPlugin(),
     new WebpackBar({
         name: 'Baza Frontend'
+    }),
+    // NOTE: We need some configuration change in index.js when we add
+    // push notifications and change this to WorkboxPlugin.InjectManifest
+    new WorkboxPlugin.GenerateSW({
+        swDest: PATHS.BUILD_PUBLIC + '/sw.js',
+        clientsClaim: true,
+        skipWaiting: true,
+        runtimeCaching: [{
+            urlPattern: new RegExp('https://unpkg.com/emoji-datasource-apple@4.0.4/img/apple/sheets-256/64.png'),
+            handler: 'cacheFirst',
+            options: {
+                cacheableResponse: {
+                    statuses: [0, 200]
+                }
+            }
+        }]
     })
+
 ]
 
 // Dev mode specific plugins

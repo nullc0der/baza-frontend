@@ -256,7 +256,7 @@ export default class ChatFooter extends Component {
                             showPreview={false}
                             emojiSize={20}
                             onClick={this.onEmojiClick}
-                            sheetSize={16}
+                            sheetSize={64}
                         />
                     )}
                     <div
