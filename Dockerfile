@@ -10,7 +10,5 @@ COPY yarn.lock /baza-front
 RUN yarn install
 COPY . /baza-front
 RUN sh ./setup.sh
-RUN node tools/clean.js
-RUN node tools/copy.js
 RUN yarn build
 CMD yarn prod:server

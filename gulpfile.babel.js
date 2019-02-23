@@ -115,8 +115,12 @@ gulp.task('sync:server', cb => {
         proxy: {
             '**': 'http://0.0.0.0:' + Config.NODE_PORT
         },
-        before: function (app) {
-            app.use(webpackHotMiddleware(clientCompiler, { publicPath: webpackClientConfig.output.publicPath }))
+        before: function(app) {
+            app.use(
+                webpackHotMiddleware(clientCompiler, {
+                    publicPath: webpackClientConfig.output.publicPath
+                })
+            )
             // app.use(errorOverlayMiddleware());
         }
     })
@@ -128,7 +132,7 @@ gulp.task('sync:server', cb => {
 
 // Combine Tasks
 gulp.task('build', cb => {
-    run_seq('build:client', 'build:server', 'gzip:size', cb)
+    run_seq('clean', 'copy', 'build:client', 'build:server', 'gzip:size', cb)
 })
 
 gulp.task('dist', cb => {
