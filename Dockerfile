@@ -10,5 +10,4 @@ COPY yarn.lock /baza-front
 RUN yarn install
 COPY . /baza-front
 RUN sh ./setup.sh
-RUN yarn build
-CMD yarn prod:server
+CMD ["sh", "start.sh"]
