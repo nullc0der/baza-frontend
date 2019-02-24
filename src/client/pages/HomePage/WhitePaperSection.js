@@ -44,11 +44,11 @@ export default class WhitePaperSection extends React.Component {
                                 {this.renderImage()}
                             </div>
                             <p className="mb-3 mb-md-5 mb-xl-5 mb-xl-5">
-                                Our white paper outlines Baza Foundation,
-                                and covers an array of important topics.
-                                It describes how we improve our present day
-                                charity systems using a powerful tool
-                                that is Secure Ledger Technology. Give it a read!
+                                Our white paper outlines Baza Foundation, and
+                                covers an array of important topics. It
+                                describes how we improve our present day charity
+                                systems using a powerful tool that is Secure
+                                Ledger Technology. Give it a read!
                             </p>
                             <div className="download-whitepaper-btn">
                                 <a

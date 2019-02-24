@@ -10,6 +10,7 @@ const ManifestPlugin = require('webpack-manifest-plugin')
 //     .BundleAnalyzerPlugin
 const WebpackBar = require('webpackbar')
 const WorkboxPlugin = require('workbox-webpack-plugin')
+const TerserPlugin = require('terser-webpack-plugin')
 const CleanStatsPlugin = require('./CleanStatsPlugin')
 
 const PATHS = require('./paths')
@@ -121,26 +122,6 @@ config.plugins = [
     // new BundleAnalyzerPlugin(),
     new WebpackBar({
         name: 'Baza Frontend'
-    }),
-    // NOTE: We need some configuration change in index.js when we add
-    // push notifications and change this to WorkboxPlugin.InjectManifest
-    new WorkboxPlugin.GenerateSW({
-        swDest: PATHS.BUILD_PUBLIC + '/sw.js',
-        clientsClaim: true,
-        skipWaiting: true,
-        runtimeCaching: [
-            {
-                urlPattern: new RegExp(
-                    'https://unpkg.com/emoji-datasource-apple@4.0.4/img/apple/sheets-256/64.png'
-                ),
-                handler: 'cacheFirst',
-                options: {
-                    cacheableResponse: {
-                        statuses: [0, 200]
-                    }
-                }
-            }
-        ]
     })
 ]
 
@@ -183,10 +164,26 @@ if (IS_PROD) {
             },
             canPrint: true
         }),
-        // new InjectManifest({
-        // swSrc: path.join(PATHS.SRC_CLIENT, 'sw.js'),
-        // swDest: path.join(PATHS.BUILD_PUBLIC, 'sw.js')
-        // }),
+        // NOTE: We need some configuration change in index.js when we add
+        // push notifications and change this to WorkboxPlugin.InjectManifest
+        new WorkboxPlugin.GenerateSW({
+            swDest: PATHS.BUILD_PUBLIC + '/sw.js',
+            clientsClaim: true,
+            skipWaiting: true,
+            runtimeCaching: [
+                {
+                    urlPattern: new RegExp(
+                        'https://unpkg.com/emoji-datasource-apple@4.0.4/img/apple/sheets-256/64.png'
+                    ),
+                    handler: 'cacheFirst',
+                    options: {
+                        cacheableResponse: {
+                            statuses: [0, 200]
+                        }
+                    }
+                }
+            ]
+        }),
 
         // Enables scope hoisting -> faster parsing time
         new webpack.optimize.ModuleConcatenationPlugin(),
@@ -199,15 +196,7 @@ config.optimization = {
     runtimeChunk: false,
     splitChunks: {
         name: true,
-        cacheGroups: {
-            vendors: {
-                test: new RegExp(
-                    `[\\/]node_modules[\\/](${moduleList.join('|')})[\\/]`
-                ),
-                name: 'vendors',
-                chunks: 'all'
-            }
-        }
+        cacheGroups: {}
     }
 }
 
@@ -219,6 +208,21 @@ if (IS_PROD) {
         chunks: 'all',
         enforce: true
     }
+    config.optimization.splitChunks.cacheGroups.vendors = {
+        test: new RegExp(
+            `[\\/]node_modules[\\/](${moduleList.join('|')})[\\/]`
+        ),
+        name: 'vendors',
+        chunks: 'all'
+    }
+    config.optimization.minimizer = [
+        new TerserPlugin({
+            parallel: true,
+            terserOptions: {
+                comments: false
+            }
+        })
+    ]
 }
 
 // Turn off performance hints during development because we don't do any

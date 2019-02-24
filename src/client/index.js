@@ -77,37 +77,32 @@ if (process.env.NODE_ENV === 'production') {
     Sentry.init({
         dsn: 'https://71a017bc7bc94c0b859a265b55294e5f@sentry.io/1210544'
     })
-}
+    // Install a service worker if eligible
+    function registerSW() {
+        //eslint-disable-line
+        var isRegistering = false
+        function register() {
+            if (isRegistering) return
+            isRegistering = true
+            console.info('SW: Registering...')
+            navigator.serviceWorker
+                .register('/sw.js')
+                .then(result => {
+                    console.info('SW: Registration Success')
+                })
+                .catch(err => {
+                    console.warn('SW: Registration Failed')
+                    console.error(err)
+                })
+        }
 
-// [TODO: Add service worker support,
-// 			partial work has been done,
-// 			few configuration fixes needed since the last version of workbox-sw came out.]
-//
-// Install a service worker if eligible
-function registerSW() {
-    //eslint-disable-line
-    var isRegistering = false
-    function register() {
-        if (isRegistering) return
-        isRegistering = true
-        console.info('SW: Registering...')
-        navigator.serviceWorker
-            .register('/sw.js')
-            .then(result => {
-                console.info('SW: Registration Success')
-            })
-            .catch(err => {
-                console.warn('SW: Registration Failed')
-                console.error(err)
-            })
+        if ('serviceWorker' in window.navigator) {
+            window.addEventListener('load', register)
+            window.setTimeout(register, 5000)
+        }
     }
-
-    if ('serviceWorker' in window.navigator) {
-        window.addEventListener('load', register)
-        window.setTimeout(register, 5000)
-    }
+    registerSW()
 }
-registerSW()
 
 // Re-render the app on hot updates
 // module.hot is false in production, uglify considers this as `if (false)`  -> dead code
