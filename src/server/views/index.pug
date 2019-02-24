@@ -2,7 +2,7 @@ extends layout
 
 block preload
     if is_prod
-        link(rel='preload' as='script' href='/public/vendor/jquery/jquery.js')
+        link(rel='preload' as='script' href='/public/vendor/jquery/jquery.min.js')
         link(rel='preload' as='style' href= webpack_assets['styles.css'])
         link(rel='preload' as='style'  href= webpack_assets['main.css'])
         //- link(rel='preload' as='script' href= webpack_assets['manifest.js'])
