@@ -136,14 +136,7 @@ gulp.task('build', cb => {
 })
 
 gulp.task('dist', cb => {
-    run_seq(
-        'clean',
-        'copy',
-        'build:client',
-        'build:server',
-        'generate-pages',
-        cb
-    )
+    run_seq('clean', 'copy', 'build:client', 'build:server', cb)
 })
 
 gulp.task('dist-wb', cb => {

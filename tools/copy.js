@@ -11,8 +11,8 @@ const ASSETS = {
     'node_modules/emoji-mart/css/': `${PATHS.BUILD}/public/vendor/emoji-mart/`
 }
 
-if (process.env.DIST_MODE === '1')
-    ASSETS['./config.json'] = `${PATHS.BUILD}/config.json`
+// if (process.env.DIST_MODE === '1')
+//     ASSETS['./config.json'] = `${PATHS.BUILD}/config.json`
 
 function copyTask() {
     const commands = [
