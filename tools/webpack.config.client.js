@@ -38,7 +38,6 @@ config.cache = IS_DEV
 
 config.target = 'web'
 
-
 // css-loader calculates hash based on path and name only
 // path is derived from context
 // To keep server renders in sync, either use the same context in both webpack configs,
@@ -128,17 +127,20 @@ config.plugins = [
         swDest: PATHS.BUILD_PUBLIC + '/sw.js',
         clientsClaim: true,
         skipWaiting: true,
-        runtimeCaching: [{
-            urlPattern: new RegExp('https://unpkg.com/emoji-datasource-apple@4.0.4/img/apple/sheets-256/64.png'),
-            handler: 'cacheFirst',
-            options: {
-                cacheableResponse: {
-                    statuses: [0, 200]
+        runtimeCaching: [
+            {
+                urlPattern: new RegExp(
+                    'https://unpkg.com/emoji-datasource-apple@4.0.4/img/apple/sheets-256/64.png'
+                ),
+                handler: 'cacheFirst',
+                options: {
+                    cacheableResponse: {
+                        statuses: [0, 200]
+                    }
                 }
             }
-        }]
+        ]
     })
-
 ]
 
 // Dev mode specific plugins
@@ -198,7 +200,7 @@ config.optimization = {
         cacheGroups: {
             vendors: {
                 test: new RegExp(
-                    `[\\/]node_modules[\\/](${moduleList.join("|")})[\\/]`
+                    `[\\/]node_modules[\\/](${moduleList.join('|')})[\\/]`
                 ),
                 name: 'vendors',
                 chunks: 'all'
@@ -206,8 +208,6 @@ config.optimization = {
         }
     }
 }
-
-
 
 if (IS_PROD) {
     // Combine css assets into one
@@ -225,7 +225,6 @@ if (IS_PROD) {
 config.performance = {
     hints: envOption('warning', false, false)
 }
-
 
 ////////////
 // OTHERS //
