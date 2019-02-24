@@ -177,9 +177,10 @@ if (IS_PROD) {
             chunkFilename: '[name].[contenthash].chunk.[id].css'
         }),
         new OptimizeCssAssetsPlugin({
-            assetNameRegExp: /\.optimize\.css$/g,
             cssProcessor: require('cssnano'),
-            cssProcessorOptions: { discardComments: { removeAll: true } },
+            cssProcessorPluginOptions: {
+                preset: ['default', { discardComments: { removeAll: true } }]
+            },
             canPrint: true
         }),
         // new InjectManifest({
