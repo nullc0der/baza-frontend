@@ -4,7 +4,7 @@ module.exports = [
     'redux',
     'react-redux',
     'zxcvbn/lib',
-    'emoji-mart',
+    //    'emoji-mart',
     'lodash',
     'moment',
     'video-react/lib',

@@ -1,5 +1,4 @@
 const autoprefixer = require('autoprefixer')
-const PATHS = require('../../paths')
 
 const IS_PROD = process.env.NODE_ENV === 'production'
 
@@ -8,8 +7,7 @@ const _CSS_LOADER = (isServer = false) => ({
     options: {
         minimize: IS_PROD,
         sourceMap: !IS_PROD && !isServer,
-        localIdentName: !IS_PROD && '[name]_[local]_[hash:base64:3]',
-        includePaths: [`${PATHS.NODE_MODULES}`]
+        localIdentName: !IS_PROD && '[name]_[local]_[hash:base64:3]'
     }
 })
 
