@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import classnames from 'classnames'
 
-import { Player } from 'video-react'
+import { Player, BigPlayButton } from 'video-react'
 
 import s from './VideoPlayer.scss'
 
@@ -12,7 +12,9 @@ class VideoPlayer extends Component {
 
         return (
             <div className={cx}>
-                <Player playsInline src={src} poster={poster} />
+                <Player playsInline src={src} poster={poster}>
+                    <BigPlayButton position="center"/>
+                </Player>
             </div>
         )
     }
