@@ -78,7 +78,8 @@ const PhoneField = props => {
                 </span>
             </div>
             <div className="phone-number-value">
-                {phoneNumber.phone_number}{' '}
+                {phoneNumber.phone_number_country_code +
+                    phoneNumber.phone_number}{' '}
             </div>
             <div className="d-flex align-items-center justify-content-between mt-1">
                 <div>
