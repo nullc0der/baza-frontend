@@ -285,7 +285,7 @@ class PhoneDetails extends Component {
             .catch(res => {
                 this.setState({
                     error: get(res, 'non_field_errors', ''),
-                    emailTypeError: get(res, 'phone_number_type', null)
+                    phoneNumberTypeError: get(res, 'phone_number_type', null)
                 })
             })
     }
