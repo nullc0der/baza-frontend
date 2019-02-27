@@ -118,7 +118,8 @@ const PhoneField = props => {
 class PhoneAddField extends Component {
     state = {
         phoneTypeSelected: null,
-        phoneNumber: null
+        phoneNumber: null,
+        phoneNumberDialCode: null
     }
 
     componentWillReceiveProps = nextProps => {}
@@ -130,6 +131,7 @@ class PhoneAddField extends Component {
             onPhoneTypeClick,
             phoneTypeSelected,
             phoneNumberValue,
+            phoneNumberDialCodeValue,
             onClickSave,
             onClickCancel,
             onClickDelete,
@@ -138,6 +140,7 @@ class PhoneAddField extends Component {
 
         const phoneType = this.state.phoneTypeSelected || phoneTypeSelected
         const phoneNumber = this.state.phoneNumber || phoneNumberValue
+        const phoneNumberDialCode = this.state.phoneNumberDialCode || phoneNumberDialCodeValue
 
         return (
             <div className="phone-add-field phone-input mt-2">
@@ -159,7 +162,8 @@ class PhoneAddField extends Component {
                     <PhoneNumberField
                         showIcon={false}
                         label=""
-                        defaultValue={phoneNumber}
+                        phoneNumber={phoneNumber}
+                        dialCode={phoneNumberDialCode}
                         className="phone-number-field"
                         placeholder="Phone Number"
                         onChange={onPhoneInputChange}
@@ -203,6 +207,7 @@ class PhoneAddField extends Component {
 class PhoneDetails extends Component {
     state = {
         phoneNumber: '',
+        phoneNumberDialCode: '',
         phoneNumberType: '',
         verificationFieldValue: '',
         addPhoneNumberShown: false,
@@ -224,6 +229,7 @@ class PhoneDetails extends Component {
         this.props
             .savePhoneNumber({
                 phone_number: this.state.phoneNumber,
+                phone_number_country_code: this.state.phoneNumberDialCode,
                 phone_number_type: this.state.phoneNumberType
             })
             .then(res => {
@@ -262,9 +268,10 @@ class PhoneDetails extends Component {
             .catch(res => {})
     }
 
-    onChangePhoneNumber = (id, value) => {
+    onChangePhoneNumber = (id, data) => {
         this.setState({
-            [id]: value
+            phoneNumber: data.phoneNumber,
+            phoneNumberDialCode: data.phoneNumberDialCode
         })
     }
 
@@ -303,7 +310,8 @@ class PhoneDetails extends Component {
         this.setState({
             editableIndex,
             phoneNumberType: phone.phone_number_type,
-            phoneNumber: phone.phone_number
+            phoneNumber: phone.phone_number,
+            phoneNumberDialCode: phone.phone_number_country_code
         })
     }
 
@@ -375,6 +383,7 @@ class PhoneDetails extends Component {
                                 <PhoneAddField
                                     key={i}
                                     phoneNumberValue={this.state.phoneNumber}
+                                    phoneNumberDialCodeValue={this.state.phoneNumberDialCode}
                                     phoneTypeSelected={
                                         this.state.phoneNumberType
                                     }
