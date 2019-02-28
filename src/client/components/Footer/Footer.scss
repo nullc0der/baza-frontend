@@ -46,6 +46,12 @@
             padding-top: map-get($spacers, 1);
             padding-bottom: map-get($spacers, 1);
             margin-right: 0;
+            &.social {
+                display: inline-block;
+                &:not(:last-child) {
+                    margin-right: 1rem;
+                }
+            }
         }
     }
 }

@@ -42,7 +42,7 @@ export default class Footer extends Component {
                     </ul>
                     <ul className="list-inline mt-2">
                         {SOCIAL_LINKDATAS.map((x, i) => (
-                            <li className="list-inline-item no-border" key={i}>
+                            <li className="list-inline-item no-border social" key={i}>
                                 <SocialLink linkData={x} />
                             </li>
                         ))}
