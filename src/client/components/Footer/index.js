@@ -13,10 +13,12 @@ const FOOTER_LINKS = [
 ]
 
 const SOCIAL_LINKDATAS = [
-    { iconName: 'fa fa-facebook', url: 'https://www.facebook.com/' },
-    { iconName: 'fa fa-instagram', url: 'https://www.instagram.com/' },
-    { iconName: 'fa fa-twitter', url: 'https://www.twitter.com/' },
-    { iconName: 'fa fa-linkedin', url: 'https://www.linkedin.com/' }
+    { iconName: 'fa fa-facebook', url: 'https://www.facebook.com/bazafoundation' },
+    { iconName: 'fa fa-instagram', url: 'https://www.instagram.com/bazafoundation/' },
+    { iconName: 'fa fa-twitter', url: 'https://twitter.com/BazaFoundation' },
+    { iconName: 'fa fa-linkedin', url: 'https://www.linkedin.com/company/bazafoundation/' },
+    { iconName: 'fa fa-reddit', url: 'https://www.reddit.com/r/BazaFoundation/' },
+    { iconName: 'fa fa-telegram', url: 'https://t.me/bazafoundation' }
 ]
 
 export default class Footer extends Component {
