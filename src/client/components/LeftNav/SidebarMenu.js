@@ -60,6 +60,9 @@ class SidebarMenu extends Component {
 
         if (!url) return
         this.props.navigateTo(url)
+        if ($(window).width() < 768) {
+            this.props.onRequestToggle()
+        }
     }
 
     withActiveClass = (href = '#', prefixClass = '') => {

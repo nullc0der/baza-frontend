@@ -314,7 +314,8 @@ class LeftNav extends Component {
                     navigateTo={this.props.navigateTo}
                     className="sidebar-menu"
                     menuItems={this.state.menuItems}
-                />
+                    onRequestToggle={this.props.onRequestToggle}
+            />
             </div>
         )
     }
