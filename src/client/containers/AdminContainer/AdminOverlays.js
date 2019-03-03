@@ -7,7 +7,7 @@ const AdminOverlays = location => {
     const hash = location.hash || ''
     return (
         <Fragment>
-            {hash.includes('#!baza-signup') && (
+            {hash.includes('#!baza-registration') && (
                 <Route component={AdminSignUpDialog} />
             )}
         </Fragment>

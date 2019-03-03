@@ -15,7 +15,7 @@ class NotificationBar extends Component {
         )
         return (
             <div className={cx}>
-                <Link to="#!baza-signup">
+                <Link to="#!baza-registration">
                     Register for baza distribution or check your application
                     status <i className="fa fa-arrow-right" />
                 </Link>

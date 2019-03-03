@@ -80,7 +80,7 @@ class AdminSignUpDialog extends Component {
     closeAdminSignUpDialog = () => {
         const { pathname, hash } = this.props.location
         this.props.navigate(
-            pathname + (hash || '').replace('#!baza-signup', '')
+            pathname + (hash || '').replace('#!baza-registration', '')
         )
     }
 
