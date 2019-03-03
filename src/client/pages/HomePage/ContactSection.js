@@ -73,7 +73,7 @@ class ContactSection extends Component {
                 <div className="page-section container">
                     <div className="row align-items-center">
                         <div className="col-md-6 col-lg-6 col-xl-5">
-                            <div className="pr-0 pr-md-4 pr-lg-4 pr-xl-4">
+                            <div className="pr-0 pr-md-1 pr-lg-1 pr-xl-1">
                                 <img
                                     className="img-fluid contact-img"
                                     alt="Contact Us"
@@ -82,10 +82,10 @@ class ContactSection extends Component {
                             </div>
                         </div>
                         <div className="col-md-6 col-lg-6 col-xl-7">
-                            <h3 className="text-center mb-3 pt-4 pt-md-0 pt-lg-0 pt-xl-0">
+                            <h3 className="text-center mb-3 pt-4 pt-md-0 pt-lg-0 pt-xl-0 pr-xl-5">
                                 Contact
                             </h3>
-                            <form className="form contact-form">
+                            <form className="form contact-form pr-xl-5">
                                 <div className="row">
                                     <div className="col-md-6">
                                         <TextField
