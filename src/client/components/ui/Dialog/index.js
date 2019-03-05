@@ -50,6 +50,7 @@ export default class Dialog extends Component {
     }
 
     handleClickOutside = e => {
+        //NOTE: This have some issues, have a look later
         if (this.modalContent.contains(e.target)) {
             return
         }
