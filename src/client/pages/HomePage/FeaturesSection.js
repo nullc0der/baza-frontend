@@ -101,7 +101,7 @@ const FeaturesSection = props => {
                 <div className="row justify-content-center">
                     {list.map((feature, i) => (
                         <FeatureItem
-                            key={feature.title}
+                            key={i}
                             animateCount={props.animateCount}
                             index={i}
                             title={feature.title}
