@@ -189,15 +189,17 @@ export default class EditImage extends Component {
                     </div>
                 </div>
                 <div className="flex-1" />
-                <div
-                    className="btn btn-light btn-cancel"
-                    onClick={this.props.onRequestClose}>
-                    Cancel
-                </div>
-                <div
-                    onClick={this.onEditDone}
-                    className="btn btn-dark btn-done">
-                    Done
+                <div className="flex-horizontal mt-lg-0 mt-1 j-around">
+                    <div
+                        className="btn btn-light btn-cancel"
+                        onClick={this.props.onRequestClose}>
+                        Cancel
+                    </div>
+                    <div
+                        onClick={this.onEditDone}
+                        className="btn btn-dark btn-done">
+                        Done
+                    </div>
                 </div>
             </React.Fragment>
         )
