@@ -10,8 +10,8 @@ import s from './Dialog.scss'
 export default class Dialog extends Component {
     componentDidMount = () => {
         document.addEventListener('keydown', this.closeOnEscapeKey, false)
-        document.addEventListener('click', this.handleClickOutside, false)
         if (this.props.isOpen) {
+            document.addEventListener('click', this.handleClickOutside, false)
             this.toggleBodyScroll(true)
         }
     }
@@ -22,8 +22,21 @@ export default class Dialog extends Component {
         this.toggleBodyScroll(false)
     }
 
-    componentDidUpdate = () => {
-        //this.toggleBodyScroll(this.props.isOpen)
+    componentDidUpdate = (prevProps, prevState) => {
+        if (prevProps.isOpen !== this.props.isOpen) {
+            this.toggleBodyScroll(this.props.isOpen)
+            this.props.isOpen
+                ? document.addEventListener(
+                      'click',
+                      this.handleClickOutside,
+                      false
+                  )
+                : document.removeEventListener(
+                      'click',
+                      this.handleClickOutside,
+                      false
+                  )
+        }
     }
 
     onRequestClose = () => {
@@ -50,7 +63,6 @@ export default class Dialog extends Component {
     }
 
     handleClickOutside = e => {
-        //NOTE: This have some issues, have a look later
         if (this.modalContent.contains(e.target)) {
             return
         }

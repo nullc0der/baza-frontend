@@ -177,14 +177,13 @@ class SubHeader extends Component {
                                     to={x.href}
                                     className="bread-link"
                                     key={i}>
-                                    {' '}
-                                    {x.text} /{' '}
+                                    {x.text}/
                                 </Link>
                             )
                         })}
                     </div>
                 </div>
-                <div className="d-none d-sm-block flex-1" />
+                <div className="flex-1" />
                 {this.state.showSearchAndFilters && (
                     <SearchFilter
                         enabledFilters={this.state.enabledFilters}

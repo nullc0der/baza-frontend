@@ -11,7 +11,7 @@
     z-index: 500;
 
     @include media-breakpoint-down(sm, $grid-breakpoints) {
-        padding: 0 20px;
+        padding: 0 10px;
     }
 
     .title {
@@ -21,21 +21,26 @@
     }
     .bread-link {
         margin-top: -4px;
-        margin-right: 6px;
+        //margin-right: 2px;
         color: $dark;
     }
     .header-button {
         width: 55px;
         height: 33px;
         color: $dark;
-        margin-right: 5px;
+        // margin-right: 5px;
         background: none;
-        border: 1px solid $dark;
+        border: 2px solid $dark;
         border-radius: 20px;
         box-shadow: none;
         cursor: pointer;
+        transition: background-color 0.2s ease-in;
         &:focus {
             outline: none;
+        }
+        &:hover {
+            background-color: $dark;
+            color: #fff;
         }
     }
 }
