@@ -23,6 +23,7 @@ export default class WebSocketWrapper extends Component {
             _url = url
         }
         this.initializeWebSocket(_url, onWebSocketData)
+        this.reconnector = setInterval(this.tryReOpenIfFailed, 5000)
     }
 
     componentDidUpdate = prevProps => {
@@ -38,6 +39,13 @@ export default class WebSocketWrapper extends Component {
 
     componentWillUnmount = () => {
         this.ws.close(1000)
+        clearInterval(this.reconnector)
+    }
+
+    tryReOpenIfFailed = () => {
+        if (!this.state.webSocketOpen) {
+            this.ws.open()
+        }
     }
 
     initializeWebSocket = (url, onWebSocketData) => {
@@ -53,7 +61,8 @@ export default class WebSocketWrapper extends Component {
             this.ws = new Sockette(url, {
                 timeout: 5e3,
                 maxAttempts: 10,
-                onmessage: e => onWebSocketData(JSON.parse(e.data))
+                onmessage: e => onWebSocketData(JSON.parse(e.data)),
+                onopen: e => this.setState({ webSocketOpen: true })
             })
         }
     }

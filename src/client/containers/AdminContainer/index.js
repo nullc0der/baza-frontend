@@ -162,20 +162,6 @@ class AdminContainer extends Component {
                     style={this.notificationSystemStyle}
                 />
                 <MiniChat />
-                <WebSocketWrapper
-                    url="/ws/users/"
-                    onWebSocketData={this.onWebSocketData}
-                    message={{ status: this.props.userStatus }}
-                />
-                <WebSocketWrapper
-                    url="/ws/messenger/"
-                    onWebSocketData={this.onMessengerWebSocketData}
-                    message={this.props.sendTypingStatus}
-                />
-                <WebSocketWrapper
-                    url="/ws/notifications/"
-                    onWebSocketData={this.onNotificationWebSocketData}
-                />
                 <ErrorBoundaryWrap>
                     <LeftNav
                         className={s.leftNav}
@@ -212,6 +198,20 @@ class AdminContainer extends Component {
                     open={this.state.isRightNavOpen}
                     onRequestClose={this.toggleLeftNav}
                 /> */}
+                <WebSocketWrapper
+                    url="/ws/users/"
+                    onWebSocketData={this.onWebSocketData}
+                    message={{ status: this.props.userStatus }}
+                />
+                <WebSocketWrapper
+                    url="/ws/messenger/"
+                    onWebSocketData={this.onMessengerWebSocketData}
+                    message={this.props.sendTypingStatus}
+                />
+                <WebSocketWrapper
+                    url="/ws/notifications/"
+                    onWebSocketData={this.onNotificationWebSocketData}
+                />
             </section>
         ) : (
             <Redirect
