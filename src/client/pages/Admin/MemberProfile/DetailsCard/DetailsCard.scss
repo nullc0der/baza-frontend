@@ -152,6 +152,9 @@
     .delete-number {
         min-width: initial;
     }
+    .sms-limit-exceeded {
+        font-size: 10px;
+    }
 }
 
 :local(.container) .phone-add-field {

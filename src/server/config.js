@@ -30,7 +30,8 @@ export const getClientConfig = () => {
         'DOCUMENT_ROOT',
         'SITE_TYPE',
         'RELEASE_CODENAME',
-        'RELEASE'
+        'RELEASE',
+        'SMS_CODE_EXPIRES_IN'
         // add other keys to send here
         // e.g.
         // API Keys,
