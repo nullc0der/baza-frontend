@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import classnames from 'classnames'
 
+import SocialLink from 'components/SocialLink'
+
 import s from './Footer.scss'
 
 const FOOTER_LINKS = [
@@ -8,6 +10,15 @@ const FOOTER_LINKS = [
     { label: 'Terms and Conditions', href: '/terms-of-service/' },
     { label: 'Cookie Policy', href: '/cookie-policy/' },
     { label: 'Donate', href: '#!donate' }
+]
+
+const SOCIAL_LINKDATAS = [
+    { iconName: 'fa fa-facebook', url: 'https://www.facebook.com/bazafoundation' },
+    { iconName: 'fa fa-instagram', url: 'https://www.instagram.com/bazafoundation/' },
+    { iconName: 'fa fa-twitter', url: 'https://twitter.com/BazaFoundation' },
+    { iconName: 'fa fa-linkedin', url: 'https://www.linkedin.com/company/bazafoundation/' },
+    { iconName: 'fa fa-reddit', url: 'https://www.reddit.com/r/BazaFoundation/' },
+    { iconName: 'fa fa-telegram', url: 'https://t.me/bazafoundation' }
 ]
 
 export default class Footer extends Component {
@@ -28,6 +39,28 @@ export default class Footer extends Component {
                                 </a>
                             </li>
                         ))}
+                    </ul>
+                    <ul className="list-inline mt-2">
+                        {SOCIAL_LINKDATAS.map((x, i) => (
+                            <li className="list-inline-item no-border social" key={i}>
+                                <SocialLink linkData={x} />
+                            </li>
+                        ))}
+                    </ul>
+                    <ul className="list-inline mt-1">
+                        <li className="list-inline-item no-border">
+                            <a
+                                href="https://www.trackico.io/"
+                                target="_blank"
+                                title="TrackICO">
+                                <img
+                                    border="0"
+                                    src="https://www.trackico.io/static/img/partner_logo_white.png"
+                                    alt="TrackICO - provider of information about the best ICOs and STOs"
+                                    className="trackico-logo"
+                                />
+                            </a>
+                        </li>
                     </ul>
                 </div>
             </div>

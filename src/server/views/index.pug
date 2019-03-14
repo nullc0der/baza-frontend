@@ -2,7 +2,7 @@ extends layout
 
 block preload
     if is_prod
-        link(rel='preload' as='script' href='/public/vendor/jquery/jquery.js')
+        link(rel='preload' as='script' href='/public/vendor/jquery/jquery.min.js')
         link(rel='preload' as='style' href= webpack_assets['styles.css'])
         link(rel='preload' as='style'  href= webpack_assets['main.css'])
         //- link(rel='preload' as='script' href= webpack_assets['manifest.js'])
@@ -21,6 +21,7 @@ block head_styles
     //- Assets
     //- link(rel='stylesheet' type='text/css' href='/public/vendor/bootstrap/css/bootstrap.css')
     link(rel='stylesheet' type='text/css' href='/public/vendor/animate.css/animate.css')
+    link(rel='stylesheet', type='text/css' href='/public/vendor/emoji-mart/emoji-mart.css')
     link(rel='stylesheet', type='text/css' href='https://use.fontawesome.com/releases/v5.5.0/css/all.css')
     link(rel='stylesheet' type='text/css' href='https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css')
 
@@ -42,15 +43,15 @@ block content
 
     script(defer async type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDqsDgAvVSeYBL2Q7p8x-kAB0lLuwlNW7c&libraries=places&callback=googleMapCallback")
 
-    script(defer type='text/javascript' src='/public/vendor/jquery/jquery.js')
-    script(defer type='text/javascript' src='/public/vendor/popper.js/umd/popper.js')
-    script(defer type='text/javascript' src='/public/vendor/bootstrap/js/bootstrap.js')
-    script(type='text/javascript' src='/public/vendor/wowjs/wow.js')
+    script(defer type='text/javascript' src='/public/vendor/jquery/jquery.min.js')
+    script(defer type='text/javascript' src='/public/vendor/popper.js/umd/popper.min.js')
+    script(defer type='text/javascript' src='/public/vendor/bootstrap/js/bootstrap.min.js')
+    script(type='text/javascript' src='/public/vendor/wowjs/wow.min.js')
 
+    script(defer type='text/javascript' src= webpack_assets['vendors.js'])
     script(type='text/javascript' src= webpack_assets['manifest.js'])
 
     if is_prod
-        script(defer type='text/javascript' src= webpack_assets['vendors.js'])
         script(defer type='text/javascript' src= webpack_assets['styles.js'])
 
     script(defer type='text/javascript' src= webpack_assets['main.js'])

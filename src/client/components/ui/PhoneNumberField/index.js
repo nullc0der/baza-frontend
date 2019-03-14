@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import classnames from 'classnames'
-import takeRight from 'lodash/takeRight'
+// import takeRight from 'lodash/takeRight'
 import find from 'lodash/find'
 import TextField from 'components/ui/TextField'
 
@@ -53,8 +53,7 @@ class PhoneNumberField extends Component {
             },
             countryCodes: COUNTRYCODES,
             searchInputValue: '',
-            phoneNumber: '',
-            ...this.parseDefaultValue(props.defaultValue)
+            phoneNumber: ''
         }
     }
 
@@ -67,25 +66,25 @@ class PhoneNumberField extends Component {
         })
     }
 
-    parseDefaultValue = () => {
-        const { defaultValue } = this.props
-        if (!defaultValue || typeof defaultValue !== 'string') {
-            return {}
-        }
+    // parseDefaultValue = () => {
+    //     const { defaultValue } = this.props
+    //     if (!defaultValue || typeof defaultValue !== 'string') {
+    //         return {}
+    //     }
 
-        const phoneNumber = takeRight(defaultValue.split(''), 10).join('')
-        const dial_code = defaultValue.split(phoneNumber)[0]
+    //     const phoneNumber = takeRight(defaultValue.split(''), 10).join('')
+    //     const dial_code = defaultValue.split(phoneNumber)[0]
 
-        const selectedCode = find(COUNTRYCODES, { dial_code })
-        return { selectedCode, phoneNumber }
-    }
+    //     const selectedCode = find(COUNTRYCODES, { dial_code })
+    //     return { selectedCode, phoneNumber }
+    // }
 
-    componentWillReceiveProps = nextProps => {
-        if (
-            !this.props.defaultValue &&
-            this.props.defaultValue !== nextProps.defaultValue
-        ) {
-            this.setState(this.parseDefaultValue(nextProps.defaultValue))
+    componentDidMount = () => {
+        if (this.props.phoneNumber && this.props.dialCode) {
+            const { phoneNumber, dialCode } = this.props
+            const dial_code = dialCode
+            const selectedCode = find(COUNTRYCODES, { dial_code })
+            this.setState({ phoneNumber, selectedCode })
         }
     }
 
@@ -109,10 +108,10 @@ class PhoneNumberField extends Component {
                 phoneNumber: value
             },
             () =>
-                this.props.onChange(
-                    'phoneNumber',
-                    this.state.selectedCode.dial_code + this.state.phoneNumber
-                )
+                this.props.onChange('phoneNumber', {
+                    phoneNumber: this.state.phoneNumber,
+                    phoneNumberDialCode: this.state.selectedCode.dial_code
+                })
         )
     }
 

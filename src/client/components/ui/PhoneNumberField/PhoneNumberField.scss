@@ -3,6 +3,7 @@
 :local(.container) {
     .btn {
         padding: 5px 15px;
+        margin-right: 10px;
         &:focus {
             box-shadow: none;
         }

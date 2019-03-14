@@ -7,11 +7,12 @@ const ASSETS = {
     'node_modules/jquery/dist/': `${PATHS.BUILD}/public/vendor/jquery/`,
     'node_modules/popper.js/dist/': `${PATHS.BUILD}/public/vendor/popper.js/`,
     'node_modules/animate.css/': `${PATHS.BUILD}/public/vendor/animate.css/`,
-    'node_modules/wowjs/dist/': `${PATHS.BUILD}/public/vendor/wowjs/`
+    'node_modules/wowjs/dist/': `${PATHS.BUILD}/public/vendor/wowjs/`,
+    'node_modules/emoji-mart/css/': `${PATHS.BUILD}/public/vendor/emoji-mart/`
 }
 
-if (process.env.DIST_MODE === '1')
-    ASSETS['./config.json'] = `${PATHS.BUILD}/config.json`
+// if (process.env.DIST_MODE === '1')
+//     ASSETS['./config.json'] = `${PATHS.BUILD}/config.json`
 
 function copyTask() {
     const commands = [

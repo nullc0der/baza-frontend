@@ -140,12 +140,32 @@ class LeftNav extends Component {
                     children: [
                         ...menu.children,
                         {
+                            name: 'Groups',
+                            href: '/community/2/groups',
+                            icon: 'fa fa-fw fa-cubes'
+                        },
+                        {
                             name: 'Posts',
                             href: `/community/2/groups/${id}/posts`,
                             icon: 'fa fa-fw fa-life-ring'
                         },
                         {
                             name: 'Members',
+                            href: '/community/2/members',
+                            icon: 'fa fa-fw fa-users'
+                        }
+                    ]
+                }
+            }
+            if (
+                permissions.some(el => [103, 104, 105, 106].indexOf(el) !== -1)
+            ) {
+                menu = {
+                    ...menu,
+                    children: [
+                        ...menu.children,
+                        {
+                            name: 'Members Management',
                             href: `/community/2/groups/${id}/members`,
                             icon: 'fa fa-fw fa-users'
                         }
@@ -314,6 +334,7 @@ class LeftNav extends Component {
                     navigateTo={this.props.navigateTo}
                     className="sidebar-menu"
                     menuItems={this.state.menuItems}
+                    onRequestToggle={this.props.onRequestToggle}
                 />
             </div>
         )

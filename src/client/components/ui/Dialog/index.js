@@ -11,17 +11,32 @@ export default class Dialog extends Component {
     componentDidMount = () => {
         document.addEventListener('keydown', this.closeOnEscapeKey, false)
         if (this.props.isOpen) {
+            document.addEventListener('click', this.handleClickOutside, false)
             this.toggleBodyScroll(true)
         }
     }
 
     componentWillUnmount = () => {
         document.removeEventListener('keydown', this.closeOnEscapeKey, false)
+        document.removeEventListener('click', this.handleClickOutside, false)
         this.toggleBodyScroll(false)
     }
 
-    componentDidUpdate = () => {
-        //this.toggleBodyScroll(this.props.isOpen)
+    componentDidUpdate = (prevProps, prevState) => {
+        if (prevProps.isOpen !== this.props.isOpen) {
+            this.toggleBodyScroll(this.props.isOpen)
+            this.props.isOpen
+                ? document.addEventListener(
+                      'click',
+                      this.handleClickOutside,
+                      false
+                  )
+                : document.removeEventListener(
+                      'click',
+                      this.handleClickOutside,
+                      false
+                  )
+        }
     }
 
     onRequestClose = () => {
@@ -47,6 +62,13 @@ export default class Dialog extends Component {
             : document.body.classList.add('modal-open')
     }
 
+    handleClickOutside = e => {
+        if (this.modalContent.contains(e.target)) {
+            return
+        }
+        this.onRequestClose()
+    }
+
     render() {
         const {
             className,
@@ -60,9 +82,9 @@ export default class Dialog extends Component {
         const cx = classnames(s.container, 'ui-dialog modal', className, {
             show: isOpen
         })
-        const backdropClass = classnames('modal-backdrop', {
-            show: isOpen
-        })
+        // const backdropClass = classnames('modal-backdrop', {
+        //     show: isOpen
+        // })
         const modalContentClass = classnames('modal-content', {
             hide: hideModalContent
         })
@@ -74,7 +96,7 @@ export default class Dialog extends Component {
                 role="dialog"
                 aria-labelledby="userLoginModal"
                 aria-hidden="true">
-                <div className={backdropClass} onClick={this.onRequestClose} />
+                {/* <div className={backdropClass} onClick={this.onRequestClose} /> */}
                 {!!isOpen && (
                     // HACK: The 'in' prop is a hack found from https://github.com/reactjs/react-transition-group/issues/216
                     // Check more on it when gets some time

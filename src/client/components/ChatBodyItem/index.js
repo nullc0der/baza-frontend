@@ -105,11 +105,11 @@ export default class ChatBodyItem extends Component {
                                     emoji={x}
                                     size={21}
                                     tooltip={true}
-                                    sheetSize={16}
+                                    sheetSize={64}
                                 />
                             ) : (
-                                x + ' '
-                            )
+                                    x + ' '
+                                )
                         })}
                     </Linkify>
                 </div>

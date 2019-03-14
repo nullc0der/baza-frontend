@@ -29,7 +29,7 @@ class ProfileCard extends Component {
                 .then(res => {
                     this.setInputValues(this.props.profile)
                 })
-                .catch(res => {})
+                .catch(res => { })
         } else {
             this.setInputValues(this.props.profile)
         }
@@ -100,7 +100,7 @@ class ProfileCard extends Component {
         this.props
             .saveProfile(datas)
             .then(res => this.toggleEditMode())
-            .catch(() => {})
+            .catch(() => { })
     }
 
     render() {

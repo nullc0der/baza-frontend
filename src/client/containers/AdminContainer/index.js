@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react'
+import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Redirect } from 'react-router-dom'
 import get from 'lodash/get'
@@ -19,6 +19,7 @@ import Footer from 'components/AdminFooter'
 import MiniChat from 'components/HeaderMiniChat/MiniChat'
 import NotificationBar from 'components/NotificationBar'
 import WebSocketWrapper from 'components/WebSocketWrapper'
+import ErrorBoundaryWrap from 'components/ErrorBoundaryWrap'
 
 import { actions as usersActions } from 'store/Users'
 import { actions as messengerActions } from 'store/Messenger'
@@ -161,6 +162,42 @@ class AdminContainer extends Component {
                     style={this.notificationSystemStyle}
                 />
                 <MiniChat />
+                <ErrorBoundaryWrap>
+                    <LeftNav
+                        className={s.leftNav}
+                        open={this.state.isLeftNavOpen}
+                        onRequestToggle={this.toggleLeftNav}
+                    />
+                </ErrorBoundaryWrap>
+
+                <section className={s.content}>
+                    {this.props.showHeaders && (
+                        <ErrorBoundaryWrap>
+                            <Header
+                                className={s.header}
+                                onMenuToggle={this.toggleLeftNav}
+                                onSettingsToggle={this.toggleRightNav}
+                            />
+                            <SubHeader className={s.subHeader} />
+                            <NotificationBar />
+                        </ErrorBoundaryWrap>
+                    )}
+                    <ErrorBoundaryWrap>
+                        <section className="content-inner">
+                            {AdminRoutes(this.props.location)}
+                            {AdminOverlays(this.props.location)}
+                        </section>
+                    </ErrorBoundaryWrap>
+                    <ErrorBoundaryWrap>
+                        <Footer />
+                    </ErrorBoundaryWrap>
+                </section>
+
+                {/* <RightNav
+                    className={s.rightNav}
+                    open={this.state.isRightNavOpen}
+                    onRequestClose={this.toggleLeftNav}
+                /> */}
                 <WebSocketWrapper
                     url="/ws/users/"
                     onWebSocketData={this.onWebSocketData}
@@ -175,36 +212,6 @@ class AdminContainer extends Component {
                     url="/ws/notifications/"
                     onWebSocketData={this.onNotificationWebSocketData}
                 />
-                <LeftNav
-                    className={s.leftNav}
-                    open={this.state.isLeftNavOpen}
-                    onRequestToggle={this.toggleLeftNav}
-                />
-
-                <section className={s.content}>
-                    {this.props.showHeaders && (
-                        <Fragment>
-                            <Header
-                                className={s.header}
-                                onMenuToggle={this.toggleLeftNav}
-                                onSettingsToggle={this.toggleRightNav}
-                            />
-                            <SubHeader className={s.subHeader} />
-                            <NotificationBar />
-                        </Fragment>
-                    )}
-                    <section className="content-inner">
-                        {AdminRoutes(this.props.location)}
-                        {AdminOverlays(this.props.location)}
-                    </section>
-                    <Footer />
-                </section>
-
-                {/* <RightNav
-                    className={s.rightNav}
-                    open={this.state.isRightNavOpen}
-                    onRequestClose={this.toggleLeftNav}
-                /> */}
             </section>
         ) : (
             <Redirect

@@ -96,11 +96,9 @@ export const skipPhone = () => {
     return jsonAPI(api => api.post('/bazasignup/skipphone/'))
 }
 
-export const sendPhoneVerificationCode = phone => {
+export const sendPhoneVerificationCode = data => {
     return jsonAPI(api =>
-        api.post('/bazasignup/sendphoneverificationcode/', {
-            phone
-        })
+        api.post('/bazasignup/sendphoneverificationcode/', data)
     )
 }
 
@@ -113,9 +111,7 @@ export const validatePhoneCode = code => {
 }
 
 export const sendPhoneVerificationCodeAgain = () => {
-    return jsonAPI(api =>
-        api.post('/bazasignup/sendphoneverificationcodeagain/')
-    )
+    return jsonAPI(api => api.post('/bazasignup/sendphoneverificationcode/'))
 }
 
 export const uploadSignupImage = image => {
@@ -126,9 +122,4 @@ export const uploadSignupImage = image => {
 
 export const fetchSignupsList = () => {
     return jsonAPI(api => api.get('/bazasignup/signups/'))
-}
-
-export const getTotalRecipients = () => {
-    const url = '/bazasignup/recipients/'
-    return jsonAPI(api => api.get(url))
 }

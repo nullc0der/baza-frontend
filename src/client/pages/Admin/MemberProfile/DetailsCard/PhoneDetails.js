@@ -2,10 +2,12 @@ import React, { Component } from 'react'
 import classnames from 'classnames'
 import { connect } from 'react-redux'
 import get from 'lodash/get'
+import { DateTime } from 'luxon'
 import { CardContent } from 'components/ui/CardWithTabs'
 import PhoneNumberField from 'components/ui/PhoneNumberField'
 import PhoneTypeDropdown from 'components/PhoneTypeDropdown'
 import TextField from 'components/ui/TextField'
+import Config from 'utils/config'
 
 import { sendPhoneVerification, validatePhone } from 'api/user'
 
@@ -21,7 +23,9 @@ const PhoneVerificationField = props => {
         onClickCancel,
         onClickVerify,
         onClickResend,
-        onVerificationFieldUpdate
+        onVerificationFieldUpdate,
+        smsExpiryCountDown,
+        smsSentCount
     } = props
     const cx = classnames(s.phoneField, 'phone-number')
 
@@ -38,9 +42,13 @@ const PhoneVerificationField = props => {
                 className={`d-flex align-items-center justify-content-between ${
                     verificationFieldError ? 'mt-3' : 'mt-1'
                 }`}>
-                <div className="badge badge-warning" onClick={onClickResend}>
-                    Resend Code
-                </div>
+                {smsSentCount <= 3 && (
+                    <div
+                        className="badge badge-warning"
+                        onClick={onClickResend}>
+                        Resend Code
+                    </div>
+                )}
                 <div className="flex-1" />
                 <div
                     className="badge badge-pill badge-dark badge-dense"
@@ -55,6 +63,18 @@ const PhoneVerificationField = props => {
                     <i className="fa fa-times" />
                 </div>
             </div>
+            {smsExpiryCountDown.seconds > 0 && (
+                <div className="mt-1">
+                    Verification code will expire in{' '}
+                    {smsExpiryCountDown.minutes}:{smsExpiryCountDown.seconds}
+                </div>
+            )}
+            {smsSentCount > 3 && (
+                <div className="text-danger sms-limit-exceeded mt-1">
+                    You have exceeded maximum limit of SMS send request
+                    <br /> please wait till counter expires
+                </div>
+            )}
         </div>
     )
 }
@@ -78,7 +98,8 @@ const PhoneField = props => {
                 </span>
             </div>
             <div className="phone-number-value">
-                {phoneNumber.phone_number}{' '}
+                {phoneNumber.phone_number_country_code +
+                    phoneNumber.phone_number}{' '}
             </div>
             <div className="d-flex align-items-center justify-content-between mt-1">
                 <div>
@@ -117,7 +138,8 @@ const PhoneField = props => {
 class PhoneAddField extends Component {
     state = {
         phoneTypeSelected: null,
-        phoneNumber: null
+        phoneNumber: null,
+        phoneNumberDialCode: null
     }
 
     componentWillReceiveProps = nextProps => {}
@@ -129,6 +151,7 @@ class PhoneAddField extends Component {
             onPhoneTypeClick,
             phoneTypeSelected,
             phoneNumberValue,
+            phoneNumberDialCodeValue,
             onClickSave,
             onClickCancel,
             onClickDelete,
@@ -137,6 +160,8 @@ class PhoneAddField extends Component {
 
         const phoneType = this.state.phoneTypeSelected || phoneTypeSelected
         const phoneNumber = this.state.phoneNumber || phoneNumberValue
+        const phoneNumberDialCode =
+            this.state.phoneNumberDialCode || phoneNumberDialCodeValue
 
         return (
             <div className="phone-add-field phone-input mt-2">
@@ -158,7 +183,8 @@ class PhoneAddField extends Component {
                     <PhoneNumberField
                         showIcon={false}
                         label=""
-                        defaultValue={phoneNumber}
+                        phoneNumber={phoneNumber}
+                        dialCode={phoneNumberDialCode}
                         className="phone-number-field"
                         placeholder="Phone Number"
                         onChange={onPhoneInputChange}
@@ -202,6 +228,7 @@ class PhoneAddField extends Component {
 class PhoneDetails extends Component {
     state = {
         phoneNumber: '',
+        phoneNumberDialCode: '',
         phoneNumberType: '',
         verificationFieldValue: '',
         addPhoneNumberShown: false,
@@ -209,7 +236,15 @@ class PhoneDetails extends Component {
         phoneNumberTypeError: null,
         verificationFieldError: null,
         editableIndex: null,
-        verificationIndex: null
+        verificationIndex: null,
+        smsInfo: {
+            sentAt: null,
+            sentCount: 0
+        },
+        smsExpiryCountDown: {
+            minutes: 0,
+            seconds: 0
+        }
     }
 
     componentDidMount() {
@@ -219,10 +254,58 @@ class PhoneDetails extends Component {
             .catch(res => {})
     }
 
+    componentDidUpdate = (prevProps, prevState) => {
+        if (
+            prevState.smsInfo.sentAt !== this.state.smsInfo.sentAt &&
+            this.state.smsInfo.sentAt
+        ) {
+            this.smsCountdownInterval = setInterval(this.startTimer, 1000)
+        }
+    }
+
+    componentWillUnmount = () => {
+        if (this.smsCountdownInterval) {
+            clearInterval(this.smsCountdownInterval)
+        }
+    }
+
+    startTimer = () => {
+        const countdown = this.getCountdownValues(this.state.smsInfo.sentAt)
+        if (countdown.seconds <= 0) {
+            clearInterval(this.smsCountdownInterval)
+            this.setState({
+                smsInfo: {
+                    sentAt: null,
+                    sentCount: 0
+                }
+            })
+        }
+        this.setState({
+            smsExpiryCountDown: countdown
+        })
+    }
+
+    getCountdownValues = startTime => {
+        const now = DateTime.local()
+        const duration = startTime
+            .plus({ seconds: Number(Config.get('SMS_CODE_EXPIRES_IN')) })
+            .diff(now, ['minutes', 'seconds'])
+
+        const diff = duration.toObject()
+        const countdown = Object.keys(diff).reduce((result, key) => {
+            var v = Math.floor(diff[key])
+            result[key] = v.toString().length === 1 ? `0${v}` : v
+            return result
+        }, {})
+
+        return countdown
+    }
+
     onClickSave = () => {
         this.props
             .savePhoneNumber({
                 phone_number: this.state.phoneNumber,
+                phone_number_country_code: this.state.phoneNumberDialCode,
                 phone_number_type: this.state.phoneNumberType
             })
             .then(res => {
@@ -261,9 +344,10 @@ class PhoneDetails extends Component {
             .catch(res => {})
     }
 
-    onChangePhoneNumber = (id, value) => {
+    onChangePhoneNumber = (id, data) => {
         this.setState({
-            [id]: value
+            phoneNumber: data.phoneNumber,
+            phoneNumberDialCode: data.phoneNumberDialCode
         })
     }
 
@@ -285,7 +369,7 @@ class PhoneDetails extends Component {
             .catch(res => {
                 this.setState({
                     error: get(res, 'non_field_errors', ''),
-                    emailTypeError: get(res, 'phone_number_type', null)
+                    phoneNumberTypeError: get(res, 'phone_number_type', null)
                 })
             })
     }
@@ -302,7 +386,8 @@ class PhoneDetails extends Component {
         this.setState({
             editableIndex,
             phoneNumberType: phone.phone_number_type,
-            phoneNumber: phone.phone_number
+            phoneNumber: phone.phone_number,
+            phoneNumberDialCode: phone.phone_number_country_code
         })
     }
 
@@ -328,7 +413,13 @@ class PhoneDetails extends Component {
                 this.setState({
                     verificationIndex: phoneNumberID,
                     verificationFieldValue: '',
-                    verificationFieldError: null
+                    verificationFieldError: null,
+                    smsInfo: {
+                        sentAt: this.state.smsInfo.sentAt
+                            ? this.state.smsInfo.sentAt
+                            : DateTime.local(),
+                        sentCount: this.state.smsInfo.sentCount + 1
+                    }
                 })
             )
             .catch(() => {})
@@ -374,6 +465,9 @@ class PhoneDetails extends Component {
                                 <PhoneAddField
                                     key={i}
                                     phoneNumberValue={this.state.phoneNumber}
+                                    phoneNumberDialCodeValue={
+                                        this.state.phoneNumberDialCode
+                                    }
                                     phoneTypeSelected={
                                         this.state.phoneNumberType
                                     }
@@ -417,6 +511,10 @@ class PhoneDetails extends Component {
                                     onVerificationFieldUpdate={
                                         this.onPhoneVerificationFieldUpdate
                                     }
+                                    smsExpiryCountDown={
+                                        this.state.smsExpiryCountDown
+                                    }
+                                    smsSentCount={this.state.smsInfo.sentCount}
                                 />
                             ) : (
                                 <PhoneField

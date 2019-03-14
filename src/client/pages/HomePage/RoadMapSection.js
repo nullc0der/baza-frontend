@@ -10,7 +10,7 @@ const RoadmapSection = props => {
         <div className={cx} id={props.id}>
             <div className="container page-section">
                 <h3 className="text-center mb-5">Roadmap</h3>
-                <div className="row">
+                <div className="row justify-content-center">
                     <RoadMap />
                 </div>
             </div>

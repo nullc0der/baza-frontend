@@ -1,9 +1,6 @@
 import React, { Component } from 'react'
 import FeaturesSection from './FeaturesSection'
 
-import { getTotalDonors } from 'api/donations'
-import { getTotalRecipients } from 'api/distribution-signup'
-
 class LatestDistributionSection extends Component {
     state = {
         list: [
@@ -17,36 +14,30 @@ class LatestDistributionSection extends Component {
         ]
     }
 
-    componentDidMount() {
-        getTotalDonors().then(res => {
+    componentDidUpdate(prevProps, prevState) {
+        if (prevProps.stats !== this.props.stats) {
+            const { stats } = this.props
             this.setState(prevState => ({
                 list: [
                     ...prevState.list,
                     {
                         image: '/public/img/latest-distribution/donors.svg',
-                        title: res.data.total_donors,
+                        title: stats.donation.total_donors,
                         subtitle: 'Donor',
                         description:
                             'Donors are patron members that contribute towards the foundation & token distribution'
-                    }
-                ]
-            }))
-        })
-        getTotalRecipients().then(res => {
-            this.setState(prevState => ({
-                list: [
-                    ...prevState.list,
+                    },
                     {
                         image:
                             '/public/img/latest-distribution/receipients.svg',
-                        title: res.data.total_distribution_count,
+                        title: stats.distribution.total_approved_signups,
                         subtitle: 'Recipients',
                         description:
                             'Recipients are our qualifying platform members who receive the distributed token.'
                     }
                 ]
             }))
-        })
+        }
     }
 
     render() {

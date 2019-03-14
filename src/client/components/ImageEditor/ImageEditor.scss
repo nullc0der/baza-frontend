@@ -1,7 +1,6 @@
 @import 'ui';
 @import '~cropperjs/dist/cropper.min.css';
 
-
 :local(.container) {
     .cropper-container {
         margin-left: auto;
@@ -45,6 +44,36 @@
 
         .btn-group + .btn-group {
             margin-left: 2rem;
+        }
+
+        .btn-cancel {
+            margin-right: 1rem;
+            @include media-breakpoint-down(md, $grid-breakpoints) {
+                margin-right: 0.25rem;
+            }
+        }
+        :not(:first-child) {
+            margin-left: 0;
+        }
+        @include media-breakpoint-down(md, $grid-breakpoints) {
+            flex-direction: column;
+            align-items: unset;
+            justify-content: unset;
+            .btn-group {
+                margin-top: 0.5em;
+                margin-left: 0.5rem;
+            }
+            .btn-group + .btn-group {
+                margin-left: 0.5rem;
+            }
+        }
+
+        .cropper-actions {
+            @include media-breakpoint-down(md, $grid-breakpoints) {
+                display: flex;
+                flex-wrap: wrap;
+                margin-left: -0.5rem;
+            }
         }
     }
 

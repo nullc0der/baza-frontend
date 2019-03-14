@@ -9,34 +9,39 @@ import { UncontrolledTooltip } from 'reactstrap'
 import s from './ImageEditor.scss'
 
 function getRoundedCanvas(sourceCanvas) {
-    var canvas = document.createElement('canvas');
-    var context = canvas.getContext('2d');
-    var width = sourceCanvas.width;
-    var height = sourceCanvas.height;
-    canvas.width = width;
-    canvas.height = height;
-    context.imageSmoothingEnabled = true;
-    context.drawImage(sourceCanvas, 0, 0, width, height);
-    context.globalCompositeOperation = 'destination-in';
-    context.beginPath();
-    context.arc(width / 2, height / 2, Math.min(width, height) / 2, 0, 2 * Math.PI, true);
-    context.fill();
-    return canvas;
+    var canvas = document.createElement('canvas')
+    var context = canvas.getContext('2d')
+    var width = sourceCanvas.width
+    var height = sourceCanvas.height
+    canvas.width = width
+    canvas.height = height
+    context.imageSmoothingEnabled = true
+    context.drawImage(sourceCanvas, 0, 0, width, height)
+    context.globalCompositeOperation = 'destination-in'
+    context.beginPath()
+    context.arc(
+        width / 2,
+        height / 2,
+        Math.min(width, height) / 2,
+        0,
+        2 * Math.PI,
+        true
+    )
+    context.fill()
+    return canvas
 }
 
 const CropperAction = ({ icon, tip, ...others }) => {
     const id = uniqueId('cropper-action-')
     return (
-        <div
-            id={id}
-            className='cropper-action btn btn-dark' {...others}>
+        <div id={id} className="cropper-action btn btn-dark" {...others}>
             <i className={icon} />
             <UncontrolledTooltip
                 placement="top"
                 target={id}
                 delay={0}
-                innerClassName='cropper-tooltip-inner'
-                arrowClassName='cropper-tooltip-arrow'>
+                innerClassName="cropper-tooltip-inner"
+                arrowClassName="cropper-tooltip-arrow">
                 {tip}
             </UncontrolledTooltip>
         </div>
@@ -48,10 +53,7 @@ export default class EditImage extends Component {
         cropRounded: PropTypes.bool,
         onRequestClose: PropTypes.func.isRequired,
         onEditDone: PropTypes.func.isRequired,
-        src: PropTypes.oneOfType([
-            PropTypes.string,
-            PropTypes.bool
-        ])
+        src: PropTypes.oneOfType([PropTypes.string, PropTypes.bool])
     }
 
     static defaultProps = {
@@ -59,7 +61,7 @@ export default class EditImage extends Component {
     }
 
     state = {
-        editedImage: '',
+        editedImage: ''
     }
 
     componentDidMount = () => {
@@ -67,7 +69,7 @@ export default class EditImage extends Component {
     }
 
     componentWillUnmount = () => {
-        this.cropper.destroy();
+        this.cropper.destroy()
     }
 
     getCropperOptions = () => {
@@ -114,53 +116,108 @@ export default class EditImage extends Component {
 
         const _footer = (
             <React.Fragment>
-                <div className='cropper-actions'>
-                    <div className='btn-group btn-group-sm'>
-                        <CropperAction icon='fa fa-arrows' tip='Move on Drag' onClick={this.setDragMove} />
-                        <CropperAction icon='fa fa-crop' tip='Crop on Drag' onClick={this.setDragCrop} />
+                <div className="cropper-actions">
+                    <div className="btn-group btn-group-sm">
+                        <CropperAction
+                            icon="fa fa-arrows"
+                            tip="Move on Drag"
+                            onClick={this.setDragMove}
+                        />
+                        <CropperAction
+                            icon="fa fa-crop"
+                            tip="Crop on Drag"
+                            onClick={this.setDragCrop}
+                        />
                     </div>
-                    <div className='btn-group btn-group-sm'>
-                        <CropperAction icon='fa fa-search-plus' tip='Zoom In' onClick={this.zoomIn} />
-                        <CropperAction icon='fa fa-search-minus' tip='Zoom Out' onClick={this.zoomOut} />
+                    <div className="btn-group btn-group-sm">
+                        <CropperAction
+                            icon="fa fa-search-plus"
+                            tip="Zoom In"
+                            onClick={this.zoomIn}
+                        />
+                        <CropperAction
+                            icon="fa fa-search-minus"
+                            tip="Zoom Out"
+                            onClick={this.zoomOut}
+                        />
                     </div>
-                    <div className='btn-group btn-group-sm'>
-                        <CropperAction icon='fa fa-arrow-left' tip='Move Left' onClick={this.moveLeft} />
-                        <CropperAction icon='fa fa-arrow-right' tip='Move Right' onClick={this.moveRight} />
-                        <CropperAction icon='fa fa-arrow-up' tip='Move Up' onClick={this.moveUp} />
-                        <CropperAction icon='fa fa-arrow-down' tip='Move Down' onClick={this.moveDown} />
+                    <div className="btn-group btn-group-sm">
+                        <CropperAction
+                            icon="fa fa-arrow-left"
+                            tip="Move Left"
+                            onClick={this.moveLeft}
+                        />
+                        <CropperAction
+                            icon="fa fa-arrow-right"
+                            tip="Move Right"
+                            onClick={this.moveRight}
+                        />
+                        <CropperAction
+                            icon="fa fa-arrow-up"
+                            tip="Move Up"
+                            onClick={this.moveUp}
+                        />
+                        <CropperAction
+                            icon="fa fa-arrow-down"
+                            tip="Move Down"
+                            onClick={this.moveDown}
+                        />
                     </div>
-                    <div className='btn-group btn-group-sm'>
-                        <CropperAction icon='fa fa-rotate-left' tip='Rotate Left' onClick={this.rotateLeft} />
-                        <CropperAction icon='fa fa-rotate-right' tip='Rotate Right' onClick={this.rotateRight} />
+                    <div className="btn-group btn-group-sm">
+                        <CropperAction
+                            icon="fa fa-rotate-left"
+                            tip="Rotate Left"
+                            onClick={this.rotateLeft}
+                        />
+                        <CropperAction
+                            icon="fa fa-rotate-right"
+                            tip="Rotate Right"
+                            onClick={this.rotateRight}
+                        />
                     </div>
-                    <div className='btn-group btn-group-sm'>
-                        <CropperAction icon='fa fa-arrows-h' tip='Flip Horizontal' onClick={this.flipHorizontal} />
-                        <CropperAction icon='fa fa-arrows-v' tip='Flip Vertical' onClick={this.flipVertical} />
+                    <div className="btn-group btn-group-sm">
+                        <CropperAction
+                            icon="fa fa-arrows-h"
+                            tip="Flip Horizontal"
+                            onClick={this.flipHorizontal}
+                        />
+                        <CropperAction
+                            icon="fa fa-arrows-v"
+                            tip="Flip Vertical"
+                            onClick={this.flipVertical}
+                        />
                     </div>
                 </div>
-                <div className='flex-1' />
-                <div
-                    className='btn btn-light btn-cancel'
-                    onClick={this.props.onRequestClose}>Cancel</div>
-                <div
-                    onClick={this.onEditDone}
-                    className='btn btn-dark btn-done'>Done</div>
+                <div className="flex-1" />
+                <div className="flex-horizontal mt-lg-0 mt-1 j-around">
+                    <div
+                        className="btn btn-light btn-cancel"
+                        onClick={this.props.onRequestClose}>
+                        Cancel
+                    </div>
+                    <div
+                        onClick={this.onEditDone}
+                        className="btn btn-dark btn-done">
+                        Done
+                    </div>
+                </div>
             </React.Fragment>
         )
 
         return (
             <Dialog
                 isOpen
-                title='Edit Image'
+                title="Edit Image"
                 className={s.container}
                 onRequestClose={this.props.onRequestClose}
                 footer={_footer}>
-                <div className='edit-image-inner'>
+                <div className="edit-image-inner">
                     <img
-                        alt=''
-                        ref={node => this.img = node}
-                        className='image-to-edit'
-                        src={src} />
+                        alt=""
+                        ref={node => (this.img = node)}
+                        className="image-to-edit"
+                        src={src}
+                    />
                 </div>
             </Dialog>
         )

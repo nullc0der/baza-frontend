@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
 import classnames from 'classnames'
 
 import Helmet from 'react-helmet'
@@ -20,15 +21,24 @@ import RoadMapSection from './RoadMapSection'
 
 import { Link } from 'react-router-dom'
 
+import { actions as landingActions } from 'store/Landing'
+
 import './HomePage.scss'
 
 class HomePage extends Component {
-    componentDidMount = () => {}
+    componentDidMount = () => {
+        this.props
+            .fetchStats()
+            .then(() => {})
+            .catch(() => {})
+    }
 
     componentWillUnmount = () => {}
 
     render() {
         const cx = classnames('home-page')
+        const { landingStats } = this.props
+
         return (
             <div className={cx}>
                 <Helmet title="Baza Foundation" />
@@ -62,8 +72,14 @@ class HomePage extends Component {
                 </ParallaxContainer>
                 <FeaturesSection id="features-section" />
                 <WhitePaperSection id="white-paper-section" />
-                <CurrentStatusSection id="status-section" />
-                <LatestDistributionSection id="latest-section" />
+                <CurrentStatusSection
+                    id="status-section"
+                    stats={landingStats.donation || {}}
+                />
+                <LatestDistributionSection
+                    id="latest-section"
+                    stats={landingStats}
+                />
                 <MapSection id="map-section" />
                 <RoadMapSection id="roadmap-section" />
                 <ContactSection id="contact-section" />
@@ -73,4 +89,17 @@ class HomePage extends Component {
     }
 }
 
-export default HomePage
+const mapStateToProps = state => ({
+    landingStats: state.Landing.landingStats
+})
+
+const mapDispatchToProps = dispatch => ({
+    fetchStats() {
+        return dispatch(landingActions.fetchLandingStats())
+    }
+})
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(HomePage)

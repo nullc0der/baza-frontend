@@ -6,5 +6,6 @@
     "MOCK_API_ROOT": "/api/v1",
     "SITE_TYPE": "local|beta|live",
     "RELEASE_CODENAME": "Rising Phoenix",
-    "RELEASE": "1.0.0"
+    "RELEASE": "1.0.0",
+    "SMS_CODE_EXPIRES_IN": "30"
 }

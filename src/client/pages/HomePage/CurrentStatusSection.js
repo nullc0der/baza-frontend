@@ -5,30 +5,15 @@ import DonationProgressBar from 'components/DonationProgressBar'
 import DonationList from 'components/DonationList'
 import VideoPlayer from 'components/VideoPlayer'
 
-import { getDonationStats } from 'api/donations'
-
 import { Link } from 'react-router-dom'
 
 class CurrentStatusSection extends Component {
-    state = {
-        donationStats: {
-            collected: 10,
-            required: 1500
-        }
-    }
-
-    componentDidMount() {
-        getDonationStats().then(res => {
-            this.setState({ donationStats: res.data })
-        })
-    }
-
     render() {
         const cx = classnames(
             'current-status-section bg-light',
             this.props.className
         )
-        const { donationStats } = this.state
+        const donation = this.props.stats
 
         return (
             <div className={cx} id={this.props.id}>
@@ -71,8 +56,8 @@ class CurrentStatusSection extends Component {
                                 after Series B Fundraiser.
                             </p>
                             <DonationProgressBar
-                                max={donationStats.required}
-                                value={donationStats.collected}
+                                max={donation.required || 1500}
+                                value={donation.collected || 10}
                             />
                             <div className="pt-3">
                                 <Link to="/#!donate" className="btn btn-dark">

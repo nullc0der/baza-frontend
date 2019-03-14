@@ -3,7 +3,8 @@
 :local(.container) {
     .video-react {
         .video-react-big-play-button {
-            display: none;
+            background-color: rgba(0, 0, 0, 0.5);
+            border: none;
         }
         .video-react-control-bar {
             height: 4em;
