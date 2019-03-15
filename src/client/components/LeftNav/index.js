@@ -165,7 +165,7 @@ class LeftNav extends Component {
                     children: [
                         ...menu.children,
                         {
-                            name: 'Members Management',
+                            name: 'Member Management',
                             href: `/community/2/groups/${id}/members`,
                             icon: 'fa fa-fw fa-users'
                         }
