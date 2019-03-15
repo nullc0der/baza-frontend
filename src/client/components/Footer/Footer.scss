@@ -21,6 +21,10 @@
             display: none;
         }
 
+        &:last-child {
+            margin-right: 0;
+        }
+
         &:after {
             position: absolute;
             left: -1rem;
