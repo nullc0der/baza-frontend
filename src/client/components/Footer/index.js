@@ -75,6 +75,22 @@ export default class Footer extends Component {
                                 />
                             </a>
                         </li>
+                        {/* <li className="list-inline-item no-border">
+                            <iframe
+                                src="https://awesomeicos.com/icos/5152/rating"
+                                frameborder="0"
+                                title="AwesomeICOs"
+                                className="awesome-ico"
+                            />
+                        </li> */}
+                        <li className="list-inline-item no-border">
+                            <a
+                                id="cq-verify"
+                                href="https://concourseq.io/"
+                                data-users="puffmushroom">
+                                ConcourseQ
+                            </a>
+                        </li>
                     </ul>
                 </div>
             </div>

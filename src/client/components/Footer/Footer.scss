@@ -40,9 +40,14 @@
                 display: none;
             }
         }
+        a {
+            color: #fff;
+            text-decoration: none;
+        }
     }
     .trackico-logo {
         width: 50px;
+        margin-bottom: 6px;
     }
     @include media-breakpoint-down(sm, $grid-breakpoints) {
         .list-inline-item {
@@ -58,4 +63,9 @@
             }
         }
     }
+    // .awesome-ico {
+    //     body {
+    //         background-color: $dark;
+    //     }
+    // }
 }
