@@ -13,11 +13,23 @@ const FOOTER_LINKS = [
 ]
 
 const SOCIAL_LINKDATAS = [
-    { iconName: 'fa fa-facebook', url: 'https://www.facebook.com/bazafoundation' },
-    { iconName: 'fa fa-instagram', url: 'https://www.instagram.com/bazafoundation/' },
+    {
+        iconName: 'fa fa-facebook',
+        url: 'https://www.facebook.com/bazafoundation'
+    },
+    {
+        iconName: 'fa fa-instagram',
+        url: 'https://www.instagram.com/bazafoundation/'
+    },
     { iconName: 'fa fa-twitter', url: 'https://twitter.com/BazaFoundation' },
-    { iconName: 'fa fa-linkedin', url: 'https://www.linkedin.com/company/bazafoundation/' },
-    { iconName: 'fa fa-reddit', url: 'https://www.reddit.com/r/BazaFoundation/' },
+    {
+        iconName: 'fa fa-linkedin',
+        url: 'https://www.linkedin.com/company/bazafoundation/'
+    },
+    {
+        iconName: 'fa fa-reddit',
+        url: 'https://www.reddit.com/r/BazaFoundation/'
+    },
     { iconName: 'fa fa-telegram', url: 'https://t.me/bazafoundation' }
 ]
 
@@ -42,7 +54,9 @@ export default class Footer extends Component {
                     </ul>
                     <ul className="list-inline mt-2">
                         {SOCIAL_LINKDATAS.map((x, i) => (
-                            <li className="list-inline-item no-border social" key={i}>
+                            <li
+                                className="list-inline-item no-border social"
+                                key={i}>
                                 <SocialLink linkData={x} />
                             </li>
                         ))}
@@ -59,6 +73,14 @@ export default class Footer extends Component {
                                     alt="TrackICO - provider of information about the best ICOs and STOs"
                                     className="trackico-logo"
                                 />
+                            </a>
+                        </li>
+                        <li className="list-inline-item no-border">
+                            <a
+                                id="cq-verify"
+                                href="https://concourseq.io/"
+                                data-users="puffmushroom">
+                                ConcourseQ
                             </a>
                         </li>
                     </ul>
