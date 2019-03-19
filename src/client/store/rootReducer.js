@@ -6,6 +6,7 @@ import Auth from './Auth'
 import Common from './Common'
 import Group from './Group'
 import GroupPosts from './GroupPosts'
+import GroupNews from './GroupNews'
 import Members from './Members'
 import UserProfile from './UserProfile'
 
@@ -29,6 +30,7 @@ export default combineReducers({
     Common,
     Group,
     GroupPosts,
+    GroupNews,
     Members,
     WalletAccounts,
     WalletTransanctions,

@@ -88,6 +88,11 @@ class LeftNav extends Component {
                         icon: 'fa fa-fw fa-life-ring'
                     },
                     {
+                        name: 'News',
+                        href: `/community/2/groups/${id}/news`,
+                        icon: 'fa fa-fw fa-newspaper-o'
+                    },
+                    {
                         name: 'Members',
                         href: `/community/2/groups/${id}/members`,
                         icon: 'fa fa-fw fa-users'
@@ -148,6 +153,11 @@ class LeftNav extends Component {
                             name: 'Posts',
                             href: `/community/2/groups/${id}/posts`,
                             icon: 'fa fa-fw fa-life-ring'
+                        },
+                        {
+                            name: 'News',
+                            href: `/community/2/groups/${id}/news`,
+                            icon: 'fa fa-fw fa-newspaper-o'
                         },
                         {
                             name: 'Members',
