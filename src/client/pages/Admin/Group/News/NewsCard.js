@@ -28,17 +28,17 @@ class NewsCard extends Component {
         return (
             <div className={cx}>
                 <div
-                    className="col-md-8 news-content"
+                    className="col-md-7 news-content"
                     dangerouslySetInnerHTML={{
                         __html: this.convertMDToHtml(news.news)
                     }}
                 />
-                <div className="col-md-4">
+                <div className="col-md-5 mt-2 mt-md-0">
                     <div className="news-info d-flex justify-content-md-end">
                         <div className="avatar">
                             <Avatar
                                 className="avatar-image"
-                                size={80}
+                                size={60}
                                 own={false}
                                 otherProfile={{
                                     username: news.editor.username,
