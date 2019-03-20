@@ -49,6 +49,9 @@
         width: 50px;
         margin-bottom: 6px;
     }
+    .icopulse-logo {
+        width: 70px;
+    }
     @include media-breakpoint-down(sm, $grid-breakpoints) {
         .list-inline-item {
             display: block;

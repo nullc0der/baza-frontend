@@ -100,6 +100,19 @@ export default class Footer extends Component {
                                 ConcourseQ
                             </a>
                         </li>
+                        <li className="list-inline-item no-border">
+                            <a
+                                href="https://www.icopulse.com/"
+                                target="_blank"
+                                title="ICOPulse">
+                                <img
+                                    border="0"
+                                    src="https://icopulse.com/images/media/logo-white.svg"
+                                    alt="ICOPulse - provider of information about the best ICOs"
+                                    className="icopulse-logo"
+                                />
+                            </a>
+                        </li>
                     </ul>
                 </div>
             </div>
