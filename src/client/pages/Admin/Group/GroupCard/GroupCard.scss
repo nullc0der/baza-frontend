@@ -8,9 +8,9 @@
     background-color: #fff;
     color: #4a4a4a;
     @include _shadow_2();
-    @include b1();
+    // @include b1();
     @include clearfix();
-    border-radius: 6px;
+    border-radius: 3px;
     overflow: hidden;
     display: flex;
     flex-direction: column;

@@ -29,7 +29,6 @@
     @include _shadow_1();
     margin-bottom: 0;
     background-color: #fff;
-    border-radius: 6px;
     transition: box-shadow 0.3s ease-in-out;
     @include media-breakpoint-down(md, $grid-breakpoints) {
         margin-bottom: 20px;
@@ -45,9 +44,14 @@
     .news-card {
         padding: 20px;
         background-color: #fff;
+        margin-top: 1rem;
+        border-radius: 3px;
         @include _shadow-1();
         &:hover {
             @include _shadow-2();
+        }
+        &:first-child {
+            margin-top: 0;
         }
         .news-content {
             h1 {

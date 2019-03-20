@@ -24,7 +24,7 @@ class NewsCard extends Component {
             publishNews,
             showActions
         } = this.props
-        const cx = classnames(className, 'row', 'no-gutters', 'mt-2')
+        const cx = classnames(className, 'row', 'no-gutters')
         return (
             <div className={cx}>
                 <div
