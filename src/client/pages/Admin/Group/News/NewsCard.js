@@ -27,12 +27,17 @@ class NewsCard extends Component {
         const cx = classnames(className, 'row', 'no-gutters')
         return (
             <div className={cx}>
-                <div
-                    className="col-md-7 news-content"
-                    dangerouslySetInnerHTML={{
-                        __html: this.convertMDToHtml(news.news)
-                    }}
-                />
+                <div className="col-md-7">
+                    {!!news.title && (
+                        <div className="news-title">{news.title}</div>
+                    )}
+                    <div
+                        className="news-content"
+                        dangerouslySetInnerHTML={{
+                            __html: this.convertMDToHtml(news.news)
+                        }}
+                    />
+                </div>
                 <div className="col-md-5 mt-2 mt-md-0">
                     <div className="news-info d-flex justify-content-md-end">
                         <div className="avatar">

@@ -2,8 +2,57 @@
 
 :local(.container) {
     color: #fff;
-    .footer-copyright-info {
+    border-top: 8px solid #fdca02;
+    position: relative;
+    .baza-logo {
+        width: 80px;
+        height: 80px;
+        position: absolute;
+        top: -43px;
+        left: 0;
+        right: 0;
+        margin: 0 auto;
+    }
+
+    .badge {
+        padding: 8px 24px;
+        border-radius: 17px;
+        text-align: center;
+    }
+
+    .copyright-badge {
+        background-color: rgba(0, 0, 0, 0.16);
+        .footer-copyright-info {
+            font-weight: $font-weight-bold;
+            font-size: 14px;
+            margin: 0;
+        }
+    }
+
+    .social-links-title,
+    .discussion-links-title,
+    .links-and-downloads-title,
+    .ico-listings-title,
+    .news-section-title,
+    .faqs-section-title {
         font-weight: $font-weight-bold;
+    }
+
+    .discussion-links-title {
+        width: 120px;
+    }
+
+    .list-unstyled-item {
+        display: flex;
+        align-items: center;
+        &::before {
+            content: '';
+            width: 12px;
+            height: 12px;
+            border: 1px solid #fff;
+            margin-right: 0.5rem;
+            border-radius: 6px;
+        }
     }
 
     .footer-link {
@@ -11,64 +60,156 @@
         color: inherit;
     }
 
-    .list-inline {
-        margin-bottom: 0;
+    .read-more-badge {
+        background-color: #eda826;
+        cursor: pointer;
     }
-    .list-inline-item {
-        position: relative;
-        margin-right: 2rem;
-        &:first-child::after {
-            display: none;
-        }
 
-        &:last-child {
-            margin-right: 0;
+    .news-section,
+    .faqs-section {
+        .news-header,
+        .faqs-header {
+            display: flex;
+            align-items: baseline;
         }
-
-        &:after {
-            position: absolute;
-            left: -1rem;
-            width: 1px;
-            top: 3px;
-            bottom: 3px;
-            background-color: #fff;
-            content: '';
-            z-index: 1;
-        }
-        &.no-border {
-            &:after {
-                display: none;
+        .news-item,
+        .faq-item {
+            cursor: pointer;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid rgba($color: #fff, $alpha: 0.2);
+            margin-bottom: 1rem;
+            .news-title,
+            .faq-title {
+                margin-bottom: 0;
             }
-        }
-        a {
-            color: #fff;
-            text-decoration: none;
-        }
-    }
-    .trackico-logo {
-        width: 50px;
-        margin-bottom: 6px;
-    }
-    .icopulse-logo {
-        width: 70px;
-    }
-    @include media-breakpoint-down(sm, $grid-breakpoints) {
-        .list-inline-item {
-            display: block;
-            padding-top: map-get($spacers, 1);
-            padding-bottom: map-get($spacers, 1);
-            margin-right: 0;
-            &.social {
-                display: inline-block;
-                &:not(:last-child) {
-                    margin-right: 1rem;
-                }
+            .news-content,
+            .faq-content {
+                opacity: 0.6;
             }
         }
     }
+
+    // .list-inline {
+    //     margin-bottom: 0;
+    // }
+    // .list-inline-item {
+    //     position: relative;
+    //     margin-right: 2rem;
+    //     &:first-child::after {
+    //         display: none;
+    //     }
+
+    //     &:last-child {
+    //         margin-right: 0;
+    //     }
+
+    //     &:after {
+    //         position: absolute;
+    //         left: -1rem;
+    //         width: 1px;
+    //         top: 3px;
+    //         bottom: 3px;
+    //         background-color: #fff;
+    //         content: '';
+    //         z-index: 1;
+    //     }
+    //     &.no-border {
+    //         &:after {
+    //             display: none;
+    //         }
+    //     }
+    //     a {
+    //         color: #fff;
+    //         text-decoration: none;
+    //     }
+    // }
+    // .trackico-logo {
+    //     width: 50px;
+    //     margin-bottom: 6px;
+    // }
+    // .icopulse-logo {
+    //     width: 70px;
+    // }
+    // @include media-breakpoint-down(sm, $grid-breakpoints) {
+    //     .list-inline-item {
+    //         display: block;
+    //         padding-top: map-get($spacers, 1);
+    //         padding-bottom: map-get($spacers, 1);
+    //         margin-right: 0;
+    //         &.social {
+    //             display: inline-block;
+    //             &:not(:last-child) {
+    //                 margin-right: 1rem;
+    //             }
+    //         }
+    //     }
+    // }
     // .awesome-ico {
     //     body {
     //         background-color: $dark;
     //     }
     // }
+}
+
+:local(.newsModal) {
+    .news-item {
+        cursor: pointer;
+        margin-bottom: 1rem;
+        .news-title {
+            margin-bottom: 0;
+            font-weight: $font-weight-bold;
+            padding: 8px 18px;
+            background-color: $light;
+        }
+        .news-content {
+            margin-top: 1rem;
+        }
+        .badge {
+            padding: 3px 8px;
+            border-radius: 17px;
+            text-align: center;
+        }
+        .news-published-date-badge {
+            background-color: rgba($color: #273951, $alpha: 0.3);
+            color: #fff;
+            font-size: 12px;
+        }
+    }
+}
+
+:local(.faqModal) {
+    .badge {
+        padding: 3px 8px;
+        border-radius: 17px;
+        text-align: center;
+    }
+    .faq-badge {
+        cursor: pointer;
+        background-color: rgba($color: #273951, $alpha: 0.3);
+        color: #fff;
+        font-size: 12px;
+        &:first-child {
+            margin-right: 1rem;
+        }
+    }
+    .modal-body {
+        padding-top: 1rem;
+    }
+    .modal-title {
+        padding-top: 2rem;
+    }
+    .faq-item {
+        cursor: pointer;
+        .faq-title {
+            font-weight: $font-weight-bold;
+        }
+        .faq-content {
+            padding: 1rem;
+            background-color: $light;
+        }
+        .expand-collapse-arrow {
+            font-size: 24px;
+            color: #ddd;
+        }
+    }
 }

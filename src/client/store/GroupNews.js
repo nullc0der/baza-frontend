@@ -162,8 +162,8 @@ const fetchLandingNewsFailure = err => ({
 })
 
 const FETCH_SINGLE_LANDING_NEWS = createAction('FETCH_SINGLE_LANDING_NEWS')
-const fetchSingleLandingNews = () => dispatch => {
-    return DispatchAPI(dispatch, GroupNewsAPI.fetchSingleLandingNews, {
+const fetchSingleLandingNews = newsID => dispatch => {
+    return DispatchAPI(dispatch, GroupNewsAPI.fetchSingleLandingNews(newsID), {
         success: fetchSingleLandingNewsSuccess,
         failure: fetchSingleLandingNewsFailure
     })

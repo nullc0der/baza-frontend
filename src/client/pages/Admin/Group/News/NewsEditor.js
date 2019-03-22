@@ -19,6 +19,8 @@ class NewsEditor extends Component {
                 start: 0
             }
         },
+        newsTitle: '',
+        newsTitleEditing: false,
         previewVisible: false,
         linkPopupVisible: false,
         linkPopupValues: {
@@ -33,15 +35,17 @@ class NewsEditor extends Component {
             (prevProps.editingNewsID !== this.props.editingNewsID) &
             (this.props.editingNewsID !== -1)
         ) {
+            const editingNews = find(this.props.news, [
+                'id',
+                this.props.editingNewsID
+            ])
             this.setState({
                 editingNewsID: this.props.editingNewsID,
                 reactMdeValue: {
-                    text: find(this.props.news, [
-                        'id',
-                        this.props.editingNewsID
-                    ]).news
+                    text: editingNews.news
                 },
-                editorVisible: true
+                editorVisible: true,
+                newsTitle: editingNews.title
             })
         }
     }
@@ -56,7 +60,8 @@ class NewsEditor extends Component {
         if (!value.text.length && this.state.editingNewsID !== -1) {
             this.setState(
                 {
-                    editingNewsID: -1
+                    editingNewsID: -1,
+                    newsTitle: ''
                 },
                 () => this.props.setEditingNewsID(-1)
             )
@@ -108,12 +113,16 @@ class NewsEditor extends Component {
         if (news.length) {
             const { groupID, createNews, updateNews } = this.props
             if (this.state.editingNewsID !== -1) {
-                updateNews(this.state.editingNewsID, { news })
+                updateNews(this.state.editingNewsID, {
+                    news,
+                    title: this.state.newsTitle
+                })
             } else {
                 createNews({
                     group_id: groupID,
                     news,
-                    is_published: shouldPublish
+                    is_published: shouldPublish,
+                    title: this.state.newsTitle
                 })
             }
             this.setState(
@@ -122,7 +131,8 @@ class NewsEditor extends Component {
                         text: ''
                     },
                     editorVisible: false,
-                    editingNewsID: -1
+                    editingNewsID: -1,
+                    newsTitle: ''
                 },
                 () => this.props.setEditingNewsID(-1)
             )
@@ -146,6 +156,18 @@ class NewsEditor extends Component {
                 [id]: value
             }
         }))
+    }
+
+    onNewsTitleChange = (id, value) => {
+        this.setState({
+            newsTitle: value
+        })
+    }
+
+    toggleNewTitleEdit = () => {
+        this.setState({
+            newsTitleEditing: !this.state.newsTitleEditing
+        })
     }
 
     onClickInsertLink = () => {
@@ -212,7 +234,8 @@ class NewsEditor extends Component {
             editorVisible,
             previewVisible,
             linkPopupVisible,
-            editingNewsID
+            editingNewsID,
+            newsTitleEditing
         } = this.state
 
         const cx = classnames(className, 'ui-news-editor')
@@ -228,6 +251,16 @@ class NewsEditor extends Component {
             <div className={cx}>
                 <div
                     className={`editor-area ${editorVisible ? 'visible' : ''}`}>
+                    <div className="news-title-area">
+                        <TextField
+                            id="news-title"
+                            label="News title"
+                            onChange={this.onNewsTitleChange}
+                            value={this.state.newsTitle}
+                            onFocus={this.toggleNewTitleEdit}
+                            onBlur={this.toggleNewTitleEdit}
+                        />
+                    </div>
                     <div
                         className={`link-popup ${!!linkPopupVisible &&
                             'visible'}`}>
@@ -263,8 +296,8 @@ class NewsEditor extends Component {
                     </div>
                     <ReactMde
                         textAreaProps={{
-                            placeholder: 'Type here',
-                            disabled: linkPopupVisible
+                            placeholder: 'Type news content here',
+                            disabled: linkPopupVisible || newsTitleEditing
                         }}
                         value={this.state.reactMdeValue}
                         visibility={{
