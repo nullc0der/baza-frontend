@@ -192,6 +192,10 @@
     .modal-title {
         padding-top: 2rem;
     }
+    .modal-body {
+        max-height: 400px;
+        overflow: auto;
+    }
     .faq-item {
         cursor: pointer;
         .faq-title {
@@ -200,10 +204,24 @@
         .faq-content {
             padding: 1rem;
             background-color: $light;
+            height: auto;
+            opacity: 1;
+            transition: opacity 0.3s ease-in-out;
         }
         .expand-collapse-arrow {
             font-size: 24px;
             color: #ddd;
+            transition: transform 0.3s ease-in-out;
+        }
+        &.is-collapsed {
+            .expand-collapse-arrow {
+                transform: rotate(180deg);
+            }
+            .faq-content {
+                height: 0;
+                opacity: 0;
+                padding: 0;
+            }
         }
     }
 }

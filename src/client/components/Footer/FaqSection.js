@@ -81,18 +81,9 @@ class FaqSection extends Component {
                     <p className="faq-title">
                         Q{index + 1}: {faq.question}
                     </p>
-                    <i
-                        className={`fa ${
-                            faqIsCollapsed
-                                ? 'fa-chevron-right'
-                                : 'fa-chevron-down'
-                        } expand-collapse-arrow`}
-                    />
+                    <i className="fa fa-chevron-up expand-collapse-arrow" />
                 </div>
-                <div
-                    className={`faq-content ${faqIsCollapsed ? 'd-none' : ''}`}>
-                    {faq.answer}
-                </div>
+                <div className="faq-content">{faq.answer}</div>
             </div>
         )
     }
