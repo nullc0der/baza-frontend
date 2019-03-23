@@ -17,25 +17,37 @@ const FOOTER_LINKS = [
 const SOCIAL_LINKDATAS = [
     {
         linkName: 'Facebook',
-        url: 'https://www.facebook.com/bazafoundation'
+        url: 'https://www.facebook.com/bazafoundation',
+        iconName: 'fa fa-fw fa-facebook'
     },
     {
         linkName: 'Instagram',
-        url: 'https://www.instagram.com/bazafoundation/'
+        url: 'https://www.instagram.com/bazafoundation/',
+        iconName: 'fa fa-fw fa-instagram'
     },
-    { linkName: 'Twitter', url: 'https://twitter.com/BazaFoundation' },
+    {
+        linkName: 'Twitter',
+        url: 'https://twitter.com/BazaFoundation',
+        iconName: 'fa fa-fw fa-twitter'
+    },
     {
         linkName: 'Linkedin',
-        url: 'https://www.linkedin.com/company/bazafoundation/'
+        url: 'https://www.linkedin.com/company/bazafoundation/',
+        iconName: 'fa fa-fw fa-linkedin'
     },
     {
         linkName: 'Reddit',
-        url: 'https://www.reddit.com/r/BazaFoundation/'
+        url: 'https://www.reddit.com/r/BazaFoundation/',
+        iconName: 'fa fa-fw fa-reddit'
     }
 ]
 
 const DISCUSSION_LINKDATAS = [
-    { linkName: 'Telegram', url: 'https://t.me/bazafoundation' }
+    {
+        linkName: 'Telegram',
+        url: 'https://t.me/bazafoundation',
+        iconName: 'fa fa-fw fa-telegram'
+    }
 ]
 
 const ICO_LISTINGS = [
@@ -104,7 +116,9 @@ export default class Footer extends Component {
                                 </p>
                                 <ul className="list-unstyled">
                                     {FOOTER_LINKS.map((x, i) => (
-                                        <li key={i}>
+                                        <li
+                                            key={i}
+                                            className="list-unstyled-item">
                                             <a
                                                 className="footer-link"
                                                 href={x.href}>
@@ -121,7 +135,9 @@ export default class Footer extends Component {
                                 </p>
                                 <ul className="list-unstyled">
                                     {ICO_LISTINGS.map((x, i) => (
-                                        <li key={i}>
+                                        <li
+                                            key={i}
+                                            className="list-unstyled-item">
                                             <a
                                                 className="footer-link"
                                                 href={x.url}>
@@ -129,7 +145,7 @@ export default class Footer extends Component {
                                             </a>
                                         </li>
                                     ))}
-                                    <li>
+                                    <li className="list-unstyled-item">
                                         <a
                                             id="cq-verify"
                                             href="https://concourseq.io/"

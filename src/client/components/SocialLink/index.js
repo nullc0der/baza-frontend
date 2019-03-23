@@ -9,6 +9,7 @@ class SocialLink extends Component {
         const cx = classnames(s.container, className, 'social-link')
         return (
             <div className={cx}>
+                <i className={linkData.iconName} />
                 <a href={`${linkData.url}`} target="_blank">
                     {linkData.linkName}
                 </a>
