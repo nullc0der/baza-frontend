@@ -2,7 +2,7 @@
 
 :local(.container) {
     color: #fff;
-    border-top: 8px solid #fdca02;
+    border-top: 6px solid #fdca02;
     position: relative;
     .baza-logo {
         width: 80px;
@@ -55,7 +55,7 @@
     }
 
     .read-more-badge {
-        background-color: $warning;
+        background-color: #fdca02;
         cursor: pointer;
     }
 
