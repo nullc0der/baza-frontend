@@ -36,16 +36,18 @@ import { dataURLtoBlob, imageToDataURL } from 'utils/common'
 // }
 
 function getScalingFactors(context, image, provider) {
-    var x;
-    var y;
+    var x
+    var y
     if (provider.name === 'Facebook') {
-        x = 600;
-        y = 600;
+        x = 600
+        y = 600
     } else if (provider.name === 'Twitter') {
-        x = 400;
-        y = 400;
+        x = 400
+        y = 400
     } else {
-        throw new Error(`Unknown provider. Cannot get scaling: ` + provider.name)
+        throw new Error(
+            `Unknown provider. Cannot get scaling: ` + provider.name
+        )
     }
 
     var scaleX = x / image.naturalWidth
@@ -70,20 +72,14 @@ function getFinalImagePNG(provider) {
 
     return new Promise((resolve, reject) => {
         var url = _URL.createObjectURL(svgBlob)
-<<<<<<< HEAD
         img.onload = function() {
-            ctx.drawImage(img, 0, 0)
-            let finalImage = canvas.toDataURL('image/png')
-=======
-        img.onload = function () {
             // ctx.drawImage(img, 0, 0)
-            let { scaleX, scaleY } = getScalingFactors(ctx, img, provider);
+            let { scaleX, scaleY } = getScalingFactors(ctx, img, provider)
             canvas.width = canvas.width * scaleX
             canvas.height = canvas.height * scaleY
-            ctx.scale(scaleX, scaleY)   // Scale canvas
-            ctx.drawImage(img, 0, 0)    // Draw the scaled image
-            let finalImage = canvas.toDataURL("image/png")
->>>>>>> 268b7630a7cb8d4b7565a5895c000b539ac315f3
+            ctx.scale(scaleX, scaleY) // Scale canvas
+            ctx.drawImage(img, 0, 0) // Draw the scaled image
+            let finalImage = canvas.toDataURL('image/png')
             _URL.revokeObjectURL(url)
             resolve(finalImage)
         }
@@ -162,21 +158,13 @@ class HashTagContent extends Component {
             return
         }
 
-<<<<<<< HEAD
-        getFinalImagePNG()
+        getFinalImagePNG(selectedProvider)
             .then(data => {
                 downloadAs('baza-avatar.png', data)
             })
             .catch(err => {
                 alert(err.message)
             })
-=======
-        getFinalImagePNG(selectedProvider).then(data => {
-            downloadAs('baza-avatar.png', data)
-        }).catch(err => {
-            alert(err.message)
-        })
->>>>>>> 268b7630a7cb8d4b7565a5895c000b539ac315f3
 
         // return croppedImage
     }
@@ -216,50 +204,40 @@ class HashTagContent extends Component {
         // const imageBlob = dataURLtoBlob(finalImage)
         const shortName = selectedProvider.name.toLowerCase()
         this.setState({ isUploading: true })
-<<<<<<< HEAD
-        getFinalImagePNG()
+        getFinalImagePNG(selectedProvider)
             .then(dataUrl =>
                 this.props.uploadPhotoToSocial(
-                    selectedProvider.name.toLowerCase(),
+                    shortName,
                     dataURLtoBlob(dataUrl)
                 )
             )
             .then(response => {
                 this.setState({ isUploading: false })
-                if (selectedProvider.name.toLowerCase() === 'facebook') {
-                    this.openFBShare(response.data.url)
-                }
+                this.openFBShare(response.data.url)
+                shortName !== 'facebook' &&
+                    this.openSuccessDialog(selectedProvider)
             })
             .catch(err => {
                 this.setState({ isUploading: false })
                 alert(err.message)
             })
-=======
-        getFinalImagePNG(selectedProvider).then(dataUrl => this.props.uploadPhotoToSocial(
-            shortName,
-            dataURLtoBlob(dataUrl)
-        )).then(response => {
-            this.setState({ isUploading: false })
-            this.openFBShare(response.data.url)
-            shortName !== 'facebook' && this.openSuccessDialog(selectedProvider)
-        }).catch(err => {
-            this.setState({ isUploading: false })
-            alert(err.message)
-        })
->>>>>>> 268b7630a7cb8d4b7565a5895c000b539ac315f3
     }
 
     openFBShare = href => {
-        window.FB.ui({
-            method: 'share',
-            href
-        }, () => this.openSuccessDialog('facebook'))
+        window.FB.ui(
+            {
+                method: 'share',
+                href
+            },
+            () => this.openSuccessDialog('facebook')
+        )
     }
 
-    openSuccessDialog = (provider) => {
-        const message = provider === 'facebook'
-            ? 'Successfully shared image on your wall'
-            : 'Successfully set image as profile picture'
+    openSuccessDialog = provider => {
+        const message =
+            provider === 'facebook'
+                ? 'Successfully shared image on your wall'
+                : 'Successfully set image as profile picture'
         alert(message)
     }
 
