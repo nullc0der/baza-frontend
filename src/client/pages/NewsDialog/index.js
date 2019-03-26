@@ -53,7 +53,9 @@ class NewsDialog extends Component {
                 title={news.title}
                 onRequestClose={this.closeNewsModal}>
                 <div className="d-flex justify-content-end">
-                    {moment(news.created_on).format('Do MMMM, YYYY')}
+                    <div className="badge news-published-date-badge">
+                        {moment(news.created_on).format('Do MMMM, YYYY')}
+                    </div>
                 </div>
                 <div
                     className="news-content"

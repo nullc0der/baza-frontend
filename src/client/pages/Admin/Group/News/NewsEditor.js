@@ -251,7 +251,10 @@ class NewsEditor extends Component {
             <div className={cx}>
                 <div
                     className={`editor-area ${editorVisible ? 'visible' : ''}`}>
-                    <div className="news-title-area">
+                    <div
+                        className={`news-title-area ${
+                            previewVisible ? 'd-none' : ''
+                        }`}>
                         <TextField
                             id="news-title"
                             label="News title"
