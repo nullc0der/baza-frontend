@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import classnames from 'classnames'
 import moment from 'moment'
-import showdown from 'showdown'
 import { Scrollbars } from 'react-custom-scrollbars'
 
 import Avatar from 'components/Avatar'
@@ -33,16 +32,6 @@ class PostGroupCard extends Component {
                 this.commentScroller.scrollToBottom()
             }
         }
-    }
-
-    convertMDToHtml = md => {
-        const converter = new showdown.Converter({
-            noHeaderId: true,
-            simpleLineBreaks: true,
-            openLinksInNewWindow: true,
-            simplifiedAutoLink: true
-        })
-        return converter.makeHtml(md)
     }
 
     togglePostModal = e => {
@@ -133,7 +122,7 @@ class PostGroupCard extends Component {
                 <div
                     className="content"
                     dangerouslySetInnerHTML={{
-                        __html: this.convertMDToHtml(post.post)
+                        __html: post.converted_post
                     }}
                 />
                 <div className="footer">
@@ -243,7 +232,7 @@ class PostGroupCard extends Component {
                 <div
                     className="content"
                     dangerouslySetInnerHTML={{
-                        __html: this.convertMDToHtml(post.post)
+                        __html: post.converted_post
                     }}
                 />
                 <div className="footer">

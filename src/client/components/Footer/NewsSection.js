@@ -5,7 +5,6 @@ import classnames from 'classnames'
 import take from 'lodash/take'
 import words from 'lodash/words'
 import moment from 'moment'
-import showdown from 'showdown'
 
 import { actions as groupNewsActions } from 'store/GroupNews'
 
@@ -33,16 +32,6 @@ class NewsSection extends Component {
             },
             () => this.props.navigate(`#!news/${newsID}`)
         )
-    }
-
-    convertMDToHtml = md => {
-        const converter = new showdown.Converter({
-            noHeaderId: true,
-            simpleLineBreaks: true,
-            openLinksInNewWindow: true,
-            simplifiedAutoLink: true
-        })
-        return converter.makeHtml(md)
     }
 
     renderOneNews = (news, index) => {

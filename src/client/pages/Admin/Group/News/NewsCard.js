@@ -1,20 +1,9 @@
 import React, { Component } from 'react'
 import classnames from 'classnames'
-import showdown from 'showdown'
 
 import Avatar from 'components/Avatar'
 
 class NewsCard extends Component {
-    convertMDToHtml = md => {
-        const converter = new showdown.Converter({
-            noHeaderId: true,
-            simpleLineBreaks: true,
-            openLinksInNewWindow: true,
-            simplifiedAutoLink: true
-        })
-        return converter.makeHtml(md)
-    }
-
     render() {
         const {
             className,
@@ -34,7 +23,7 @@ class NewsCard extends Component {
                     <div
                         className="news-content"
                         dangerouslySetInnerHTML={{
-                            __html: this.convertMDToHtml(news.news)
+                            __html: news.converted_news
                         }}
                     />
                 </div>

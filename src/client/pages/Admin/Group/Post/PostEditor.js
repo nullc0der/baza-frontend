@@ -265,7 +265,7 @@ class PostEditor extends Component {
                         onChange={this.handleMDEChange}
                         commands={editorCommands}
                         showdownOptions={{
-                            simpleLineBreaks: true
+                            setFlavor: 'original'
                         }}
                     />
                     <div className="action-buttons">

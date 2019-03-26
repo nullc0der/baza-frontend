@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import classnames from 'classnames'
 import find from 'lodash/find'
 import moment from 'moment'
-import showdown from 'showdown'
 
 import { push } from 'react-router-redux'
 import { connect } from 'react-redux'
@@ -31,16 +30,6 @@ class NewsDialog extends Component {
         this.props.navigate(pathname + (hash || '').replace(hash, ''))
     }
 
-    convertMDToHtml = md => {
-        const converter = new showdown.Converter({
-            noHeaderId: true,
-            simpleLineBreaks: true,
-            openLinksInNewWindow: true,
-            simplifiedAutoLink: true
-        })
-        return converter.makeHtml(md)
-    }
-
     render() {
         const cx = classnames(s.container)
         const { newsID } = this.state
@@ -60,7 +49,7 @@ class NewsDialog extends Component {
                 <div
                     className="news-content"
                     dangerouslySetInnerHTML={{
-                        __html: this.convertMDToHtml(news.news)
+                        __html: news.converted_news
                     }}
                 />
             </Dialog>
