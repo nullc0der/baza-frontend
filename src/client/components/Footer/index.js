@@ -78,7 +78,7 @@ export default class Footer extends Component {
                 </div>
                 <div className="container">
                     <div className="row">
-                        <div className="col-md-2 d-flex d-md-block justify-content-between">
+                        <div className="col-md-6 col-lg-2 d-flex d-lg-block justify-content-between">
                             <div className="social-links">
                                 <p className="social-links-title">
                                     SOCIAL LINKS
@@ -109,7 +109,7 @@ export default class Footer extends Component {
                                 </ul>
                             </div>
                         </div>
-                        <div className="col-md-2 d-flex d-md-block justify-content-between mt-2 mt-md-0">
+                        <div className="col-md-6 col-lg-2 d-flex d-lg-block justify-content-between mt-2 mt-md-0">
                             <div className="links-and-downloads">
                                 <p className="links-and-downloads-title">
                                     LINKS &amp; DOWNLOADS
@@ -129,7 +129,7 @@ export default class Footer extends Component {
                                     ))}
                                 </ul>
                             </div>
-                            <div className="ico-listings">
+                            <div className="ico-listings ml-md-3 ml-lg-0">
                                 <p className="ico-listings-title">
                                     ICO LISTINGS
                                 </p>
@@ -157,10 +157,10 @@ export default class Footer extends Component {
                                 </ul>
                             </div>
                         </div>
-                        <div className="col-md-4 mt-2 mt-md-0">
+                        <div className="col-lg-4 mt-2 mt-lg-0">
                             <FaqSection faqModalClass={faqModalClass} />
                         </div>
-                        <div className="col-md-4 mt-2 mt-md-0">
+                        <div className="col-lg-4 mt-2 mt-lg-0">
                             <NewsSection newsModalClass={newsModalClass} />
                         </div>
                     </div>

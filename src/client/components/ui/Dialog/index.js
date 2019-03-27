@@ -58,7 +58,7 @@ export default class Dialog extends Component {
             this.dialogClosetimeOut = setTimeout(() => {
                 this.props.onRequestClose()
                 this.toggleBodyScroll(false)
-            }, 1000)
+            }, 700)
         }
     }
 
@@ -127,7 +127,7 @@ export default class Dialog extends Component {
                         exit: 'animated',
                         exitActive: 'fadeOutUp'
                     }}
-                    timeout={1000}
+                    timeout={700}
                     in={transitionIn}
                     mountOnEnter
                     unmountOnExit>

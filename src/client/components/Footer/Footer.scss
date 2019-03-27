@@ -40,6 +40,12 @@
 
     .discussion-links-title {
         width: 120px;
+        @include media-breakpoint-only(md, $grid-breakpoints) {
+            width: 200px;
+        }
+        @include media-breakpoint-down(sm, $grid-breakpoints) {
+            width: 100px;
+        }
     }
 
     .list-unstyled-item {
@@ -56,6 +62,7 @@
 
     .read-more-badge {
         background-color: #fdca02;
+        color: $dark;
         cursor: pointer;
     }
 
