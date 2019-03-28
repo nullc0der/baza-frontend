@@ -3,6 +3,7 @@ import classnames from 'classnames'
 import take from 'lodash/take'
 import get from 'lodash/get'
 import words from 'lodash/words'
+import Linkify from 'react-linkify'
 
 import { fetchLandingFaq } from 'api/group-faq'
 
@@ -12,7 +13,7 @@ class FaqSection extends Component {
     state = {
         faqs: [],
         isFaqModalOpen: false,
-        collapsedQuestions: [1, 3]
+        collapsedQuestions: []
     }
 
     componentDidMount = () => {
@@ -75,15 +76,20 @@ class FaqSection extends Component {
                 className={`faq-item mt-3 ${
                     faqIsCollapsed ? 'is-collapsed' : ''
                 }`}
-                key={index}
-                onClick={() => this.toggleCollapse(index)}>
-                <div className="faq-header d-flex justify-content-between align-items-baseline">
+                key={index}>
+                <div
+                    className="faq-header d-flex justify-content-between align-items-baseline"
+                    onClick={() => this.toggleCollapse(index)}>
                     <p className="faq-title">
                         Q{index + 1}: {faq.question}
                     </p>
                     <i className="fa fa-chevron-up expand-collapse-arrow" />
                 </div>
-                <div className="faq-content">{faq.answer}</div>
+                <div className="faq-content">
+                    <Linkify properties={{ target: '_blank' }}>
+                        {faq.answer}
+                    </Linkify>
+                </div>
             </div>
         )
     }

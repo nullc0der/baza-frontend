@@ -201,7 +201,7 @@
     }
     .modal-body {
         max-height: 400px;
-        overflow: auto;
+        overflow-y: auto;
     }
     .faq-item {
         cursor: pointer;
@@ -214,6 +214,9 @@
             height: auto;
             opacity: 1;
             transition: opacity 0.3s ease-in-out;
+            a {
+                color: $dark;
+            }
         }
         .expand-collapse-arrow {
             font-size: 24px;
