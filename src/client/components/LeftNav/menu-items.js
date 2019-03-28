@@ -1,5 +1,3 @@
-import Config from 'utils/config'
-
 export default [
     {
         name: 'Home',
@@ -22,7 +20,7 @@ export default [
                 icon: 'fa fa-fw fa-comment'
             }
         ]
-    },
+    }
     // {
     //     name: 'Community',
     //     icon: 'fa fa-fw fa-globe',
@@ -66,23 +64,21 @@ export default [
     //         }
     //     ]
     // },
-    {
-        name: 'Applications',
-        icon: 'fas fa-toolbox',
-        href: '',
-        children: [
-            Config.get('SITE_TYPE') !== 'live'
-                ? {
-                      name: 'Hashtag Banner',
-                      icon: 'fa fa-fw fa-dashboard',
-                      href: '/hashtag'
-                  }
-                : {},
-            {
-                name: 'Messenger',
-                icon: 'fa fa-fw fa-comment',
-                href: '/messenger'
-            }
-        ]
-    }
+    // {
+    //     name: 'Applications',
+    //     icon: 'fas fa-toolbox',
+    //     href: '',
+    //     children: [
+    //         {
+    //             name: 'Hashtag Banner',
+    //             icon: 'fa fa-fw fa-dashboard',
+    //             href: '/hashtag'
+    //         },
+    //         {
+    //             name: 'Messenger',
+    //             icon: 'fa fa-fw fa-comment',
+    //             href: '/messenger'
+    //         }
+    //     ]
+    // }
 ]

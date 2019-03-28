@@ -196,7 +196,9 @@ class HashTagContent extends Component {
     uploadImageToSocial = () => {
         console.log('will upload image to social network')
 
-        const { selectedProvider } = this.props
+        const selectedProvider = this.props.providers[
+            this.props.selectedProvider
+        ]
         const { croppedImage } = this.state
         if (!croppedImage) {
             return
@@ -213,9 +215,9 @@ class HashTagContent extends Component {
             )
             .then(response => {
                 this.setState({ isUploading: false })
-                this.openFBShare(response.data.url)
-                shortName !== 'facebook' &&
-                    this.openSuccessDialog(selectedProvider)
+                shortName === 'facebook'
+                    ? this.openFBShare(response.data.url)
+                    : this.openSuccessDialog(selectedProvider.provider)
             })
             .catch(err => {
                 this.setState({ isUploading: false })
@@ -269,7 +271,8 @@ class HashTagContent extends Component {
             isUploading
         } = this.state
 
-        const { selectedProvider } = this.props
+        const { providers } = this.props
+        const selectedProvider = providers[this.props.selectedProvider]
 
         return (
             <div className={cx}>
@@ -381,7 +384,8 @@ class HashTagContent extends Component {
 }
 
 const mapStateToProps = state => ({
-    selectedProvider: state.HashTag.providers[state.HashTag.selectedProvider]
+    selectedProvider: state.HashTag.selectedProvider,
+    providers: state.HashTag.providers
 })
 
 const mapDispatchToProps = dispatch => ({

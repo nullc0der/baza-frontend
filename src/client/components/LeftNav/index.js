@@ -217,8 +217,35 @@ class LeftNav extends Component {
         return menu
     }
 
+    getApplicationsMenu = () => {
+        const menu = {
+            name: 'Applications',
+            icon: 'fas fa-toolbox',
+            href: '',
+            children: [
+                {
+                    name: 'Messenger',
+                    icon: 'fa fa-fw fa-comment',
+                    href: '/messenger'
+                }
+            ]
+        }
+        if ($(window).width() > 768) {
+            menu.children = [
+                ...menu.children,
+                {
+                    name: 'Hashtag Banner',
+                    icon: 'fa fa-fw fa-dashboard',
+                    href: '/hashtag'
+                }
+            ]
+        }
+        return menu
+    }
+
     setMenuItems = () => {
         let menuItems = MENU_ITEMS
+        menuItems = [...menuItems, this.getApplicationsMenu()]
         if (!isEmpty(this.props.siteOwnerGroup)) {
             menuItems = [
                 ...menuItems,
