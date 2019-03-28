@@ -122,7 +122,7 @@ export default class PurchaseDialog extends Component {
         return Auth.isAuthenticated() ? (
             <Dialog
                 className={s.purchaseDialog}
-                title="Donate to Fundraiser"
+                title="Fundraiser Purchase"
                 isOpen={this.props.isOpen}
                 onRequestClose={this.props.onRequestClose}
                 hideModalContent={this.state.isPurchaseDialogContentHidden}>
