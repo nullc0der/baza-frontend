@@ -7,18 +7,24 @@ $hashtag_sidebar_width: 250px;
     height: 100%;
     margin-bottom: 32px;
     @include _shadow_1();
-    @include media-breakpoint-down(md, $grid-breakpoints) {
-        padding-bottom: 100px;
-    }
+    // @include media-breakpoint-down(md, $grid-breakpoints) {
+    //     padding-bottom: 100px;
+    // }
 
     .btn-gplus,
     .btn-fb,
     .btn-twitter {
         color: rgba(255, 255, 255, 0.9);
     }
-    .btn-gplus { background-color: rgb(211, 56, 40); }
-    .btn-fb { background-color: rgb(46, 68, 135); }
-    .btn-twitter { background-color: rgb(62, 162, 240); }
+    .btn-gplus {
+        background-color: rgb(211, 56, 40);
+    }
+    .btn-fb {
+        background-color: rgb(46, 68, 135);
+    }
+    .btn-twitter {
+        background-color: rgb(62, 162, 240);
+    }
 
     .btn-provider {
         display: flex;
@@ -76,7 +82,6 @@ $hashtag_sidebar_width: 250px;
         z-index: 100;
     }
 }
-
 
 :local(.contentView) {
     position: relative;
@@ -167,7 +172,9 @@ $hashtag_sidebar_width: 250px;
     .btn-download {
         text-decoration: none;
         color: $light;
-        &:hover, &:visited, &:focus {
+        &:hover,
+        &:visited,
+        &:focus {
             color: $light;
         }
     }
