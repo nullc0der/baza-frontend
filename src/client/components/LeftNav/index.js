@@ -116,6 +116,22 @@ class LeftNav extends Component {
                 ]
             }
         }
+        menu = {
+            ...menu,
+            children: [
+                ...menu.children,
+                {
+                    name: 'eBlast',
+                    href: '',
+                    icon: 'fas fa-mail-bulk',
+                    pill: 'Coming Soon',
+                    children: [
+                        { name: 'eMail', href: '', icon: 'fas fa-envelope' },
+                        { name: 'SMS', href: '', icon: 'fas fa-paper-plane' }
+                    ]
+                }
+            ]
+        }
         if (menu.children.length === 0) {
             menu = {}
         }

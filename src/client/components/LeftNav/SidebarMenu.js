@@ -141,6 +141,13 @@ class SidebarMenu extends Component {
                                         <span className="flex-1">
                                             {' '}
                                             {x.name}{' '}
+                                            {x.pill ? (
+                                                <div className="badge badge-success">
+                                                    {x.pill}
+                                                </div>
+                                            ) : (
+                                                ''
+                                            )}
                                         </span>
                                         {!!x.children && (
                                             <div className="menu-dropdown-toggle">
