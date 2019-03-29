@@ -19,16 +19,16 @@ export default class HashTagPage extends Component {
                         <ContentView />
                     </Fragment>
                 ) : (
-                    <div className="row align-items-center">
-                        <div className="col-12 text-black-50 text-center">
+                    <div className="d-flex flex-1 align-items-center justify-content-center">
+                        <div className="text-black-50 text-center">
                             <p>
                                 This app is available on desktop browsers only
                             </p>
-                            <btn
+                            <button
                                 className="btn btn-sm btn-dark"
                                 onClick={goBack}>
                                 TAKE ME BACK
-                            </btn>
+                            </button>
                         </div>
                     </div>
                 )}
