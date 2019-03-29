@@ -80,6 +80,9 @@ class CoinbaseButton extends Component {
                         {title}
                     </CoinbaseCommerceButton>
                 )}
+                <div className="mt-1 accepted-payments-info">
+                    <p>Payments Accepted : BTC, ETH, BCH, LTC</p>
+                </div>
             </div>
         )
     }

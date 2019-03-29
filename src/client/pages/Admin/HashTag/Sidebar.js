@@ -31,10 +31,10 @@ class HashTagSidebar extends Component {
                 className={cx}
                 key={index}
                 onClick={e => onProviderChange(e, index)}>
-                <div className='provider-icon'>
+                <div className="provider-icon">
                     <i className={`fa fa-${provider.icon}`} />
                 </div>
-                <div className='provider-name'>{provider.name}</div>
+                <div className="provider-name">{provider.name}</div>
             </div>
         )
     }
@@ -45,7 +45,9 @@ class HashTagSidebar extends Component {
 
         return (
             <div className={cx}>
-                <div className='btn btn-light sidebar-btn select-platform'>SELECT PLATFORM</div>
+                <div className="btn btn-light sidebar-btn select-platform">
+                    SELECT PLATFORM
+                </div>
                 <br />
                 <br />
                 {providers.map(this.renderOneProvider)}
@@ -54,7 +56,7 @@ class HashTagSidebar extends Component {
     }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
     isLoading: state.HashTag.isLoading,
     providers: state.HashTag.providers,
     selectedProvider: state.HashTag.selectedProvider

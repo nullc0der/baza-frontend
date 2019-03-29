@@ -35,7 +35,28 @@ import { dataURLtoBlob, imageToDataURL } from 'utils/common'
 //     return url
 // }
 
-function getFinalImagePNG() {
+function getScalingFactors(context, image, provider) {
+    var x
+    var y
+    if (provider.name === 'Facebook') {
+        x = 600
+        y = 600
+    } else if (provider.name === 'Twitter') {
+        x = 400
+        y = 400
+    } else {
+        throw new Error(
+            `Unknown provider. Cannot get scaling: ` + provider.name
+        )
+    }
+
+    var scaleX = x / image.naturalWidth
+    var scaleY = y / image.naturalHeight
+
+    return { scaleX, scaleY }
+}
+
+function getFinalImagePNG(provider) {
     const svg = document.getElementById('final-image-svg')
     const svgStr = new XMLSerializer().serializeToString(svg)
     const canvas = document.createElement('canvas')
@@ -52,7 +73,12 @@ function getFinalImagePNG() {
     return new Promise((resolve, reject) => {
         var url = _URL.createObjectURL(svgBlob)
         img.onload = function() {
-            ctx.drawImage(img, 0, 0)
+            // ctx.drawImage(img, 0, 0)
+            let { scaleX, scaleY } = getScalingFactors(ctx, img, provider)
+            canvas.width = canvas.width * scaleX
+            canvas.height = canvas.height * scaleY
+            ctx.scale(scaleX, scaleY) // Scale canvas
+            ctx.drawImage(img, 0, 0) // Draw the scaled image
             let finalImage = canvas.toDataURL('image/png')
             _URL.revokeObjectURL(url)
             resolve(finalImage)
@@ -126,12 +152,13 @@ class HashTagContent extends Component {
     }
 
     downloadImage = () => {
+        const { selectedProvider } = this.props
         const { croppedImage } = this.state
         if (!croppedImage) {
             return
         }
 
-        getFinalImagePNG()
+        getFinalImagePNG(selectedProvider)
             .then(data => {
                 downloadAs('baza-avatar.png', data)
             })
@@ -169,26 +196,28 @@ class HashTagContent extends Component {
     uploadImageToSocial = () => {
         console.log('will upload image to social network')
 
-        const { selectedProvider } = this.props
+        const selectedProvider = this.props.providers[
+            this.props.selectedProvider
+        ]
         const { croppedImage } = this.state
         if (!croppedImage) {
             return
         }
         // const imageBlob = dataURLtoBlob(finalImage)
-
+        const shortName = selectedProvider.name.toLowerCase()
         this.setState({ isUploading: true })
-        getFinalImagePNG()
+        getFinalImagePNG(selectedProvider)
             .then(dataUrl =>
                 this.props.uploadPhotoToSocial(
-                    selectedProvider.name.toLowerCase(),
+                    shortName,
                     dataURLtoBlob(dataUrl)
                 )
             )
             .then(response => {
                 this.setState({ isUploading: false })
-                if (selectedProvider.name.toLowerCase() === 'facebook') {
-                    this.openFBShare(response.data.url)
-                }
+                shortName === 'facebook'
+                    ? this.openFBShare(response.data.url)
+                    : this.openSuccessDialog(selectedProvider.provider)
             })
             .catch(err => {
                 this.setState({ isUploading: false })
@@ -197,10 +226,21 @@ class HashTagContent extends Component {
     }
 
     openFBShare = href => {
-        window.FB.ui({
-            method: 'share',
-            href
-        })
+        window.FB.ui(
+            {
+                method: 'share',
+                href
+            },
+            () => this.openSuccessDialog('facebook')
+        )
+    }
+
+    openSuccessDialog = provider => {
+        const message =
+            provider === 'facebook'
+                ? 'Successfully shared image on your wall'
+                : 'Successfully set image as profile picture'
+        alert(message)
     }
 
     onSemiCircleColorChange = color => {
@@ -231,7 +271,8 @@ class HashTagContent extends Component {
             isUploading
         } = this.state
 
-        const { selectedProvider } = this.props
+        const { providers } = this.props
+        const selectedProvider = providers[this.props.selectedProvider]
 
         return (
             <div className={cx}>
@@ -343,7 +384,8 @@ class HashTagContent extends Component {
 }
 
 const mapStateToProps = state => ({
-    selectedProvider: state.HashTag.providers[state.HashTag.selectedProvider]
+    selectedProvider: state.HashTag.selectedProvider,
+    providers: state.HashTag.providers
 })
 
 const mapDispatchToProps = dispatch => ({

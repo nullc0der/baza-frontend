@@ -88,6 +88,11 @@ class LeftNav extends Component {
                         icon: 'fa fa-fw fa-life-ring'
                     },
                     {
+                        name: 'News',
+                        href: `/community/2/groups/${id}/news`,
+                        icon: 'fa fa-fw fa-newspaper-o'
+                    },
+                    {
                         name: 'Members',
                         href: `/community/2/groups/${id}/members`,
                         icon: 'fa fa-fw fa-users'
@@ -110,6 +115,22 @@ class LeftNav extends Component {
                     }
                 ]
             }
+        }
+        menu = {
+            ...menu,
+            children: [
+                ...menu.children,
+                {
+                    name: 'eBlast',
+                    href: '',
+                    icon: 'fas fa-mail-bulk',
+                    pill: 'Coming Soon',
+                    children: [
+                        { name: 'eMail', href: '', icon: 'fas fa-envelope' },
+                        { name: 'SMS', href: '', icon: 'fas fa-paper-plane' }
+                    ]
+                }
+            ]
         }
         if (menu.children.length === 0) {
             menu = {}
@@ -150,6 +171,11 @@ class LeftNav extends Component {
                             icon: 'fa fa-fw fa-life-ring'
                         },
                         {
+                            name: 'News',
+                            href: `/community/2/groups/${id}/news`,
+                            icon: 'fa fa-fw fa-newspaper-o'
+                        },
+                        {
                             name: 'Members',
                             href: '/community/2/members',
                             icon: 'fa fa-fw fa-users'
@@ -165,7 +191,7 @@ class LeftNav extends Component {
                     children: [
                         ...menu.children,
                         {
-                            name: 'Members Management',
+                            name: 'Member Management',
                             href: `/community/2/groups/${id}/members`,
                             icon: 'fa fa-fw fa-users'
                         }

@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 import classnames from 'classnames'
 
 import SocialLink from 'components/SocialLink'
+import NewsSection from 'components/Footer/NewsSection'
+import FaqSection from 'components/Footer/FaqSection'
 
 import s from './Footer.scss'
 
@@ -14,89 +16,161 @@ const FOOTER_LINKS = [
 
 const SOCIAL_LINKDATAS = [
     {
-        iconName: 'fa fa-facebook',
-        url: 'https://www.facebook.com/bazafoundation'
+        linkName: 'Facebook',
+        url: 'https://www.facebook.com/bazafoundation',
+        iconName: 'fa fa-fw fa-facebook'
     },
     {
-        iconName: 'fa fa-instagram',
-        url: 'https://www.instagram.com/bazafoundation/'
-    },
-    { iconName: 'fa fa-twitter', url: 'https://twitter.com/BazaFoundation' },
-    {
-        iconName: 'fa fa-linkedin',
-        url: 'https://www.linkedin.com/company/bazafoundation/'
+        linkName: 'Instagram',
+        url: 'https://www.instagram.com/bazafoundation/',
+        iconName: 'fa fa-fw fa-instagram'
     },
     {
-        iconName: 'fa fa-reddit',
-        url: 'https://www.reddit.com/r/BazaFoundation/'
+        linkName: 'Twitter',
+        url: 'https://twitter.com/BazaFoundation',
+        iconName: 'fa fa-fw fa-twitter'
     },
-    { iconName: 'fa fa-telegram', url: 'https://t.me/bazafoundation' }
+    {
+        linkName: 'Linkedin',
+        url: 'https://www.linkedin.com/company/bazafoundation/',
+        iconName: 'fa fa-fw fa-linkedin'
+    },
+    {
+        linkName: 'Reddit',
+        url: 'https://www.reddit.com/r/BazaFoundation/',
+        iconName: 'fa fa-fw fa-reddit'
+    }
+]
+
+const DISCUSSION_LINKDATAS = [
+    {
+        linkName: 'Telegram',
+        url: 'https://t.me/bazafoundation',
+        iconName: 'fa fa-fw fa-telegram'
+    }
+]
+
+const ICO_LISTINGS = [
+    { linkName: 'TrackICO', url: 'https://www.trackico.io/' },
+    {
+        linkName: 'AwesomeICOs',
+        url: 'https://awesomeicos.com/icos/5152/rating'
+    },
+    {
+        linkName: 'ICOPulse',
+        url: 'https://www.icopulse.com/'
+    }
 ]
 
 export default class Footer extends Component {
     render() {
-        const cx = classnames(s.container, 'app-footer bg-dark py-4')
+        const cx = classnames(s.container, 'app-footer bg-dark pb-3 pt-6')
+        const newsModalClass = classnames(s.newsModal)
+        const faqModalClass = classnames(s.faqModal)
         return (
             <div className={cx}>
-                <div className="footer-inner text-center">
-                    <p className="footer-copyright-info">
-                        &copy; 2018 Baza Foundation
-                    </p>
-                    <ul className="list-inline">
-                        {FOOTER_LINKS.map((x, i) => (
-                            <li className="list-inline-item" key={i}>
-                                <a className="footer-link" href={x.href}>
-                                    {' '}
-                                    {x.label}{' '}
-                                </a>
-                            </li>
-                        ))}
-                    </ul>
-                    <ul className="list-inline mt-2">
-                        {SOCIAL_LINKDATAS.map((x, i) => (
-                            <li
-                                className="list-inline-item no-border social"
-                                key={i}>
-                                <SocialLink linkData={x} />
-                            </li>
-                        ))}
-                    </ul>
-                    <ul className="list-inline mt-1">
-                        <li className="list-inline-item no-border">
-                            <a
-                                href="https://www.trackico.io/"
-                                target="_blank"
-                                title="TrackICO">
-                                <img
-                                    border="0"
-                                    src="https://www.trackico.io/static/img/partner_logo_white.png"
-                                    alt="TrackICO - provider of information about the best ICOs and STOs"
-                                    className="trackico-logo"
-                                />
-                            </a>
-                        </li>
-                        <li className="list-inline-item no-border">
-                            <a
-                                id="cq-verify"
-                                href="https://concourseq.io/"
-                                data-users="puffmushroom">
-                                ConcourseQ
-                            </a>
-                        </li>
-                        <li className="list-inline-item no-border">
-                            <a
-                                href="https://www.icopulse.com/"
-                                target="_blank"
-                                title="ICOPulse">
-                                <img
-                                    border="0"
-                                    src="https://icopulse.com/images/media/logo-white.svg"
-                                    alt="ICOPulse - provider of information about the best ICOs"
-                                    className="icopulse-logo"
-                                />
-                            </a>
-                        </li>
-                    </ul>
+                <div className="baza-logo">
+                    <img
+                        className="img-fluid"
+                        alt="Baza Logo"
+                        src="/public/img/baza_logo.svg"
+                    />
+                </div>
+                <div className="container">
+                    <div className="row">
+                        <div className="col-md-6 col-lg-2 d-flex d-lg-block justify-content-between">
+                            <div className="social-links">
+                                <p className="social-links-title">
+                                    SOCIAL LINKS
+                                </p>
+                                <ul className="list-unstyled">
+                                    {SOCIAL_LINKDATAS.map((x, i) => (
+                                        <li
+                                            className="list-unstyled-item"
+                                            key={i}>
+                                            <SocialLink linkData={x} />
+                                        </li>
+                                    ))}
+                                </ul>
+                            </div>
+                            <div className="discussion-links">
+                                <p className="discussion-links-title">
+                                    Have a Question or Suggestion for us? Talk
+                                    to us directly.
+                                </p>
+                                <ul className="list-unstyled">
+                                    {DISCUSSION_LINKDATAS.map((x, i) => (
+                                        <li
+                                            className="list-unstyled-item"
+                                            key={i}>
+                                            <SocialLink linkData={x} />
+                                        </li>
+                                    ))}
+                                </ul>
+                            </div>
+                        </div>
+                        <div className="col-md-6 col-lg-2 d-flex d-lg-block justify-content-between mt-2 mt-md-0">
+                            <div className="links-and-downloads">
+                                <p className="links-and-downloads-title">
+                                    LINKS &amp; DOWNLOADS
+                                </p>
+                                <ul className="list-unstyled">
+                                    {FOOTER_LINKS.map((x, i) => (
+                                        <li
+                                            key={i}
+                                            className="list-unstyled-item">
+                                            <a
+                                                className="footer-link"
+                                                href={x.href}>
+                                                {' '}
+                                                {x.label}{' '}
+                                            </a>
+                                        </li>
+                                    ))}
+                                </ul>
+                            </div>
+                            <div className="ico-listings ml-md-3 ml-lg-0">
+                                <p className="ico-listings-title">
+                                    ICO LISTINGS
+                                </p>
+                                <ul className="list-unstyled">
+                                    {ICO_LISTINGS.map((x, i) => (
+                                        <li
+                                            key={i}
+                                            className="list-unstyled-item">
+                                            <a
+                                                className="footer-link"
+                                                href={x.url}>
+                                                {x.linkName}
+                                            </a>
+                                        </li>
+                                    ))}
+                                    <li className="list-unstyled-item">
+                                        <a
+                                            id="cq-verify"
+                                            href="https://concourseq.io/"
+                                            data-users="puffmushroom"
+                                            className="footer-link">
+                                            ConcourseQ
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div className="col-lg-4 mt-2 mt-lg-0">
+                            <FaqSection faqModalClass={faqModalClass} />
+                        </div>
+                        <div className="col-lg-4 mt-2 mt-lg-0">
+                            <NewsSection newsModalClass={newsModalClass} />
+                        </div>
+                    </div>
+                </div>
+                <div className="d-flex justify-content-center mt-2">
+                    <div className="badge copyright-badge">
+                        <p className="footer-copyright-info">
+                            &copy; 2019 Baza Foundation
+                        </p>
+                    </div>
                 </div>
             </div>
         )

@@ -13,7 +13,7 @@ class VideoPlayer extends Component {
         return (
             <div className={cx}>
                 <Player playsInline src={src} poster={poster}>
-                    <BigPlayButton position="center"/>
+                    <BigPlayButton position="center" />
                 </Player>
             </div>
         )

@@ -22,8 +22,8 @@ class ProfileImages extends Component {
     componentDidMount() {
         this.props
             .fetchProfileImages()
-            .then(res => { })
-            .catch(res => { })
+            .then(res => {})
+            .catch(res => {})
     }
 
     onAddNewClick = () => {
@@ -35,20 +35,25 @@ class ProfileImages extends Component {
             return
         }
 
-        getImageURLFromFile(e.target.files[0]).then(preCropImage => {
-            this.setState({ preCropImage, showCropper: true })
-        }).catch(err => {
-            alert(err.message)
-        })
+        getImageURLFromFile(e.target.files[0])
+            .then(preCropImage => {
+                this.setState({ preCropImage, showCropper: true })
+            })
+            .catch(err => {
+                alert(err.message)
+            })
     }
 
-    onEditDone = (croppedImage) => {
+    onEditDone = croppedImage => {
         this.setState({ filePreview: croppedImage })
         this.closeCropper()
-        const data = new FormData()
-        data.append('photo', croppedImage)
+        // const data = new FormData()
+        // data.append('photo', croppedImage)
         this.props
-            .saveProfileImage(data, this.onProfileImageUpload)
+            .saveProfileImage(
+                { photo: croppedImage },
+                this.onProfileImageUpload
+            )
             .then(res =>
                 this.setState({
                     imageUploading: false,
@@ -96,9 +101,7 @@ class ProfileImages extends Component {
     }
 
     render() {
-        const {
-            showCropper, preCropImage
-        } = this.state
+        const { showCropper, preCropImage } = this.state
         const activeProfilePhoto = this.props.profileImages
             ? this.props.profileImages.filter(x => x.is_active)
             : []
@@ -107,12 +110,13 @@ class ProfileImages extends Component {
             : []
         return (
             <CardContent>
-                {
-                    showCropper && <ImageEditor
+                {showCropper && (
+                    <ImageEditor
                         src={preCropImage}
                         onRequestClose={this.closeCropper}
-                        onEditDone={this.onEditDone} />
-                }
+                        onEditDone={this.onEditDone}
+                    />
+                )}
                 <div className="profile-images">
                     {activeProfilePhoto.length > 0 && (
                         <ImageBlock
@@ -130,7 +134,7 @@ class ProfileImages extends Component {
                             type="file"
                             accept="image/*"
                             className="input-field"
-                            ref={node => this.profilePhotoUploader = node}
+                            ref={node => (this.profilePhotoUploader = node)}
                             onChange={this.onFileInputChange}
                         />
                         {this.state.imageUploading ? (
@@ -152,8 +156,8 @@ class ProfileImages extends Component {
                                 </div>
                             </Fragment>
                         ) : (
-                                <i className="fa fa-plus" />
-                            )}
+                            <i className="fa fa-plus" />
+                        )}
                     </div>
                     {otherProfilePhotos.map((x, i) => (
                         <ImageBlock

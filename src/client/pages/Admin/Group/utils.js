@@ -9,3 +9,7 @@ export const isMember = permissions => {
 export const isStaff = permissions => {
     return permissions.indexOf(106) !== -1
 }
+
+export const isNewsEditor = permissions => {
+    return permissions.some(el => [103, 104, 105, 106].indexOf(el) !== -1)
+}

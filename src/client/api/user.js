@@ -17,7 +17,7 @@ export const fetchProfileImages = () => {
 
 export const saveProfileImage = (datas, upLoadProgressFn) => {
     const url = '/profile/profilephotos/'
-    return formAPI(api =>
+    return jsonAPI(api =>
         api.post(url, datas, {
             onUploadProgress: value => upLoadProgressFn(value)
         })
@@ -41,7 +41,7 @@ export const fetchUserImages = () => {
 
 export const saveUserImage = (datas, upLoadProgressFn) => {
     const url = '/profile/photos/'
-    return formAPI(api =>
+    return jsonAPI(api =>
         api.post(url, datas, {
             onUploadProgress: value => upLoadProgressFn(value)
         })

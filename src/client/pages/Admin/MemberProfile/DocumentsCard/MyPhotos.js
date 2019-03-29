@@ -22,8 +22,8 @@ class MyPhotos extends Component {
     componentDidMount() {
         this.props
             .fetchUserImages()
-            .then(res => { })
-            .catch(res => { })
+            .then(res => {})
+            .catch(res => {})
     }
 
     onAddNewClick = () => {
@@ -35,11 +35,13 @@ class MyPhotos extends Component {
             return
         }
 
-        getImageURLFromFile(e.target.files[0]).then(preCropImage => {
-            this.setState({ preCropImage, showCropper: true })
-        }).catch(err => {
-            alert(err.message)
-        })
+        getImageURLFromFile(e.target.files[0])
+            .then(preCropImage => {
+                this.setState({ preCropImage, showCropper: true })
+            })
+            .catch(err => {
+                alert(err.message)
+            })
     }
 
     // onFileInputChange = e => {
@@ -87,25 +89,25 @@ class MyPhotos extends Component {
         })
     }
 
-    onEditDone = (croppedImage) => {
+    onEditDone = croppedImage => {
         this.setState({ filePreview: croppedImage })
         this.closeCropper()
-        const data = new FormData()
-        data.append('photo', croppedImage)
+        // const data = new FormData()
+        // data.append('photo', croppedImage)
         this.props
-            .saveUserImage(data, this.onImageUpload)
+            .saveUserImage({ photo: croppedImage }, this.onImageUpload)
             .then(res =>
                 this.setState({
                     imageUploading: false,
                     uploadDonePercent: 0,
-                    filePreview: '',
+                    filePreview: ''
                 })
             )
             .catch(res => {
                 this.setState({
                     imageUploading: false,
                     uploadDonePercent: 0,
-                    filePreview: '',
+                    filePreview: ''
                 })
             })
     }
@@ -124,7 +126,7 @@ class MyPhotos extends Component {
                     type="file"
                     accept="image/*"
                     className="input-field"
-                    ref={node => this.userPhotoUploader = node}
+                    ref={node => (this.userPhotoUploader = node)}
                     onChange={this.onFileInputChange}
                 />
                 {this.state.imageUploading ? (
@@ -138,16 +140,14 @@ class MyPhotos extends Component {
                             <div
                                 className="progress"
                                 style={{
-                                    width:
-                                        this.state.uploadDonePercent +
-                                        '%'
+                                    width: this.state.uploadDonePercent + '%'
                                 }}
                             />
                         </div>
                     </Fragment>
                 ) : (
-                        <i className="fa fa-plus" />
-                    )}
+                    <i className="fa fa-plus" />
+                )}
             </div>
         )
     }
@@ -156,12 +156,13 @@ class MyPhotos extends Component {
         const { showCropper, preCropImage } = this.state
         return (
             <CardContent>
-                {
-                    showCropper && <ImageEditor
+                {showCropper && (
+                    <ImageEditor
                         onRequestClose={this.closeCropper}
                         src={preCropImage}
-                        onEditDone={this.onEditDone} />
-                }
+                        onEditDone={this.onEditDone}
+                    />
+                )}
                 <div className="profile-images">
                     {this.props.userImages.map((x, i) => (
                         <ImageBlock

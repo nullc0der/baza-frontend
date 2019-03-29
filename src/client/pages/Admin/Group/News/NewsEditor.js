@@ -6,9 +6,9 @@ import ReactMde, { ReactMdeCommands, ReactMdeTextHelper } from 'react-mde'
 
 import TextField from 'components/ui/TextField'
 
-import { uploadImage } from 'api/group-post'
+import { uploadImage } from 'api/group-news'
 
-class PostEditor extends Component {
+class NewsEditor extends Component {
     state = {
         editorVisible: false,
         reactMdeValue: {
@@ -19,44 +19,51 @@ class PostEditor extends Component {
                 start: 0
             }
         },
+        newsTitle: '',
+        newsTitleEditing: false,
         previewVisible: false,
         linkPopupVisible: false,
         linkPopupValues: {
             title: '',
             url: ''
         },
-        editingPost: -1
+        editingNewsID: -1
     }
 
     componentDidUpdate = (prevProps, prevState) => {
         if (
-            (prevProps.editingPost !== this.props.editingPost) &
-            (this.props.editingPost !== -1)
+            (prevProps.editingNewsID !== this.props.editingNewsID) &
+            (this.props.editingNewsID !== -1)
         ) {
+            const editingNews = find(this.props.news, [
+                'id',
+                this.props.editingNewsID
+            ])
             this.setState({
-                editingPost: this.props.editingPost,
+                editingNewsID: this.props.editingNewsID,
                 reactMdeValue: {
-                    text: find(this.props.posts, ['id', this.props.editingPost])
-                        .post
+                    text: editingNews.news
                 },
-                editorVisible: true
+                editorVisible: true,
+                newsTitle: editingNews.title
             })
         }
     }
 
-    handleAddPostButtonClick = e => {
+    handleAddNewsButtonClick = e => {
         this.setState(prevState => ({
             editorVisible: !prevState.editorVisible
         }))
     }
 
     handleMDEChange = value => {
-        if (!value.text.length && this.state.editingPost !== -1) {
+        if (!value.text.length && this.state.editingNewsID !== -1) {
             this.setState(
                 {
-                    editingPost: -1
+                    editingNewsID: -1,
+                    newsTitle: ''
                 },
-                () => this.props.updateEditingPost(-1)
+                () => this.props.setEditingNewsID(-1)
             )
         }
         this.setState({
@@ -101,14 +108,22 @@ class PostEditor extends Component {
         }
     }
 
-    createOrUpdatePost = e => {
-        const post = this.state.reactMdeValue.text
-        if (post.length) {
-            const { groupID, createPost, updatePost } = this.props
-            if (this.state.editingPost !== -1) {
-                updatePost(this.state.editingPost, { post })
+    createOrUpdateNews = (e, shouldPublish = true) => {
+        const news = this.state.reactMdeValue.text
+        if (news.length) {
+            const { groupID, createNews, updateNews } = this.props
+            if (this.state.editingNewsID !== -1) {
+                updateNews(this.state.editingNewsID, {
+                    news,
+                    title: this.state.newsTitle
+                })
             } else {
-                createPost({ group_id: groupID, post })
+                createNews({
+                    group_id: groupID,
+                    news,
+                    is_published: shouldPublish,
+                    title: this.state.newsTitle
+                })
             }
             this.setState(
                 {
@@ -116,9 +131,10 @@ class PostEditor extends Component {
                         text: ''
                     },
                     editorVisible: false,
-                    editingPost: -1
+                    editingNewsID: -1,
+                    newsTitle: ''
                 },
-                () => this.props.updateEditingPost(-1)
+                () => this.props.setEditingNewsID(-1)
             )
         }
     }
@@ -140,6 +156,18 @@ class PostEditor extends Component {
                 [id]: value
             }
         }))
+    }
+
+    onNewsTitleChange = (id, value) => {
+        this.setState({
+            newsTitle: value
+        })
+    }
+
+    toggleNewTitleEdit = () => {
+        this.setState({
+            newsTitleEditing: !this.state.newsTitleEditing
+        })
     }
 
     onClickInsertLink = () => {
@@ -202,9 +230,15 @@ class PostEditor extends Component {
     render() {
         const { className } = this.props
 
-        const { editorVisible, previewVisible, linkPopupVisible } = this.state
+        const {
+            editorVisible,
+            previewVisible,
+            linkPopupVisible,
+            editingNewsID,
+            newsTitleEditing
+        } = this.state
 
-        const cx = classnames(className, 'ui-post-editor')
+        const cx = classnames(className, 'ui-news-editor')
 
         let editorCommands = [
             ReactMdeCommands.getDefaultCommands()[0],
@@ -217,6 +251,19 @@ class PostEditor extends Component {
             <div className={cx}>
                 <div
                     className={`editor-area ${editorVisible ? 'visible' : ''}`}>
+                    <div
+                        className={`news-title-area ${
+                            previewVisible ? 'd-none' : ''
+                        }`}>
+                        <TextField
+                            id="news-title"
+                            label="News title"
+                            onChange={this.onNewsTitleChange}
+                            value={this.state.newsTitle}
+                            onFocus={this.toggleNewTitleEdit}
+                            onBlur={this.toggleNewTitleEdit}
+                        />
+                    </div>
                     <div
                         className={`link-popup ${!!linkPopupVisible &&
                             'visible'}`}>
@@ -252,8 +299,8 @@ class PostEditor extends Component {
                     </div>
                     <ReactMde
                         textAreaProps={{
-                            placeholder: 'Type here',
-                            disabled: linkPopupVisible
+                            placeholder: 'Type news content here',
+                            disabled: linkPopupVisible || newsTitleEditing
                         }}
                         value={this.state.reactMdeValue}
                         visibility={{
@@ -272,7 +319,7 @@ class PostEditor extends Component {
                         <button
                             className="preview-btn"
                             title={`${
-                                previewVisible ? 'hide preview' : 'show preview'
+                                previewVisible ? 'Hide Preview' : 'Show Preview'
                             }`}
                             onClick={this.togglePreview}>
                             <i
@@ -282,11 +329,25 @@ class PostEditor extends Component {
                             />
                         </button>
                         <button
-                            className="post-btn"
-                            title="post"
-                            onClick={this.createOrUpdatePost}>
+                            className="news-btn"
+                            title={`${
+                                editingNewsID === -1
+                                    ? 'Save and Publish News'
+                                    : 'Update News'
+                            }`}
+                            onClick={this.createOrUpdateNews}>
                             <i className="fa fa-paper-plane" />
                         </button>
+                        {!!(editingNewsID === -1) && (
+                            <button
+                                className="news-btn"
+                                title="Save news"
+                                onClick={e =>
+                                    this.createOrUpdateNews(e, false)
+                                }>
+                                <i className="fa fa-floppy-o" />
+                            </button>
+                        )}
                         <input
                             type="file"
                             accept="image/*"
@@ -297,10 +358,10 @@ class PostEditor extends Component {
                     </div>
                 </div>
                 <button
-                    className={`add-post-btn ${
+                    className={`add-news-btn ${
                         editorVisible ? 'editor-visible' : ''
                     }`}
-                    onClick={this.handleAddPostButtonClick}>
+                    onClick={this.handleAddNewsButtonClick}>
                     <i className="material-icons">edit</i>
                 </button>
             </div>
@@ -308,4 +369,4 @@ class PostEditor extends Component {
     }
 }
 
-export default PostEditor
+export default NewsEditor

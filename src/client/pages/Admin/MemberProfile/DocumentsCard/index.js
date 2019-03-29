@@ -31,7 +31,7 @@ export default class DocumentsCard extends Component {
     }
     render() {
         return (
-            <Card className="documents-card">
+            <Card className="documents-card" id="documents">
                 <CardHeader title="DOCUMENTS">
                     <CardHeaderTabs
                         onTabClick={this.onTabClick}

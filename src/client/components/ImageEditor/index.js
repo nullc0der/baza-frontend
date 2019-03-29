@@ -61,11 +61,18 @@ export default class EditImage extends Component {
     }
 
     state = {
-        editedImage: ''
+        editedImage: '',
+        imgReady: false
     }
 
-    componentDidMount = () => {
-        this.cropper = new Cropper(this.img, this.getCropperOptions())
+    // componentDidMount = () => {
+    //     this.cropper = new Cropper(this.img, this.getCropperOptions())
+    // }
+
+    componentDidUpdate = (prevProps, prevState) => {
+        if (prevState.imgReady !== this.state.imgReady && this.state.imgReady) {
+            this.cropper = new Cropper(this.img, this.getCropperOptions())
+        }
     }
 
     componentWillUnmount = () => {
@@ -96,6 +103,12 @@ export default class EditImage extends Component {
         const image = targetCanvas.toDataURL('image/png')
 
         this.props.onEditDone(image)
+    }
+
+    setImageReady = () => {
+        this.setState({
+            imgReady: true
+        })
     }
 
     setDragMove = () => this.cropper.setDragMode('move')
@@ -217,6 +230,7 @@ export default class EditImage extends Component {
                         ref={node => (this.img = node)}
                         className="image-to-edit"
                         src={src}
+                        onLoad={this.setImageReady}
                     />
                 </div>
             </Dialog>

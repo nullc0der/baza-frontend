@@ -1,8 +1,7 @@
-import React, { Component } from "react"
+import React, { Component } from 'react'
 import classnames from 'classnames'
 
 import s from './SocialLink.scss'
-
 
 class SocialLink extends Component {
     render() {
@@ -10,7 +9,10 @@ class SocialLink extends Component {
         const cx = classnames(s.container, className, 'social-link')
         return (
             <div className={cx}>
-                <a href={`${linkData.url}`} target="_blank"><i className={linkData.iconName}></i></a>
+                <i className={linkData.iconName} />
+                <a href={`${linkData.url}`} target="_blank">
+                    {linkData.linkName}
+                </a>
             </div>
         )
     }

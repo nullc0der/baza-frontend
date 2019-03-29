@@ -8,9 +8,14 @@ import isBoolean from 'lodash/isBoolean'
 import s from './Dialog.scss'
 
 export default class Dialog extends Component {
+    state = {
+        transitionIn: false
+    }
+
     componentDidMount = () => {
         document.addEventListener('keydown', this.closeOnEscapeKey, false)
         if (this.props.isOpen) {
+            this.toggleTransition()
             document.addEventListener('click', this.handleClickOutside, false)
             this.toggleBodyScroll(true)
         }
@@ -20,35 +25,46 @@ export default class Dialog extends Component {
         document.removeEventListener('keydown', this.closeOnEscapeKey, false)
         document.removeEventListener('click', this.handleClickOutside, false)
         this.toggleBodyScroll(false)
+        if (this.dialogClosetimeOut) {
+            clearTimeout(this.dialogClosetimeOut)
+        }
     }
 
     componentDidUpdate = (prevProps, prevState) => {
         if (prevProps.isOpen !== this.props.isOpen) {
             this.toggleBodyScroll(this.props.isOpen)
-            this.props.isOpen
-                ? document.addEventListener(
-                      'click',
-                      this.handleClickOutside,
-                      false
-                  )
-                : document.removeEventListener(
-                      'click',
-                      this.handleClickOutside,
-                      false
-                  )
+            if (this.props.isOpen) {
+                this.toggleTransition()
+                document.addEventListener(
+                    'click',
+                    this.handleClickOutside,
+                    false
+                )
+            } else {
+                document.removeEventListener(
+                    'click',
+                    this.handleClickOutside,
+                    false
+                )
+            }
         }
     }
 
     onRequestClose = () => {
         if (typeof this.props.onRequestClose === 'function') {
-            this.props.onRequestClose()
-            this.toggleBodyScroll(false)
+            this.setState({
+                transitionIn: false
+            })
+            this.dialogClosetimeOut = setTimeout(() => {
+                this.props.onRequestClose()
+                this.toggleBodyScroll(false)
+            }, 700)
         }
     }
 
     closeOnEscapeKey = e => {
         if (e.which === 27) {
-            this.onRequestClose(false)
+            this.onRequestClose()
         }
     }
 
@@ -69,6 +85,12 @@ export default class Dialog extends Component {
         this.onRequestClose()
     }
 
+    toggleTransition = () => {
+        this.setState({
+            transitionIn: !this.state.transitionIn
+        })
+    }
+
     render() {
         const {
             className,
@@ -78,6 +100,8 @@ export default class Dialog extends Component {
             showClose = true,
             hideModalContent = false
         } = this.props
+
+        const { transitionIn } = this.state
 
         const cx = classnames(s.container, 'ui-dialog modal', className, {
             show: isOpen
@@ -96,50 +120,52 @@ export default class Dialog extends Component {
                 role="dialog"
                 aria-labelledby="userLoginModal"
                 aria-hidden="true">
-                {/* <div className={backdropClass} onClick={this.onRequestClose} /> */}
-                {!!isOpen && (
-                    // HACK: The 'in' prop is a hack found from https://github.com/reactjs/react-transition-group/issues/216
-                    // Check more on it when gets some time
-                    <CSSTransition
-                        classNames="fade"
-                        appear
-                        timeout={500}
-                        in={true}>
+                <CSSTransition
+                    classNames={{
+                        enter: 'animated',
+                        enterActive: 'fadeInDown',
+                        exit: 'animated',
+                        exitActive: 'fadeOutUp'
+                    }}
+                    timeout={700}
+                    in={transitionIn}
+                    mountOnEnter
+                    unmountOnExit>
+                    <div
+                        className="modal-dialog modal-dialog-centered"
+                        role="document">
                         <div
-                            className="modal-dialog modal-dialog-centered"
-                            role="document">
-                            <div
-                                className={modalContentClass}
-                                ref={node => (this.modalContent = node)}>
-                                <div className="modal-header">
-                                    {!!title && (
-                                        <h5 className="modal-title">
-                                            {' '}
-                                            {title}{' '}
-                                        </h5>
-                                    )}
-                                    {!!showClose && (
-                                        <button
-                                            type="button"
-                                            className="close"
-                                            aria-label="Close"
-                                            onClick={this.onRequestClose}>
-                                            <i className="material-icons">
-                                                close
-                                            </i>
-                                        </button>
-                                    )}
-                                </div>
-                                <div className="modal-body">
-                                    {this.props.children}
-                                </div>
-                                {!!footer && (
-                                    <div className="modal-footer">{footer}</div>
+                            className={modalContentClass}
+                            ref={node => (this.modalContent = node)}>
+                            <div className="modal-header">
+                                {!!title && (
+                                    <h5 className="modal-title"> {title} </h5>
+                                )}
+                                {!!showClose && (
+                                    <button
+                                        type="button"
+                                        className="close"
+                                        aria-label="Close"
+                                        onClick={this.onRequestClose}>
+                                        <i className="material-icons">close</i>
+                                    </button>
                                 )}
                             </div>
+                            <div className="modal-body">
+                                {this.props.children}
+                            </div>
+                            {!!footer && (
+                                <div className="modal-footer">{footer}</div>
+                            )}
                         </div>
-                    </CSSTransition>
-                )}
+                    </div>
+                </CSSTransition>
+                {/* <div className={backdropClass} onClick={this.onRequestClose} /> */}
+                {/* {!!isOpen && (
+                    // HACK: The 'in' prop is a hack found from https://github.com/reactjs/react-transition-group/issues/216
+                    // Check more on it when gets some time
+                    
+                )} */}
             </div>
         )
 
