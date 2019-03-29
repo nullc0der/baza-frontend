@@ -1,0 +1,63 @@
+@import 'ui';
+
+:local(.container) {
+    .badge {
+        padding: 3px 8px;
+        border-radius: 17px;
+        text-align: center;
+    }
+    .faq-badge {
+        cursor: pointer;
+        background-color: rgba($color: #273951, $alpha: 0.3);
+        color: #fff;
+        font-size: 12px;
+        &:first-child {
+            margin-right: 1rem;
+        }
+    }
+    .modal-title {
+        padding-top: 2rem;
+    }
+    .modal-body {
+        padding-top: 1rem;
+        max-height: 400px;
+        overflow-y: auto;
+    }
+    .faq-item {
+        cursor: pointer;
+        .faq-title {
+            font-weight: $font-weight-bold;
+        }
+        .faq-content {
+            padding: 1rem;
+            background-color: $light;
+            height: auto;
+            opacity: 1;
+            transition: opacity 0.3s ease-in-out;
+            .Linkify {
+                // Both line needed
+                word-break: break-all;
+                word-break: break-word;
+                a {
+                    display: inline-block;
+                    color: $dark;
+                }
+            }
+        }
+        .expand-collapse-arrow {
+            font-size: 24px;
+            color: #ddd;
+            transition: transform 0.3s ease-in-out;
+        }
+        &.is-collapsed {
+            .expand-collapse-arrow {
+                transform: rotate(180deg);
+            }
+            .faq-content {
+                height: 0;
+                opacity: 0;
+                padding: 0;
+            }
+        }
+    }
+}
