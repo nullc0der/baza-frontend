@@ -66,7 +66,6 @@ const mapDispatchToProps = dispatch => ({
     navigate(...args) {
         return dispatch(push(...args))
     },
-    fetchLandingNews: () => dispatch(groupNewsActions.fetchLandingNews()),
     fetchSingleLandingNews: newsID =>
         dispatch(groupNewsActions.fetchSingleLandingNews(newsID))
 })

@@ -66,7 +66,6 @@ export default class Footer extends Component {
     render() {
         const cx = classnames(s.container, 'app-footer bg-dark pb-3 pt-6')
         const newsModalClass = classnames(s.newsModal)
-        const faqModalClass = classnames(s.faqModal)
         return (
             <div className={cx}>
                 <div className="baza-logo">
@@ -158,7 +157,7 @@ export default class Footer extends Component {
                             </div>
                         </div>
                         <div className="col-lg-4 mt-2 mt-lg-0">
-                            <FaqSection faqModalClass={faqModalClass} />
+                            <FaqSection />
                         </div>
                         <div className="col-lg-4 mt-2 mt-lg-0">
                             <NewsSection newsModalClass={newsModalClass} />
