@@ -141,13 +141,6 @@ class SidebarMenu extends Component {
                                         <span className="flex-1">
                                             {' '}
                                             {x.name}{' '}
-                                            {x.pill ? (
-                                                <div className="badge badge-success">
-                                                    {x.pill}
-                                                </div>
-                                            ) : (
-                                                ''
-                                            )}
                                         </span>
                                         {!!x.children && (
                                             <div className="menu-dropdown-toggle">
@@ -170,8 +163,17 @@ class SidebarMenu extends Component {
                                                 <span className="sub-submenu-icon">
                                                     <i className={child.icon} />
                                                 </span>
-                                                <span className="sub-submenu-name">
-                                                    {child.name}
+                                                <span className="sub-submenu-name flex-horizontal a-center">
+                                                    <span className="flex-1">
+                                                        {child.name}
+                                                    </span>
+                                                    {child.pill ? (
+                                                        <div className="badge badge-success">
+                                                            {child.pill}
+                                                        </div>
+                                                    ) : (
+                                                        ''
+                                                    )}
                                                 </span>
                                             </div>
                                         ))}
