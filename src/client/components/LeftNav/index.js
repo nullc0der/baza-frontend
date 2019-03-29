@@ -124,10 +124,19 @@ class LeftNav extends Component {
                     name: 'eBlast',
                     href: '',
                     icon: 'fas fa-mail-bulk',
-                    pill: 'Coming Soon',
                     children: [
-                        { name: 'eMail', href: '', icon: 'fas fa-envelope' },
-                        { name: 'SMS', href: '', icon: 'fas fa-paper-plane' }
+                        {
+                            name: 'eMail',
+                            href: '',
+                            icon: 'fas fa-envelope',
+                            pill: 'Coming Soon'
+                        },
+                        {
+                            name: 'SMS',
+                            href: '',
+                            icon: 'fas fa-paper-plane',
+                            pill: 'Coming Soon'
+                        }
                     ]
                 }
             ]
