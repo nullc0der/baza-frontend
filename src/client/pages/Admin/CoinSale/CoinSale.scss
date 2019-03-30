@@ -41,7 +41,6 @@ $purchase-button-height: 50px;
 
 :local(.purchaseButton) {
     height: $purchase-button-height;
-    background-color: $success;
     background-size: $purchase-button-height $purchase-button-height;
     transition: all 0.24s ease;
     position: relative;
@@ -50,6 +49,18 @@ $purchase-button-height: 50px;
     @include animate-progress-bar(17s);
     &:hover {
         background-color: darken($success, 5%);
+    }
+    &.sale-not-started {
+        background-color: #fdca02;
+    }
+    &.sale-started {
+        background-color: $success;
+    }
+    &.sale-finished {
+        background-color: $light;
+        .purchase-button-text {
+            color: darken($color: $light, $amount: 30);
+        }
     }
     .ui-progress {
         margin: 0;
@@ -88,13 +99,13 @@ $purchase-button-height: 50px;
         }
     }
     .date-title {
-        padding: 0 40px 0 20px;
+        padding: 0 0 0 20px;
         position: relative;
-        &:after {
-            position: absolute;
-            right: 20px;
-            content: ' : ';
-        }
+        // &:after {
+        //     position: absolute;
+        //     right: 20px;
+        //     content: ' : ';
+        // }
     }
     .time-item {
         padding: 0 10px;

@@ -14,16 +14,11 @@ import { DateTime } from 'luxon'
 
 import s from './CoinSale.scss'
 
-const START_TIME = DateTime.fromObject({
-    year: 2019,
-    month: 2,
-    days: 12,
-    hours: 0,
-    minutes: 0,
-    seconds: 0
-})
+const NOT_STARTED = 'NS'
+const STARTED = 'S'
+const FINISHED = 'F'
 
-const END_TIME = DateTime.fromObject({
+const START_TIME = DateTime.fromObject({
     year: 2019,
     month: 3,
     days: 31,
@@ -32,9 +27,24 @@ const END_TIME = DateTime.fromObject({
     seconds: 0
 })
 
+const END_TIME = DateTime.fromObject({
+    year: 2019,
+    month: 4,
+    days: 30,
+    hours: 6,
+    minutes: 0,
+    seconds: 0
+})
+
 const getCountdownValues = (startDate, endDate) => {
+    // NOTE: Last minute change, needs revisit, see TAIGA-371
     const now = DateTime.local()
-    const duration = endDate.diff(now, ['days', 'hours', 'minutes', 'seconds'])
+    const countdownStatus =
+        now < startDate ? NOT_STARTED : now < endDate ? STARTED : FINISHED
+    const duration =
+        countdownStatus === NOT_STARTED
+            ? startDate.diff(now, ['days', 'hours', 'minutes', 'seconds'])
+            : endDate.diff(now, ['days', 'hours', 'minutes', 'seconds'])
 
     const diff = duration.toObject()
     const countdown = Object.keys(diff).reduce((result, key) => {
@@ -43,12 +53,15 @@ const getCountdownValues = (startDate, endDate) => {
         return result
     }, {})
 
-    const countdownProgress = Math.floor(
-        ((endDate.valueOf() - now.valueOf()) * 100) /
-            (endDate.valueOf() - startDate.valueOf())
-    )
+    const countdownProgress =
+        countdownStatus === STARTED
+            ? Math.floor(
+                  ((endDate.valueOf() - now.valueOf()) * 100) /
+                      (endDate.valueOf() - startDate.valueOf())
+              )
+            : 0
 
-    return { countdown, countdownProgress }
+    return { countdownStatus, countdown, countdownProgress }
 }
 
 export default class CoinSalePage extends Component {
@@ -93,12 +106,12 @@ export default class CoinSalePage extends Component {
 
     startTimer = () => {
         const { startTime, endTime } = this.state
-        const { countdown, countdownProgress } = getCountdownValues(
-            startTime,
-            endTime
-        )
-        this.setState({ countdown, countdownProgress })
-        // console.log('setting countdown: ', countdown, countdownProgress)
+        const {
+            countdownStatus,
+            countdown,
+            countdownProgress
+        } = getCountdownValues(startTime, endTime)
+        this.setState({ countdownStatus, countdown, countdownProgress })
     }
 
     stopTimer = () => {
@@ -120,7 +133,6 @@ export default class CoinSalePage extends Component {
 
     onCurrencySelect = currency => {
         this.setState({ selectedCurrency: currency.name })
-        console.log('selected currency: ', currency)
     }
 
     onChargeIDChange = (purchaseAmountInLocal, chargeID) => {
@@ -140,6 +152,7 @@ export default class CoinSalePage extends Component {
             totalSoldCoins,
             isSaleOpen,
             countdown,
+            countdownStatus,
             selectedCurrency,
             countdownProgress,
             isSaleWaiting
@@ -168,6 +181,7 @@ export default class CoinSalePage extends Component {
                 <PurchaseButton
                     buttonText="PURCHASE"
                     isSaleOpen={isSaleOpen}
+                    status={countdownStatus}
                     percentage={countdownProgress}
                     endTime={countdown}
                     isSaleWaiting={isSaleWaiting}
