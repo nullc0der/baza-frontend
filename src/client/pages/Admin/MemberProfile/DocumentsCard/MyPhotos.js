@@ -85,12 +85,12 @@ class MyPhotos extends Component {
             uploadDonePercent = (value.loaded / value.total) * 100
         }
         this.setState({
-            uploadDonePercent
+            uploadDonePercent: uploadDonePercent > 10 ? uploadDonePercent : 10
         })
     }
 
     onEditDone = croppedImage => {
-        this.setState({ filePreview: croppedImage })
+        this.setState({ filePreview: croppedImage, imageUploading: true })
         this.closeCropper()
         // const data = new FormData()
         // data.append('photo', croppedImage)
