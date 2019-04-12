@@ -144,15 +144,6 @@ export default class Footer extends Component {
                                             </a>
                                         </li>
                                     ))}
-                                    <li className="list-unstyled-item">
-                                        <a
-                                            id="cq-verify"
-                                            href="https://concourseq.io/"
-                                            data-users="puffmushroom"
-                                            className="footer-link">
-                                            ConcourseQ
-                                        </a>
-                                    </li>
                                 </ul>
                             </div>
                         </div>
