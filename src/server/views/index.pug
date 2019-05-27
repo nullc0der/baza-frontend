@@ -11,7 +11,7 @@ block preload
 
 block head_styles
     //- Favicon
-    link(rel="shortcut icon", href="/public/img/favicon.ico", type="image/x-icon")
+    link(rel='shortcut icon' href="/public/img/favicon.ico" type="image/x-icon")
     //- Fonts
     link(rel='stylesheet' type='text/css' href='/public/css/material-icons.css')
     link(rel='stylesheet' type='text/css' href='https://fonts.googleapis.com/css?family=Raleway:100,300,400,500,600,700,800')
@@ -21,8 +21,8 @@ block head_styles
     //- Assets
     //- link(rel='stylesheet' type='text/css' href='/public/vendor/bootstrap/css/bootstrap.css')
     link(rel='stylesheet' type='text/css' href='/public/vendor/animate.css/animate.css')
-    link(rel='stylesheet', type='text/css' href='/public/vendor/emoji-mart/emoji-mart.css')
-    link(rel='stylesheet', type='text/css' href='https://use.fontawesome.com/releases/v5.5.0/css/all.css')
+    link(rel='stylesheet' type='text/css' href='/public/vendor/emoji-mart/emoji-mart.css')
+    link(rel='stylesheet' type='text/css' href='https://use.fontawesome.com/releases/v5.5.0/css/all.css')
     link(rel='stylesheet' type='text/css' href='https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css')
 
     if is_prod
@@ -30,7 +30,7 @@ block head_styles
         link(rel='stylesheet' type='text/css' href= webpack_assets['main.css'])
 
 block head_scripts
-    script("text/javascript").
+    script(type='text/javascript').
         window.googleMapCallback = function () {
             console.log('google map loaded')
         }

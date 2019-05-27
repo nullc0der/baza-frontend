@@ -154,11 +154,11 @@ class LeftNav extends Component {
             icon: '/public/img/baza_logo_gs.svg',
             href: '',
             children: [
-                {
-                    name: 'Coin Sale',
-                    href: '/coinsale',
-                    icon: 'fa fa-fw fa-tag'
-                }
+                // {
+                //     name: 'Coin Sale',
+                //     href: '/coinsale',
+                //     icon: 'fa fa-fw fa-tag'
+                // }
             ]
         }
         if (data) {
