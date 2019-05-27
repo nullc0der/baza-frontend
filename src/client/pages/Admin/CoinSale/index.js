@@ -68,7 +68,7 @@ export default class CoinSalePage extends Component {
     state = {
         totalAvailableCoins: 15000,
         totalSoldCoins: 0,
-        isSaleOpen: true,
+        isSaleOpen: false,
         isSaleWaiting: false,
         selectedCurrency: 'USD',
         startTime: START_TIME,

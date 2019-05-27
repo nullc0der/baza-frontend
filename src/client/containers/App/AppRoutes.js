@@ -38,7 +38,7 @@ const AppRoutes = location => (
         <Route path="/terms-of-service/" exact component={TermsOfServicePage} />
         <Route path="/cookie-policy/" exact component={CookiePolicyPage} />
         <Route path="/profile" component={AdminContainer} />
-        <Route path="/coinsale" component={AdminContainer} />
+        {/* <Route path="/coinsale" component={AdminContainer} /> */}
         <Route path="/wallets" component={AdminContainer} />
         <Route path="/distribution-signup" component={AdminContainer} />
         <Route path="/dashboard" component={AdminContainer} />

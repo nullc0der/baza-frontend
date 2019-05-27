@@ -2,7 +2,7 @@ import React, { Fragment, Component } from 'react'
 import classnames from 'classnames'
 import CountUp from 'react-countup'
 import TrackVisibility from 'react-on-screen'
-import CoinSale from 'pages/Admin/CoinSale'
+// import CoinSale from 'pages/Admin/CoinSale'
 
 const FEATURES = [
     {
@@ -114,11 +114,11 @@ const FeaturesSection = props => {
                     ))}
                 </div>
             </div>
-            {!props.noCoinSale && (
+            {/* {!props.noCoinSale && (
                 <div className="container coinsale-section page-section">
                     <CoinSale className="pt-4" />
                 </div>
-            )}
+            )} */}
         </div>
     )
 }
