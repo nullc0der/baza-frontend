@@ -109,6 +109,7 @@ $dialog-padding-y: map-get($spacers, 3);
     .error-well {
         p {
             margin: 0;
+            color: $danger;
         }
     }
 
