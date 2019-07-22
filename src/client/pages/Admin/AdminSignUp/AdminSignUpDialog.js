@@ -74,12 +74,23 @@ class AdminSignUpDialog extends Component {
                     ),
                     status: response.data.status,
                     selectedIndex: response.data.next_step.index,
-                    isSkippable: response.data.next_step.is_skippable
+                    isSkippable: response.data.next_step.is_skippable,
+                    inputValues: {
+                        refCode: this.getReferralCode(this.props.location.hash)
+                    }
                 })
             })
             .catch(responseData => {
                 console.log(responseData)
             })
+    }
+
+    getReferralCode = hash => {
+        if (hash.split('?').length > 1) {
+            const referral_code_chunk = hash.split('?')[1]
+            return referral_code_chunk.split('=')[1]
+        }
+        return ''
     }
 
     closeAdminSignUpDialog = () => {
