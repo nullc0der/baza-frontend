@@ -37,6 +37,8 @@ import MobileSection from './MobileSection'
 import DocumentsSection from './DocumentsSection'
 import FinishSection from './FinishSection'
 
+import { actions as commonActions } from 'store/Common'
+
 class AdminSignUpDialog extends Component {
     static propTypes = {
         className: PropTypes.string
@@ -48,6 +50,7 @@ class AdminSignUpDialog extends Component {
         errorTabs: [],
         isDonor: false,
         status: 'pending',
+        referralCode: '',
         isSkippable: false,
         selectedCountry: '',
         inputValues: {},
@@ -73,6 +76,7 @@ class AdminSignUpDialog extends Component {
                         Number(x)
                     ),
                     status: response.data.status,
+                    referralCode: response.data.referral_code,
                     selectedIndex: response.data.next_step.index,
                     isSkippable: response.data.next_step.is_skippable,
                     inputValues: {
@@ -87,8 +91,19 @@ class AdminSignUpDialog extends Component {
 
     getReferralCode = hash => {
         if (hash.split('?').length > 1) {
-            const referral_code_chunk = hash.split('?')[1]
-            return referral_code_chunk.split('=')[1]
+            const referralCodeChunk = hash.split('?')[1]
+            return referralCodeChunk.split('=')[1]
+        }
+        return ''
+    }
+
+    getReferralURL = () => {
+        if (this.state.referralCode.length) {
+            return `${window.location.protocol}//${
+                window.location.host
+            }/profile${window.location.hash}?referral-code=${
+                this.state.referralCode
+            }`
         }
         return ''
     }
@@ -423,8 +438,11 @@ class AdminSignUpDialog extends Component {
                 {isEqual(this.state.completedTabs.sort(), [0, 1, 2, 3]) ? (
                     <FinishSection
                         status={this.state.status}
+                        referralURL={this.getReferralURL()}
                         isDonor={this.state.isDonor}
                         toggleDonorStatus={this.toggleDonorStatus}
+                        addNotification={this.props.addNotification}
+                        closeDialog={this.closeAdminSignUpDialog}
                     />
                 ) : (
                     <Fragment>
@@ -493,6 +511,9 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
     navigate(url) {
         return dispatch(push(url))
+    },
+    addNotification(notification) {
+        return dispatch(commonActions.addNotification(notification))
     }
 })
 

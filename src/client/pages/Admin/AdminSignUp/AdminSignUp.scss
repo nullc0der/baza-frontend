@@ -272,14 +272,15 @@ $footer-btn-color: $admin-active-tab-color;
     justify-content: center;
     position: relative;
     .infos {
-        min-height: 300px;
+        min-height: 350px;
     }
     .attention-btn {
         border-radius: 32px;
         font-weight: $font-weight-semibold;
         text-transform: capitalize;
     }
-    .finish-bottom-message {
+    .finish-bottom-message,
+    .referral-url-section {
         position: absolute;
         left: 0;
         right: 0;
@@ -302,6 +303,16 @@ $footer-btn-color: $admin-active-tab-color;
         cursor: pointer;
         &.bg-success {
             animation: fadeIn 0.2s;
+        }
+    }
+    .referral-url-section {
+        .form-control {
+            resize: none;
+            color: inherit;
+            &:focus {
+                border-color: #ced4da;
+                box-shadow: none;
+            }
         }
     }
 }
