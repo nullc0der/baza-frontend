@@ -170,6 +170,10 @@ class AdminSignUpDialog extends Component {
     }
 
     onInputChange = (id, value) => {
+        if (id === 'refCode' && value.indexOf('?') !== -1) {
+            const inputChunk = value.split('?')[1]
+            value = inputChunk.split('=')[1]
+        }
         this.setState(prevState => ({
             inputValues: {
                 ...prevState.inputValues,
@@ -195,7 +199,7 @@ class AdminSignUpDialog extends Component {
         submitNameAddress(
             this.state.inputValues.firstName,
             this.state.inputValues.lastName,
-            this.state.inputValues.refCode || '',
+            this.state.inputValues.refCode.toUpperCase() || '',
             this.state.selectedCountry,
             this.state.inputValues.city,
             this.state.inputValues.state,

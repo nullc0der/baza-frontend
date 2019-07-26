@@ -191,6 +191,14 @@ $footer-btn-color: $admin-active-tab-color;
             cursor: pointer;
         }
     }
+
+    &.name-address-section {
+        .referral-code-input {
+            .ui-textfield-input {
+                text-transform: uppercase;
+            }
+        }
+    }
 }
 
 :local(.container) .documents-section {

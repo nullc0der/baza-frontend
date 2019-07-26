@@ -86,7 +86,7 @@ export default class NameAndAddressSection extends Component {
                     <div className="col-md-12 mb-3">
                         <TextField
                             id="refCode"
-                            className="is-textbox"
+                            className="is-textbox referral-code-input"
                             label="Enter your referral code here"
                             value={inputValues.refCode}
                             errorState={errorState.refCode}

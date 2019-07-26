@@ -23,20 +23,26 @@ const YearMonthForm = props => {
     }
 
     const handleChange = e => {
-        const { year, month } = e.target.form;
-        onChange(new Date(year.value, month.value));
+        const { year, month } = e.target.form
+        onChange(new Date(year.value, month.value))
     }
 
     return (
         <form className="DayPicker-Caption">
-            <select name="month" onChange={handleChange} value={date.getMonth()}>
+            <select
+                name="month"
+                onChange={handleChange}
+                value={date.getMonth()}>
                 {months.map((month, i) => (
                     <option key={month} value={i}>
                         {month}
                     </option>
                 ))}
             </select>
-            <select name="year" onChange={handleChange} value={date.getFullYear()}>
+            <select
+                name="year"
+                onChange={handleChange}
+                value={date.getFullYear()}>
                 {years.map(year => (
                     <option key={year} value={year}>
                         {year}
@@ -47,27 +53,77 @@ const YearMonthForm = props => {
     )
 }
 
-
 export default class DatePicker extends Component {
     state = {
         datePickerShown: false,
+        popUpFocused: false,
         dateValue: '',
         selectedDate: undefined,
         month: startMonth
     }
 
+    componentWillMount = () => {
+        if (this.datePickerBlurTimeOut) {
+            clearTimeout(this.datePickerBlurTimeOut)
+        }
+        document.removeEventListener('click', this.handleClickOutside, false)
+    }
+
     toggleDatePicker = e => {
+        if (!this.state.datePickerShown) {
+            document.addEventListener('click', this.handleClickOutside, false)
+        } else {
+            document.removeEventListener(
+                'click',
+                this.handleClickOutside,
+                false
+            )
+        }
         this.setState({
             datePickerShown: !this.state.datePickerShown
         })
     }
 
-    handleSelectedDate = day => {
+    togglePopupFocus = e => {
         this.setState({
-            dateValue: moment(day).format('YYYY-M-D'),
-            selectedDate: day,
-            datePickerShown: false
-        }, () => this.props.onDateChange(this.props.id, this.state.dateValue))
+            popUpFocused: !this.state.popUpFocused
+        })
+    }
+
+    handleClickOutside = e => {
+        if (this.datePickerNode.contains(e.target)) {
+            return
+        }
+        this.toggleDatePicker()
+    }
+
+    handleSelectedDate = day => {
+        this.setState(
+            {
+                dateValue: moment(day).format('YYYY-M-D'),
+                selectedDate: day
+            },
+            () => {
+                this.props.onDateChange(this.props.id, this.state.dateValue)
+                this.toggleDatePicker()
+            }
+        )
+    }
+
+    onDatePickerFocus = e => {
+        this.setState({
+            datePickerShown: true
+        })
+    }
+
+    onDatePickerBlur = e => {
+        this.datePickerBlurTimeOut = setTimeout(() => {
+            if (!this.state.popUpFocused) {
+                this.setState({
+                    datePickerShown: false
+                })
+            }
+        }, 1)
     }
 
     handleYearMonthChange = month => {
@@ -75,27 +131,30 @@ export default class DatePicker extends Component {
     }
 
     render() {
-        const {
-            className,
-            label,
-            errorState
-        } = this.props
+        const { className, label, errorState } = this.props
         const cx = classnames(s.container, className)
         return (
-            <div className={cx}>
+            <div className={cx} ref={node => (this.datePickerNode = node)}>
                 <TextField
+                    readOnly
                     label={label}
                     value={this.state.dateValue}
                     errorState={errorState}
-                    onClick={this.toggleDatePicker}
+                    onFocus={this.onDatePickerFocus}
+                    onBlur={this.onDatePickerBlur}
                 />
-                <div className={`daypicker-container ${this.state.datePickerShown ? 'show' : ''}`}>
+                <div
+                    className={`daypicker-container ${
+                        this.state.datePickerShown ? 'show' : ''
+                    }`}>
                     <DayPicker
                         onDayClick={this.handleSelectedDate}
                         selectedDays={this.state.selectedDate}
                         month={this.state.month}
                         fromMonth={startMonth}
                         toMonth={endMonth}
+                        onFocus={this.togglePopupFocus}
+                        onBlur={this.togglePopupFocus}
                         captionElement={({ date, localeUtils }) => (
                             <YearMonthForm
                                 date={date}
@@ -105,8 +164,10 @@ export default class DatePicker extends Component {
                         )}
                     />
                 </div>
-                <div className="calendar-toggle" onClick={this.toggleDatePicker}>
-                    <i className="material-icons">calendar_today</i>
+                <div
+                    className="calendar-toggle"
+                    onClick={this.toggleDatePicker}>
+                    <i className="fas fa-calendar-alt" />
                 </div>
             </div>
         )
