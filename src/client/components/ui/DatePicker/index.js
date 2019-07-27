@@ -62,7 +62,7 @@ export default class DatePicker extends Component {
         month: startMonth
     }
 
-    componentWillMount = () => {
+    componentWillUnmount = () => {
         if (this.datePickerBlurTimeOut) {
             clearTimeout(this.datePickerBlurTimeOut)
         }

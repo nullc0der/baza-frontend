@@ -52,7 +52,6 @@ class AdminSignUpDialog extends Component {
         status: 'pending',
         referralCode: '',
         isSkippable: false,
-        selectedCountry: '',
         inputValues: {},
         errorState: {},
         infoText: {
@@ -163,12 +162,6 @@ class AdminSignUpDialog extends Component {
         this.setState({ isDonor: !this.state.isDonor })
     }
 
-    onCountrySelect = item => {
-        this.setState({
-            selectedCountry: item
-        })
-    }
-
     onInputChange = (id, value) => {
         if (id === 'refCode' && value.indexOf('?') !== -1) {
             const inputChunk = value.split('?')[1]
@@ -200,7 +193,7 @@ class AdminSignUpDialog extends Component {
             this.state.inputValues.firstName,
             this.state.inputValues.lastName,
             this.state.inputValues.refCode.toUpperCase() || '',
-            this.state.selectedCountry,
+            this.state.inputValues.country,
             this.state.inputValues.city,
             this.state.inputValues.state,
             this.state.inputValues.houseNo,
@@ -461,8 +454,6 @@ class AdminSignUpDialog extends Component {
                             onChangeIndex={this.changeSwipeIndex}
                             disabled={!includes(this.state.completedTabs, 0)}>
                             <NameAddressSection
-                                selectedCountry={this.state.selectedCountry}
-                                onCountrySelect={this.onCountrySelect}
                                 onInputChange={this.onInputChange}
                                 inputValues={this.state.inputValues}
                                 errorState={this.state.errorState}

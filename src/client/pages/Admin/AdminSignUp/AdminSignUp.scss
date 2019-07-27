@@ -191,12 +191,23 @@ $footer-btn-color: $admin-active-tab-color;
             cursor: pointer;
         }
     }
+}
 
-    &.name-address-section {
-        .referral-code-input {
-            .ui-textfield-input {
-                text-transform: uppercase;
+:local(.container) .name-address-section {
+    .referral-code-input {
+        .ui-textfield-input {
+            text-transform: uppercase;
+        }
+    }
+    .country-select-dropdown {
+        .ui-select-dropdown-menu {
+            &.is-open {
+                max-height: 250px;
             }
+        }
+        .select-value-field {
+            padding: 0.5rem 0;
+            border-bottom: 1px solid rgba($dark, 0.5);
         }
     }
 }
