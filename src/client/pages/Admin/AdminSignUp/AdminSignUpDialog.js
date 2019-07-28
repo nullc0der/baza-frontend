@@ -23,7 +23,8 @@ import {
     sendPhoneVerificationCode,
     validatePhoneCode,
     sendPhoneVerificationCodeAgain,
-    uploadSignupImage
+    uploadSignupImage,
+    toggleDonor
 } from 'api/distribution-signup'
 
 import s from './AdminSignUp.scss'
@@ -78,6 +79,7 @@ class AdminSignUpDialog extends Component {
                     referralCode: response.data.referral_code,
                     selectedIndex: response.data.next_step.index,
                     isSkippable: response.data.next_step.is_skippable,
+                    isDonor: response.data.is_donor,
                     inputValues: {
                         refCode: this.getReferralCode(this.props.location.hash)
                     }
@@ -158,8 +160,15 @@ class AdminSignUpDialog extends Component {
                 console.log('Nothing matched')
         }
     }
+
     toggleDonorStatus = () => {
-        this.setState({ isDonor: !this.state.isDonor })
+        toggleDonor()
+            .then(response =>
+                this.setState({
+                    isDonor: response.data.is_donor
+                })
+            )
+            .catch(responseData => console.log(responseData))
     }
 
     onInputChange = (id, value) => {
@@ -179,6 +188,7 @@ class AdminSignUpDialog extends Component {
         this.setState({
             completedTabs: data.completed_steps.map(x => Number(x)),
             status: data.status,
+            isDonor: data.is_donor,
             selectedIndex: data.next_step.index,
             isSkippable: data.next_step.is_skippable,
             infoText: {
@@ -486,6 +496,7 @@ class AdminSignUpDialog extends Component {
                         </SwipeableViews>
                         <AdminSignUpFooter
                             infoText={this.state.infoText}
+                            showDonor={includes(this.state.completedTabs, 0)}
                             isDonor={this.state.isDonor}
                             showSkip={this.state.isSkippable}
                             toggleDonorStatus={this.toggleDonorStatus}
