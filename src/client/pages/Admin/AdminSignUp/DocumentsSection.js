@@ -14,10 +14,13 @@ export default class DocumentsSection extends Component {
     }
 
     removeImage = () => {
-        this.setState({
-            fileName: 'Choose a File',
-            filePreview: ''
-        }, () => this.props.removeSignupImage())
+        this.setState(
+            {
+                fileName: 'Choose a File',
+                filePreview: ''
+            },
+            () => this.props.removeSignupImage()
+        )
     }
 
     onFileChange = e => {
@@ -27,10 +30,13 @@ export default class DocumentsSection extends Component {
         }
 
         getImageURLFromFile(file).then(filePreview => {
-            this.setState({
-                fileName: file.name,
-                filePreview
-            }, () => this.props.addSignupImage(file))
+            this.setState(
+                {
+                    fileName: file.name,
+                    filePreview
+                },
+                () => this.props.addSignupImage(file)
+            )
         })
     }
 
@@ -47,14 +53,14 @@ export default class DocumentsSection extends Component {
             <div className="signup-section documents-section">
                 <div className="section-title my-2">IMAGE PREVIEW</div>
                 <div className="image-preview-container" style={imgStyles}>
-                    {!!filePreview && (
-                        <div
-                            className="image-remove-btn"
-                            title="Remove Image"
-                            onClick={this.removeImage}>
-                            <i className="fa fa-times-circle" />
-                        </div>
-                    )}
+                    <div
+                        className={`image-remove-btn ${
+                            !!filePreview ? 'd-block' : 'd-none'
+                        }`}
+                        title="Remove Image"
+                        onClick={this.removeImage}>
+                        <i className="fa fa-times-circle" />
+                    </div>
                 </div>
                 <div className="input-file-control flex-horizontal a-center my-2">
                     <input
@@ -65,7 +71,9 @@ export default class DocumentsSection extends Component {
                         className="file-input"
                     />
                     <div className="selected-file-name flex-1">{fileName}</div>
-                    <button className="btn btn-primary" onClick={this.selectFile}>
+                    <button
+                        className="btn btn-primary"
+                        onClick={this.selectFile}>
                         BROWSE
                     </button>
                 </div>
@@ -74,7 +82,8 @@ export default class DocumentsSection extends Component {
                         IMAGE UPLOAD GUIDELINES
                     </div>
                     <div className="guideline-dashed">
-                        Upload a recent photo of yourself or image proof of identification
+                        Upload a recent photo of yourself or image proof of
+                        identification
                     </div>
                     <div className="guideline">
                         <div className="label">Format</div>
