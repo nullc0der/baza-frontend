@@ -56,16 +56,12 @@ const YearMonthForm = props => {
 export default class DatePicker extends Component {
     state = {
         datePickerShown: false,
-        popUpFocused: false,
         dateValue: '',
         selectedDate: undefined,
         month: startMonth
     }
 
     componentWillUnmount = () => {
-        if (this.datePickerBlurTimeOut) {
-            clearTimeout(this.datePickerBlurTimeOut)
-        }
         document.removeEventListener('click', this.handleClickOutside, false)
     }
 
@@ -81,12 +77,6 @@ export default class DatePicker extends Component {
         }
         this.setState({
             datePickerShown: !this.state.datePickerShown
-        })
-    }
-
-    togglePopupFocus = e => {
-        this.setState({
-            popUpFocused: !this.state.popUpFocused
         })
     }
 
@@ -111,19 +101,10 @@ export default class DatePicker extends Component {
     }
 
     onDatePickerFocus = e => {
+        document.addEventListener('click', this.handleClickOutside, false)
         this.setState({
             datePickerShown: true
         })
-    }
-
-    onDatePickerBlur = e => {
-        this.datePickerBlurTimeOut = setTimeout(() => {
-            if (!this.state.popUpFocused) {
-                this.setState({
-                    datePickerShown: false
-                })
-            }
-        }, 1)
     }
 
     handleYearMonthChange = month => {
@@ -141,7 +122,6 @@ export default class DatePicker extends Component {
                     value={this.state.dateValue}
                     errorState={errorState}
                     onFocus={this.onDatePickerFocus}
-                    onBlur={this.onDatePickerBlur}
                 />
                 <div
                     className={`daypicker-container ${
@@ -153,8 +133,6 @@ export default class DatePicker extends Component {
                         month={this.state.month}
                         fromMonth={startMonth}
                         toMonth={endMonth}
-                        onFocus={this.togglePopupFocus}
-                        onBlur={this.togglePopupFocus}
                         captionElement={({ date, localeUtils }) => (
                             <YearMonthForm
                                 date={date}
