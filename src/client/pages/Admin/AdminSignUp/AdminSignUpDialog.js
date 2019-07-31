@@ -172,14 +172,31 @@ class AdminSignUpDialog extends Component {
     }
 
     onInputChange = (id, value) => {
-        if (id === 'refCode' && value.indexOf('?') !== -1) {
-            const inputChunk = value.split('?')[1]
-            value = inputChunk.split('=')[1]
-        }
         this.setState(prevState => ({
             inputValues: {
                 ...prevState.inputValues,
                 [id]: value
+            }
+        }))
+    }
+
+    onRefCodeInputChange = (id, value) => {
+        if (value.indexOf('?') !== -1) {
+            const inputChunk = value.split('?')[1]
+            value = inputChunk.split('=')[1]
+        }
+        value = value.replace(
+            /[^abcdefghjklmnpqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ2-9-]/g,
+            ''
+        )
+        value =
+            value.toUpperCase() === 'baz'.toUpperCase()
+                ? value.concat('-')
+                : value
+        this.setState(prevState => ({
+            inputValues: {
+                ...prevState.inputValues,
+                refCode: value
             }
         }))
     }
@@ -467,6 +484,7 @@ class AdminSignUpDialog extends Component {
                                 onInputChange={this.onInputChange}
                                 inputValues={this.state.inputValues}
                                 errorState={this.state.errorState}
+                                onRefCodeInputChange={this.onRefCodeInputChange}
                             />
                             <EmailSection
                                 onInputChange={this.onInputChange}

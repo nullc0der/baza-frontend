@@ -8,7 +8,12 @@ import SelectDropdown from 'components/ui/SelectDropdown/SimpleSelectDropdown'
 import { COUNTRIES } from './countries'
 
 const NameAndAddressSection = props => {
-    const { errorState, onInputChange, inputValues } = props
+    const {
+        errorState,
+        onInputChange,
+        inputValues,
+        onRefCodeInputChange
+    } = props
     return (
         <div className="signup-section name-address-section">
             <div className="row">
@@ -39,7 +44,7 @@ const NameAndAddressSection = props => {
                         label="Enter your referral code here"
                         value={inputValues.refCode}
                         errorState={errorState.refCode}
-                        onChange={onInputChange}
+                        onChange={onRefCodeInputChange}
                     />
                 </div>
             </div>
