@@ -183,7 +183,7 @@ class AdminSignUpDialog extends Component {
     onRefCodeInputChange = (id, value) => {
         if (value.indexOf('?') !== -1) {
             const inputChunk = value.split('?')[1]
-            value = inputChunk.split('=')[1]
+            value = inputChunk.split('=')[1] || value
         }
         value = value.replace(
             /[^abcdefghjklmnpqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ2-9-]/g,

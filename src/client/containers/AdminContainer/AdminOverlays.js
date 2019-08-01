@@ -1,7 +1,12 @@
 import React, { Fragment } from 'react'
 import { Route } from 'react-router-dom'
+import createAsyncComponent from 'utils/create-async-component'
 
-import AdminSignUpDialog from 'pages/Admin/AdminSignUp'
+const AdminSignUpDialog = createAsyncComponent(() =>
+    import(
+        /* webpackChunkName: "AdminSignupDialog" */ 'pages/Admin/AdminSignUp'
+    )
+)
 
 const AdminOverlays = location => {
     const hash = location.hash || ''
