@@ -1,32 +1,34 @@
 @import 'ui';
-$signuplist-width: 230px;
 
 :local(.container) {
+    color: $dark;
+    font-family: 'Raleway';
     height: 100%;
-    color: inherit;
-    display: flex;
-    flex-direction: row;
-    background-color: $admin-body-bg;
-    position: relative;
-    @include _shadow-1();
 }
 
 :local(.signuplist) {
     padding: map-get($spacers, 2) 0;
-    width: $signuplist-width;
+    width: 100%;
     height: 100%;
     display: flex;
     flex-direction: column;
     background-color: #fff;
     z-index: 1;
     @include _shadow-1();
+    transition: box-shadow 0.24s ease;
+    will-change: box-shadow;
+    &:hover {
+        @include _shadow-2();
+    }
     @include media-breakpoint-down(md, $grid-breakpoints) {
         width: 100vw;
     }
     .header {
         width: 100%;
         text-align: center;
+        color: rgba($color: $dark, $alpha: 0.5);
         font-weight: $font-weight-semibold;
+        font-size: 1rem;
         padding: 0 10px;
     }
     .list {
@@ -37,16 +39,10 @@ $signuplist-width: 230px;
             padding: map-get($spacers, 2);
             font-weight: $font-weight-semibold;
             border-bottom: 1px $light solid;
+            align-items: center;
             &:hover,
             &.is-active {
                 background-color: $light;
-            }
-            .avatar {
-                width: 40px;
-                height: 40px;
-                border-radius: 50%;
-                background-color: $primary;
-                flex-shrink: 0;
             }
             .info {
                 flex: 1;
@@ -60,10 +56,30 @@ $signuplist-width: 230px;
 }
 
 :local(.signupdetails) {
-    flex: 1;
-    overflow-y: auto;
-    background-color: #fff;
-    padding: 30px;
+    .ui-card {
+        height: 100%;
+    }
+    .ui-card .ui-card-header {
+        background-color: rgba($dark, 0.9);
+    }
+    .ui-card-header .header-bg {
+        background-image: url('/public/img/member-profile/header-bg.jpg');
+    }
+    .text-box {
+        .title {
+            font-size: 12px;
+        }
+        .content {
+            border: 1px solid rgba($dark, 0.5);
+            padding: 0.5rem;
+            border-radius: 3px;
+            flex: 1;
+        }
+        .content-with-badge {
+            display: flex;
+            align-items: center;
+        }
+    }
     @include media-breakpoint-down(md, $grid-breakpoints) {
         padding-left: 20px;
         padding-right: 20px;
@@ -369,5 +385,11 @@ $signuplist-width: 230px;
                 }
             }
         }
+    }
+}
+
+:local(.signupdetails) .member-profile-card {
+    .ui-card-body {
+        padding: 30px;
     }
 }

@@ -5,9 +5,11 @@ import { connect } from 'react-redux'
 import union from 'lodash/union'
 import isEmpty from 'lodash/isEmpty'
 
+import Avatar from 'components/Avatar'
+
 import { isStaff } from 'pages/Admin/Group/utils'
 
-import { actions as distributionSignupActions } from 'store/DistributionSignUp'
+import { actions as distributionSignupStaffSideActions } from 'store/DistributionSignUpStaffSide'
 import s from './DistributionSignUp.scss'
 
 class DistributionSignUpList extends Component {
@@ -85,24 +87,34 @@ class DistributionSignUpList extends Component {
                 <div className={cx}>
                     {isStaff(this.props.siteOwnerGroup.user_permission_set) ? (
                         <Fragment>
-                            <div className="header">Signups</div>
+                            <div className="header">Application List</div>
                             <div className="list">
                                 {this.state.signupList.map((item, i) => (
                                     <div
                                         key={i}
-                                        className={`item ${item.id_ ===
-                                            this.props.selectedID &&
-                                            'is-active'}`}
+                                        className={`${
+                                            item.id_ === this.props.selectedID
+                                                ? 'item is-active'
+                                                : 'item'
+                                        }`}
                                         onClick={e =>
                                             this.onSidebarItemClick(e, item.id_)
                                         }>
-                                        <div className="avatar" />
+                                        <Avatar
+                                            className="avatar-image"
+                                            size={40}
+                                            otherProfile={{
+                                                username: item.username,
+                                                profile_photo:
+                                                    item.user_image_url,
+                                                default_avatar_color:
+                                                    item.user_avatar_color
+                                            }}
+                                            own={false}
+                                        />
                                         <div className="info">
                                             <div className="username">
-                                                {item.username}
-                                            </div>
-                                            <div className="status text-capitalize">
-                                                {item.status}
+                                                {item.fullname}
                                             </div>
                                         </div>
                                     </div>
@@ -119,8 +131,8 @@ class DistributionSignUpList extends Component {
 }
 
 const mapStateToProps = state => ({
-    signupList: state.DistributionSignUp.signupList,
-    selectedID: state.DistributionSignUp.selectedID,
+    signupList: state.DistributionSignUpStaffSide.signups,
+    selectedID: state.DistributionSignUpStaffSide.selectedID,
     searchString: state.Common.subHeaderSearchString,
     filters: state.Common.subHeaderFilters,
     siteOwnerGroup: state.Group.siteOwnerGroup
@@ -128,10 +140,10 @@ const mapStateToProps = state => ({
 
 const mapDispatchProps = dispatch => ({
     fetchSignupList: () => {
-        dispatch(distributionSignupActions.fetchSignupsList())
+        dispatch(distributionSignupStaffSideActions.fetchSignups())
     },
     setSelectedID: id => {
-        dispatch(distributionSignupActions.setSelectedID(id))
+        dispatch(distributionSignupStaffSideActions.setSelectedID(id))
     }
 })
 
