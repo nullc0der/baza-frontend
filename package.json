@@ -25,7 +25,7 @@
         "@sentry/browser": "4.6.3",
         "animate.css": "3.7.0",
         "apisauce": "^1.0.0",
-        "autoprefixer": "^9.3.1",
+        "autoprefixer": "9.3.1",
         "axis": "^1.0.0",
         "babel-eslint": "10.0.1",
         "babel-jest": "23.6.0",

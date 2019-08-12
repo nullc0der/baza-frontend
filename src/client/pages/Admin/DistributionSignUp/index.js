@@ -12,8 +12,14 @@ class DistributionSignupsPage extends Component {
         return (
             <div className={cx}>
                 <Helmet title="Distribution Signups" />
-                <DistributionSignUpList />
-                <DistributionSignUp />
+                <div className="row h-100">
+                    <div className="col-md-3">
+                        <DistributionSignUpList />
+                    </div>
+                    <div className="col-md-9">
+                        <DistributionSignUp />
+                    </div>
+                </div>
             </div>
         )
     }

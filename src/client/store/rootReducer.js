@@ -14,6 +14,7 @@ import UserProfile from './UserProfile'
 import WalletAccounts from './WalletAccounts'
 import WalletTransanctions from './WalletTransanctions'
 import DistributionSignUp from './DistributionSignUp'
+import DistributionSignUpStaffSide from './DistributionSignUpStaffSide'
 import Users from './Users'
 
 import Messenger from './Messenger'
@@ -37,6 +38,7 @@ export default combineReducers({
     WalletAccounts,
     WalletTransanctions,
     DistributionSignUp,
+    DistributionSignUpStaffSide,
     Users,
     Messenger,
     Notifications,
