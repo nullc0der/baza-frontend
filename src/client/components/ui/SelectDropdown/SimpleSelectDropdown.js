@@ -107,6 +107,7 @@ export default class SimpleSelectDropdown extends Component {
                 </div>
                 <div className="select-value-field" onClick={this.toggleOpen}>
                     {value}
+                    <i className="fas fa-angle-down" />
                 </div>
                 {errorState && (
                     <div className="ui-select-dropdown-error">

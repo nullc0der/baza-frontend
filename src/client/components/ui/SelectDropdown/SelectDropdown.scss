@@ -51,6 +51,9 @@
             cursor: pointer;
             padding: map-get($spacers, 1) map-get($spacers, 2);
             border-bottom: 1px rgba($dark, 0.2) solid;
+            i {
+                margin-left: 3px;
+            }
         }
         .select-label-field {
             position: absolute;

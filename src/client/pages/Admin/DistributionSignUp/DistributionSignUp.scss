@@ -3,7 +3,6 @@
 :local(.container) {
     color: $dark;
     font-family: 'Raleway';
-    height: 100%;
 }
 
 :local(.signuplist) {
@@ -70,35 +69,29 @@
             font-size: 12px;
         }
         .content {
-            border: 1px solid rgba($dark, 0.5);
+            border: 1px solid rgba($dark, 0.2);
             padding: 0.5rem;
             border-radius: 3px;
             flex: 1;
+            &:empty {
+                padding: 1.2rem;
+            }
         }
         .content-with-badge {
             display: flex;
             align-items: center;
         }
     }
-    @include media-breakpoint-down(md, $grid-breakpoints) {
-        padding-left: 20px;
-        padding-right: 20px;
-        display: none;
-        &.is-open {
-            display: block;
-            position: absolute;
-            right: 0;
-            bottom: 0;
-            top: 0;
-            left: 0;
-            z-index: 2;
-        }
-    }
-    .signup-details-section {
-        margin-bottom: map-get($spacers, 3);
-        .section-title {
+    .info-card {
+        border: 1px solid rgba($dark, 0.2);
+        border-radius: 3px;
+        @include _shadow-1();
+        .header {
+            padding: map-get($spacers, 1);
             font-weight: $font-weight-bold;
-            font-size: 13px;
+        }
+        .body {
+            padding: map-get($spacers, 2);
         }
     }
 
@@ -114,282 +107,66 @@
             margin-right: 12px;
         }
     }
-
-    .profile-detail {
-        display: flex;
-        align-items: center;
-        font-size: 12px;
-        font-weight: $font-weight-semibold;
-        .label {
-            width: 100px;
-            opacity: 0.5;
-            margin-right: map-get($spacers, 1);
-            position: relative;
-            &:after {
-                position: absolute;
-                right: 0;
-                content: ':';
-            }
-        }
-        .value {
-            margin-left: map-get($spacers, 2);
-            margin-right: map-get($spacers, 2);
-        }
-    }
-    .edit-mode-bar {
-        margin: -30px -30px 30px;
-        padding: 12px 20px;
-        background-color: $primary;
-        display: flex;
-        align-items: center;
-        justify-content: flex-end;
-        .btn + .btn {
-            margin-left: 16px;
-        }
-    }
-    .header {
-        margin: -30px -30px 30px;
-        padding: 16px 0;
-        text-align: center;
-        font-weight: $font-weight-semibold;
-        position: relative;
-        .back-button {
-            position: absolute;
-            left: 20px;
-        }
-    }
-    .profile-details-section {
-        display: flex;
-        position: relative;
-        .profile-dropdown {
-            position: absolute;
-            right: 0;
-            top: 0;
-            .dropdown-toggle {
-                color: #979797;
-                background-color: #f6f6f6;
-                padding-left: 10px;
-                padding-right: 10px;
-            }
-            .dropdown-item {
-                cursor: pointer;
-            }
-            .dropdown-menu.show {
-                left: initial;
-                right: 0;
-            }
-        }
-        .profile-photo {
-            height: 140px;
-            width: 140px;
-            flex-shrink: 0;
-            background-color: $primary;
-            border-radius: 5px;
-            margin-right: map-get($spacers, 2);
-        }
-        .profile-details {
-            flex: 1;
-            margin-left: map-get($spacers, 1);
-            display: flex;
-            flex-direction: column;
-        }
-        .details-header {
-            height: 48px;
-            border-bottom: 1px $border-color solid;
-            position: relative;
-            padding: 0px 0 9px;
-        }
-        .details-body {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-around;
-        }
-        @include media-breakpoint-down(sm, $grid-breakpoints) {
-            flex-direction: column;
-            align-items: center;
-            .profile-photo {
-                margin-right: 0;
-                margin-bottom: map-get($spacers, 2);
-            }
-            .details-header {
-                margin: 0 20px;
-                text-align: center;
-            }
-            .details-body {
-                padding: 20px;
-            }
-            .profile-details {
-                max-width: 100vw;
-            }
-            .profile-detail {
-                align-items: flex-start;
-            }
-            .profile-detail {
-                margin-bottom: map-get($spacers, 2);
-                .value-text {
-                    display: block;
-                }
-                .badge {
-                    margin-left: 0;
-                    margin-top: map-get($spacers, 1);
-                    margin-right: map-get($spacers, 2);
-                }
-            }
-        }
-
-        // Details
-        .full-name {
-            font-weight: $font-weight-bold;
-        }
-    }
-    .profile-photos-section {
-        .photos-list {
-            overflow-x: auto;
-            @include media-breakpoint-down(sm, $grid-breakpoints) {
-                display: flex;
-                flex-wrap: wrap;
-                justify-content: center;
-            }
-        }
-        .profile-photo-item {
-            display: inline-block;
-            height: 90px;
-            position: relative;
-            width: 90px;
-            overflow: hidden;
-            border-radius: 50px;
-            margin: 0 auto;
-            margin-top: map-get($spacers, 2);
-            @include media-breakpoint-up(md, $grid-breakpoints) {
-                margin-right: map-get($spacers, 2);
-            }
-            @include media-breakpoint-down(sm, $grid-breakpoints) {
-                margin: map-get($spacers, 2);
-            }
-            .photo-item-delete {
-                background-color: rgba(red, 0.5);
-                color: #fff;
-                font-weight: $font-weight-semibold;
-                cursor: pointer;
-                position: absolute;
-                top: 0;
-                left: 0;
-                opacity: 0;
-                height: 100%;
-                width: 100%;
-                transform: translate3d(0, 100px, 0);
-                transition: all 0.24s ease;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-            }
-            &:hover {
-                .photo-item-delete {
-                    opacity: 1;
-                    transform: translate3d(0px, 0px, 0px);
-                }
-            }
-        }
-    }
-    .profile-documents-section {
-        .documents-list {
-            overflow-x: auto;
-        }
-        .profile-document-item {
-            color: rgba($dark, 0.5);
-            display: inline-block;
-            margin-right: map-get($spacers, 3);
-            margin-top: map-get($spacers, 2);
-            position: relative;
-            .document-item-delete {
-                border-radius: 3px;
-                background-color: rgba($danger, 0.5);
-                color: #fff;
-                font-weight: $font-weight-semibold;
-                cursor: pointer;
-                position: absolute;
-                top: 0;
-                left: 0;
-                opacity: 0;
-                height: 100%;
-                width: 100%;
-                transform: translate3d(0, 100px, 0);
-                transition: all 0.24s ease;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-            }
-
-            &:hover {
-                .document-item-delete {
-                    opacity: 1;
-                    transform: translate3d(0px, 0px, 0px);
-                }
-            }
-        }
-        .document-image {
-            font-size: 42px;
-            text-align: center;
-        }
-    }
-    .database-info-section {
-        .profile-detail {
-            margin-top: map-get($spacers, 2);
-        }
-        .section-title {
-            display: flex;
-            align-items: center;
-        }
-        @include media-breakpoint-down(sm, $grid-breakpoints) {
-            .section-title {
-                display: block;
-            }
-            .title-text {
-                display: block;
-                & + .badge {
-                    margin-left: 0;
-                }
-            }
-            .badge {
-                margin-top: map-get($spacers, 1);
-            }
-        }
-    }
-    .account-details-section {
-        .account-detail {
-            display: flex;
-            align-items: center;
-            min-height: map-get($spacers, 4);
-            padding: 3px 0;
-            font-size: 13px;
-            border-top: 1px $light solid;
-            .label {
-                width: 150px;
-                font-weight: $font-weight-bold;
-                position: relative;
-                &:after {
-                    position: absolute;
-                    right: 0;
-                    content: ':';
-                }
-            }
-            .value {
-                margin-left: 24px;
-            }
-            .status-dropdown-group,
-            .distribution-dropdown-group {
-                a,
-                .dropdown-item {
-                    cursor: pointer;
-                }
-            }
-        }
-    }
 }
 
 :local(.signupdetails) .member-profile-card {
     .ui-card-body {
         padding: 30px;
+    }
+}
+
+:local(.signupdetails) .distribution-profile-card {
+    .ui-card-body {
+        padding: 30px;
+    }
+    .edit-bar {
+        margin: -30px -30px 0;
+        padding: 12px 20px;
+        background-color: $light;
+        display: flex;
+        align-items: center;
+        .selected-items-count {
+            label {
+                margin: 0;
+                color: rgba($dark, 0.5);
+                font-weight: $font-weight-semibold;
+                input {
+                    margin-right: 5px;
+                }
+            }
+        }
+        .edit-button {
+            margin: 0 8px;
+        }
+        .status-select-dropdown {
+            .select-value-field {
+                border: 1px solid rgba($dark, 0.5);
+                border-radius: 3px;
+            }
+        }
+    }
+    .contact-details {
+        .header {
+            background-color: rgba($warning, 0.4);
+            color: $warning;
+        }
+    }
+    .address-details {
+        .header {
+            background-color: rgba($info, 0.4);
+            color: $info;
+        }
+    }
+    .documents {
+        .header {
+            background-color: rgba($danger, 0.4);
+            color: $danger;
+        }
+    }
+    .other-info {
+        .header {
+            background-color: rgba($success, 0.4);
+            color: $success;
+        }
     }
 }
