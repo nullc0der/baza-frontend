@@ -26,7 +26,7 @@ const EditBar = props => {
                 onChange={() => {}}
                 errorState={null}
             />
-            <div className="btn btn-default edit-button">
+            <div className="btn btn-default edit-button lock-button">
                 <i className="fas fa-lock" />
             </div>
         </div>
