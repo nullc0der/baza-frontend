@@ -51,8 +51,11 @@
             cursor: pointer;
             padding: map-get($spacers, 1) map-get($spacers, 2);
             border-bottom: 1px rgba($dark, 0.2) solid;
+            position: relative;
             i {
-                margin-left: 3px;
+                position: absolute;
+                right: 0;
+                top: 15px;
             }
         }
         .select-label-field {
