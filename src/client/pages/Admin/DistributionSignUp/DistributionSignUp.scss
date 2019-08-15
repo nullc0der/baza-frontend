@@ -174,3 +174,26 @@
         }
     }
 }
+
+:local(.signupdetails) .distribution-comment-card {
+    .ui-card-body {
+        padding: 30px;
+    }
+    .comment-post-form,
+    .comment-section {
+        label {
+            font-weight: $font-weight-semibold;
+            color: rgba($dark, 0.5);
+        }
+    }
+    .comment-section {
+        .comment {
+            padding: 0.5rem;
+            border-top: 1px solid rgba($dark, 0.2);
+            border-bottom: 1px solid rgba($dark, 0.2);
+            .title {
+                margin-bottom: 0.5rem;
+            }
+        }
+    }
+}
