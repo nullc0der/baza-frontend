@@ -34,7 +34,7 @@ $footer-btn-color: $admin-active-tab-color;
     .try-again-button {
         color: inherit;
         height: 32px;
-        width: 120px;
+        cursor: pointer;
         margin: 0 auto;
     }
 }
@@ -79,10 +79,12 @@ $footer-btn-color: $admin-active-tab-color;
         display: flex;
         align-items: center;
         justify-content: center;
-        cursor: pointer;
         &.bg-success {
             animation: fadeInUp 0.2s;
         }
+    }
+    .become-donor-check {
+        cursor: pointer;
     }
     .info-text-section {
         font-size: 12px;
@@ -96,6 +98,7 @@ $footer-btn-color: $admin-active-tab-color;
         border: none;
         height: 50px;
         color: #fff;
+        cursor: pointer;
     }
     .submit-button {
         border-radius: 0;

@@ -138,7 +138,11 @@
         .edit-button {
             margin: 0 8px;
         }
+        .lock-button {
+            padding: map-get($spacers, 0);
+        }
         .status-select-dropdown {
+            width: 150px;
             .select-value-field {
                 border: 1px solid rgba($dark, 0.5);
                 border-radius: 3px;
@@ -167,6 +171,29 @@
         .header {
             background-color: rgba($success, 0.4);
             color: $success;
+        }
+    }
+}
+
+:local(.signupdetails) .distribution-comment-card {
+    .ui-card-body {
+        padding: 30px;
+    }
+    .comment-post-form,
+    .comment-section {
+        label {
+            font-weight: $font-weight-semibold;
+            color: rgba($dark, 0.5);
+        }
+    }
+    .comment-section {
+        .comment {
+            padding: 0.5rem;
+            border-top: 1px solid rgba($dark, 0.2);
+            margin-top: 0.5rem;
+            .title {
+                margin-bottom: 0.5rem;
+            }
         }
     }
 }

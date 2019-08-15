@@ -9,6 +9,7 @@ const INITIAL_STATE = {
     selectedID: null,
     signupData: {},
     signupUserProfileData: {},
+    signupComments: [],
     hasError: false
 }
 
@@ -96,6 +97,126 @@ const fetchSignupUserProfileDataFailure = err => ({
     error: err.message
 })
 
+const FETCH_SIGNUP_COMMENTS = createAction('FETCH_SIGNUP_COMMENTS')
+const fetchSignupComments = id => dispatch => {
+    dispatch({ type: FETCH_SIGNUP_COMMENTS })
+
+    return DispatchAPI(
+        dispatch,
+        DistributionSignUpStaffSideAPI.fetchComments(id),
+        {
+            success: fetchSignupCommentsSuccess,
+            failure: fetchSignupCommentsFailure
+        }
+    )
+}
+
+const FETCH_SIGNUP_COMMENTS_SUCCESS = createAction(
+    'FETCH_SIGNUP_COMMENTS_SUCCESS'
+)
+const fetchSignupCommentsSuccess = response => ({
+    type: FETCH_SIGNUP_COMMENTS_SUCCESS,
+    comments: response.data
+})
+
+const FETCH_SIGNUP_COMMENTS_FAILURE = createAction(
+    'FETCH_SIGNUP_COMMENTS_FAILURE'
+)
+const fetchSignupCommentsFailure = err => ({
+    type: FETCH_SIGNUP_COMMENTS_FAILURE,
+    error: err.message
+})
+
+const CREATE_SIGNUP_COMMENT = createAction('CREATE_SIGNUP_COMMENT')
+const createSignupComment = (signupID, data) => dispatch => {
+    dispatch({ type: CREATE_SIGNUP_COMMENT })
+
+    return DispatchAPI(
+        dispatch,
+        DistributionSignUpStaffSideAPI.postComment(signupID, data),
+        {
+            success: createSignupCommentSuccess,
+            failure: createSignupCommentFailure
+        }
+    )
+}
+
+const CREATE_SIGNUP_COMMENT_SUCCESS = createAction(
+    'CREATE_SIGNUP_COMMENT_SUCCESS'
+)
+const createSignupCommentSuccess = response => ({
+    type: CREATE_SIGNUP_COMMENT_SUCCESS,
+    comment: response.data
+})
+
+const CREATE_SIGNUP_COMMENT_FAILURE = createAction(
+    'CREATE_SIGNUP_COMMENT_FAILURE'
+)
+const createSignupCommentFailure = err => ({
+    type: CREATE_SIGNUP_COMMENT_FAILURE,
+    error: err.message
+})
+
+const UPDATE_SIGNUP_COMMENT = createAction('UPDATE_SIGNUP_COMMENT')
+const updateSignupComment = (signupID, data) => dispatch => {
+    dispatch({ type: UPDATE_SIGNUP_COMMENT })
+
+    return DispatchAPI(
+        dispatch,
+        DistributionSignUpStaffSideAPI.updateComment(signupID, data),
+        {
+            success: updateSignupCommentSuccess,
+            failure: updateSignupCommentFailure
+        }
+    )
+}
+
+const UPDATE_SIGNUP_COMMENT_SUCCESS = createAction(
+    'UPDATE_SIGNUP_COMMENT_SUCCESS'
+)
+const updateSignupCommentSuccess = response => ({
+    type: UPDATE_SIGNUP_COMMENT_SUCCESS,
+    comment: response.data
+})
+
+const UPDATE_SIGNUP_COMMENT_FAILURE = createAction(
+    'UPDATE_SIGNUP_COMMENT_FAILURE'
+)
+const updateSignupCommentFailure = err => ({
+    type: UPDATE_SIGNUP_COMMENT_FAILURE,
+    error: err.message
+})
+
+const DELETE_SIGNUP_COMMENT = createAction('DELETE_SIGNUP_COMMENT')
+const deleteSignupComment = (signupID, commentID) => dispatch => {
+    dispatch({ type: DELETE_SIGNUP_COMMENT })
+
+    return DispatchAPI(
+        dispatch,
+        DistributionSignUpStaffSideAPI.deleteComment(signupID, commentID),
+        {
+            success: deleteSignupCommentSuccess,
+            failure: deleteSignupCommentFailure
+        }
+    )
+}
+
+const DELETE_SIGNUP_COMMENT_SUCCESS = createAction(
+    'DELETE_SIGNUP_COMMENT_SUCCESS'
+)
+const deleteSignupCommentSuccess = response => ({
+    type: DELETE_SIGNUP_COMMENT_SUCCESS,
+    commentID: response.data.comment_id
+})
+
+const DELETE_SIGNUP_COMMENT_FAILURE = createAction(
+    'DELETE_SIGNUP_COMMENT_FAILURE'
+)
+const deleteSignupCommentFailure = err => ({
+    type: DELETE_SIGNUP_COMMENT_FAILURE,
+    error: err.message
+})
+
 const SET_SELECTED_ID = createAction('SET_SELECTED_ID')
 const setSelectedID = id => ({
     type: SET_SELECTED_ID,
@@ -106,7 +227,11 @@ export const actions = {
     fetchSignups,
     fetchSignup,
     fetchSignupUserProfileData,
-    setSelectedID
+    setSelectedID,
+    fetchSignupComments,
+    createSignupComment,
+    updateSignupComment,
+    deleteSignupComment
 }
 
 export default function DistributionSignUpReducer(
@@ -117,11 +242,19 @@ export default function DistributionSignUpReducer(
         case FETCH_SIGNUPS:
         case FETCH_SIGNUP:
         case FETCH_SIGNUP_USER_PROFILE_DATA:
+        case FETCH_SIGNUP_COMMENTS:
+        case CREATE_SIGNUP_COMMENT:
+        case UPDATE_SIGNUP_COMMENT:
+        case DELETE_SIGNUP_COMMENT:
             return { ...state, isLoading: true, hasError: false }
 
         case FETCH_SIGNUPS_FAILURE:
         case FETCH_SIGNUP_FAILURE:
         case FETCH_SIGNUP_USER_PROFILE_DATA_FAILURE:
+        case FETCH_SIGNUP_COMMENTS_FAILURE:
+        case CREATE_SIGNUP_COMMENT_FAILURE:
+        case UPDATE_SIGNUP_COMMENT_FAILURE:
+        case DELETE_SIGNUP_COMMENT_FAILURE:
             return { ...state, isLoading: false, hasError: action.error }
 
         case FETCH_SIGNUPS_SUCCESS:
@@ -139,6 +272,38 @@ export default function DistributionSignUpReducer(
                 ...state,
                 isLoading: false,
                 signupData: action.data
+            }
+
+        case FETCH_SIGNUP_COMMENTS_SUCCESS:
+            return {
+                ...state,
+                isLoading: false,
+                signupComments: action.comments
+            }
+
+        case CREATE_SIGNUP_COMMENT_SUCCESS:
+            return {
+                ...state,
+                isLoading: false,
+                signupComments: [...state.signupComments, action.comment]
+            }
+
+        case UPDATE_SIGNUP_COMMENT_SUCCESS:
+            return {
+                ...state,
+                isLoading: false,
+                signupComments: state.signupComments.map(x =>
+                    x.id === action.comment.id ? action.comment : x
+                )
+            }
+
+        case DELETE_SIGNUP_COMMENT_SUCCESS:
+            return {
+                ...state,
+                isLoading: false,
+                signupComments: state.signupComments.filter(
+                    x => x.id !== action.commentID
+                )
             }
 
         case SET_SELECTED_ID:
