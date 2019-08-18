@@ -217,6 +217,32 @@ const deleteSignupCommentFailure = err => ({
     error: err.message
 })
 
+const MARK_FORM_VIOLATION = createAction('MARK_FORM_VIOLATION')
+const markFormViolation = (signupID, data) => dispatch => {
+    dispatch({ type: MARK_FORM_VIOLATION })
+
+    return DispatchAPI(
+        dispatch,
+        DistributionSignUpStaffSideAPI.markFormViolation(signupID, data),
+        {
+            success: markFormViolationSuccess,
+            failure: markFormViolationFailure
+        }
+    )
+}
+
+const MARK_FORM_VIOLATION_SUCCESS = createAction('MARK_FORM_VIOLATION_SUCCESS')
+const markFormViolationSuccess = response => ({
+    type: MARK_FORM_VIOLATION_SUCCESS,
+    signup: response.data
+})
+
+const MARK_FORM_VIOLATION_FAILURE = createAction('MARK_FORM_VIOLATION_FAILURE')
+const markFormViolationFailure = err => ({
+    type: MARK_FORM_VIOLATION_FAILURE,
+    error: err.message
+})
+
 const SET_SELECTED_ID = createAction('SET_SELECTED_ID')
 const setSelectedID = id => ({
     type: SET_SELECTED_ID,
@@ -231,7 +257,8 @@ export const actions = {
     fetchSignupComments,
     createSignupComment,
     updateSignupComment,
-    deleteSignupComment
+    deleteSignupComment,
+    markFormViolation
 }
 
 export default function DistributionSignUpReducer(
@@ -246,6 +273,7 @@ export default function DistributionSignUpReducer(
         case CREATE_SIGNUP_COMMENT:
         case UPDATE_SIGNUP_COMMENT:
         case DELETE_SIGNUP_COMMENT:
+        case MARK_FORM_VIOLATION:
             return { ...state, isLoading: true, hasError: false }
 
         case FETCH_SIGNUPS_FAILURE:
@@ -255,6 +283,7 @@ export default function DistributionSignUpReducer(
         case CREATE_SIGNUP_COMMENT_FAILURE:
         case UPDATE_SIGNUP_COMMENT_FAILURE:
         case DELETE_SIGNUP_COMMENT_FAILURE:
+        case MARK_FORM_VIOLATION_FAILURE:
             return { ...state, isLoading: false, hasError: action.error }
 
         case FETCH_SIGNUPS_SUCCESS:
@@ -304,6 +333,13 @@ export default function DistributionSignUpReducer(
                 signupComments: state.signupComments.filter(
                     x => x.id !== action.commentID
                 )
+            }
+
+        case MARK_FORM_VIOLATION_SUCCESS:
+            return {
+                ...state,
+                isLoading: false,
+                signupData: action.signup
             }
 
         case SET_SELECTED_ID:

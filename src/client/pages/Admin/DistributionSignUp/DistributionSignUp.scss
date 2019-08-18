@@ -83,15 +83,20 @@
         }
     }
     .info-card {
-        border: 1px solid rgba($dark, 0.2);
-        border-radius: 3px;
-        @include _shadow-1();
-        .header {
-            padding: map-get($spacers, 1);
-            font-weight: $font-weight-bold;
-        }
-        .body {
-            padding: map-get($spacers, 2);
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        .card-data {
+            flex: 1;
+            border: 1px solid rgba($dark, 0.2);
+            border-radius: 3px;
+            .header {
+                padding: map-get($spacers, 1);
+                font-weight: $font-weight-bold;
+            }
+            .body {
+                padding: map-get($spacers, 2);
+            }
         }
     }
 
@@ -137,6 +142,7 @@
         }
         .edit-button {
             margin: 0 8px;
+            cursor: pointer;
         }
         .lock-button {
             padding: map-get($spacers, 0);

@@ -33,3 +33,8 @@ export const deleteComment = (signupID, commentID) => {
     const url = `/bazasignup/signup/${signupID}/comments/?id=${commentID}`
     return jsonAPI(api => api.delete(url))
 }
+
+export const markFormViolation = (signupID, data) => {
+    const url = `/bazasignup/signup/${signupID}/reset/`
+    return jsonAPI(api => api.post(url, data))
+}

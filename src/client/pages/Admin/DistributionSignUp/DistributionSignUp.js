@@ -34,7 +34,8 @@ class DistributionSignUpPage extends Component {
             createSignupComment,
             userProfile,
             updateSignupComment,
-            deleteSignupComment
+            deleteSignupComment,
+            markFormViolation
         } = this.props
 
         const cx = classnames(s.signupdetails)
@@ -55,6 +56,7 @@ class DistributionSignUpPage extends Component {
                         {!isEmpty(signupData) && (
                             <DistributionProfileCard
                                 distributionProfile={signupData}
+                                markFormViolation={markFormViolation}
                             />
                         )}
                     </div>
@@ -124,7 +126,11 @@ const mapDispatchToProps = dispatch => ({
                 commentID
             )
         )
-    }
+    },
+    markFormViolation: (signupID, data) =>
+        dispatch(
+            distributionSignupStaffSideActions.markFormViolation(signupID, data)
+        )
 })
 
 export default connect(

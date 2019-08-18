@@ -4,19 +4,55 @@ import DistributionSignupInfoCard from './DistributionSignupInfoCard'
 
 class AddressDetails extends Component {
     render() {
-        const { addressDetails } = this.props
+        const {
+            addressDetails,
+            editMode,
+            editSelectedDataTypes,
+            selectedDataTypes,
+            editSelectedDataSubtypes,
+            selectedDataSubtypes
+        } = this.props
         const userAddress = addressDetails.addresses.filter(
             (x, i) => x.address_type === 'user_input'
         )[0]
         return (
             <DistributionSignupInfoCard
                 title="Address"
-                className="address-details">
+                className="address-details"
+                editMode={editMode}
+                editSelectedDataTypes={() =>
+                    editSelectedDataTypes('address', [
+                        'house_number',
+                        'street',
+                        'zip_code',
+                        'city',
+                        'state',
+                        'country'
+                    ])
+                }
+                inputChecked={selectedDataTypes.indexOf('address') > -1}>
                 <div className="row">
                     <div className="col-md-4">
                         <div className="text-box">
                             <div className="title">House Number</div>
                             <div className="content-with-badge">
+                                {!!editMode && (
+                                    <input
+                                        className="checkbox mr-1"
+                                        type="checkbox"
+                                        checked={
+                                            selectedDataSubtypes.indexOf(
+                                                'house_number'
+                                            ) > -1
+                                        }
+                                        onChange={() =>
+                                            editSelectedDataSubtypes(
+                                                'address',
+                                                'house_number'
+                                            )
+                                        }
+                                    />
+                                )}
                                 <div className="content">
                                     {userAddress.house_number}
                                 </div>
@@ -27,6 +63,23 @@ class AddressDetails extends Component {
                         <div className="text-box">
                             <div className="title">Street</div>
                             <div className="content-with-badge">
+                                {!!editMode && (
+                                    <input
+                                        className="checkbox mr-1"
+                                        type="checkbox"
+                                        checked={
+                                            selectedDataSubtypes.indexOf(
+                                                'street'
+                                            ) > -1
+                                        }
+                                        onChange={() =>
+                                            editSelectedDataSubtypes(
+                                                'address',
+                                                'street'
+                                            )
+                                        }
+                                    />
+                                )}
                                 <div className="content">
                                     {userAddress.street_name}
                                 </div>
@@ -37,6 +90,23 @@ class AddressDetails extends Component {
                         <div className="text-box">
                             <div className="title">City</div>
                             <div className="content-with-badge">
+                                {!!editMode && (
+                                    <input
+                                        className="checkbox mr-1"
+                                        type="checkbox"
+                                        checked={
+                                            selectedDataSubtypes.indexOf(
+                                                'city'
+                                            ) > -1
+                                        }
+                                        onChange={() =>
+                                            editSelectedDataSubtypes(
+                                                'address',
+                                                'city'
+                                            )
+                                        }
+                                    />
+                                )}
                                 <div className="content">
                                     {userAddress.city}
                                 </div>
@@ -49,6 +119,23 @@ class AddressDetails extends Component {
                         <div className="text-box">
                             <div className="title">State</div>
                             <div className="content-with-badge">
+                                {!!editMode && (
+                                    <input
+                                        className="checkbox mr-1"
+                                        type="checkbox"
+                                        checked={
+                                            selectedDataSubtypes.indexOf(
+                                                'state'
+                                            ) > -1
+                                        }
+                                        onChange={() =>
+                                            editSelectedDataSubtypes(
+                                                'address',
+                                                'state'
+                                            )
+                                        }
+                                    />
+                                )}
                                 <div className="content">
                                     {userAddress.state}
                                 </div>
@@ -59,6 +146,23 @@ class AddressDetails extends Component {
                         <div className="text-box">
                             <div className="title">Country</div>
                             <div className="content-with-badge">
+                                {!!editMode && (
+                                    <input
+                                        className="checkbox mr-1"
+                                        type="checkbox"
+                                        checked={
+                                            selectedDataSubtypes.indexOf(
+                                                'country'
+                                            ) > -1
+                                        }
+                                        onChange={() =>
+                                            editSelectedDataSubtypes(
+                                                'address',
+                                                'country'
+                                            )
+                                        }
+                                    />
+                                )}
                                 <div className="content">
                                     {userAddress.country}
                                 </div>
@@ -69,6 +173,23 @@ class AddressDetails extends Component {
                         <div className="text-box">
                             <div className="title">Zip Code</div>
                             <div className="content-with-badge">
+                                {!!editMode && (
+                                    <input
+                                        className="checkbox mr-1"
+                                        type="checkbox"
+                                        checked={
+                                            selectedDataSubtypes.indexOf(
+                                                'zip_code'
+                                            ) > -1
+                                        }
+                                        onChange={() =>
+                                            editSelectedDataSubtypes(
+                                                'address',
+                                                'zip_code'
+                                            )
+                                        }
+                                    />
+                                )}
                                 <div className="content">
                                     {userAddress.zip_code}
                                 </div>
