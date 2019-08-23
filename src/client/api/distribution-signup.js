@@ -127,3 +127,7 @@ export const fetchSignupsList = () => {
 export const toggleDonor = () => {
     return jsonAPI(api => api.post('/bazasignup/toggledonor/'))
 }
+
+export const getUserInfoTabData = () => {
+    return jsonAPI(api => api.get('/bazasignup/userinfotab/'))
+}

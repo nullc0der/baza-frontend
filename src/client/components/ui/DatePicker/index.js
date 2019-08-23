@@ -65,6 +65,18 @@ export default class DatePicker extends Component {
         document.removeEventListener('click', this.handleClickOutside, false)
     }
 
+    componentDidMount = () => {
+        if (this.props.value) {
+            this.handleSelectedDate(new Date(this.props.value))
+        }
+    }
+
+    componentDidUpdate = (prevProps, prevState) => {
+        if (prevProps.value !== this.props.value) {
+            this.handleSelectedDate(new Date(this.props.value))
+        }
+    }
+
     toggleDatePicker = e => {
         if (!this.state.datePickerShown) {
             document.addEventListener('click', this.handleClickOutside, false)

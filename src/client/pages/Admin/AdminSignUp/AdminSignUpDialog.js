@@ -24,7 +24,8 @@ import {
     validatePhoneCode,
     sendPhoneVerificationCodeAgain,
     uploadSignupImage,
-    toggleDonor
+    toggleDonor,
+    getUserInfoTabData
 } from 'api/distribution-signup'
 
 import s from './AdminSignUp.scss'
@@ -75,6 +76,9 @@ class AdminSignUpDialog extends Component {
                     completedTabs: response.data.completed_steps.map(x =>
                         Number(x)
                     ),
+                    errorTabs: response.data.invalidated_steps.map(x =>
+                        Number(x)
+                    ),
                     status: response.data.status,
                     referralCode: response.data.referral_code,
                     selectedIndex: response.data.next_step.index,
@@ -84,6 +88,7 @@ class AdminSignUpDialog extends Component {
                         refCode: this.getReferralCode(this.props.location.hash)
                     }
                 })
+                this.setUserInfoData()
             })
             .catch(responseData => {
                 console.log(responseData)
@@ -204,6 +209,7 @@ class AdminSignUpDialog extends Component {
     setStepData = data => {
         this.setState({
             completedTabs: data.completed_steps.map(x => Number(x)),
+            errorTabs: data.invalidated_steps.map(x => Number(x)),
             status: data.status,
             isDonor: data.is_donor,
             selectedIndex: data.next_step.index,
@@ -451,6 +457,29 @@ class AdminSignUpDialog extends Component {
         })
     }
 
+    setUserInfoData = () => {
+        if (includes(this.state.errorTabs, 0)) {
+            getUserInfoTabData()
+                .then(response => {
+                    this.setState({
+                        inputValues: {
+                            firstName: get(response.data, 'first_name', ''),
+                            lastName: get(response.data, 'last_name', ''),
+                            refCode: get(response.data, 'referral_code', ''),
+                            country: get(response.data, 'country', ''),
+                            city: get(response.data, 'city', ''),
+                            state: get(response.data, 'state', ''),
+                            houseNo: get(response.data, 'house_number', ''),
+                            streetName: get(response.data, 'street_name', ''),
+                            zipCode: get(response.data, 'zip_code', ''),
+                            birthDate: get(response.data, 'birthdate', '')
+                        }
+                    })
+                })
+                .catch(responseData => console.log(responseData))
+        }
+    }
+
     render() {
         const { className } = this.props
         const cx = classnames(s.container, className)
@@ -459,7 +488,8 @@ class AdminSignUpDialog extends Component {
                 isOpen={true}
                 className={cx}
                 onRequestClose={this.closeAdminSignUpDialog}>
-                {isEqual(this.state.completedTabs.sort(), [0, 1, 2, 3]) ? (
+                {isEqual(this.state.completedTabs.sort(), [0, 1, 2, 3]) &&
+                !this.state.errorTabs.length ? (
                     <FinishSection
                         status={this.state.status}
                         referralURL={this.getReferralURL()}

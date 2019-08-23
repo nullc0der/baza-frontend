@@ -18,9 +18,9 @@ class ContactDetails extends Component {
                 className="contact-details"
                 editMode={editMode}
                 editSelectedDataTypes={() =>
-                    editSelectedDataTypes('contact', ['email', 'phone'])
+                    editSelectedDataTypes('contacts', ['email', 'phone'])
                 }
-                inputChecked={selectedDataTypes.indexOf('contact') > -1}>
+                inputChecked={selectedDataTypes.indexOf('contacts') > -1}>
                 <div className="text-box">
                     <div className="title">Email</div>
                     <div className="content-with-badge">
@@ -32,7 +32,7 @@ class ContactDetails extends Component {
                                     selectedDataSubtypes.indexOf('email') > -1
                                 }
                                 onChange={() =>
-                                    editSelectedDataSubtypes('contact', 'email')
+                                    editSelectedDataSubtypes('contacts', 'email')
                                 }
                             />
                         )}
@@ -60,7 +60,7 @@ class ContactDetails extends Component {
                                     selectedDataSubtypes.indexOf('phone') > -1
                                 }
                                 onChange={() =>
-                                    editSelectedDataSubtypes('contact', 'phone')
+                                    editSelectedDataSubtypes('contacts', 'phone')
                                 }
                             />
                         )}

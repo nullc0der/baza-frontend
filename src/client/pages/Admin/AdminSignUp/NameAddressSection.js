@@ -116,6 +116,7 @@ const NameAndAddressSection = props => {
                     <DatePicker
                         id="birthDate"
                         label="Birthdate"
+                        value={inputValues.birthDate}
                         errorState={errorState.birthDate}
                         onDateChange={onInputChange}
                     />
