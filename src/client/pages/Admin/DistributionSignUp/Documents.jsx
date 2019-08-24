@@ -18,9 +18,9 @@ class Documents extends Component {
                 className="documents"
                 editMode={editMode}
                 editSelectedDataTypes={() =>
-                    editSelectedDataTypes('document', [])
+                    editSelectedDataTypes('documents', [])
                 }
-                inputChecked={selectedDataTypes.indexOf('document') > -1}>
+                inputChecked={selectedDataTypes.indexOf('documents') > -1}>
                 <div className="row align-items-center">
                     <div className="col-md-6">
                         <div className="flex-horizontal align-items-center">

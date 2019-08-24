@@ -67,13 +67,16 @@ export default class DatePicker extends Component {
 
     componentDidMount = () => {
         if (this.props.value) {
-            this.handleSelectedDate(new Date(this.props.value))
+            this.setSelectedDate(new Date(this.props.value))
         }
     }
 
     componentDidUpdate = (prevProps, prevState) => {
-        if (prevProps.value !== this.props.value) {
-            this.handleSelectedDate(new Date(this.props.value))
+        if (
+            prevProps.value !== this.props.value &&
+            this.props.value !== this.state.dateValue
+        ) {
+            this.setSelectedDate(new Date(this.props.value))
         }
     }
 
@@ -97,6 +100,13 @@ export default class DatePicker extends Component {
             return
         }
         this.toggleDatePicker()
+    }
+
+    setSelectedDate = day => {
+        this.setState({
+            dateValue: moment(day).format('YYYY-M-D'),
+            selectedDate: day
+        })
     }
 
     handleSelectedDate = day => {
