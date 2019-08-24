@@ -64,11 +64,23 @@ class DistributionProfileCard extends Component {
     }
 
     onClickMarkViolation = () => {
-        const { markFormViolation, distributionProfile } = this.props
+        const {
+            markFormViolation,
+            distributionProfile,
+            addNotification
+        } = this.props
         markFormViolation(distributionProfile.id, {
             data_types: this.state.selectedDataTypes,
             data_subtypes: this.state.selectedDataSubtypes
-        }).then(() => this.setState({ editMode: false }))
+        }).then(() =>
+            this.setState({ editMode: false }, () =>
+                addNotification({
+                    message:
+                        'The form is resetted successfully and user will be notified by email',
+                    level: 'success'
+                })
+            )
+        )
     }
 
     render() {

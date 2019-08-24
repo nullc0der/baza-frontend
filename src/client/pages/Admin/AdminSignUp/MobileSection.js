@@ -1,4 +1,5 @@
 import React, { Component, Fragment } from 'react'
+import includes from 'lodash/includes'
 
 import noop from 'lodash/noop'
 
@@ -59,7 +60,7 @@ export default class MobileSection extends Component {
     }
 
     render() {
-        const { showPhoneTryAgain } = this.props
+        const { showPhoneTryAgain, invalidatedFields } = this.props
 
         return (
             <div className="signup-section mobile-section">
@@ -69,7 +70,12 @@ export default class MobileSection extends Component {
                         className="phone-number-field mb-3"
                         showIcon={false}
                         onChange={this.props.onInputChange}
-                        errorState={this.props.errorState.phoneNumber}
+                        errorState={
+                            this.props.errorState.phoneNumber ||
+                            (includes(invalidatedFields, 'phone')
+                                ? ['This field is marked as violation']
+                                : null)
+                        }
                     />
                     <div
                         className={`btn btn-primary btn-block send-verification-btn ${showPhoneTryAgain &&

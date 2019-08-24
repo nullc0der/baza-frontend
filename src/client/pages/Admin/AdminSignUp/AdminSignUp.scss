@@ -52,9 +52,25 @@ $footer-btn-color: $admin-active-tab-color;
         }
         &.is-completed {
             color: $completed-tab-color;
+            &::after {
+                position: absolute;
+                right: 5px;
+                font-family: 'Font Awesome 5 Free';
+                content: '\f058';
+                display: inline-block;
+                font-weight: 900;
+            }
         }
         &.has-error {
             color: $error-tab-color;
+            &::after {
+                position: absolute;
+                right: 5px;
+                font-family: 'Font Awesome 5 Free';
+                content: '\f057';
+                display: inline-block;
+                font-weight: 900;
+            }
         }
         @include media-breakpoint-down(sm, $grid-breakpoints) {
             padding-left: 4px;

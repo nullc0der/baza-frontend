@@ -12,6 +12,7 @@ import SignupCommentCard from './SignupComment'
 import s from './DistributionSignUp.scss'
 
 import { actions as distributionSignupStaffSideActions } from 'store/DistributionSignUpStaffSide'
+import { actions as commonActions } from 'store/Common'
 
 class DistributionSignUpPage extends Component {
     componentDidUpdate(prevProps, prevState) {
@@ -35,7 +36,8 @@ class DistributionSignUpPage extends Component {
             userProfile,
             updateSignupComment,
             deleteSignupComment,
-            markFormViolation
+            markFormViolation,
+            addNotification
         } = this.props
 
         const cx = classnames(s.signupdetails)
@@ -57,6 +59,7 @@ class DistributionSignUpPage extends Component {
                             <DistributionProfileCard
                                 distributionProfile={signupData}
                                 markFormViolation={markFormViolation}
+                                addNotification={addNotification}
                             />
                         )}
                     </div>
@@ -127,10 +130,14 @@ const mapDispatchToProps = dispatch => ({
             )
         )
     },
-    markFormViolation: (signupID, data) =>
-        dispatch(
+    markFormViolation(signupID, data) {
+        return dispatch(
             distributionSignupStaffSideActions.markFormViolation(signupID, data)
         )
+    },
+    addNotification(notification) {
+        return dispatch(commonActions.addNotification(notification))
+    }
 })
 
 export default connect(

@@ -1,4 +1,5 @@
 import React from 'react'
+import includes from 'lodash/includes'
 
 import TextField from 'components/ui/TextField'
 import DatePicker from 'components/ui/DatePicker'
@@ -12,7 +13,8 @@ const NameAndAddressSection = props => {
         errorState,
         onInputChange,
         inputValues,
-        onRefCodeInputChange
+        onRefCodeInputChange,
+        invalidatedFields
     } = props
     return (
         <div className="signup-section name-address-section">
@@ -58,7 +60,12 @@ const NameAndAddressSection = props => {
                         value={inputValues.country}
                         items={COUNTRIES}
                         onChange={value => onInputChange('country', value)}
-                        errorState={errorState.country}
+                        errorState={
+                            errorState.country ||
+                            (includes(invalidatedFields, 'country')
+                                ? ['This field is marked as violation']
+                                : null)
+                        }
                     />
                 </div>
             </div>
@@ -68,7 +75,12 @@ const NameAndAddressSection = props => {
                         id="city"
                         label="City"
                         value={inputValues.city}
-                        errorState={errorState.city}
+                        errorState={
+                            errorState.city ||
+                            (includes(invalidatedFields, 'city')
+                                ? ['This field is marked as violation']
+                                : null)
+                        }
                         onChange={onInputChange}
                     />
                 </div>
@@ -77,7 +89,12 @@ const NameAndAddressSection = props => {
                         id="state"
                         label="State"
                         value={inputValues.state}
-                        errorState={errorState.state}
+                        errorState={
+                            errorState.state ||
+                            (includes(invalidatedFields, 'state')
+                                ? ['This field is marked as violation']
+                                : null)
+                        }
                         onChange={onInputChange}
                     />
                 </div>
@@ -88,7 +105,12 @@ const NameAndAddressSection = props => {
                         id="houseNo"
                         label="House No."
                         value={inputValues.houseNo}
-                        errorState={errorState.houseNo}
+                        errorState={
+                            errorState.houseNo ||
+                            (includes(invalidatedFields, 'house_number')
+                                ? ['This field is marked as violation']
+                                : null)
+                        }
                         onChange={onInputChange}
                     />
                 </div>
@@ -97,7 +119,12 @@ const NameAndAddressSection = props => {
                         id="streetName"
                         label="Street Name"
                         value={inputValues.streetName}
-                        errorState={errorState.streetName}
+                        errorState={
+                            errorState.streetName ||
+                            (includes(invalidatedFields, 'street')
+                                ? ['This field is marked as violation']
+                                : null)
+                        }
                         onChange={onInputChange}
                     />
                 </div>
@@ -106,7 +133,12 @@ const NameAndAddressSection = props => {
                         id="zipCode"
                         label="Zip Code"
                         value={inputValues.zipCode}
-                        errorState={errorState.zipCode}
+                        errorState={
+                            errorState.zipCode ||
+                            (includes(invalidatedFields, 'zip_code')
+                                ? ['This field is marked as violation']
+                                : null)
+                        }
                         onChange={onInputChange}
                     />
                 </div>

@@ -50,6 +50,7 @@ class AdminSignUpDialog extends Component {
         selectedIndex: 0,
         completedTabs: [],
         errorTabs: [],
+        errorFields: [],
         isDonor: false,
         status: 'pending',
         referralCode: '',
@@ -79,6 +80,7 @@ class AdminSignUpDialog extends Component {
                     errorTabs: response.data.invalidated_steps.map(x =>
                         Number(x)
                     ),
+                    errorFields: response.data.invalidated_fields,
                     status: response.data.status,
                     referralCode: response.data.referral_code,
                     selectedIndex: response.data.next_step.index,
@@ -105,11 +107,7 @@ class AdminSignUpDialog extends Component {
 
     getReferralURL = () => {
         if (this.state.referralCode.length) {
-            return `${window.location.protocol}//${
-                window.location.host
-            }/profile${window.location.hash}?referral-code=${
-                this.state.referralCode
-            }`
+            return `${window.location.protocol}//${window.location.host}/profile${window.location.hash}?referral-code=${this.state.referralCode}`
         }
         return ''
     }
@@ -210,6 +208,7 @@ class AdminSignUpDialog extends Component {
         this.setState({
             completedTabs: data.completed_steps.map(x => Number(x)),
             errorTabs: data.invalidated_steps.map(x => Number(x)),
+            errorFields: data.invalidated_fields,
             status: data.status,
             isDonor: data.is_donor,
             selectedIndex: data.next_step.index,
@@ -515,6 +514,7 @@ class AdminSignUpDialog extends Component {
                                 inputValues={this.state.inputValues}
                                 errorState={this.state.errorState}
                                 onRefCodeInputChange={this.onRefCodeInputChange}
+                                invalidatedFields={this.state.errorFields}
                             />
                             <EmailSection
                                 onInputChange={this.onInputChange}
@@ -523,6 +523,7 @@ class AdminSignUpDialog extends Component {
                                 sendCode={this.sendVerificationCode}
                                 sendCodeAgain={this.sendVerificationCodeAgain}
                                 showEmailTryAgain={this.state.showEmailTryAgain}
+                                invalidatedFields={this.state.errorFields}
                             />
                             <MobileSection
                                 onInputChange={this.onInputChange}
@@ -536,6 +537,7 @@ class AdminSignUpDialog extends Component {
                                 smsSentAt={this.state.smsInfo.sentAt}
                                 smsSentCount={this.state.smsInfo.sentCount}
                                 onSMSCountDownExpiry={this.onSMSCountDownExpiry}
+                                invalidatedFields={this.state.errorFields}
                             />
                             <DocumentsSection
                                 addSignupImage={this.addSignupImage}
