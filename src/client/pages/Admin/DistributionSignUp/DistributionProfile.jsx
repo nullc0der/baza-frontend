@@ -14,6 +14,16 @@ class DistributionProfileCard extends Component {
         selectedDataSubtypes: []
     }
 
+    componentDidUpdate = (prevProps, prevState) => {
+        if (prevProps.distributionProfile !== this.props.distributionProfile) {
+            this.setState({
+                editMode: false,
+                selectedDataTypes: [],
+                selectedDataSubtypes: []
+            })
+        }
+    }
+
     toggleEditMode = () => {
         this.setState({
             editMode: !this.state.editMode
