@@ -6,7 +6,7 @@ const EditBar = props => {
         editMode,
         toggleEditMode,
         selectedFieldCount,
-        onClickMarkViolation
+        toggleReportViolationDialog
     } = props
     const STATUS = [
         { label: 'Pending', value: 'pending' },
@@ -25,7 +25,7 @@ const EditBar = props => {
                     </div>
                     <div
                         className="btn btn-dark edit-button"
-                        onClick={onClickMarkViolation}>
+                        onClick={toggleReportViolationDialog}>
                         Mark As Violation
                     </div>
                 </Fragment>

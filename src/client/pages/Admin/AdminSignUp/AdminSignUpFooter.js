@@ -17,6 +17,12 @@ const AdminSignUpFooter = props => {
 
     return (
         <div className="admin-signup-footer">
+            {props.invalidationComment && (
+                <div className="info-text-section invalidation-comment bg-info">
+                    <p>Comment from staff</p>
+                    <p>{props.invalidationComment}</p>
+                </div>
+            )}
             {props.infoText.message && (
                 <div className={infoSectionClassName}>
                     {props.infoText.message}

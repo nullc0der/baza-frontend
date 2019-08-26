@@ -203,3 +203,15 @@
         }
     }
 }
+
+:local(.reportviolationdialog) {
+    .modal-dialog {
+        width: 450px;
+        .modal-title {
+            padding: 2rem 50px 0;
+        }
+        .modal-body {
+            padding: 2rem 50px;
+        }
+    }
+}

@@ -51,6 +51,7 @@ class AdminSignUpDialog extends Component {
         completedTabs: [],
         errorTabs: [],
         errorFields: [],
+        invalidationComment: '',
         isDonor: false,
         status: 'pending',
         referralCode: '',
@@ -81,6 +82,7 @@ class AdminSignUpDialog extends Component {
                         Number(x)
                     ),
                     errorFields: response.data.invalidated_fields,
+                    invalidationComment: response.data.invalidation_comment,
                     status: response.data.status,
                     referralCode: response.data.referral_code,
                     selectedIndex: response.data.next_step.index,
@@ -209,6 +211,7 @@ class AdminSignUpDialog extends Component {
             completedTabs: data.completed_steps.map(x => Number(x)),
             errorTabs: data.invalidated_steps.map(x => Number(x)),
             errorFields: data.invalidated_fields,
+            invalidationComment: data.invalidation_comment,
             status: data.status,
             isDonor: data.is_donor,
             selectedIndex: data.next_step.index,
@@ -546,6 +549,7 @@ class AdminSignUpDialog extends Component {
                         </SwipeableViews>
                         <AdminSignUpFooter
                             infoText={this.state.infoText}
+                            invalidationComment={this.state.invalidationComment}
                             showDonor={includes(this.state.completedTabs, 0)}
                             isDonor={this.state.isDonor}
                             showSkip={this.state.isSkippable}
