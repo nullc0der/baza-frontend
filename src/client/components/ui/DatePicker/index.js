@@ -104,7 +104,7 @@ export default class DatePicker extends Component {
 
     setSelectedDate = day => {
         this.setState({
-            dateValue: moment(day).format('YYYY-M-D'),
+            dateValue: moment(day).format('YYYY-MM-D'),
             selectedDate: day
         })
     }
@@ -112,7 +112,7 @@ export default class DatePicker extends Component {
     handleSelectedDate = day => {
         this.setState(
             {
-                dateValue: moment(day).format('YYYY-M-D'),
+                dateValue: moment(day).format('YYYY-MM-D'),
                 selectedDate: day
             },
             () => {
