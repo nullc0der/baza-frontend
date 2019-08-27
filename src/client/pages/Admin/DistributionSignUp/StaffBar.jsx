@@ -26,7 +26,7 @@ class StaffBar extends Component {
                 <div className="staff-info">
                     <Avatar className="avatar-image" size={35} own={true} />
                     <span className="fullname">
-                        {staffBarData.staff.fullname}
+                        {staffBarData.staff.username}
                     </span>
                 </div>
                 <div className="inbox">
