@@ -40,6 +40,7 @@ import DocumentsSection from './DocumentsSection'
 import FinishSection from './FinishSection'
 
 import { actions as commonActions } from 'store/Common'
+import { actions as messengerActions } from 'store/Messenger'
 
 class AdminSignUpDialog extends Component {
     static propTypes = {
@@ -52,6 +53,7 @@ class AdminSignUpDialog extends Component {
         errorTabs: [],
         errorFields: [],
         invalidationComment: '',
+        handlingStaff: {},
         isDonor: false,
         status: 'pending',
         referralCode: '',
@@ -87,6 +89,7 @@ class AdminSignUpDialog extends Component {
                     referralCode: response.data.referral_code,
                     selectedIndex: response.data.next_step.index,
                     isSkippable: response.data.next_step.is_skippable,
+                    handlingStaff: response.data.handling_staff,
                     isDonor: response.data.is_donor,
                     inputValues: {
                         refCode: this.getReferralCode(this.props.location.hash)
@@ -212,6 +215,7 @@ class AdminSignUpDialog extends Component {
             errorTabs: data.invalidated_steps.map(x => Number(x)),
             errorFields: data.invalidated_fields,
             invalidationComment: data.invalidation_comment,
+            handlingStaff: data.handling_staff,
             status: data.status,
             isDonor: data.is_donor,
             selectedIndex: data.next_step.index,
@@ -482,6 +486,13 @@ class AdminSignUpDialog extends Component {
         }
     }
 
+    initChat = (e, toUser) => {
+        e.preventDefault()
+        this.props.initChat(toUser).then(res => {
+            this.props.openMiniChat(res.data.room.id)
+        })
+    }
+
     render() {
         const { className } = this.props
         const cx = classnames(s.container, className)
@@ -553,9 +564,11 @@ class AdminSignUpDialog extends Component {
                             showDonor={includes(this.state.completedTabs, 0)}
                             isDonor={this.state.isDonor}
                             showSkip={this.state.isSkippable}
+                            handlingStaff={this.state.handlingStaff}
                             toggleDonorStatus={this.toggleDonorStatus}
                             onSkipClick={this.onSkipClick}
                             onSubmitClick={this.onSubmitClick}
+                            initChat={this.initChat}
                         />
                     </Fragment>
                 )}
@@ -574,6 +587,12 @@ const mapDispatchToProps = dispatch => ({
     },
     addNotification(notification) {
         return dispatch(commonActions.addNotification(notification))
+    },
+    initChat(toUser) {
+        return dispatch(messengerActions.initChat(toUser))
+    },
+    openMiniChat(id) {
+        return dispatch(messengerActions.openMiniChat(id))
     }
 })
 
