@@ -215,3 +215,31 @@
         }
     }
 }
+
+:local(.staffbar) {
+    padding: map-get($spacers, 2);
+    background-color: #fff;
+    @include _shadow-1();
+    transition: box-shadow 0.24s ease;
+    will-change: box-shadow;
+    &:hover {
+        @include _shadow-2();
+    }
+    .inbox {
+        position: relative;
+        .count {
+            position: absolute;
+        }
+    }
+    .staff-info {
+        display: flex;
+        align-items: center;
+        margin-right: 1rem;
+        span {
+            font-weight: $font-weight-semibold;
+        }
+    }
+    .sign-in-out-button {
+        cursor: pointer;
+    }
+}
