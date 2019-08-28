@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { Card, CardHeader, CardBody } from 'components/ui/CardWithTabs'
+import Dialog from 'components/ui/Dialog'
 
 import EditBar from './EditBar'
 import ContactDetails from './ContactDetails'
@@ -7,11 +8,15 @@ import AddressDetails from './AddressDetails'
 import Documents from './Documents'
 import OtherInfo from './OtherInfo'
 
+import s from './DistributionSignUp.scss'
+
 class DistributionProfileCard extends Component {
     state = {
         editMode: false,
         selectedDataTypes: [],
-        selectedDataSubtypes: []
+        selectedDataSubtypes: [],
+        reportViolationModalIsOpen: false,
+        violationComment: ''
     }
 
     componentDidUpdate = (prevProps, prevState) => {
@@ -81,20 +86,35 @@ class DistributionProfileCard extends Component {
         } = this.props
         markFormViolation(distributionProfile.id, {
             data_types: this.state.selectedDataTypes,
-            data_subtypes: this.state.selectedDataSubtypes
+            data_subtypes: this.state.selectedDataSubtypes,
+            invalidation_comment: this.state.violationComment
         }).then(() =>
-            this.setState({ editMode: false }, () =>
-                addNotification({
-                    message:
-                        'The form is resetted successfully and user will be notified by email',
-                    level: 'success'
-                })
+            this.setState(
+                { editMode: false, reportViolationModalIsOpen: false },
+                () =>
+                    addNotification({
+                        message:
+                            'The form is resetted successfully and user will be notified by email',
+                        level: 'success'
+                    })
             )
         )
     }
 
+    toggleReportViolationDialog = () => {
+        this.setState({
+            reportViolationModalIsOpen: !this.state.reportViolationModalIsOpen
+        })
+    }
+
+    onChangeViolationComment = e => {
+        this.setState({
+            violationComment: e.target.value
+        })
+    }
+
     render() {
-        const { distributionProfile } = this.props
+        const { distributionProfile, changeSignupStatus } = this.props
         return (
             <Card
                 className="distribution-profile-card"
@@ -104,14 +124,51 @@ class DistributionProfileCard extends Component {
                     <div className="row">
                         <div className="col-md-12">
                             <EditBar
+                                status={
+                                    distributionProfile.additional_data.status
+                                }
+                                signupID={distributionProfile.id}
                                 editMode={this.state.editMode}
                                 toggleEditMode={this.toggleEditMode}
                                 selectedFieldCount={
                                     this.state.selectedDataTypes.length +
                                     this.state.selectedDataSubtypes.length
                                 }
-                                onClickMarkViolation={this.onClickMarkViolation}
+                                toggleReportViolationDialog={
+                                    this.toggleReportViolationDialog
+                                }
+                                onChangeStatus={changeSignupStatus}
                             />
+                            <Dialog
+                                className={s.reportviolationdialog}
+                                isOpen={this.state.reportViolationModalIsOpen}
+                                title="Report Violation"
+                                onRequestClose={
+                                    this.toggleReportViolationDialog
+                                }>
+                                <div className="report-violation-dialog-content">
+                                    <p>
+                                        By clicking submit on this dialog will
+                                        reset the selected field on user's
+                                        signup form and the user will be
+                                        notified by email.
+                                    </p>
+                                    <p>
+                                        Please add a comment in below text box,
+                                        it will be forwarded to user.
+                                    </p>
+                                    <textarea
+                                        className="form-control px-1"
+                                        value={this.state.violationComment}
+                                        onChange={this.onChangeViolationComment}
+                                    />
+                                    <button
+                                        className="btn btn-block btn-dark text-uppercase mt-2"
+                                        onClick={this.onClickMarkViolation}>
+                                        Submit
+                                    </button>
+                                </div>
+                            </Dialog>
                         </div>
                     </div>
                     <div className="row mt-2">

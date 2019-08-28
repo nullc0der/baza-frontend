@@ -38,3 +38,18 @@ export const markFormViolation = (signupID, data) => {
     const url = `/bazasignup/signup/${signupID}/reset/`
     return jsonAPI(api => api.post(url, data))
 }
+
+export const getStaffBarData = () => {
+    const url = '/bazasignup/signup/staffbar/'
+    return jsonAPI(api => api.get(url))
+}
+
+export const loginOutStaff = request_type => {
+    const url = '/bazasignup/signup/loginoutstaff/'
+    return jsonAPI(api => api.post(url, { request_type }))
+}
+
+export const changeSignupStatus = (id, status) => {
+    const url = `/bazasignup/signup/${id}/`
+    return jsonAPI(api => api.post(url, { status }))
+}

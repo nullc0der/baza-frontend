@@ -142,28 +142,6 @@ const discardEdits = () => dispatch => {
     return Promise.resolve()
 }
 
-const FETCH_SIGNUPS_LIST = createAction('FETCH_SIGNUPS_LIST')
-const fetchSignupsList = () => dispatch => {
-    dispatch({ type: FETCH_SIGNUPS_LIST })
-
-    return DispatchAPI(dispatch, DistributionSignUpAPI.fetchSignupsList(), {
-        success: fetchSignupsListSuccess,
-        failure: fetchSignupsListFailure
-    })
-}
-
-const FETCH_SIGNUPS_LIST_SUCCESS = createAction('FETCH_SIGNUPS_LIST_SUCCESS')
-const fetchSignupsListSuccess = response => ({
-    type: FETCH_SIGNUPS_LIST_SUCCESS,
-    signupList: response.data
-})
-
-const FETCH_SIGNUPS_LIST_FAILURE = createAction('FETCH_SIGNUPS_LIST_FAILURE')
-const fetchSignupsListFailure = err => ({
-    type: FETCH_SIGNUPS_LIST_FAILURE,
-    error: err.message
-})
-
 const SET_SELECTED_ID = createAction('SET_SELECTED_ID')
 const setSelectedID = id => ({
     type: SET_SELECTED_ID,
@@ -181,7 +159,6 @@ export const actions = {
     setEmail,
     setProfileLink,
     discardEdits,
-    fetchSignupsList,
     setSelectedID
 }
 
@@ -198,7 +175,6 @@ export default function DistributionSignUpReducer(
         case SAVE_ACCOUNT:
         case DELETE_PHOTO:
         case DELETE_DOCUMENT:
-        case FETCH_SIGNUPS_LIST:
             return { ...state, isLoading: true, hasError: false }
 
         case FETCH_ACCOUNT_SUCCESS:
@@ -212,25 +188,22 @@ export default function DistributionSignUpReducer(
             return {
                 ...state,
                 isLoading: false,
-                datas: state.datas.map(
-                    x =>
-                        x.id_ === action.data.id_ ? { ...x, ...action.data } : x
+                datas: state.datas.map(x =>
+                    x.id_ === action.data.id_ ? { ...x, ...action.data } : x
                 ),
-                _fetchedData: state.datas.map(
-                    x =>
-                        x.id_ === action.data.id_ ? { ...x, ...action.data } : x
+                _fetchedData: state.datas.map(x =>
+                    x.id_ === action.data.id_ ? { ...x, ...action.data } : x
                 ),
-                signupList: state.signupList.map(
-                    x =>
-                        x.id_ === action.data.id_
-                            ? {
-                                  ...x,
-                                  status:
-                                      'status' in action.data
-                                          ? action.data.status
-                                          : x.status
-                              }
-                            : x
+                signupList: state.signupList.map(x =>
+                    x.id_ === action.data.id_
+                        ? {
+                              ...x,
+                              status:
+                                  'status' in action.data
+                                      ? action.data.status
+                                      : x.status
+                          }
+                        : x
                 )
             }
 
@@ -298,12 +271,6 @@ export default function DistributionSignUpReducer(
 
         case DELETE_PHOTO_FAILURE:
         case DELETE_DOCUMENT_FAILURE:
-            return { ...state, isLoading: false, hasError: action.error }
-
-        case FETCH_SIGNUPS_LIST_SUCCESS:
-            return { ...state, isLoading: false, signupList: action.signupList }
-
-        case FETCH_SIGNUPS_LIST_FAILURE:
             return { ...state, isLoading: false, hasError: action.error }
 
         case SET_SELECTED_ID:

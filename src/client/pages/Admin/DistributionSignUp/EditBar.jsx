@@ -1,18 +1,24 @@
 import React, { Fragment } from 'react'
+import find from 'lodash/find'
+
 import SelectDropdown from 'components/ui/SelectDropdown/SimpleSelectDropdown'
 
 const EditBar = props => {
     const {
+        status,
+        signupID,
         editMode,
         toggleEditMode,
         selectedFieldCount,
-        onClickMarkViolation
+        toggleReportViolationDialog,
+        onChangeStatus
     } = props
     const STATUS = [
         { label: 'Pending', value: 'pending' },
         { label: 'Declined', value: 'declined' },
         { label: 'Approved', value: 'approved' }
     ]
+    const selectedStatus = status ? find(STATUS, { value: status }).label : ''
     return (
         <div className="edit-bar">
             {!!selectedFieldCount && !!editMode && (
@@ -25,7 +31,7 @@ const EditBar = props => {
                     </div>
                     <div
                         className="btn btn-dark edit-button"
-                        onClick={onClickMarkViolation}>
+                        onClick={toggleReportViolationDialog}>
                         Mark As Violation
                     </div>
                 </Fragment>
@@ -35,9 +41,11 @@ const EditBar = props => {
                 className="status-select-dropdown"
                 id="status"
                 placeholder=""
-                value="Pending"
+                value={selectedStatus}
                 items={STATUS}
-                onChange={() => {}}
+                onChange={value => {
+                    onChangeStatus(signupID, value)
+                }}
                 errorState={null}
             />
             <div

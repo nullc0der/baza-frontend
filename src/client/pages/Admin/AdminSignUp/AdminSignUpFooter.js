@@ -17,6 +17,30 @@ const AdminSignUpFooter = props => {
 
     return (
         <div className="admin-signup-footer">
+            {props.handlingStaff.id && (
+                <div className="info-text-section handling-staff-section">
+                    <p>
+                        Your signup application is handled by{' '}
+                        {props.handlingStaff.fullname}
+                    </p>
+                    <p>
+                        <a
+                            href="#"
+                            onClick={e =>
+                                props.initChat(e, props.handlingStaff.id)
+                            }>
+                            Click here
+                        </a>{' '}
+                        to initiate a chat with the staff
+                    </p>
+                </div>
+            )}
+            {props.invalidationComment && (
+                <div className="info-text-section invalidation-comment bg-info">
+                    <p>Comment from staff</p>
+                    <p>{props.invalidationComment}</p>
+                </div>
+            )}
             {props.infoText.message && (
                 <div className={infoSectionClassName}>
                     {props.infoText.message}

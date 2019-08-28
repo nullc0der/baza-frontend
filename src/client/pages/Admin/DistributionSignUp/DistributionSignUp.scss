@@ -29,6 +29,14 @@
         font-weight: $font-weight-semibold;
         font-size: 1rem;
         padding: 0 10px;
+        position: relative;
+        .sort-button {
+            position: absolute;
+            right: 5px;
+            top: 0;
+            color: $dark;
+            cursor: pointer;
+        }
     }
     .list {
         flex: 1;
@@ -117,6 +125,9 @@
 :local(.signupdetails) .member-profile-card {
     .ui-card-body {
         padding: 30px;
+        .avatar-image {
+            margin: 0 auto;
+        }
     }
 }
 
@@ -201,5 +212,45 @@
                 margin-bottom: 0.5rem;
             }
         }
+    }
+}
+
+:local(.reportviolationdialog) {
+    .modal-dialog {
+        width: 450px;
+        .modal-title {
+            padding: 2rem 50px 0;
+        }
+        .modal-body {
+            padding: 2rem 50px;
+        }
+    }
+}
+
+:local(.staffbar) {
+    padding: map-get($spacers, 2);
+    background-color: #fff;
+    @include _shadow-1();
+    transition: box-shadow 0.24s ease;
+    will-change: box-shadow;
+    &:hover {
+        @include _shadow-2();
+    }
+    .inbox {
+        position: relative;
+        .count {
+            position: absolute;
+        }
+    }
+    .staff-info {
+        display: flex;
+        align-items: center;
+        margin-right: 1rem;
+        span {
+            font-weight: $font-weight-semibold;
+        }
+    }
+    .sign-in-out-button {
+        cursor: pointer;
     }
 }

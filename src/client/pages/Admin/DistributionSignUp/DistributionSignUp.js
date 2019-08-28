@@ -37,7 +37,8 @@ class DistributionSignUpPage extends Component {
             updateSignupComment,
             deleteSignupComment,
             markFormViolation,
-            addNotification
+            addNotification,
+            changeSignupStatus
         } = this.props
 
         const cx = classnames(s.signupdetails)
@@ -60,6 +61,7 @@ class DistributionSignUpPage extends Component {
                                 distributionProfile={signupData}
                                 markFormViolation={markFormViolation}
                                 addNotification={addNotification}
+                                changeSignupStatus={changeSignupStatus}
                             />
                         )}
                     </div>
@@ -137,6 +139,14 @@ const mapDispatchToProps = dispatch => ({
     },
     addNotification(notification) {
         return dispatch(commonActions.addNotification(notification))
+    },
+    changeSignupStatus(signupID, status) {
+        return dispatch(
+            distributionSignupStaffSideActions.changeSignupStatus(
+                signupID,
+                status
+            )
+        )
     }
 })
 

@@ -27,7 +27,7 @@ class LoginDialog extends Component {
         inputValues: {
             username: '',
             password: '',
-            rememberMe: false
+            rememberMe: true
         },
         errorText: {
             username: '',
