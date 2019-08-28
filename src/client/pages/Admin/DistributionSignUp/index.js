@@ -44,36 +44,53 @@ class DistributionSignupsPage extends Component {
         const cx = classnames(s.container)
         const { siteOwnerGroup } = this.props
         const { isLoggedIn, staffBarData } = this.state
-        return (
+        const userOnMobile = $(window).width() < 767
+        const { goBack } = this.props.history
+
+        return !userOnMobile ? (
             !isEmpty(siteOwnerGroup) &&
-            (isStaff(siteOwnerGroup.user_permission_set) ? (
-                <div className={cx}>
-                    <Helmet title="Distribution Signups" />
-                    {!isEmpty(staffBarData) && (
-                        <div className="row">
-                            <div className="col-md-12">
-                                <StaffBar
-                                    isLoggedIn={isLoggedIn}
-                                    staffBarData={staffBarData}
-                                    toggleLoginLogout={this.toggleLoginLogout}
-                                />
+                (isStaff(siteOwnerGroup.user_permission_set) ? (
+                    <div className={cx}>
+                        <Helmet title="Distribution Signups" />
+                        {!isEmpty(staffBarData) && (
+                            <div className="row">
+                                <div className="col-md-12">
+                                    <StaffBar
+                                        isLoggedIn={isLoggedIn}
+                                        staffBarData={staffBarData}
+                                        toggleLoginLogout={
+                                            this.toggleLoginLogout
+                                        }
+                                    />
+                                </div>
                             </div>
-                        </div>
-                    )}
-                    {!!isLoggedIn && (
-                        <div className="row h-100">
-                            <div className="col-md-4 col-xl-3">
-                                <DistributionSignUpList />
+                        )}
+                        {!!isLoggedIn && (
+                            <div className="row h-100">
+                                <div className="col-md-4 col-xl-3">
+                                    <DistributionSignUpList />
+                                </div>
+                                <div className="col-md-8 col-xl-9">
+                                    <DistributionSignUp />
+                                </div>
                             </div>
-                            <div className="col-md-8 col-xl-9">
-                                <DistributionSignUp />
-                            </div>
-                        </div>
-                    )}
+                        )}
+                    </div>
+                ) : (
+                    <Redirect to="/403" />
+                ))
+        ) : (
+            <div className="d-flex flex-1 align-items-center justify-content-center">
+                <div className="text-black-50 text-center">
+                    <p>
+                        This page is available on desktop and tablet devices
+                        only
+                    </p>
+                    <button className="btn btn-sm btn-dark" onClick={goBack}>
+                        TAKE ME BACK
+                    </button>
                 </div>
-            ) : (
-                <Redirect to="/403" />
-            ))
+            </div>
         )
     }
 }
