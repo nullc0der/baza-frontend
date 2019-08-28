@@ -19,21 +19,19 @@
     &:hover {
         @include _shadow-2();
     }
-    @include media-breakpoint-down(md, $grid-breakpoints) {
-        width: 100vw;
-    }
     .header {
         width: 100%;
         text-align: center;
         color: rgba($color: $dark, $alpha: 0.5);
         font-weight: $font-weight-semibold;
-        font-size: 1rem;
-        padding: 0 10px;
+        font-size: 0.8rem;
+        padding: 1rem;
         position: relative;
+        margin-top: -1rem;
         .sort-button {
             position: absolute;
             right: 5px;
-            top: 0;
+            top: 1rem;
             color: $dark;
             cursor: pointer;
         }
@@ -141,11 +139,15 @@
         background-color: $light;
         display: flex;
         align-items: center;
+        @include media-breakpoint-only(md, $grid-breakpoints) {
+            padding: 10px;
+        }
         .selected-items-count {
             label {
                 margin: 0;
                 color: rgba($dark, 0.5);
                 font-weight: $font-weight-semibold;
+                white-space: nowrap;
                 input {
                     margin-right: 5px;
                 }
@@ -154,6 +156,7 @@
         .edit-button {
             margin: 0 8px;
             cursor: pointer;
+            white-space: nowrap;
         }
         .lock-button {
             padding: map-get($spacers, 0);
@@ -201,6 +204,9 @@
         label {
             font-weight: $font-weight-semibold;
             color: rgba($dark, 0.5);
+        }
+        .btn-primary {
+            color: #fff;
         }
     }
     .comment-section {

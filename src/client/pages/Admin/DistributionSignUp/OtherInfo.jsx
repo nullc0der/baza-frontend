@@ -10,7 +10,7 @@ class OtherInfo extends Component {
                 title="Other Info"
                 className="other-info">
                 <div className="row">
-                    <div className="col-md-3">
+                    <div className="col-md-4">
                         <div className="text-box">
                             <div className="title">Signup Date</div>
                             <div className="content-with-badge">
@@ -22,7 +22,7 @@ class OtherInfo extends Component {
                             </div>
                         </div>
                     </div>
-                    <div className="col-md-3">
+                    <div className="col-md-4">
                         <div className="text-box">
                             <div className="title">Verified Date</div>
                             <div className="content-with-badge">
@@ -34,7 +34,7 @@ class OtherInfo extends Component {
                             </div>
                         </div>
                     </div>
-                    <div className="col-md-3">
+                    <div className="col-md-4">
                         <div className="text-box">
                             <div className="title">On Distribution</div>
                             <div className="content-with-badge">
@@ -45,8 +45,8 @@ class OtherInfo extends Component {
                         </div>
                     </div>
                 </div>
-                <div className="row">
-                    <div className="col-md-3">
+                <div className="row mt-1">
+                    <div className="col-md-5 col-xl-4">
                         <div className="text-box">
                             <div className="title">Referral Code</div>
                             <div className="content-with-badge">
@@ -56,7 +56,7 @@ class OtherInfo extends Component {
                             </div>
                         </div>
                     </div>
-                    <div className="col-md-3">
+                    <div className="col-md-4 col-xl-4">
                         <div className="text-box">
                             <div className="title">Total Referrals</div>
                             <div className="content-with-badge">
@@ -66,7 +66,7 @@ class OtherInfo extends Component {
                             </div>
                         </div>
                     </div>
-                    <div className="col-md-3">
+                    <div className="col-md-3 col-xl-4">
                         <div className="text-box">
                             <div className="title">Donor</div>
                             <div className="content-with-badge">
@@ -77,7 +77,7 @@ class OtherInfo extends Component {
                         </div>
                     </div>
                 </div>
-                <div className="row">
+                <div className="row mt-1">
                     <div className="col-md-6">
                         <div className="text-box">
                             <div className="title">Referred By</div>

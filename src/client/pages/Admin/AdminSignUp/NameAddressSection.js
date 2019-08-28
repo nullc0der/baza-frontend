@@ -100,7 +100,7 @@ const NameAndAddressSection = props => {
                 </div>
             </div>
             <div className="row">
-                <div className="col-md-4 mb-3">
+                <div className="col-md-6 mb-3">
                     <TextField
                         id="houseNo"
                         label="House No."
@@ -114,7 +114,7 @@ const NameAndAddressSection = props => {
                         onChange={onInputChange}
                     />
                 </div>
-                <div className="col-md-4 mb-3">
+                <div className="col-md-6 mb-3">
                     <TextField
                         id="streetName"
                         label="Street Name"
@@ -128,7 +128,9 @@ const NameAndAddressSection = props => {
                         onChange={onInputChange}
                     />
                 </div>
-                <div className="col-md-4 mb-3">
+            </div>
+            <div className="row">
+                <div className="col-md-6 mb-3">
                     <TextField
                         id="zipCode"
                         label="Zip Code"
@@ -142,9 +144,7 @@ const NameAndAddressSection = props => {
                         onChange={onInputChange}
                     />
                 </div>
-            </div>
-            <div className="row">
-                <div className="col-md-12 mb-3">
+                <div className="col-md-6">
                     <DatePicker
                         id="birthDate"
                         label="Birthdate"

@@ -62,10 +62,10 @@ class DistributionSignupsPage extends Component {
                     )}
                     {!!isLoggedIn && (
                         <div className="row h-100">
-                            <div className="col-md-3">
+                            <div className="col-md-4 col-xl-3">
                                 <DistributionSignUpList />
                             </div>
-                            <div className="col-md-9">
+                            <div className="col-md-8 col-xl-9">
                                 <DistributionSignUp />
                             </div>
                         </div>

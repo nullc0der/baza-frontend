@@ -76,7 +76,6 @@ class DistributionSignUpList extends Component {
     }
 
     onSidebarItemClick = (e, id) => {
-        $('.' + s.signupdetails).addClass('is-open')
         this.props.setSelectedID(id)
     }
 

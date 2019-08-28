@@ -54,26 +54,32 @@ $footer-btn-color: $admin-active-tab-color;
             color: $completed-tab-color;
             &::after {
                 position: absolute;
-                right: 5px;
-                top: 12px;
+                top: 0;
                 font-family: 'Font Awesome 5 Free';
                 font-size: 12px;
                 content: '\f058';
                 display: inline-block;
                 font-weight: 900;
+                @include media-breakpoint-up(sm, $grid-breakpoints) {
+                    right: 5px;
+                    top: 12px;
+                }
             }
         }
         &.has-error {
             color: $error-tab-color;
             &::after {
                 position: absolute;
-                right: 5px;
-                top: 12px;
+                top: 0;
                 font-family: 'Font Awesome 5 Free';
                 font-size: 12px;
                 content: '\f057';
                 display: inline-block;
                 font-weight: 900;
+                @include media-breakpoint-up(sm, $grid-breakpoints) {
+                    right: 5px;
+                    top: 12px;
+                }
             }
         }
         @include media-breakpoint-down(sm, $grid-breakpoints) {

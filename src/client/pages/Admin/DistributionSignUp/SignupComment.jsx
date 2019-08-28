@@ -43,12 +43,12 @@ const Comment = props => {
             {!!shouldShowCommentActions && (
                 <div className="actions ml-1">
                     <button
-                        className="btn btn-outline-primary"
+                        className="btn btn-sm btn-outline-primary"
                         onClick={() => onClickEditComment(comment.id)}>
                         Edit
                     </button>
                     <button
-                        className="btn btn-outline-danger ml-1"
+                        className="btn btn-sm btn-outline-danger ml-1"
                         onClick={() => onClickDeleteComment(comment.id)}>
                         Delete
                     </button>

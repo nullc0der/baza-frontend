@@ -11,7 +11,7 @@ class MemberProfileCard extends Component {
                 <CardHeader title="Member Profile" />
                 <CardBody>
                     <div className="row align-items-center">
-                        <div className="col-md-2">
+                        <div className="col-md-4 col-xl-2">
                             <Avatar
                                 className="avatar-image"
                                 size={90}
@@ -24,7 +24,7 @@ class MemberProfileCard extends Component {
                                 own={false}
                             />
                         </div>
-                        <div className="col-md-7">
+                        <div className="col-md-8 col-xl-7">
                             <div className="row">
                                 <div className="col-md-12 text-box">
                                     <div className="title">Username</div>
@@ -55,7 +55,7 @@ class MemberProfileCard extends Component {
                     </div>
                     {!isEmpty(userProfile.emails) && (
                         <div className="row mt-2">
-                            <div className="col-md-9 text-box">
+                            <div className="col-md-12 col-xl-9 text-box">
                                 <div className="title">Emails</div>
                                 {userProfile.emails.map((email, i) => (
                                     <div
@@ -90,7 +90,7 @@ class MemberProfileCard extends Component {
                     )}
                     {!isEmpty(userProfile.phones) && (
                         <div className="row mt-2">
-                            <div className="col-md-8 text-box">
+                            <div className="col-md-12 col-xl-9 text-box">
                                 <div className="title">Phones</div>
                                 {userProfile.phones.map((phone, i) => (
                                     <div

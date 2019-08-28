@@ -15,16 +15,20 @@ import { actions as distributionSignupStaffSideActions } from 'store/Distributio
 import { actions as commonActions } from 'store/Common'
 
 class DistributionSignUpPage extends Component {
+    componentDidMount() {
+        this.fetchDatas()
+    }
+
     componentDidUpdate(prevProps, prevState) {
         if (prevProps.selectedID !== this.props.selectedID) {
-            this.props.fetchSignupUserProfileData(this.props.selectedID)
-            this.props.fetchSignup(this.props.selectedID)
-            this.props.fetchSignupComments(this.props.selectedID)
+            this.fetchDatas()
         }
     }
 
-    onBackButtonClick = () => {
-        $('.' + s.signupdetails).removeClass('is-open')
+    fetchDatas() {
+        this.props.fetchSignupUserProfileData(this.props.selectedID)
+        this.props.fetchSignup(this.props.selectedID)
+        this.props.fetchSignupComments(this.props.selectedID)
     }
 
     render() {

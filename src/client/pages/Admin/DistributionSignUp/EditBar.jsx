@@ -30,7 +30,7 @@ const EditBar = props => {
                         </label>
                     </div>
                     <div
-                        className="btn btn-dark edit-button"
+                        className="btn btn-outline-dark edit-button"
                         onClick={toggleReportViolationDialog}>
                         Mark As Violation
                     </div>

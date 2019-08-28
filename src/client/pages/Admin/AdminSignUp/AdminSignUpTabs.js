@@ -6,7 +6,7 @@ import Tabs from 'components/ui/Tabs'
 const TABS = [
     { label: 'General' },
     { label: 'Email' },
-    { label: 'Mobile No.' },
+    { label: 'Mobile' },
     { label: 'Docs' }
 ]
 
