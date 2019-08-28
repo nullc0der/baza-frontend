@@ -29,6 +29,14 @@
         font-weight: $font-weight-semibold;
         font-size: 1rem;
         padding: 0 10px;
+        position: relative;
+        .sort-button {
+            position: absolute;
+            right: 5px;
+            top: 0;
+            color: $dark;
+            cursor: pointer;
+        }
     }
     .list {
         flex: 1;
@@ -117,6 +125,9 @@
 :local(.signupdetails) .member-profile-card {
     .ui-card-body {
         padding: 30px;
+        .avatar-image {
+            margin: 0 auto;
+        }
     }
 }
 

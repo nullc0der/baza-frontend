@@ -243,6 +243,36 @@ const markFormViolationFailure = err => ({
     error: err.message
 })
 
+const CHANGE_SIGNUP_STATUS = createAction('CHANGE_SIGNUP_STATUS')
+const changeSignupStatus = (signupID, status) => dispatch => {
+    dispatch({ type: CHANGE_SIGNUP_STATUS })
+
+    return DispatchAPI(
+        dispatch,
+        DistributionSignUpStaffSideAPI.changeSignupStatus(signupID, status),
+        {
+            success: changeSignupStatusSuccess,
+            failure: changeSignupStatusFailure
+        }
+    )
+}
+
+const CHANGE_SIGNUP_STATUS_SUCCESS = createAction(
+    'CHANGE_SIGNUP_STATUS_SUCCESS'
+)
+const changeSignupStatusSuccess = response => ({
+    type: CHANGE_SIGNUP_STATUS_SUCCESS,
+    data: response.data
+})
+
+const CHANGE_SIGNUP_STATUS_FAILURE = createAction(
+    'CHANGE_SIGNUP_STATUS_FAILURE'
+)
+const changeSignupStatusFailure = err => ({
+    type: CHANGE_SIGNUP_STATUS_FAILURE,
+    error: err.message
+})
+
 const SET_SELECTED_ID = createAction('SET_SELECTED_ID')
 const setSelectedID = id => ({
     type: SET_SELECTED_ID,
@@ -258,7 +288,8 @@ export const actions = {
     createSignupComment,
     updateSignupComment,
     deleteSignupComment,
-    markFormViolation
+    markFormViolation,
+    changeSignupStatus
 }
 
 export default function DistributionSignUpReducer(
@@ -274,6 +305,7 @@ export default function DistributionSignUpReducer(
         case UPDATE_SIGNUP_COMMENT:
         case DELETE_SIGNUP_COMMENT:
         case MARK_FORM_VIOLATION:
+        case CHANGE_SIGNUP_STATUS:
             return { ...state, isLoading: true, hasError: false }
 
         case FETCH_SIGNUPS_FAILURE:
@@ -284,6 +316,7 @@ export default function DistributionSignUpReducer(
         case UPDATE_SIGNUP_COMMENT_FAILURE:
         case DELETE_SIGNUP_COMMENT_FAILURE:
         case MARK_FORM_VIOLATION_FAILURE:
+        case CHANGE_SIGNUP_STATUS_FAILURE:
             return { ...state, isLoading: false, hasError: action.error }
 
         case FETCH_SIGNUPS_SUCCESS:
@@ -297,6 +330,7 @@ export default function DistributionSignUpReducer(
             }
 
         case FETCH_SIGNUP_SUCCESS:
+        case CHANGE_SIGNUP_STATUS_SUCCESS:
             return {
                 ...state,
                 isLoading: false,

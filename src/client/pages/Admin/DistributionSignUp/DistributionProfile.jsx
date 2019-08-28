@@ -114,7 +114,7 @@ class DistributionProfileCard extends Component {
     }
 
     render() {
-        const { distributionProfile } = this.props
+        const { distributionProfile, changeSignupStatus } = this.props
         return (
             <Card
                 className="distribution-profile-card"
@@ -124,6 +124,10 @@ class DistributionProfileCard extends Component {
                     <div className="row">
                         <div className="col-md-12">
                             <EditBar
+                                status={
+                                    distributionProfile.additional_data.status
+                                }
+                                signupID={distributionProfile.id}
                                 editMode={this.state.editMode}
                                 toggleEditMode={this.toggleEditMode}
                                 selectedFieldCount={
@@ -133,6 +137,7 @@ class DistributionProfileCard extends Component {
                                 toggleReportViolationDialog={
                                     this.toggleReportViolationDialog
                                 }
+                                onChangeStatus={changeSignupStatus}
                             />
                             <Dialog
                                 className={s.reportviolationdialog}

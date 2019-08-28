@@ -1,6 +1,6 @@
 export const FILTERS = {
     'distribution-signup': {
-        enabledFilters: ['approved', 'pending', 'declined', 'incomplete'],
+        enabledFilters: ['approved', 'pending', 'declined'],
         disabledFilters: []
     },
     'community/members': {
