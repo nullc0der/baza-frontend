@@ -16,19 +16,31 @@ import { actions as commonActions } from 'store/Common'
 
 class DistributionSignUpPage extends Component {
     componentDidMount() {
-        this.fetchDatas()
+        if (this.props.selectedID) {
+            this.fetchDatas(this.props.selectedID)
+        }
     }
 
     componentDidUpdate(prevProps, prevState) {
         if (prevProps.selectedID !== this.props.selectedID) {
-            this.fetchDatas()
+            this.fetchDatas(this.props.selectedID)
         }
     }
 
-    fetchDatas() {
-        this.props.fetchSignupUserProfileData(this.props.selectedID)
-        this.props.fetchSignup(this.props.selectedID)
-        this.props.fetchSignupComments(this.props.selectedID)
+    fetchDatas(selectedID) {
+        if (selectedID) {
+            this.props.fetchSignupUserProfileData(selectedID)
+            this.props.fetchSignup(selectedID)
+            this.props.fetchSignupComments(selectedID)
+        }
+    }
+
+    onClickSubmitReassign = id => {
+        const { signupData, reassignStaff } = this.props
+        reassignStaff({
+            id,
+            signup_id: signupData.id
+        })
     }
 
     render() {
@@ -38,11 +50,13 @@ class DistributionSignUpPage extends Component {
             signupComments,
             createSignupComment,
             userProfile,
+            staffs,
             updateSignupComment,
             deleteSignupComment,
             markFormViolation,
             addNotification,
-            changeSignupStatus
+            changeSignupStatus,
+            getReassignableStaffs
         } = this.props
 
         const cx = classnames(s.signupdetails)
@@ -62,10 +76,15 @@ class DistributionSignUpPage extends Component {
                     <div className="col-md-12">
                         {!isEmpty(signupData) && (
                             <DistributionProfileCard
+                                staffs={staffs}
                                 distributionProfile={signupData}
                                 markFormViolation={markFormViolation}
                                 addNotification={addNotification}
                                 changeSignupStatus={changeSignupStatus}
+                                onClickSubmitReassign={
+                                    this.onClickSubmitReassign
+                                }
+                                getReassignableStaffs={getReassignableStaffs}
                             />
                         )}
                     </div>
@@ -95,7 +114,8 @@ const mapStateToProps = state => ({
         state.DistributionSignUpStaffSide.signupUserProfileData,
     signupComments: state.DistributionSignUpStaffSide.signupComments,
     selectedID: state.DistributionSignUpStaffSide.selectedID,
-    userProfile: state.UserProfile.profile
+    userProfile: state.UserProfile.profile,
+    staffs: state.DistributionSignUpStaffSide.staffs
 })
 
 const mapDispatchToProps = dispatch => ({
@@ -150,6 +170,14 @@ const mapDispatchToProps = dispatch => ({
                 signupID,
                 status
             )
+        )
+    },
+    reassignStaff(datas) {
+        return dispatch(distributionSignupStaffSideActions.reassignStaff(datas))
+    },
+    getReassignableStaffs() {
+        return dispatch(
+            distributionSignupStaffSideActions.getReassignableStaffs()
         )
     }
 })

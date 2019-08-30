@@ -10,6 +10,7 @@ const INITIAL_STATE = {
     signupData: {},
     signupUserProfileData: {},
     signupComments: [],
+    staffs: [],
     hasError: false
 }
 
@@ -62,7 +63,7 @@ const fetchSignupSuccess = response => ({
 const FETCH_SIGNUP_FAILURE = createAction('FETCH_SIGNUP_FAILURE')
 const fetchSignupFailure = err => ({
     type: FETCH_SIGNUP_FAILURE,
-    error: err.message
+    error: err
 })
 
 const FETCH_SIGNUP_USER_PROFILE_DATA = createAction(
@@ -94,7 +95,7 @@ const FETCH_SIGNUP_USER_PROFILE_DATA_FAILURE = createAction(
 )
 const fetchSignupUserProfileDataFailure = err => ({
     type: FETCH_SIGNUP_USER_PROFILE_DATA_FAILURE,
-    error: err.message
+    error: err
 })
 
 const FETCH_SIGNUP_COMMENTS = createAction('FETCH_SIGNUP_COMMENTS')
@@ -124,7 +125,7 @@ const FETCH_SIGNUP_COMMENTS_FAILURE = createAction(
 )
 const fetchSignupCommentsFailure = err => ({
     type: FETCH_SIGNUP_COMMENTS_FAILURE,
-    error: err.message
+    error: err
 })
 
 const CREATE_SIGNUP_COMMENT = createAction('CREATE_SIGNUP_COMMENT')
@@ -154,7 +155,7 @@ const CREATE_SIGNUP_COMMENT_FAILURE = createAction(
 )
 const createSignupCommentFailure = err => ({
     type: CREATE_SIGNUP_COMMENT_FAILURE,
-    error: err.message
+    error: err
 })
 
 const UPDATE_SIGNUP_COMMENT = createAction('UPDATE_SIGNUP_COMMENT')
@@ -184,7 +185,7 @@ const UPDATE_SIGNUP_COMMENT_FAILURE = createAction(
 )
 const updateSignupCommentFailure = err => ({
     type: UPDATE_SIGNUP_COMMENT_FAILURE,
-    error: err.message
+    error: err
 })
 
 const DELETE_SIGNUP_COMMENT = createAction('DELETE_SIGNUP_COMMENT')
@@ -214,7 +215,7 @@ const DELETE_SIGNUP_COMMENT_FAILURE = createAction(
 )
 const deleteSignupCommentFailure = err => ({
     type: DELETE_SIGNUP_COMMENT_FAILURE,
-    error: err.message
+    error: err
 })
 
 const MARK_FORM_VIOLATION = createAction('MARK_FORM_VIOLATION')
@@ -240,7 +241,7 @@ const markFormViolationSuccess = response => ({
 const MARK_FORM_VIOLATION_FAILURE = createAction('MARK_FORM_VIOLATION_FAILURE')
 const markFormViolationFailure = err => ({
     type: MARK_FORM_VIOLATION_FAILURE,
-    error: err.message
+    error: err
 })
 
 const CHANGE_SIGNUP_STATUS = createAction('CHANGE_SIGNUP_STATUS')
@@ -270,7 +271,63 @@ const CHANGE_SIGNUP_STATUS_FAILURE = createAction(
 )
 const changeSignupStatusFailure = err => ({
     type: CHANGE_SIGNUP_STATUS_FAILURE,
-    error: err.message
+    error: err
+})
+
+const GET_REASSIGNABLE_STAFFS = createAction('GET_REASSIGNABLE_STAFFS')
+const getReassignableStaffs = () => dispatch => {
+    dispatch({ type: GET_REASSIGNABLE_STAFFS })
+
+    return DispatchAPI(
+        dispatch,
+        DistributionSignUpStaffSideAPI.getReassignableStaffs(),
+        {
+            success: getReassignableStaffsSuccess,
+            failure: getReassignableStaffsFailure
+        }
+    )
+}
+
+const GET_REASSIGNABLE_STAFFS_SUCCESS = createAction(
+    'GET_REASSIGNABLE_STAFFS_SUCCESS'
+)
+const getReassignableStaffsSuccess = response => ({
+    type: GET_REASSIGNABLE_STAFFS_SUCCESS,
+    data: response.data
+})
+
+const GET_REASSIGNABLE_STAFFS_FAILURE = createAction(
+    'GET_REASSIGNABLE_STAFFS_FAILURE'
+)
+const getReassignableStaffsFailure = err => ({
+    type: GET_REASSIGNABLE_STAFFS_FAILURE,
+    error: err
+})
+
+const REASSIGN_STAFF = createAction('REASSIGN_STAFF')
+const reassignStaff = datas => dispatch => {
+    dispatch({ type: REASSIGN_STAFF })
+
+    return DispatchAPI(
+        dispatch,
+        DistributionSignUpStaffSideAPI.reassignStaff(datas),
+        {
+            success: reassignStaffSuccess,
+            failure: reassignStaffFailure
+        }
+    )
+}
+
+const REASSIGN_STAFF_SUCCESS = createAction('REASSIGN_STAFF_SUCCESS')
+const reassignStaffSuccess = response => ({
+    type: REASSIGN_STAFF_SUCCESS,
+    data: response.data
+})
+
+const REASSIGN_STAFF_FAILURE = createAction('REASSIGN_STAFF_FAILURE')
+const reassignStaffFailure = err => ({
+    type: REASSIGN_STAFF_FAILURE,
+    error: err
 })
 
 const SET_SELECTED_ID = createAction('SET_SELECTED_ID')
@@ -289,7 +346,9 @@ export const actions = {
     updateSignupComment,
     deleteSignupComment,
     markFormViolation,
-    changeSignupStatus
+    changeSignupStatus,
+    getReassignableStaffs,
+    reassignStaff
 }
 
 export default function DistributionSignUpReducer(
@@ -306,18 +365,32 @@ export default function DistributionSignUpReducer(
         case DELETE_SIGNUP_COMMENT:
         case MARK_FORM_VIOLATION:
         case CHANGE_SIGNUP_STATUS:
+        case GET_REASSIGNABLE_STAFFS:
+        case REASSIGN_STAFF:
             return { ...state, isLoading: true, hasError: false }
 
         case FETCH_SIGNUPS_FAILURE:
-        case FETCH_SIGNUP_FAILURE:
-        case FETCH_SIGNUP_USER_PROFILE_DATA_FAILURE:
-        case FETCH_SIGNUP_COMMENTS_FAILURE:
         case CREATE_SIGNUP_COMMENT_FAILURE:
         case UPDATE_SIGNUP_COMMENT_FAILURE:
         case DELETE_SIGNUP_COMMENT_FAILURE:
         case MARK_FORM_VIOLATION_FAILURE:
         case CHANGE_SIGNUP_STATUS_FAILURE:
+        case GET_REASSIGNABLE_STAFFS_FAILURE:
+        case REASSIGN_STAFF_FAILURE:
             return { ...state, isLoading: false, hasError: action.error }
+
+        case FETCH_SIGNUP_FAILURE:
+        case FETCH_SIGNUP_USER_PROFILE_DATA_FAILURE:
+        case FETCH_SIGNUP_COMMENTS_FAILURE:
+            return {
+                ...state,
+                isLoading: false,
+                selectedID: null,
+                signupData: {},
+                signupUserProfileData: {},
+                signupComments: [],
+                hasError: action.error
+            }
 
         case FETCH_SIGNUPS_SUCCESS:
             return { ...state, isLoading: false, signups: action.signups }
@@ -374,6 +447,26 @@ export default function DistributionSignUpReducer(
                 ...state,
                 isLoading: false,
                 signupData: action.signup
+            }
+
+        case GET_REASSIGNABLE_STAFFS_SUCCESS:
+            return {
+                ...state,
+                isLoading: false,
+                staffs: action.data
+            }
+
+        case REASSIGN_STAFF_SUCCESS:
+            return {
+                ...state,
+                isLoading: false,
+                selectedID: null,
+                signupData: {},
+                signupUserProfileData: {},
+                signupComments: [],
+                signups: state.signups.filter(
+                    x => x.id_ !== action.data.signup_id
+                )
             }
 
         case SET_SELECTED_ID:

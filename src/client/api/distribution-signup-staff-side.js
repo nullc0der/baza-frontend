@@ -53,3 +53,11 @@ export const changeSignupStatus = (id, status) => {
     const url = `/bazasignup/signup/${id}/`
     return jsonAPI(api => api.post(url, { status }))
 }
+
+export const getReassignableStaffs = () => {
+    return jsonAPI(api => api.get('/bazasignup/signup/reassignstaff/'))
+}
+
+export const reassignStaff = datas => {
+    return jsonAPI(api => api.post('/bazasignup/signup/reassignstaff/', datas))
+}

@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Card, CardHeader, CardBody } from 'components/ui/CardWithTabs'
 import Dialog from 'components/ui/Dialog'
+import Avatar from 'components/Avatar'
 
 import EditBar from './EditBar'
 import ContactDetails from './ContactDetails'
@@ -16,6 +17,8 @@ class DistributionProfileCard extends Component {
         selectedDataTypes: [],
         selectedDataSubtypes: [],
         reportViolationModalIsOpen: false,
+        reassignDialogIsOpen: false,
+        selectedStaffID: null,
         violationComment: ''
     }
 
@@ -107,14 +110,41 @@ class DistributionProfileCard extends Component {
         })
     }
 
+    toggleReassignDialog = () => {
+        const { getReassignableStaffs } = this.props
+        this.setState(
+            {
+                reassignDialogIsOpen: !this.state.reassignDialogIsOpen
+            },
+            () => {
+                if (this.state.reassignDialogIsOpen) {
+                    getReassignableStaffs()
+                }
+            }
+        )
+    }
+
     onChangeViolationComment = e => {
         this.setState({
             violationComment: e.target.value
         })
     }
 
+    changeSelectedStaffID = id => {
+        this.setState({
+            selectedStaffID: id
+        })
+    }
+
     render() {
-        const { distributionProfile, changeSignupStatus } = this.props
+        const {
+            staffs,
+            distributionProfile,
+            changeSignupStatus,
+            onClickSubmitReassign
+        } = this.props
+        const { selectedStaffID } = this.state
+
         return (
             <Card
                 className="distribution-profile-card"
@@ -235,7 +265,68 @@ class DistributionProfileCard extends Component {
                         <div className="col-md-12">
                             <OtherInfo
                                 otherInfo={distributionProfile.additional_data}
+                                toggleReassignDialog={this.toggleReassignDialog}
                             />
+                            <Dialog
+                                className={s.reassigndialog}
+                                isOpen={this.state.reassignDialogIsOpen}
+                                title="Reassign staff"
+                                onRequestClose={this.toggleReassignDialog}>
+                                <div className="reassign-staff-dialog-content">
+                                    {staffs.length ? (
+                                        <h6>
+                                            Following Staffs are available to
+                                            reassign
+                                        </h6>
+                                    ) : (
+                                        <h6>
+                                            No staffs are available to reassign
+                                        </h6>
+                                    )}
+                                    {!!staffs.length && (
+                                        <div className="staffs">
+                                            {staffs.map((x, i) => (
+                                                <div
+                                                    className={`${
+                                                        selectedStaffID === x.id
+                                                            ? 'staff selected'
+                                                            : 'staff'
+                                                    }`}
+                                                    onClick={() =>
+                                                        this.changeSelectedStaffID(
+                                                            x.id
+                                                        )
+                                                    }
+                                                    key={i}>
+                                                    <Avatar
+                                                        className="avatar-image"
+                                                        size={26}
+                                                        otherProfile={{
+                                                            username:
+                                                                x.username,
+                                                            profile_photo:
+                                                                x.user_image_url,
+                                                            default_avatar_color:
+                                                                x.user_avatar_color
+                                                        }}
+                                                        own={false}
+                                                    />
+                                                    <span>{x.fullname}</span>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    )}
+                                    <button
+                                        className="btn btn-dark btn-block text-uppercase mt-1"
+                                        onClick={() =>
+                                            onClickSubmitReassign(
+                                                selectedStaffID
+                                            )
+                                        }>
+                                        Submit
+                                    </button>
+                                </div>
+                            </Dialog>
                         </div>
                     </div>
                 </CardBody>

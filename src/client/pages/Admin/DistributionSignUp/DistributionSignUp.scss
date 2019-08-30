@@ -192,6 +192,13 @@
             background-color: rgba($success, 0.4);
             color: $success;
         }
+        .with-avatar {
+            display: flex;
+            align-items: center;
+            span {
+                margin-left: 0.5rem;
+            }
+        }
     }
 }
 
@@ -254,9 +261,41 @@
         margin-right: 1rem;
         span {
             font-weight: $font-weight-semibold;
+            margin-left: 0.5rem;
         }
     }
     .sign-in-out-button {
         cursor: pointer;
+    }
+}
+
+:local(.reassigndialog) {
+    .modal-dialog {
+        width: 600px;
+        .modal-title {
+            padding: 2rem 50px 0;
+        }
+        .modal-body {
+            padding: 2rem 50px;
+            .staffs {
+                .staff {
+                    display: flex;
+                    align-items: center;
+                    border-bottom: 1px solid rgba($dark, 0.2);
+                    padding: 10px 0;
+                    span {
+                        margin-left: 0.5rem;
+                    }
+                    cursor: pointer;
+                    &:hover,
+                    &.selected {
+                        background-color: darken($light, 10);
+                    }
+                }
+            }
+            .btn {
+                cursor: pointer;
+            }
+        }
     }
 }

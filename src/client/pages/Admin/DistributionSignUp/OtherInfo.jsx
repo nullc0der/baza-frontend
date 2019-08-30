@@ -1,10 +1,12 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
+import isEmpty from 'lodash/isEmpty'
 
+import Avatar from 'components/Avatar'
 import DistributionSignupInfoCard from './DistributionSignupInfoCard'
 
 class OtherInfo extends Component {
     render() {
-        const { otherInfo } = this.props
+        const { otherInfo, toggleReassignDialog } = this.props
         return (
             <DistributionSignupInfoCard
                 title="Other Info"
@@ -82,8 +84,32 @@ class OtherInfo extends Component {
                         <div className="text-box">
                             <div className="title">Referred By</div>
                             <div className="content-with-badge">
-                                <div className="content">
-                                    {otherInfo.referred_by}
+                                <div className="content with-avatar">
+                                    {!isEmpty(otherInfo.referred_by) ? (
+                                        <Fragment>
+                                            <Avatar
+                                                className="avatar-image"
+                                                size={23}
+                                                otherProfile={{
+                                                    username:
+                                                        otherInfo.referred_by
+                                                            .username,
+                                                    profile_photo:
+                                                        otherInfo.referred_by
+                                                            .user_image_url,
+                                                    default_avatar_color:
+                                                        otherInfo.referred_by
+                                                            .user_avatar_color
+                                                }}
+                                                own={false}
+                                            />
+                                            <span>
+                                                {otherInfo.referred_by.fullname}
+                                            </span>
+                                        </Fragment>
+                                    ) : (
+                                        ''
+                                    )}
                                 </div>
                             </div>
                         </div>
@@ -95,6 +121,47 @@ class OtherInfo extends Component {
                                 <div className="content">
                                     {otherInfo.wallet_address}
                                 </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div className="row mt-1">
+                    <div className="col-md-6">
+                        <div className="text-box">
+                            <div className="title">Assigned Staff</div>
+                            <div className="content-with-badge">
+                                <div className="content with-avatar">
+                                    {!isEmpty(otherInfo.assigned_to) ? (
+                                        <Fragment>
+                                            <Avatar
+                                                className="avatar-image"
+                                                size={23}
+                                                otherProfile={{
+                                                    username:
+                                                        otherInfo.assigned_to
+                                                            .username,
+                                                    profile_photo:
+                                                        otherInfo.assigned_to
+                                                            .user_image_url,
+                                                    default_avatar_color:
+                                                        otherInfo.assigned_to
+                                                            .user_avatar_color
+                                                }}
+                                                own={false}
+                                            />
+                                            <span>
+                                                {otherInfo.assigned_to.fullname}
+                                            </span>
+                                        </Fragment>
+                                    ) : (
+                                        ''
+                                    )}
+                                </div>
+                                <button
+                                    className="btn btn-outline-dark ml-1"
+                                    onClick={toggleReassignDialog}>
+                                    Re-Assign
+                                </button>
                             </div>
                         </div>
                     </div>
