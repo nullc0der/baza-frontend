@@ -35,6 +35,20 @@ class StaffBar extends Component {
                         {staffBarData.pending_application_count}
                     </span>
                 </div>
+                <div className="permissions">
+                    {!!staffBarData.is_staff && (
+                        <i className="material-icons staff" title="staff">
+                            touch_app
+                        </i>
+                    )}
+                    {!!staffBarData.is_moderator && (
+                        <i
+                            className="material-icons moderator"
+                            title="moderator">
+                            verified_user
+                        </i>
+                    )}
+                </div>
                 <div className="flex-1"></div>
                 <div
                     className="sign-in-out-button"

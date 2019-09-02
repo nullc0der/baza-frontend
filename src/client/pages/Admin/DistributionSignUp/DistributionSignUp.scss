@@ -166,8 +166,17 @@
             .select-value-field {
                 border: 1px solid rgba($dark, 0.5);
                 border-radius: 3px;
+                text-transform: capitalize;
             }
         }
+    }
+    .error-bar {
+        margin: 0 -30px;
+        padding: 10px;
+        background-color: $info;
+        color: $lighter;
+        font-weight: $font-weight-semibold;
+        box-shadow: inset 1px 1px 3px rgba(0, 0, 0, 0.23);
     }
     .contact-details {
         .header {
@@ -262,6 +271,21 @@
         span {
             font-weight: $font-weight-semibold;
             margin-left: 0.5rem;
+        }
+    }
+    .permissions {
+        margin-left: 2rem;
+        .material-icons {
+            font-size: 2em;
+            &:first-of-type {
+                margin-right: 1rem;
+            }
+            &.staff {
+                color: $color_lightBlue500;
+            }
+            &.moderator {
+                color: $color_orange500;
+            }
         }
     }
     .sign-in-out-button {

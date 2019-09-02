@@ -1,4 +1,6 @@
 import React, { Component } from 'react'
+import get from 'lodash/get'
+
 import { Card, CardHeader, CardBody } from 'components/ui/CardWithTabs'
 import Dialog from 'components/ui/Dialog'
 import Avatar from 'components/Avatar'
@@ -8,6 +10,7 @@ import ContactDetails from './ContactDetails'
 import AddressDetails from './AddressDetails'
 import Documents from './Documents'
 import OtherInfo from './OtherInfo'
+import ErrorBar from './ErrorBar'
 
 import s from './DistributionSignUp.scss'
 
@@ -19,7 +22,8 @@ class DistributionProfileCard extends Component {
         reportViolationModalIsOpen: false,
         reassignDialogIsOpen: false,
         selectedStaffID: null,
-        violationComment: ''
+        violationComment: '',
+        error: null
     }
 
     componentDidUpdate = (prevProps, prevState) => {
@@ -91,17 +95,25 @@ class DistributionProfileCard extends Component {
             data_types: this.state.selectedDataTypes,
             data_subtypes: this.state.selectedDataSubtypes,
             invalidation_comment: this.state.violationComment
-        }).then(() =>
-            this.setState(
-                { editMode: false, reportViolationModalIsOpen: false },
-                () =>
-                    addNotification({
-                        message:
-                            'The form is resetted successfully and user will be notified by email',
-                        level: 'success'
-                    })
+        })
+            .then(() =>
+                this.setState(
+                    { editMode: false, reportViolationModalIsOpen: false },
+                    () =>
+                        addNotification({
+                            message:
+                                'The form is resetted successfully and user will be notified by email',
+                            level: 'success'
+                        })
+                )
             )
-        )
+            .catch(responseData => {
+                this.setState({
+                    editMode: false,
+                    reportViolationModalIsOpen: false,
+                    error: get(responseData, 'error', null)
+                })
+            })
     }
 
     toggleReportViolationDialog = () => {
@@ -136,14 +148,24 @@ class DistributionProfileCard extends Component {
         })
     }
 
+    onChangeSignupStatus = (signupID, value) => {
+        const { changeSignupStatus } = this.props
+        changeSignupStatus(signupID, value)
+            .then(() => {})
+            .catch(responseData => {
+                this.setState({
+                    error: get(responseData, 'error', null)
+                })
+            })
+    }
+
     render() {
         const {
             staffs,
             distributionProfile,
-            changeSignupStatus,
             onClickSubmitReassign
         } = this.props
-        const { selectedStaffID } = this.state
+        const { selectedStaffID, error } = this.state
 
         return (
             <Card
@@ -167,7 +189,7 @@ class DistributionProfileCard extends Component {
                                 toggleReportViolationDialog={
                                     this.toggleReportViolationDialog
                                 }
-                                onChangeStatus={changeSignupStatus}
+                                onChangeStatus={this.onChangeSignupStatus}
                             />
                             <Dialog
                                 className={s.reportviolationdialog}
@@ -201,6 +223,13 @@ class DistributionProfileCard extends Component {
                             </Dialog>
                         </div>
                     </div>
+                    {!!error && (
+                        <div className="row">
+                            <div className="col-md-12">
+                                <ErrorBar error={error} />
+                            </div>
+                        </div>
+                    )}
                     <div className="row mt-2">
                         <div className="col-md-12">
                             <ContactDetails

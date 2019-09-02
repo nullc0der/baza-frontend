@@ -54,6 +54,11 @@ class DistributionSignUpList extends Component {
                         finalList.filter(x => x.status === 'declined')
                     )
                     break
+                case 'incomplete':
+                    filteredItems.push(
+                        finalList.filter(x => x.status === 'incomplete')
+                    )
+                    break
                 default:
                     break
             }
