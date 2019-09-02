@@ -89,10 +89,8 @@ export default function NotificationsReducer(state = INITIAL_STATE, action) {
         case SET_READ_STATUS_SUCCESS:
             return {
                 ...state,
-                notifications: state.notifications.map(x =>
-                    includes(x.id, action.notificationsIDs)
-                        ? { ...x, read: true }
-                        : x
+                notifications: state.notifications.filter(
+                    x => !includes(action.notificationsIDs, x.id)
                 )
             }
         case RECEIVED_NOTIFICATION_ON_WEBSOCKET:
