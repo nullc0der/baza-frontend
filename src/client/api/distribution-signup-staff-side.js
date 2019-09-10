@@ -61,3 +61,7 @@ export const getReassignableStaffs = () => {
 export const reassignStaff = datas => {
     return jsonAPI(api => api.post('/bazasignup/signup/reassignstaff/', datas))
 }
+
+export const fetchActivityLogs = id => {
+    return jsonAPI(api => api.get(`/bazasignup/signup/${id}/activities/`))
+}

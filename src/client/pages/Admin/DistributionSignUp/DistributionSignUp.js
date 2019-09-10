@@ -7,7 +7,7 @@ import { connect } from 'react-redux'
 // import isBoolean from 'lodash/isBoolean'
 import MemberProfileCard from './MemberProfile'
 import DistributionProfileCard from './DistributionProfile'
-import SignupCommentCard from './SignupComment'
+import CommentsActivityCard from './CommentsAndActivity'
 
 import s from './DistributionSignUp.scss'
 
@@ -31,7 +31,6 @@ class DistributionSignUpPage extends Component {
         if (selectedID) {
             this.props.fetchSignupUserProfileData(selectedID)
             this.props.fetchSignup(selectedID)
-            this.props.fetchSignupComments(selectedID)
         }
     }
 
@@ -47,12 +46,7 @@ class DistributionSignUpPage extends Component {
         const {
             signupData,
             signupUserProfileData,
-            signupComments,
-            createSignupComment,
-            userProfile,
             staffs,
-            updateSignupComment,
-            deleteSignupComment,
             markFormViolation,
             addNotification,
             changeSignupStatus,
@@ -91,16 +85,7 @@ class DistributionSignUpPage extends Component {
                 </div>
                 <div className="row mt-2">
                     <div className="col-md-12">
-                        {!isEmpty(signupData) && (
-                            <SignupCommentCard
-                                signupID={signupData.id}
-                                signupComments={signupComments}
-                                createSignupComment={createSignupComment}
-                                userProfileID={userProfile.user.id}
-                                updateSignupComment={updateSignupComment}
-                                deleteSignupComment={deleteSignupComment}
-                            />
-                        )}
+                        {!isEmpty(signupData) && <CommentsActivityCard />}
                     </div>
                 </div>
             </div>
@@ -112,7 +97,6 @@ const mapStateToProps = state => ({
     signupData: state.DistributionSignUpStaffSide.signupData,
     signupUserProfileData:
         state.DistributionSignUpStaffSide.signupUserProfileData,
-    signupComments: state.DistributionSignUpStaffSide.signupComments,
     selectedID: state.DistributionSignUpStaffSide.selectedID,
     userProfile: state.UserProfile.profile,
     staffs: state.DistributionSignUpStaffSide.staffs
@@ -126,35 +110,6 @@ const mapDispatchToProps = dispatch => ({
     },
     fetchSignup(id) {
         return dispatch(distributionSignupStaffSideActions.fetchSignup(id))
-    },
-    fetchSignupComments(id) {
-        return dispatch(
-            distributionSignupStaffSideActions.fetchSignupComments(id)
-        )
-    },
-    createSignupComment(signupID, data) {
-        return dispatch(
-            distributionSignupStaffSideActions.createSignupComment(
-                signupID,
-                data
-            )
-        )
-    },
-    updateSignupComment(signupID, data) {
-        return dispatch(
-            distributionSignupStaffSideActions.updateSignupComment(
-                signupID,
-                data
-            )
-        )
-    },
-    deleteSignupComment(signupID, commentID) {
-        return dispatch(
-            distributionSignupStaffSideActions.deleteSignupComment(
-                signupID,
-                commentID
-            )
-        )
     },
     markFormViolation(signupID, data) {
         return dispatch(

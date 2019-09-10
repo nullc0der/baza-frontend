@@ -10,6 +10,7 @@ const INITIAL_STATE = {
     signupData: {},
     signupUserProfileData: {},
     signupComments: [],
+    signupActivityLogs: [],
     staffs: [],
     hasError: false
 }
@@ -330,6 +331,36 @@ const reassignStaffFailure = err => ({
     error: err
 })
 
+const FETCH_SIGNUP_ACTIVITY_LOGS = createAction('FETCH_SIGNUP_ACTIVITY_LOGS')
+const fetchSignupActivityLogs = id => dispatch => {
+    dispatch({ type: FETCH_SIGNUP_ACTIVITY_LOGS })
+
+    return DispatchAPI(
+        dispatch,
+        DistributionSignUpStaffSideAPI.fetchActivityLogs(id),
+        {
+            success: fetchSignupActivityLogsSuccess,
+            failure: fetchSignupActivityLogsFailure
+        }
+    )
+}
+
+const FETCH_SIGNUP_ACTIVITY_LOGS_SUCCESS = createAction(
+    'FETCH_SIGNUP_ACTIVITY_LOGS_SUCCESS'
+)
+const fetchSignupActivityLogsSuccess = response => ({
+    type: FETCH_SIGNUP_ACTIVITY_LOGS_SUCCESS,
+    activityLogs: response.data
+})
+
+const FETCH_SIGNUP_ACTIVITY_LOGS_FAILURE = createAction(
+    'FETCH_SIGNUP_ACTIVITY_LOGS_FAILURE'
+)
+const fetchSignupActivityLogsFailure = err => ({
+    type: FETCH_SIGNUP_ACTIVITY_LOGS_FAILURE,
+    error: err
+})
+
 const SET_SELECTED_ID = createAction('SET_SELECTED_ID')
 const setSelectedID = id => ({
     type: SET_SELECTED_ID,
@@ -348,7 +379,8 @@ export const actions = {
     markFormViolation,
     changeSignupStatus,
     getReassignableStaffs,
-    reassignStaff
+    reassignStaff,
+    fetchSignupActivityLogs
 }
 
 export default function DistributionSignUpReducer(
@@ -367,6 +399,7 @@ export default function DistributionSignUpReducer(
         case CHANGE_SIGNUP_STATUS:
         case GET_REASSIGNABLE_STAFFS:
         case REASSIGN_STAFF:
+        case FETCH_SIGNUP_ACTIVITY_LOGS:
             return { ...state, isLoading: true, hasError: false }
 
         case FETCH_SIGNUPS_FAILURE:
@@ -377,6 +410,7 @@ export default function DistributionSignUpReducer(
         case CHANGE_SIGNUP_STATUS_FAILURE:
         case GET_REASSIGNABLE_STAFFS_FAILURE:
         case REASSIGN_STAFF_FAILURE:
+        case FETCH_SIGNUP_ACTIVITY_LOGS_FAILURE:
             return { ...state, isLoading: false, hasError: action.error }
 
         case FETCH_SIGNUP_FAILURE:
@@ -468,6 +502,9 @@ export default function DistributionSignUpReducer(
                     x => x.id_ !== action.data.signup_id
                 )
             }
+
+        case FETCH_SIGNUP_ACTIVITY_LOGS_SUCCESS:
+            return { ...state, signupActivityLogs: action.activityLogs }
 
         case SET_SELECTED_ID:
             return { ...state, selectedID: action.id }

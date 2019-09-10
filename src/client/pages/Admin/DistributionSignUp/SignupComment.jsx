@@ -1,8 +1,11 @@
 import React, { Component } from 'react'
 import get from 'lodash/get'
 import moment from 'moment'
+import { connect } from 'react-redux'
 
-import { Card, CardHeader, CardBody } from 'components/ui/CardWithTabs'
+import { actions as distributionSignupStaffSideActions } from 'store/DistributionSignUpStaffSide'
+
+import { CardContent } from 'components/ui/CardWithTabs'
 import TextField from 'components/ui/TextField'
 import Avatar from 'components/Avatar'
 
@@ -58,7 +61,7 @@ const Comment = props => {
     )
 }
 
-class SignupCommentCard extends Component {
+class SignupComment extends Component {
     state = {
         inputValues: {
             title: '',
@@ -69,6 +72,18 @@ class SignupCommentCard extends Component {
             content: null
         },
         editingComment: null
+    }
+
+    componentDidMount() {
+        if (this.props.selectedID) {
+            this.props.fetchSignupComments(this.props.selectedID)
+        }
+    }
+
+    componentDidUpdate(prevProps, prevState) {
+        if (prevProps.selectedID !== this.props.selectedID) {
+            this.props.fetchSignupComments(this.props.selectedID)
+        }
     }
 
     onInputChange = (id, value) => {
@@ -83,7 +98,7 @@ class SignupCommentCard extends Component {
     onCommentSubmit = () => {
         const {
             createSignupComment,
-            signupID,
+            selectedID,
             updateSignupComment
         } = this.props
         const { editingComment } = this.state
@@ -93,7 +108,7 @@ class SignupCommentCard extends Component {
         const data = editingComment
             ? { id: editingComment, ...this.state.inputValues }
             : this.state.inputValues
-        submitFn(signupID, data)
+        submitFn(selectedID, data)
             .then(() => {
                 this.setState({
                     inputValues: {
@@ -114,8 +129,8 @@ class SignupCommentCard extends Component {
     }
 
     shouldShowCommentActions = commentorID => {
-        const { userProfileID } = this.props
-        return commentorID === userProfileID
+        const { userProfile } = this.props
+        return commentorID === userProfile.id
     }
 
     onClickEditComment = id => {
@@ -143,75 +158,109 @@ class SignupCommentCard extends Component {
     }
 
     onClickDeleteComment = commentID => {
-        const { signupID, deleteSignupComment } = this.props
-        deleteSignupComment(signupID, commentID)
+        const { selectedID, deleteSignupComment } = this.props
+        deleteSignupComment(selectedID, commentID)
     }
 
     render() {
         const { signupComments } = this.props
         const { editingComment } = this.state
         return (
-            <Card
-                className="distribution-comment-card"
-                id="distributionCommentCard">
-                <CardHeader title="Comments" />
-                <CardBody>
-                    <div className="comment-post-form">
-                        <div className="flex-vertical">
-                            <label>Post a comment</label>
-                            <TextField
-                                id="title"
-                                label="Title"
-                                value={this.state.inputValues.title}
-                                errorState={this.state.errorValues.title}
-                                onChange={this.onInputChange}
-                            />
-                            <TextField
-                                id="content"
-                                label="Description"
-                                className="mt-3"
-                                value={this.state.inputValues.content}
-                                errorState={this.state.errorValues.content}
-                                onChange={this.onInputChange}
-                            />
-                        </div>
-                        <div className="flex-horizontal j-end my-1">
-                            <button
-                                className="btn btn-primary"
-                                onClick={this.onCommentSubmit}>
-                                Submit
-                            </button>
-                            {!!editingComment && (
-                                <button
-                                    className="btn btn-danger ml-1"
-                                    onClick={this.onClickEditCommentCancel}>
-                                    Cancel
-                                </button>
-                            )}
-                        </div>
+            <CardContent>
+                <div className="comment-post-form">
+                    <div className="flex-vertical">
+                        <label>Post a comment</label>
+                        <TextField
+                            id="title"
+                            label="Title"
+                            value={this.state.inputValues.title}
+                            errorState={this.state.errorValues.title}
+                            onChange={this.onInputChange}
+                        />
+                        <TextField
+                            id="content"
+                            label="Description"
+                            className="mt-3"
+                            value={this.state.inputValues.content}
+                            errorState={this.state.errorValues.content}
+                            onChange={this.onInputChange}
+                        />
                     </div>
-                    {!!signupComments.length && (
-                        <div className="comment-section">
-                            <label>Comments</label>
-                            {signupComments.map((x, i) => (
-                                <Comment
-                                    key={i}
-                                    comment={x}
-                                    shouldShowCommentActions={this.shouldShowCommentActions(
-                                        x.commented_by.id
-                                    )}
-                                    onClickEditComment={this.onClickEditComment}
-                                    onClickDeleteComment={
-                                        this.onClickDeleteComment
-                                    }
-                                />
-                            ))}
-                        </div>
-                    )}
-                </CardBody>
-            </Card>
+                    <div className="flex-horizontal j-end my-1">
+                        <button
+                            className="btn btn-primary"
+                            onClick={this.onCommentSubmit}>
+                            Submit
+                        </button>
+                        {!!editingComment && (
+                            <button
+                                className="btn btn-danger ml-1"
+                                onClick={this.onClickEditCommentCancel}>
+                                Cancel
+                            </button>
+                        )}
+                    </div>
+                </div>
+                {!!signupComments.length && (
+                    <div className="comment-section">
+                        <label>Comments</label>
+                        {signupComments.map((x, i) => (
+                            <Comment
+                                key={i}
+                                comment={x}
+                                shouldShowCommentActions={this.shouldShowCommentActions(
+                                    x.commented_by.id
+                                )}
+                                onClickEditComment={this.onClickEditComment}
+                                onClickDeleteComment={this.onClickDeleteComment}
+                            />
+                        ))}
+                    </div>
+                )}
+            </CardContent>
         )
     }
 }
 
-export default SignupCommentCard
+const mapStateToProps = state => ({
+    signupComments: state.DistributionSignUpStaffSide.signupComments,
+    selectedID: state.DistributionSignUpStaffSide.selectedID,
+    userProfile: state.UserProfile.profile
+})
+
+const mapDispatchToProps = dispatch => ({
+    fetchSignupComments(id) {
+        return dispatch(
+            distributionSignupStaffSideActions.fetchSignupComments(id)
+        )
+    },
+    createSignupComment(signupID, data) {
+        return dispatch(
+            distributionSignupStaffSideActions.createSignupComment(
+                signupID,
+                data
+            )
+        )
+    },
+    updateSignupComment(signupID, data) {
+        return dispatch(
+            distributionSignupStaffSideActions.updateSignupComment(
+                signupID,
+                data
+            )
+        )
+    },
+    deleteSignupComment(signupID, commentID) {
+        return dispatch(
+            distributionSignupStaffSideActions.deleteSignupComment(
+                signupID,
+                commentID
+            )
+        )
+    }
+})
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(SignupComment)
