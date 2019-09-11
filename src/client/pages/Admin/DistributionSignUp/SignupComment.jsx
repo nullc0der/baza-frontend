@@ -17,13 +17,12 @@ const Comment = props => {
         onClickDeleteComment
     } = props
     return (
-        <div className="flex-horizontal comment">
+        <div className="comment">
             <div className="info">
-                <p className="title">{comment.title}</p>
                 <div className="flex-horizontal user-info align-items-center">
                     <Avatar
                         className="avatar-image"
-                        size={40}
+                        size={24}
                         otherProfile={{
                             username: comment.commented_by.username,
                             profile_photo: comment.commented_by.user_image_url,
@@ -36,27 +35,29 @@ const Comment = props => {
                         {comment.commented_by.fullname}
                     </span>
                 </div>
-                <div className="timestamp mt-1">
+                <p className="title ml-2">{comment.title}</p>
+                <div className="flex-1" />
+                <div className="timestamp">
                     {moment(comment.commented_on).format(
                         'MMMM Do YYYY, h:mm a'
                     )}
                 </div>
+                {!!shouldShowCommentActions && (
+                    <div className="actions ml-1">
+                        <i
+                            className="fas fa-edit"
+                            onClick={() => onClickEditComment(comment.id)}
+                            title="edit"
+                        />
+                        <i
+                            className="fas fa-trash ml-1"
+                            onClick={() => onClickDeleteComment(comment.id)}
+                            title="delete"
+                        />
+                    </div>
+                )}
             </div>
-            <div className="content flex-1 ml-1">{comment.content}</div>
-            {!!shouldShowCommentActions && (
-                <div className="actions ml-1">
-                    <button
-                        className="btn btn-sm btn-outline-primary"
-                        onClick={() => onClickEditComment(comment.id)}>
-                        Edit
-                    </button>
-                    <button
-                        className="btn btn-sm btn-outline-danger ml-1"
-                        onClick={() => onClickDeleteComment(comment.id)}>
-                        Delete
-                    </button>
-                </div>
-            )}
+            <div className="content mt-2">{comment.content}</div>
         </div>
     )
 }
@@ -114,6 +115,10 @@ class SignupComment extends Component {
                     inputValues: {
                         title: '',
                         content: ''
+                    },
+                    errorValues: {
+                        title: null,
+                        content: null
                     },
                     editingComment: null
                 })

@@ -233,6 +233,21 @@
             padding: 0.5rem;
             border-top: 1px solid rgba($dark, 0.2);
             margin-top: 0.5rem;
+            .info {
+                display: flex;
+                align-items: center;
+                .title {
+                    margin-bottom: 0;
+                    width: 390px;
+                    word-break: break-all;
+                }
+                .actions {
+                    .fas {
+                        cursor: pointer;
+                        color: rgba($dark, 0.5);
+                    }
+                }
+            }
             .user-info {
                 .username {
                     margin-left: 0.5rem;
