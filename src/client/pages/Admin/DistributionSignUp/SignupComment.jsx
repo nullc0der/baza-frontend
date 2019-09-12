@@ -135,7 +135,7 @@ class SignupComment extends Component {
 
     shouldShowCommentActions = commentorID => {
         const { userProfile } = this.props
-        return commentorID === userProfile.id
+        return commentorID === userProfile.user.id
     }
 
     onClickEditComment = id => {
