@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import classnames from 'classnames'
 import { connect } from 'react-redux'
+import { push } from 'react-router-redux'
 
 import { groupInviteActions } from 'api/group'
 
@@ -55,8 +56,22 @@ class HeaderNotifications extends Component {
                 isActive={this.state.activeNode === x.id}
                 setActiveNode={this.setActiveNode}
                 acceptDenyInvite={this.acceptDenyInvite}
+                navigateTo={this.props.navigateTo}
             />
         )
+    }
+
+    onClickMarkAllRead = () => {
+        const { setReadStatus, notifications } = this.props
+        const unreadIDs = []
+        for (const notification of notifications) {
+            if (!notification.read) {
+                unreadIDs.push(notification.id)
+            }
+        }
+        setReadStatus(unreadIDs)
+            .then(() => {})
+            .catch(() => {})
     }
 
     render() {
@@ -71,7 +86,9 @@ class HeaderNotifications extends Component {
         )
 
         const dropdownFooter = (
-            <div className="flex-1 text-center mark-read-btn">
+            <div
+                className="flex-1 text-center mark-read-btn"
+                onClick={this.onClickMarkAllRead}>
                 Mark all as Read
             </div>
         )
@@ -98,8 +115,11 @@ const mapDispatchToProps = dispatch => ({
         dispatch(notificationsActions.fetchNotifications()),
     removeNotification: id =>
         dispatch(notificationsActions.removeNotification(id)),
+    setReadStatus: idList =>
+        dispatch(notificationsActions.setReadStatus(idList)),
     showNotification: notification =>
-        dispatch(commonActions.addNotification(notification))
+        dispatch(commonActions.addNotification(notification)),
+    navigateTo: url => dispatch(push(url))
 })
 
 export default connect(

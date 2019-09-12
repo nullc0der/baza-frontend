@@ -13,10 +13,10 @@ export default class Dialog extends Component {
     }
 
     componentDidMount = () => {
-        document.addEventListener('keydown', this.closeOnEscapeKey, false)
         if (this.props.isOpen) {
             this.toggleTransition()
             document.addEventListener('click', this.handleClickOutside, false)
+            document.addEventListener('keydown', this.closeOnEscapeKey, false)
             this.toggleBodyScroll(true)
         }
     }

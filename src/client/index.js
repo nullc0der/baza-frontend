@@ -34,7 +34,6 @@ store.subscribe(() => {
     const {
         Auth,
         Messenger,
-        DistributionSignUp,
         Donations,
         GroupNews,
         GroupPost,

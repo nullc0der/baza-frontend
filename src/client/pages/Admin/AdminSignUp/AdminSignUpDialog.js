@@ -23,7 +23,9 @@ import {
     sendPhoneVerificationCode,
     validatePhoneCode,
     sendPhoneVerificationCodeAgain,
-    uploadSignupImage
+    uploadSignupImage,
+    toggleDonor,
+    getUserInfoTabData
 } from 'api/distribution-signup'
 
 import s from './AdminSignUp.scss'
@@ -37,6 +39,9 @@ import MobileSection from './MobileSection'
 import DocumentsSection from './DocumentsSection'
 import FinishSection from './FinishSection'
 
+import { actions as commonActions } from 'store/Common'
+import { actions as messengerActions } from 'store/Messenger'
+
 class AdminSignUpDialog extends Component {
     static propTypes = {
         className: PropTypes.string
@@ -46,10 +51,13 @@ class AdminSignUpDialog extends Component {
         selectedIndex: 0,
         completedTabs: [],
         errorTabs: [],
+        errorFields: [],
+        invalidationComment: '',
+        handlingStaff: {},
         isDonor: false,
         status: 'pending',
+        referralCode: '',
         isSkippable: false,
-        selectedCountry: '',
         inputValues: {},
         errorState: {},
         infoText: {
@@ -72,14 +80,41 @@ class AdminSignUpDialog extends Component {
                     completedTabs: response.data.completed_steps.map(x =>
                         Number(x)
                     ),
+                    errorTabs: response.data.invalidated_steps.map(x =>
+                        Number(x)
+                    ),
+                    errorFields: response.data.invalidated_fields,
+                    invalidationComment: response.data.invalidation_comment,
                     status: response.data.status,
+                    referralCode: response.data.referral_code,
                     selectedIndex: response.data.next_step.index,
-                    isSkippable: response.data.next_step.is_skippable
+                    isSkippable: response.data.next_step.is_skippable,
+                    handlingStaff: response.data.handling_staff,
+                    isDonor: response.data.is_donor,
+                    inputValues: {
+                        refCode: this.getReferralCode(this.props.location.hash)
+                    }
                 })
+                this.setUserInfoData()
             })
             .catch(responseData => {
                 console.log(responseData)
             })
+    }
+
+    getReferralCode = hash => {
+        if (hash.split('?').length > 1) {
+            const referralCodeChunk = hash.split('?')[1]
+            return referralCodeChunk.split('=')[1]
+        }
+        return ''
+    }
+
+    getReferralURL = () => {
+        if (this.state.referralCode.length) {
+            return `${window.location.protocol}//${window.location.host}/profile${window.location.hash}?referral-code=${this.state.referralCode}`
+        }
+        return ''
     }
 
     closeAdminSignUpDialog = () => {
@@ -133,14 +168,15 @@ class AdminSignUpDialog extends Component {
                 console.log('Nothing matched')
         }
     }
-    toggleDonorStatus = () => {
-        this.setState({ isDonor: !this.state.isDonor })
-    }
 
-    onCountrySelect = item => {
-        this.setState({
-            selectedCountry: item
-        })
+    toggleDonorStatus = () => {
+        toggleDonor()
+            .then(response =>
+                this.setState({
+                    isDonor: response.data.is_donor
+                })
+            )
+            .catch(responseData => console.log(responseData))
     }
 
     onInputChange = (id, value) => {
@@ -152,10 +188,36 @@ class AdminSignUpDialog extends Component {
         }))
     }
 
+    onRefCodeInputChange = (id, value) => {
+        if (value.indexOf('?') !== -1) {
+            const inputChunk = value.split('?')[1]
+            value = inputChunk.split('=')[1] || value
+        }
+        value = value.replace(
+            /[^abcdefghjklmnpqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ2-9-]/g,
+            ''
+        )
+        value =
+            value.toUpperCase() === 'baz'.toUpperCase()
+                ? value.concat('-')
+                : value
+        this.setState(prevState => ({
+            inputValues: {
+                ...prevState.inputValues,
+                refCode: value
+            }
+        }))
+    }
+
     setStepData = data => {
         this.setState({
             completedTabs: data.completed_steps.map(x => Number(x)),
+            errorTabs: data.invalidated_steps.map(x => Number(x)),
+            errorFields: data.invalidated_fields,
+            invalidationComment: data.invalidation_comment,
+            handlingStaff: data.handling_staff,
             status: data.status,
+            isDonor: data.is_donor,
             selectedIndex: data.next_step.index,
             isSkippable: data.next_step.is_skippable,
             infoText: {
@@ -169,8 +231,8 @@ class AdminSignUpDialog extends Component {
         submitNameAddress(
             this.state.inputValues.firstName,
             this.state.inputValues.lastName,
-            this.state.inputValues.refCode || '',
-            this.state.selectedCountry,
+            this.state.inputValues.refCode.toUpperCase() || '',
+            this.state.inputValues.country,
             this.state.inputValues.city,
             this.state.inputValues.state,
             this.state.inputValues.houseNo,
@@ -401,6 +463,36 @@ class AdminSignUpDialog extends Component {
         })
     }
 
+    setUserInfoData = () => {
+        if (includes(this.state.errorTabs, 0)) {
+            getUserInfoTabData()
+                .then(response => {
+                    this.setState({
+                        inputValues: {
+                            firstName: get(response.data, 'first_name', ''),
+                            lastName: get(response.data, 'last_name', ''),
+                            refCode: get(response.data, 'referral_code', ''),
+                            country: get(response.data, 'country', ''),
+                            city: get(response.data, 'city', ''),
+                            state: get(response.data, 'state', ''),
+                            houseNo: get(response.data, 'house_number', ''),
+                            streetName: get(response.data, 'street_name', ''),
+                            zipCode: get(response.data, 'zip_code', ''),
+                            birthDate: get(response.data, 'birthdate', '')
+                        }
+                    })
+                })
+                .catch(responseData => console.log(responseData))
+        }
+    }
+
+    initChat = (e, toUser) => {
+        e.preventDefault()
+        this.props.initChat(toUser).then(res => {
+            this.props.openMiniChat(res.data.room.id)
+        })
+    }
+
     render() {
         const { className } = this.props
         const cx = classnames(s.container, className)
@@ -409,11 +501,15 @@ class AdminSignUpDialog extends Component {
                 isOpen={true}
                 className={cx}
                 onRequestClose={this.closeAdminSignUpDialog}>
-                {isEqual(this.state.completedTabs.sort(), [0, 1, 2, 3]) ? (
+                {isEqual(this.state.completedTabs.sort(), [0, 1, 2, 3]) &&
+                !this.state.errorTabs.length ? (
                     <FinishSection
                         status={this.state.status}
+                        referralURL={this.getReferralURL()}
                         isDonor={this.state.isDonor}
                         toggleDonorStatus={this.toggleDonorStatus}
+                        addNotification={this.props.addNotification}
+                        closeDialog={this.closeAdminSignUpDialog}
                     />
                 ) : (
                     <Fragment>
@@ -428,11 +524,11 @@ class AdminSignUpDialog extends Component {
                             onChangeIndex={this.changeSwipeIndex}
                             disabled={!includes(this.state.completedTabs, 0)}>
                             <NameAddressSection
-                                selectedCountry={this.state.selectedCountry}
-                                onCountrySelect={this.onCountrySelect}
                                 onInputChange={this.onInputChange}
                                 inputValues={this.state.inputValues}
                                 errorState={this.state.errorState}
+                                onRefCodeInputChange={this.onRefCodeInputChange}
+                                invalidatedFields={this.state.errorFields}
                             />
                             <EmailSection
                                 onInputChange={this.onInputChange}
@@ -441,6 +537,7 @@ class AdminSignUpDialog extends Component {
                                 sendCode={this.sendVerificationCode}
                                 sendCodeAgain={this.sendVerificationCodeAgain}
                                 showEmailTryAgain={this.state.showEmailTryAgain}
+                                invalidatedFields={this.state.errorFields}
                             />
                             <MobileSection
                                 onInputChange={this.onInputChange}
@@ -454,6 +551,7 @@ class AdminSignUpDialog extends Component {
                                 smsSentAt={this.state.smsInfo.sentAt}
                                 smsSentCount={this.state.smsInfo.sentCount}
                                 onSMSCountDownExpiry={this.onSMSCountDownExpiry}
+                                invalidatedFields={this.state.errorFields}
                             />
                             <DocumentsSection
                                 addSignupImage={this.addSignupImage}
@@ -462,11 +560,15 @@ class AdminSignUpDialog extends Component {
                         </SwipeableViews>
                         <AdminSignUpFooter
                             infoText={this.state.infoText}
+                            invalidationComment={this.state.invalidationComment}
+                            showDonor={includes(this.state.completedTabs, 0)}
                             isDonor={this.state.isDonor}
                             showSkip={this.state.isSkippable}
+                            handlingStaff={this.state.handlingStaff}
                             toggleDonorStatus={this.toggleDonorStatus}
                             onSkipClick={this.onSkipClick}
                             onSubmitClick={this.onSubmitClick}
+                            initChat={this.initChat}
                         />
                     </Fragment>
                 )}
@@ -482,6 +584,15 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
     navigate(url) {
         return dispatch(push(url))
+    },
+    addNotification(notification) {
+        return dispatch(commonActions.addNotification(notification))
+    },
+    initChat(toUser) {
+        return dispatch(messengerActions.initChat(toUser))
+    },
+    openMiniChat(id) {
+        return dispatch(messengerActions.openMiniChat(id))
     }
 })
 

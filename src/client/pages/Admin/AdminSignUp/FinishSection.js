@@ -2,7 +2,20 @@ import React, { Component } from 'react'
 import classnames from 'classnames'
 
 export default class FinishSection extends Component {
+    onClickReferralURL = () => {
+        const { addNotification, closeDialog } = this.props
+        this.referralURLContainer.select()
+        document.execCommand('copy')
+        addNotification({
+            message: 'Referral link copied to clipboard',
+            level: 'info'
+        })
+        closeDialog()
+    }
+
     render() {
+        const { isDonor, status, referralURL, toggleDonorStatus } = this.props
+
         const attentionBtnClasses = {
             pending: 'btn-warning',
             approved: 'btn-success',
@@ -14,7 +27,7 @@ export default class FinishSection extends Component {
             : 'I want to become a donor'
 
         const donorCheckClassName = classnames('become-donor-check', {
-            'bg-success': this.props.isDonor
+            'bg-success': isDonor
         })
 
         return (
@@ -28,21 +41,39 @@ export default class FinishSection extends Component {
                     <p className="mt-2">Your registration status is</p>
                     <button
                         className={`btn ${
-                            attentionBtnClasses[this.props.status]
+                            attentionBtnClasses[status]
                         } mt-1 mx-auto attention-btn`}>
-                        {this.props.status}
+                        {status}
                     </button>
                 </div>
-                {this.props.status === 'pending' && (
+                {status === 'pending' && (
                     <div className="finish-bottom-message py-3 px-5 text-center">
                         Your registration will be processed soon, you will get
                         an email once approved or return to this page to check
                         your status.
                     </div>
                 )}
+                {referralURL.length && (
+                    <div className="referral-url-section py-3 px-3 text-center">
+                        <p>Your referral code is</p>
+                        <div
+                            className="input-group input-group-sm"
+                            onClick={this.onClickReferralURL}>
+                            <textarea
+                                readOnly
+                                className="form-control"
+                                value={referralURL}
+                                ref={node => (this.referralURLContainer = node)}
+                            />
+                            <div className="input-group-append">
+                                <i className="input-group-text fa fa-clone" />
+                            </div>
+                        </div>
+                    </div>
+                )}
                 <div
                     className={donorCheckClassName}
-                    onClick={this.props.toggleDonorStatus}>
+                    onClick={toggleDonorStatus}>
                     {donorCheckText}
                 </div>
             </div>

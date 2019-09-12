@@ -219,7 +219,9 @@ class AdminContainer extends Component {
                     pathname: '/',
                     hash: '#!login',
                     state: {
-                        originURL: this.props.location.pathname
+                        originURL:
+                            this.props.location.pathname +
+                            this.props.location.hash
                     }
                 }}
             />

@@ -1,3 +1,5 @@
+@import 'ui';
+
 :local(.container) {
     position: relative;
     .daypicker-container {
@@ -13,10 +15,18 @@
             select {
                 background: transparent;
                 border: none;
+                color: inherit;
+                -moz-appearance: none;
                 &:focus {
                     outline: none;
                 }
             }
+        }
+        .DayPicker-Day {
+            padding: 0.2em 0.4em;
+        }
+        .DayPicker-Day--selected:not(.DayPicker-Day--disabled):not(.DayPicker-Day--outside) {
+            background-color: $info;
         }
     }
     .calendar-toggle {

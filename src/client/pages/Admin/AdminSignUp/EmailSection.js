@@ -1,4 +1,5 @@
 import React, { Component, Fragment } from 'react'
+import includes from 'lodash/includes'
 
 import TextField from 'components/ui/TextField'
 
@@ -10,7 +11,8 @@ export default class EmailSection extends Component {
             sendCode,
             sendCodeAgain,
             showEmailTryAgain,
-            inputValues
+            inputValues,
+            invalidatedFields
         } = this.props
         return (
             <div className="signup-section email-section">
@@ -21,7 +23,12 @@ export default class EmailSection extends Component {
                         type="email"
                         className="is-textbox my-3"
                         placeholder="youremailhere@host.tld"
-                        errorState={errorState.email}
+                        errorState={
+                            errorState.email ||
+                            (includes(invalidatedFields, 'email')
+                                ? ['This field is marked as violation']
+                                : null)
+                        }
                         value={inputValues.email}
                         onChange={onInputChange}
                         id="email"

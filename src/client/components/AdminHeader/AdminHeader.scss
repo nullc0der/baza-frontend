@@ -93,6 +93,7 @@
             box-shadow: none;
             margin: 0 5px;
             border: 1px rgba(#000, 0.1) solid;
+            padding: map-get($spacers, 1) map-get($spacers, 2);
         }
     }
 

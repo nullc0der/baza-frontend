@@ -10,21 +10,54 @@ const AdminSignUpFooter = props => {
         'bg-success': props.isDonor
     })
 
-    const infoSectionClassName = classnames('info-text-section', `bg-${props.infoText.type}`)
+    const infoSectionClassName = classnames(
+        'info-text-section',
+        `bg-${props.infoText.type}`
+    )
 
     return (
         <div className="admin-signup-footer">
-            {
-                props.infoText.message && (
-                    <div className={infoSectionClassName}>{props.infoText.message}</div>
-                )
-            }
-            <div className={donorCheckClassName} onClick={props.toggleDonorStatus}>
-                {donorCheckText}
-            </div>
+            {props.handlingStaff.id && (
+                <div className="info-text-section handling-staff-section">
+                    <p>
+                        Your signup application is handled by{' '}
+                        {props.handlingStaff.fullname}
+                    </p>
+                    <p>
+                        <a
+                            href="#"
+                            onClick={e =>
+                                props.initChat(e, props.handlingStaff.id)
+                            }>
+                            Click here
+                        </a>{' '}
+                        to initiate a chat with the staff
+                    </p>
+                </div>
+            )}
+            {props.invalidationComment && (
+                <div className="info-text-section invalidation-comment bg-info">
+                    <p>Comment from staff</p>
+                    <p>{props.invalidationComment}</p>
+                </div>
+            )}
+            {props.infoText.message && (
+                <div className={infoSectionClassName}>
+                    {props.infoText.message}
+                </div>
+            )}
+            {!!props.showDonor && (
+                <div
+                    className={donorCheckClassName}
+                    onClick={props.toggleDonorStatus}>
+                    {donorCheckText}
+                </div>
+            )}
             <div className="bottom-buttons">
                 {!!props.showSkip && (
-                    <div className="btn btn-info skip-button" onClick={props.onSkipClick}>
+                    <div
+                        className="btn btn-info skip-button"
+                        onClick={props.onSkipClick}>
                         SKIP
                     </div>
                 )}

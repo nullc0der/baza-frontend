@@ -120,6 +120,10 @@ export const uploadSignupImage = image => {
     return formAPI(api => api.post('/bazasignup/uploadsignupimage/', data))
 }
 
-export const fetchSignupsList = () => {
-    return jsonAPI(api => api.get('/bazasignup/signups/'))
+export const toggleDonor = () => {
+    return jsonAPI(api => api.post('/bazasignup/toggledonor/'))
+}
+
+export const getUserInfoTabData = () => {
+    return jsonAPI(api => api.get('/bazasignup/userinfotab/'))
 }

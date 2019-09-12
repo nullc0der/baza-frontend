@@ -49,8 +49,8 @@ export function configureStore(initialState = {}, history) {
 
     // Devtools for development mode on client
     const devTools =
-        !__SERVER__ && window.devToolsExtension
-            ? window.devToolsExtension()
+        !__SERVER__ && window.__REDUX_DEVTOOLS_EXTENSION__
+            ? window.__REDUX_DEVTOOLS_EXTENSION__()
             : function(f) {
                   return f
               }
