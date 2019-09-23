@@ -152,7 +152,9 @@ class HashTagContent extends Component {
     }
 
     downloadImage = () => {
-        const { selectedProvider } = this.props
+        const selectedProvider = this.props.providers[
+            this.props.selectedProvider
+        ]
         const { croppedImage } = this.state
         if (!croppedImage) {
             return
@@ -368,9 +370,7 @@ class HashTagContent extends Component {
                         Download Image
                     </div>
                     <div
-                        className={`btn btn-dark btn-large ${
-                            selectedProvider.className
-                        }`}
+                        className={`btn btn-dark btn-large ${selectedProvider.className}`}
                         onClick={this.uploadImageToSocial}>
                         Upload to {selectedProvider.name}
                         {isUploading && (
