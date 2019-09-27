@@ -173,7 +173,10 @@ class HashTagContent extends Component {
 
     getImageFromSocial = () => {
         console.log('will fetch and set image from social network')
-        const provider = this.props.selectedProvider.name.toLowerCase()
+        const selectedProvider = this.props.providers[
+            this.props.selectedProvider
+        ]
+        const provider = selectedProvider.name.toLowerCase()
         this.setState({ isDownloading: true })
 
         this.props
