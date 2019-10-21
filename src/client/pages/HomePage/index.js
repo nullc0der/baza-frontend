@@ -15,7 +15,8 @@ import FeaturesSection from './FeaturesSection'
 import CurrentStatusSection from './CurrentStatusSection'
 import LatestDistributionSection from './LatestDistributionSection'
 import ContactSection from './ContactSection'
-import WhitePaperSection from './WhitePaperSection'
+// import WhitePaperSection from './WhitePaperSection'
+import AboutSection from './AboutSection'
 import MapSection from './MapSection'
 import RoadMapSection from './RoadMapSection'
 
@@ -70,8 +71,9 @@ class HomePage extends Component {
                         <p> Donate now and become part of the UBI family. </p>
                     </Link>
                 </ParallaxContainer>
+                <AboutSection id="about-section" />
                 <FeaturesSection id="features-section" />
-                <WhitePaperSection id="white-paper-section" />
+                {/* <WhitePaperSection id="white-paper-section" /> */}
                 <CurrentStatusSection
                     id="status-section"
                     stats={landingStats.donation || {}}
