@@ -13,11 +13,11 @@ import ParallaxContainer from 'components/ui/ParallaxContainer'
 
 import FeaturesSection from './FeaturesSection'
 import CurrentStatusSection from './CurrentStatusSection'
-import LatestDistributionSection from './LatestDistributionSection'
+// import LatestDistributionSection from './LatestDistributionSection'
 import ContactSection from './ContactSection'
 // import WhitePaperSection from './WhitePaperSection'
 import AboutSection from './AboutSection'
-import MapSection from './MapSection'
+// import MapSection from './MapSection'
 import RoadMapSection from './RoadMapSection'
 
 import { Link } from 'react-router-dom'
@@ -68,7 +68,7 @@ class HomePage extends Component {
                     </div>
                     <Link to="#!donate" className="hero-donate-wrapper">
                         <h3> Donate Now </h3>
-                        <p> Donate now and become part of the UBI family. </p>
+                        <p> Become a part of the basic income movement. </p>
                     </Link>
                 </ParallaxContainer>
                 <AboutSection id="about-section" />
@@ -78,11 +78,11 @@ class HomePage extends Component {
                     id="status-section"
                     stats={landingStats.donation || {}}
                 />
-                <LatestDistributionSection
+                {/* <LatestDistributionSection
                     id="latest-section"
                     stats={landingStats}
                 />
-                <MapSection id="map-section" />
+                <MapSection id="map-section" /> */}
                 <RoadMapSection id="roadmap-section" />
                 <ContactSection id="contact-section" />
                 <Footer />

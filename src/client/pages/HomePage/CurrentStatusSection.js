@@ -1,11 +1,11 @@
 import React, { Component } from 'react'
 import classnames from 'classnames'
 
-import DonationProgressBar from 'components/DonationProgressBar'
-import DonationList from 'components/DonationList'
+// import DonationProgressBar from 'components/DonationProgressBar'
+// import DonationList from 'components/DonationList'
 import VideoPlayer from 'components/VideoPlayer'
 
-import { Link } from 'react-router-dom'
+// import { Link } from 'react-router-dom'
 
 class CurrentStatusSection extends Component {
     render() {
@@ -13,13 +13,13 @@ class CurrentStatusSection extends Component {
             'current-status-section bg-light',
             this.props.className
         )
-        const donation = this.props.stats
+        // const donation = this.props.stats
 
         return (
             <div className={cx} id={this.props.id}>
                 <div className="container page-section">
-                    <h3 className="text-center mb-3"> Current Status </h3>
-                    <div className="row mb-5">
+                    <h3 className="text-center mb-3"> Intro Video </h3>
+                    <div className="row">
                         <div className="col-12 mx-auto">
                             <VideoPlayer
                                 src="/public/videos/Baza Intro.mp4"
@@ -28,7 +28,7 @@ class CurrentStatusSection extends Component {
                         </div>
                     </div>
 
-                    <div className="row">
+                    {/* <div className="row">
                         <div className="col-lg-8">
                             <h4 className="section-title-underlined">
                                 Distribution Process
@@ -75,7 +75,7 @@ class CurrentStatusSection extends Component {
                                 }
                             />
                         </div>
-                    </div>
+                    </div> */}
                 </div>
             </div>
         )
