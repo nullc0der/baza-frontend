@@ -21,6 +21,7 @@ import AboutSection from './AboutSection'
 import RoadMapSection from './RoadMapSection'
 import NewsSection from './NewsSection'
 import ExchageSection from './ExchangeSection'
+import TelegramSection from './TelegramSection'
 
 import { Link } from 'react-router-dom'
 
@@ -79,8 +80,8 @@ class HomePage extends Component {
                     stats={landingStats.donation || {}}
                 />
                 <NewsSection id="news-section" />
-                <FeaturesSection id="features-section" />
                 <ExchageSection id="exchange-section" />
+                <FeaturesSection id="features-section" />
                 {/* <WhitePaperSection id="white-paper-section" /> */}
                 {/* <LatestDistributionSection
                     id="latest-section"
@@ -88,6 +89,7 @@ class HomePage extends Component {
                 />
                 <MapSection id="map-section" /> */}
                 <RoadMapSection id="roadmap-section" />
+                <TelegramSection id="telegram-section" />
                 <ContactSection id="contact-section" />
                 <Footer />
             </div>

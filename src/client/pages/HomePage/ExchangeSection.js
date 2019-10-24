@@ -4,7 +4,10 @@ import classnames from 'classnames'
 class ExchangeSection extends React.Component {
     render() {
         const { className, id } = this.props
-        const cx = classnames(className, 'exchange-section text-center')
+        const cx = classnames(
+            className,
+            'exchange-section text-center bg-light'
+        )
 
         return (
             <div className={cx} id={id}>

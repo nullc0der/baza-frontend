@@ -4,7 +4,7 @@ import classnames from 'classnames'
 import RoadMap from 'components/RoadMap'
 
 const RoadmapSection = props => {
-    const cx = classnames(props.className, 'roadmap-section')
+    const cx = classnames(props.className, 'roadmap-section bg-light')
 
     return (
         <div className={cx} id={props.id}>

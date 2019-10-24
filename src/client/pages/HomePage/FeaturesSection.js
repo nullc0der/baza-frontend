@@ -114,7 +114,7 @@ class FeatureItem extends Component {
 }
 
 const FeaturesSection = props => {
-    const cx = classnames(props.className, 'features-section bg-light')
+    const cx = classnames(props.className, 'features-section')
     const iconClassName = classnames(props.iconClassName, 'feature-icon')
     const buttonClassName = classnames(
         props.buttonClassName,
