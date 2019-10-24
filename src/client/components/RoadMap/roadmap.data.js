@@ -42,22 +42,22 @@ module.exports = [
     },
     {
         title: 'Production Launch / Pre-Fundraiser Series / Baza Token',
-        date: '2019-Q1',
+        date: '2019-Q1,2,3',
+        status: 'done'
+    },
+    {
+        title: 'Initial Exchange Offering',
+        date: '2019-Q4',
         status: 'active'
     },
     {
-        title: 'Full Distribution Starts',
-        date: '2019-Q2',
-        status: 'pending'
-    },
-    {
-        title: 'Desktop Wallets / Federal Nonprofit Status',
-        date: '2019-Q3',
-        status: 'pending'
-    },
-    {
-        title: 'Decentralize Platform',
-        date: '2019-Q4',
+        title: 'Marketing / Distribution / Platform Development',
+        date: '2020',
         status: 'pending'
     }
+    // {
+    //     title: 'Decentralize Platform',
+    //     date: '2020',
+    //     status: 'pending'
+    // }
 ]

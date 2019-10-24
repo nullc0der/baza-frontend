@@ -178,7 +178,7 @@
 }
 
 .home-page .roadmap-section .page-section {
-    padding-top: map-get($spacers, 2);
+    // padding-top: map-get($spacers, 2);
     @include media-breakpoint-down(sm, $grid-breakpoints) {
         padding-top: map-get($spacers, 5);
     }
@@ -405,6 +405,70 @@
         }
         .page-section {
             padding-top: map-get($spacers, 5);
+        }
+    }
+}
+
+.home-page .news-section {
+    .badge {
+        padding: 8px 24px;
+        border-radius: 17px;
+        text-align: center;
+    }
+
+    .news-published-date-badge {
+        padding: 5px 20px;
+        background-color: rgba($color: #273951, $alpha: 0.3);
+        color: #fff;
+        font-size: 12px;
+    }
+
+    .read-more-badge {
+        background-color: #fdca02;
+        color: $dark;
+        cursor: pointer;
+    }
+
+    .news-published-date {
+        font-weight: $font-weight-semibold;
+    }
+
+    .news-content {
+        p {
+            word-break: break-word;
+        }
+        img {
+            display: block;
+            max-width: 100%;
+            max-height: 200px;
+            margin: 0 auto;
+        }
+        ul {
+            padding: 0;
+            margin: 1rem;
+        }
+        ol {
+            padding: 0;
+            margin: 1rem;
+        }
+    }
+
+    .latest-news {
+        .news-content {
+            overflow-y: hidden;
+            height: (72 * 5 + 16 * 4) * 1px;
+        }
+    }
+
+    .other-news {
+        overflow-y: auto;
+        height: 533px;
+        .news-title {
+            margin-bottom: 0;
+        }
+        .news-content {
+            overflow-y: hidden;
+            height: 115px;
         }
     }
 }

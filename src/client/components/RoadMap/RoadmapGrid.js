@@ -63,8 +63,8 @@ export default class RoadmapGrid extends Component {
                     <div className="mb-2 col-md-6">{this.renderItem(9)}</div>
                 </div>
                 <div className="milestone-row row">
-                    <div className="mb-2 col-md-5">{this.renderItem(10)}</div>
-                    <div className="mb-2 col-md-7">{this.renderItem(11)}</div>
+                    <div className="mb-2 col-md-12">{this.renderItem(10)}</div>
+                    {/* <div className="mb-2 col-md-7">{this.renderItem(11)}</div> */}
                 </div>
             </div>
         )

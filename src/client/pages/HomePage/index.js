@@ -73,13 +73,13 @@ class HomePage extends Component {
                     </Link>
                 </ParallaxContainer>
                 <AboutSection id="about-section" />
-                <FeaturesSection id="features-section" />
-                {/* <WhitePaperSection id="white-paper-section" /> */}
                 <CurrentStatusSection
                     id="status-section"
                     stats={landingStats.donation || {}}
                 />
-                <NewsSection />
+                <NewsSection id="news-section" />
+                <FeaturesSection id="features-section" />
+                {/* <WhitePaperSection id="white-paper-section" /> */}
                 {/* <LatestDistributionSection
                     id="latest-section"
                     stats={landingStats}
