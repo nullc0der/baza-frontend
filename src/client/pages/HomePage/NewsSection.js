@@ -44,12 +44,9 @@ class NewsSection extends React.Component {
                         Read More
                     </div>
                 </div>
-                <div
-                    className="news-content mb-1"
-                    dangerouslySetInnerHTML={{
-                        __html: news.converted_news
-                    }}
-                />
+                <div className="news-content mb-1">
+                    <pre className="plaintext">{news.plaintext_news}</pre>
+                </div>
                 <div className="news-published-date">
                     {moment(news.created_on).format('Do MMMM, YYYY')}
                 </div>
