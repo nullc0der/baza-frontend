@@ -20,6 +20,7 @@ import AboutSection from './AboutSection'
 // import MapSection from './MapSection'
 import RoadMapSection from './RoadMapSection'
 import NewsSection from './NewsSection'
+import ExchageSection from './ExchangeSection'
 
 import { Link } from 'react-router-dom'
 
@@ -79,6 +80,7 @@ class HomePage extends Component {
                 />
                 <NewsSection id="news-section" />
                 <FeaturesSection id="features-section" />
+                <ExchageSection id="exchange-section" />
                 {/* <WhitePaperSection id="white-paper-section" /> */}
                 {/* <LatestDistributionSection
                     id="latest-section"

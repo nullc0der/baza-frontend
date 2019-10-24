@@ -7,7 +7,7 @@ import * as Sentry from '@sentry/browser'
 
 import { configureStore, loadLocalState, saveLocalUIState } from './store/index'
 
-import createHistory from 'history/createBrowserHistory'
+import { createBrowserHistory as createHistory } from 'history'
 // import {ConnectedRouter} from 'react-router-redux'
 
 import Root from './containers/Root'
