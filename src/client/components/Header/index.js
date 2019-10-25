@@ -203,16 +203,32 @@ export default class Header extends Component {
                                     </NavLink>
                                 </li>
                                 {HEADER_ITEMS_RIGHT.map(this.renderOneBSLink)}
+                                {showDonateButton && (
+                                    <li className="nav-item">
+                                        <NavLink
+                                            to="#!donate"
+                                            className="nav-link d-block d-md-none">
+                                            Donate Now
+                                        </NavLink>
+                                    </li>
+                                )}
                             </ul>
                         </div>
                     </div>
                     {showDonateButton && (
                         <Link
                             to="#!donate"
-                            className="btn btn-outline-primary btn-rounded donate-button">
+                            className="btn btn-outline-primary btn-rounded donate-button d-none d-md-block">
                             Donate Now
                         </Link>
                     )}
+                    <Link className="d-block d-md-none app-logo-mobile" to="/">
+                        <img
+                            className="img-fluid"
+                            alt="Baza"
+                            src="/public/img/baza_logo.svg"
+                        />
+                    </Link>
                 </nav>
             </Fragment>
         )

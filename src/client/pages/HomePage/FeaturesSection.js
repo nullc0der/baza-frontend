@@ -2,6 +2,7 @@ import React, { Fragment, Component } from 'react'
 import classnames from 'classnames'
 import CountUp from 'react-countup'
 import TrackVisibility from 'react-on-screen'
+import { Link } from 'react-router-dom'
 // import CoinSale from 'pages/Admin/CoinSale'
 
 const FEATURES = [
@@ -10,20 +11,27 @@ const FEATURES = [
         title: 'GPU MINING',
         subtitle: 'Security',
         description:
-            'Easy entry level GPU mining of the Baza token to support the network'
+            'Easy entry level GPU mining of the Baza token to support the network',
+        link: 'https://pool.baza.foundation/#getting_started',
+        external: true
     },
     {
         image: '/public/img/features/community.svg',
         title: 'COMMUNITY',
         subtitle: 'Support',
-        description: 'Join the Foundation to become a platform or patron member'
+        description:
+            'Join the Foundation to become a platform or patron member',
+        link: '/signup',
+        external: false
     },
     {
         image: '/public/img/features/store-locally.svg',
         title: 'STORE LOCALLY',
         subtitle: 'Decentralize',
         description:
-            'Download and store your Baza token on your choice of operating system'
+            'Download and store your Baza token on your choice of operating system',
+        link: 'https://gitlab.ekata.io/baza-foundation/baz-token/releases',
+        external: true
     }
 ]
 
@@ -47,7 +55,10 @@ class FeatureItem extends Component {
             title,
             buttonClassName,
             subtitle,
-            description
+            description,
+            isExternal,
+            link,
+            linkClassName
         } = this.props
 
         return (
@@ -55,12 +66,29 @@ class FeatureItem extends Component {
                 <div className={iconClassName}>
                     <img alt={title} src={image} />
                 </div>
-                <div className={buttonClassName}>
-                    <div className="feature-title">
-                        {isVisible ? this.renderAnimatedCount(title) : title}
-                    </div>
-                    <div className="feature-subtitle">{subtitle}</div>
-                </div>
+                {isExternal ? (
+                    <a href={link} target="_blank" className={linkClassName}>
+                        <div className={buttonClassName}>
+                            <div className="feature-title">
+                                {isVisible
+                                    ? this.renderAnimatedCount(title)
+                                    : title}
+                            </div>
+                            <div className="feature-subtitle">{subtitle}</div>
+                        </div>
+                    </a>
+                ) : (
+                    <Link to={link} className={linkClassName}>
+                        <div className={buttonClassName}>
+                            <div className="feature-title">
+                                {isVisible
+                                    ? this.renderAnimatedCount(title)
+                                    : title}
+                            </div>
+                            <div className="feature-subtitle">{subtitle}</div>
+                        </div>
+                    </Link>
+                )}
                 <div className="text-center">{description}</div>
             </Fragment>
         )
@@ -92,6 +120,7 @@ const FeaturesSection = props => {
         props.buttonClassName,
         'feature-button btn-rounded-white'
     )
+    const linkClassName = classnames(props.linkClassName, 'feature-link')
     const list = props.list || FEATURES
     const title = props.title || 'Baza Token'
     return (
@@ -108,8 +137,11 @@ const FeaturesSection = props => {
                             subtitle={feature.subtitle}
                             image={feature.image}
                             description={feature.description}
+                            link={feature.link}
+                            isExternal={feature.external}
                             iconClassName={iconClassName}
                             buttonClassName={buttonClassName}
+                            linkClassName={linkClassName}
                         />
                     ))}
                 </div>

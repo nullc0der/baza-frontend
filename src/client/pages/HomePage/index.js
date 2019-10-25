@@ -13,11 +13,15 @@ import ParallaxContainer from 'components/ui/ParallaxContainer'
 
 import FeaturesSection from './FeaturesSection'
 import CurrentStatusSection from './CurrentStatusSection'
-import LatestDistributionSection from './LatestDistributionSection'
+// import LatestDistributionSection from './LatestDistributionSection'
 import ContactSection from './ContactSection'
-import WhitePaperSection from './WhitePaperSection'
-import MapSection from './MapSection'
+// import WhitePaperSection from './WhitePaperSection'
+import AboutSection from './AboutSection'
+// import MapSection from './MapSection'
 import RoadMapSection from './RoadMapSection'
+import NewsSection from './NewsSection'
+import ExchageSection from './ExchangeSection'
+import TelegramSection from './TelegramSection'
 
 import { Link } from 'react-router-dom'
 
@@ -67,21 +71,25 @@ class HomePage extends Component {
                     </div>
                     <Link to="#!donate" className="hero-donate-wrapper">
                         <h3> Donate Now </h3>
-                        <p> Donate now and become part of the UBI family. </p>
+                        <p> Become a part of the basic income movement. </p>
                     </Link>
                 </ParallaxContainer>
-                <FeaturesSection id="features-section" />
-                <WhitePaperSection id="white-paper-section" />
+                <AboutSection id="about-section" />
                 <CurrentStatusSection
                     id="status-section"
                     stats={landingStats.donation || {}}
                 />
-                <LatestDistributionSection
+                <NewsSection id="news-section" />
+                <ExchageSection id="exchange-section" />
+                <FeaturesSection id="features-section" />
+                {/* <WhitePaperSection id="white-paper-section" /> */}
+                {/* <LatestDistributionSection
                     id="latest-section"
                     stats={landingStats}
                 />
-                <MapSection id="map-section" />
+                <MapSection id="map-section" /> */}
                 <RoadMapSection id="roadmap-section" />
+                <TelegramSection id="telegram-section" />
                 <ContactSection id="contact-section" />
                 <Footer />
             </div>

@@ -50,17 +50,17 @@ const DISCUSSION_LINKDATAS = [
     }
 ]
 
-const ICO_LISTINGS = [
-    { linkName: 'TrackICO', url: 'https://www.trackico.io/' },
-    {
-        linkName: 'AwesomeICOs',
-        url: 'https://awesomeicos.com/icos/5152/rating'
-    },
-    {
-        linkName: 'ICOPulse',
-        url: 'https://www.icopulse.com/'
-    }
-]
+// const ICO_LISTINGS = [
+//     { linkName: 'TrackICO', url: 'https://www.trackico.io/' },
+//     {
+//         linkName: 'AwesomeICOs',
+//         url: 'https://awesomeicos.com/icos/5152/rating'
+//     },
+//     {
+//         linkName: 'ICOPulse',
+//         url: 'https://www.icopulse.com/'
+//     }
+// ]
 
 export default class Footer extends Component {
     render() {
@@ -130,20 +130,17 @@ export default class Footer extends Component {
                             </div>
                             <div className="ico-listings ml-md-3 ml-lg-0">
                                 <p className="ico-listings-title">
-                                    ICO LISTINGS
+                                    EXCHANGE LISTINGS
                                 </p>
                                 <ul className="list-unstyled">
-                                    {ICO_LISTINGS.map((x, i) => (
-                                        <li
-                                            key={i}
-                                            className="list-unstyled-item">
-                                            <a
-                                                className="footer-link"
-                                                href={x.url}>
-                                                {x.linkName}
-                                            </a>
-                                        </li>
-                                    ))}
+                                    <li className="list-unstyled-item">
+                                        <a
+                                            target="_blank"
+                                            className="footer-link"
+                                            href="https://southxchange.com">
+                                            SouthXchange
+                                        </a>
+                                    </li>
                                 </ul>
                             </div>
                         </div>
