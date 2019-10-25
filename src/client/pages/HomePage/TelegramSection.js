@@ -10,7 +10,7 @@ class TelegramSection extends React.Component {
                 <div className="container page-section">
                     <div className="row align-items-center">
                         <div className="col-md-6">
-                            <div className="pr-0 pr-md-1">
+                            <div className="pr-0 pr-md-3 pb-3 pb-md-0 text-md-right text-center">
                                 <img
                                     className="img-fluid telegram-img"
                                     alt="Telegram Logo"

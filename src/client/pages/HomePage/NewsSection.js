@@ -36,19 +36,19 @@ class NewsSection extends React.Component {
     renderOneOtherNews = (news, index) => {
         return (
             <div className="news-item mb-2" key={index}>
-                <div className="d-flex justify-content-between align-items-center mb-2">
-                    <h6 className="news-title">{news.title}</h6>
+                <h6 className="news-title mb-2">{news.title}</h6>
+                <div className="news-content mb-1">
+                    <pre className="plaintext">{news.plaintext_news}</pre>
+                </div>
+                <div className="d-flex justify-content-between align-items-center">
+                    <div className="news-published-date">
+                        {moment(news.created_on).format('Do MMMM, YYYY')}
+                    </div>
                     <div
                         className="badge read-more-badge"
                         onClick={() => this.onClickNews(news.id)}>
                         Read More
                     </div>
-                </div>
-                <div className="news-content mb-1">
-                    <pre className="plaintext">{news.plaintext_news}</pre>
-                </div>
-                <div className="news-published-date">
-                    {moment(news.created_on).format('Do MMMM, YYYY')}
                 </div>
             </div>
         )
