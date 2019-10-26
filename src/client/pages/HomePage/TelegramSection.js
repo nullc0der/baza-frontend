@@ -18,14 +18,16 @@ class TelegramSection extends React.Component {
                                 />
                             </div>
                         </div>
-                        <div className="col-md-6 px-3 px-md-0">
-                            <h3 className="mb-3">Telegram Channel</h3>
-                            <p>Send us a message on Telegram</p>
-                            <a
-                                href="https://t.me/bazafoundation"
-                                target="_blank">
-                                t.me/bazafoundation
-                            </a>
+                        <div className="col-md-6">
+                            <div className="text-center text-md-left">
+                                <h3 className="mb-3">Telegram Channel</h3>
+                                <p>Send us a message on Telegram</p>
+                                <a
+                                    href="https://t.me/bazafoundation"
+                                    target="_blank">
+                                    t.me/bazafoundation
+                                </a>
+                            </div>
                         </div>
                     </div>
                 </div>
