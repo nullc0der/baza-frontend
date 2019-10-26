@@ -115,3 +115,11 @@ export function getUsername(profile) {
         }
     }
 }
+
+export function isGRecaptchaReady() {
+    return (
+        typeof window !== 'undefined' &&
+        typeof window.grecaptcha !== 'undefined' &&
+        typeof window.grecaptcha.execute !== 'undefined'
+    )
+}

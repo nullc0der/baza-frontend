@@ -13,7 +13,8 @@ const INITIAL_STATE = {
     notificationSystemData: {
         message: '',
         level: ''
-    }
+    },
+    isGRecaptchaReady: false
 }
 
 const SET_BREADCRUMBS = 'SET_BREADCRUMBS'
@@ -53,13 +54,20 @@ const addNotification = notification => ({
     notification
 })
 
+const UPDATE_GOOGLE_RECAPTCHA_STATUS = 'UPDATE_GOOGLE_RECAPTCHA_STATUS'
+const updateGoogleRecaptchaStatus = isGRecaptchaReady => ({
+    type: UPDATE_GOOGLE_RECAPTCHA_STATUS,
+    isGRecaptchaReady
+})
+
 export const actions = {
     setBreadCrumbs,
     selectDonation,
     changeSubHeaderFilters,
     changeSubHeaderSearchString,
     updateHeaderVisibility,
-    addNotification
+    addNotification,
+    updateGoogleRecaptchaStatus
 }
 
 export default function CommonReducer(state = INITIAL_STATE, action) {
@@ -84,6 +92,11 @@ export default function CommonReducer(state = INITIAL_STATE, action) {
             return {
                 ...state,
                 notificationSystemData: action.notification
+            }
+        case UPDATE_GOOGLE_RECAPTCHA_STATUS:
+            return {
+                ...state,
+                isGRecaptchaReady: action.isGRecaptchaReady
             }
         default:
             return state
