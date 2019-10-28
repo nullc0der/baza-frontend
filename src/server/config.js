@@ -31,7 +31,8 @@ export const getClientConfig = () => {
         'SITE_TYPE',
         'RELEASE_CODENAME',
         'RELEASE',
-        'SMS_CODE_EXPIRES_IN'
+        'SMS_CODE_EXPIRES_IN',
+        'GOOGLE_RECAPTCHA_SITE_KEY'
         // add other keys to send here
         // e.g.
         // API Keys,

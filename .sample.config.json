@@ -7,5 +7,6 @@
     "SITE_TYPE": "local|beta|live",
     "RELEASE_CODENAME": "Rising Phoenix",
     "RELEASE": "1.0.0",
-    "SMS_CODE_EXPIRES_IN": "30"
+    "SMS_CODE_EXPIRES_IN": "30",
+    "GOOGLE_RECAPTCHA_SITE_KEY": ""
 }

@@ -1,7 +1,11 @@
 import React, { Component } from 'react'
 import classnames from 'classnames'
 import get from 'lodash/get'
+import { connect } from 'react-redux'
+
 import { landingContact } from 'api/landing-contact'
+import Config from 'utils/config'
+
 import TextField from 'components/ui/TextField'
 
 class ContactSection extends Component {
@@ -19,7 +23,8 @@ class ContactSection extends Component {
             message: null,
             nonField: null
         },
-        sentMessage: false
+        sentMessage: false,
+        messageSending: false
     }
 
     onInputChange = (id, value) => {
@@ -33,40 +38,58 @@ class ContactSection extends Component {
 
     onSubmitClick = e => {
         e.preventDefault()
-        landingContact(this.state.inputValues)
-            .then(response => {
-                this.setState({
-                    sentMessage: true,
-                    inputValues: {
-                        name: '',
-                        email: '',
-                        subject: '',
-                        message: ''
-                    },
-                    errorState: {
-                        name: null,
-                        email: null,
-                        subject: null,
-                        message: null,
-                        nonField: null
-                    }
-                })
+        if (this.props.isGRecaptchaReady) {
+            this.setState({
+                messageSending: true
             })
-            .catch(responseData => {
-                this.setState({
-                    errorState: {
-                        name: get(responseData, 'name', null),
-                        email: get(responseData, 'email', null),
-                        subject: get(responseData, 'subject', null),
-                        message: get(responseData, 'message', null),
-                        nonField: get(responseData, 'non_field_errors', null)
-                    }
+            window.grecaptcha
+                .execute(Config.get('GOOGLE_RECAPTCHA_SITE_KEY'), {
+                    action: 'contact_form'
                 })
-            })
+                .then(token => {
+                    landingContact({ ...this.state.inputValues, token })
+                        .then(response => {
+                            this.setState({
+                                sentMessage: true,
+                                inputValues: {
+                                    name: '',
+                                    email: '',
+                                    subject: '',
+                                    message: ''
+                                },
+                                errorState: {
+                                    name: null,
+                                    email: null,
+                                    subject: null,
+                                    message: null,
+                                    nonField: null
+                                },
+                                messageSending: false
+                            })
+                        })
+                        .catch(responseData => {
+                            this.setState({
+                                errorState: {
+                                    name: get(responseData, 'name', null),
+                                    email: get(responseData, 'email', null),
+                                    subject: get(responseData, 'subject', null),
+                                    message: get(responseData, 'message', null),
+                                    nonField: get(
+                                        responseData,
+                                        'non_field_errors',
+                                        null
+                                    )
+                                },
+                                messageSending: false
+                            })
+                        })
+                })
+        }
     }
 
     render() {
         const { className, id } = this.props
+        const { messageSending } = this.state
         const cx = classnames('contact-section bg-light', className)
         return (
             <div className={cx} id={id}>
@@ -92,7 +115,9 @@ class ContactSection extends Component {
                                             className="input-contact-name"
                                             label="Name"
                                             id="name"
-                                            errorState={this.state.errorState.name}
+                                            errorState={
+                                                this.state.errorState.name
+                                            }
                                             value={this.state.inputValues.name}
                                             onChange={this.onInputChange}
                                             icon={
@@ -107,7 +132,9 @@ class ContactSection extends Component {
                                             className="input-contact-email"
                                             label="Email"
                                             id="email"
-                                            errorState={this.state.errorState.email}
+                                            errorState={
+                                                this.state.errorState.email
+                                            }
                                             value={this.state.inputValues.email}
                                             onChange={this.onInputChange}
                                             icon={
@@ -168,9 +195,17 @@ class ContactSection extends Component {
                                                 will get back to you shortly
                                             </p>
                                         )}
-                                        <button className="btn btn-block btn-dark"
-                                            onClick={this.onSubmitClick}>
-                                            SEND
+                                        <button
+                                            className="btn btn-block btn-dark"
+                                            onClick={this.onSubmitClick}
+                                            disabled={messageSending}>
+                                            SEND{' '}
+                                            <i
+                                                className={`fas ${
+                                                    !messageSending
+                                                        ? 'fa-arrow-right'
+                                                        : 'fa-circle-notch fa-spin'
+                                                }`}></i>
                                         </button>
                                     </div>
                                 </div>
@@ -183,4 +218,8 @@ class ContactSection extends Component {
     }
 }
 
-export default ContactSection
+const mapStateToProps = state => ({
+    isGRecaptchaReady: state.Common.isGRecaptchaReady
+})
+
+export default connect(mapStateToProps)(ContactSection)

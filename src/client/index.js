@@ -32,6 +32,7 @@ const store = configureStore(finalState, history)
 //Save a local copy whenever store changes
 store.subscribe(() => {
     const {
+        Common,
         Auth,
         Messenger,
         Donations,

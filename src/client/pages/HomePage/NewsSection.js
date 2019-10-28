@@ -37,8 +37,8 @@ class NewsSection extends React.Component {
         return (
             <div className="news-item mb-2" key={index}>
                 <h6 className="news-title mb-2">{news.title}</h6>
-                <div className="news-content mb-1">
-                    <pre className="plaintext">{news.plaintext_news}</pre>
+                <div className="news-content-plaintext mb-1">
+                    {news.plaintext_news}
                 </div>
                 <div className="d-flex justify-content-between align-items-center">
                     <div className="news-published-date">

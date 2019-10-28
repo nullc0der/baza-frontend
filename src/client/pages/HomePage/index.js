@@ -4,6 +4,8 @@ import classnames from 'classnames'
 
 import Helmet from 'react-helmet'
 
+import Config from 'utils/config'
+
 // import ContentWithImage from 'components/FullScreenPages/ContentWithImage'
 import Header from 'components/Header'
 import Footer from 'components/Footer'
@@ -35,9 +37,29 @@ class HomePage extends Component {
             .fetchStats()
             .then(() => {})
             .catch(() => {})
+        if (this.props.isGRecaptchaReady) {
+            this.executeHomePageLoadAction()
+        }
+    }
+
+    componentDidUpdate = (prevProps, _) => {
+        if (
+            prevProps.isGRecaptchaReady !== this.props.isGRecaptchaReady &&
+            this.props.isGRecaptchaReady
+        ) {
+            this.executeHomePageLoadAction()
+        }
     }
 
     componentWillUnmount = () => {}
+
+    executeHomePageLoadAction = () => {
+        window.grecaptcha
+            .execute(Config.get('GOOGLE_RECAPTCHA_SITE_KEY'), {
+                action: 'homepage'
+            })
+            .then(() => {})
+    }
 
     render() {
         const cx = classnames('home-page')
@@ -98,7 +120,8 @@ class HomePage extends Component {
 }
 
 const mapStateToProps = state => ({
-    landingStats: state.Landing.landingStats
+    landingStats: state.Landing.landingStats,
+    isGRecaptchaReady: state.Common.isGRecaptchaReady
 })
 
 const mapDispatchToProps = dispatch => ({

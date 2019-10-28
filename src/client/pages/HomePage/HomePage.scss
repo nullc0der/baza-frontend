@@ -460,12 +460,12 @@
             padding: 0;
             margin: 1rem;
         }
-        .plaintext {
-            font-family: 'Raleway', -apple-system, BlinkMacSystemFont,
-                'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif,
-                'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
-            font-size: 14px;
-        }
+        // .plaintext {
+        //     font-family: 'Raleway', -apple-system, BlinkMacSystemFont,
+        //         'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif,
+        //         'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
+        //     font-size: 14px;
+        // }
     }
 
     .latest-news {
@@ -481,9 +481,11 @@
         .news-title {
             margin-bottom: 0;
         }
-        .news-content {
+        .news-content-plaintext {
             overflow-y: hidden;
             height: 115px;
+            white-space: pre-wrap;
+            overflow-wrap: break-word;
         }
     }
 }
