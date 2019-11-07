@@ -6,9 +6,9 @@ import { Redirect } from 'react-router-dom'
 import { push } from 'react-router-redux'
 import { connect } from 'react-redux'
 
-import TwitterLogin from 'react-twitter-auth'
+// import TwitterLogin from 'react-twitter-auth'
 
-import { store, saveLocalAuthState } from 'store'
+// import { store, saveLocalAuthState } from 'store'
 import { actions as authActions } from 'store/Auth'
 import Auth from 'utils/authHelpers'
 import Header from 'components/Header'
@@ -16,9 +16,9 @@ import Header from 'components/Header'
 import TextField from 'components/ui/TextField'
 import Carousel from 'components/ui/Carousel'
 import EnhancedPasswordField from 'components/ui/EnhancedPasswordField'
-import FacebookLogin from 'components/FacebookLogin'
-import GoogleLogin from 'components/GoogleLogin'
-import Config from 'utils/config'
+// import FacebookLogin from 'components/FacebookLogin'
+// import GoogleLogin from 'components/GoogleLogin'
+// import Config from 'utils/config'
 import s from './SignUp.scss'
 
 class SignUpPage extends Component {
@@ -116,96 +116,96 @@ class SignUpPage extends Component {
             })
     }
 
-    handleSocialResponse = responseData => {
-        if (responseData.access_token) {
-            if (responseData.email_exist) {
-                if (
-                    responseData.email_verification === 'mandatory' &&
-                    !responseData.email_verified
-                ) {
-                    this.setState({
-                        registerSuccessText:
-                            'Registration was successful.\n' +
-                            'We sent an email to the one provided in your social account.\n' +
-                            'Please check your email to verify and continue.\n' +
-                            '\n' +
-                            'Note: Check your spam folder if it is not in your inbox.'
-                    })
-                } else {
-                    this.props.authenticateUser(
-                        responseData.access_token,
-                        responseData.email_verification,
-                        responseData.email_verified,
-                        responseData.expires_in
-                    )
-                    this.setState({
-                        shouldRedirect: true,
-                        redirectURL: '/profile/'
-                    })
-                    saveLocalAuthState('baza-auth', {
-                        Auth: store.getState().Auth
-                    })
-                }
-            } else {
-                this.setState({
-                    shouldRedirect: true,
-                    redirectURL: '/addemail/'
-                })
-            }
-        } else if (responseData.two_factor_enabled) {
-            this.setState({
-                shouldRedirect: true,
-                redirectURL: '/twofactor/',
-                fromSocial: responseData.from_social,
-                uuid: responseData.uuid
-            })
-        } else {
-            this.setState({
-                errorText: {
-                    nonField: get(responseData, 'non_field_errors', '')
-                }
-            })
-        }
-    }
+    // handleSocialResponse = responseData => {
+    //     if (responseData.access_token) {
+    //         if (responseData.email_exist) {
+    //             if (
+    //                 responseData.email_verification === 'mandatory' &&
+    //                 !responseData.email_verified
+    //             ) {
+    //                 this.setState({
+    //                     registerSuccessText:
+    //                         'Registration was successful.\n' +
+    //                         'We sent an email to the one provided in your social account.\n' +
+    //                         'Please check your email to verify and continue.\n' +
+    //                         '\n' +
+    //                         'Note: Check your spam folder if it is not in your inbox.'
+    //                 })
+    //             } else {
+    //                 this.props.authenticateUser(
+    //                     responseData.access_token,
+    //                     responseData.email_verification,
+    //                     responseData.email_verified,
+    //                     responseData.expires_in
+    //                 )
+    //                 this.setState({
+    //                     shouldRedirect: true,
+    //                     redirectURL: '/profile/'
+    //                 })
+    //                 saveLocalAuthState('baza-auth', {
+    //                     Auth: store.getState().Auth
+    //                 })
+    //             }
+    //         } else {
+    //             this.setState({
+    //                 shouldRedirect: true,
+    //                 redirectURL: '/addemail/'
+    //             })
+    //         }
+    //     } else if (responseData.two_factor_enabled) {
+    //         this.setState({
+    //             shouldRedirect: true,
+    //             redirectURL: '/twofactor/',
+    //             fromSocial: responseData.from_social,
+    //             uuid: responseData.uuid
+    //         })
+    //     } else {
+    //         this.setState({
+    //             errorText: {
+    //                 nonField: get(responseData, 'non_field_errors', '')
+    //             }
+    //         })
+    //     }
+    // }
 
-    handleSocialLogin = (token, backend) => {
-        const convertToken = Auth.convertToken(token, backend)
-        convertToken
-            .then(responseData => {
-                this.handleSocialResponse(responseData)
-            })
-            .catch(err => {
-                this.setState(prevState => ({
-                    errorText: {
-                        ...prevState.errorText,
-                        nonField: get(err, 'non_field_errors', '')
-                    }
-                }))
-            })
-    }
+    // handleSocialLogin = (token, backend) => {
+    //     const convertToken = Auth.convertToken(token, backend)
+    //     convertToken
+    //         .then(responseData => {
+    //             this.handleSocialResponse(responseData)
+    //         })
+    //         .catch(err => {
+    //             this.setState(prevState => ({
+    //                 errorText: {
+    //                     ...prevState.errorText,
+    //                     nonField: get(err, 'non_field_errors', '')
+    //                 }
+    //             }))
+    //         })
+    // }
 
-    handleTwitterLogin = res => {
-        if (res.status === 200) {
-            res.json().then(data => {
-                this.handleSocialResponse(data)
-            })
-        } else {
-            res.json().then(data => {
-                this.setState(prevState => ({
-                    errorText: {
-                        ...prevState.errorText,
-                        nonField: get(data, 'non_field_errors', '')
-                    }
-                }))
-            })
-        }
-    }
+    // handleTwitterLogin = res => {
+    //     if (res.status === 200) {
+    //         res.json().then(data => {
+    //             this.handleSocialResponse(data)
+    //         })
+    //     } else {
+    //         res.json().then(data => {
+    //             this.setState(prevState => ({
+    //                 errorText: {
+    //                     ...prevState.errorText,
+    //                     nonField: get(data, 'non_field_errors', '')
+    //                 }
+    //             }))
+    //         })
+    //     }
+    // }
 
     render() {
         const cx = classnames(s.container, 'signup-page')
-        const twitterLoginUrl = Config.get('API_ROOT') + '/auth/twitter/login/'
-        const twitterRequestTokenUrl =
-            Config.get('API_ROOT') + '/auth/twitter/getrequesttoken/'
+        // const twitterLoginUrl = Config.get('API_ROOT') + '/auth/twitter/login/'
+        // const twitterRequestTokenUrl =
+        //     Config.get('API_ROOT') + '/auth/twitter/getrequesttoken/'
         return this.state.shouldRedirect ? (
             <Redirect
                 to={{
@@ -314,7 +314,7 @@ class SignUpPage extends Component {
                                                 )}
                                             </div>
                                         )}
-                                        <div className="well text-center mt-3">
+                                        {/* <div className="well text-center mt-3">
                                             <p> or signup with </p>
                                             <ul className="list-inline social-login-list">
                                                 <li className="list-inline-item">
@@ -355,9 +355,9 @@ class SignUpPage extends Component {
                                                     </TwitterLogin>
                                                 </li>
                                             </ul>
-                                        </div>
+                                        </div> */}
                                         <button
-                                            className="mt-2 btn btn-dark btn-block"
+                                            className="mt-3 btn btn-dark btn-block"
                                             onClick={this.onRegisterClick}>
                                             {' '}
                                             Sign Up{' '}
