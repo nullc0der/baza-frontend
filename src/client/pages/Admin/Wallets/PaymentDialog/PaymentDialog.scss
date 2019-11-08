@@ -13,10 +13,13 @@ $text-color: rgba($dark, 0.5);
     }
     .modal-content {
         border-radius: 3px;
+        .disabled-notice {
+            margin-bottom: 0;
+        }
     }
-    .modal-body {
-        padding: 0;
-    }
+    // .modal-body {
+    //     padding: 0;
+    // }
     .ui-tabs {
         margin: 0 18px;
     }
