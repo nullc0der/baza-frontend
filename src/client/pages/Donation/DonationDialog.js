@@ -226,13 +226,13 @@ class DonationDialog extends Component {
                             ? `$${selectedDonation.price}`
                             : '$120'}
                     </button>
-                    {!this.state.isOtherInputVisible && (
-                        <button
-                            className="btn btn-outline-dark other-donation-button"
-                            onClick={e => this.toggleOtherInput(true, 0)}>
-                            Other
-                        </button>
-                    )}
+                    <button
+                        className={`btn btn-outline-dark other-donation-button ${
+                            this.state.isOtherInputVisible ? 'd-none' : 'd-flex'
+                        }`}
+                        onClick={e => this.toggleOtherInput(true, 0)}>
+                        Other
+                    </button>
                 </div>
 
                 {this.state.isOtherInputVisible && (
