@@ -97,6 +97,9 @@ class DonationDialog extends Component {
             })
             value = newValues.join(' ')
         }
+        if (id === 'phoneNumber') {
+            value = value.phoneNumberDialCode + value.phoneNumber
+        }
         this.setState(prevState => ({
             inputValues: {
                 ...prevState.inputValues,
