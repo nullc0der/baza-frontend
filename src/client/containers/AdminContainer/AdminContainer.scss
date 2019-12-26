@@ -16,6 +16,9 @@
 
 body.is-admin-ui {
     font-family: 'Source Sans Pro', sans-serif;
+    .grecaptcha-badge {
+        visibility: hidden;
+    }
 }
 
 :local(.container) {
