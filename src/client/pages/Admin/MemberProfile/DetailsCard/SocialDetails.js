@@ -23,19 +23,19 @@ class SocialSettings extends Component {
             .then(res => {
                 this.setConnectedAndNotConnectedSocials(res.data)
             })
-            .catch(res => { })
+            .catch(res => {})
     }
 
     setConnectedAndNotConnectedSocials = resData => {
         const notConnectedSocials = []
         const hasTwitter = resData.filter(x => x.provider === 'twitter')
-        const hasGoogle = resData.filter(x => x.provider === 'google-plus')
+        const hasGoogle = resData.filter(x => x.provider === 'google-oauth2')
         const hasFacebook = resData.filter(x => x.provider === 'facebook')
         if (!hasTwitter.length) {
             notConnectedSocials.push('twitter')
         }
         if (!hasGoogle.length) {
-            notConnectedSocials.push('google-plus')
+            notConnectedSocials.push('google-oauth2')
         }
         if (!hasFacebook.length) {
             notConnectedSocials.push('facebook')
@@ -46,8 +46,6 @@ class SocialSettings extends Component {
             socialError: ''
         })
     }
-
-
 
     handleSocialConnect = (token, backend) => {
         const datas = {
@@ -96,8 +94,10 @@ class SocialSettings extends Component {
     }
 
     render() {
-        const twitterLoginUrl = Config.get('API_ROOT') + '/profile/socialauths/connecttwitter/'
-        const twitterRequestTokenUrl = Config.get('API_ROOT') + '/auth/twitter/getrequesttoken/'
+        const twitterLoginUrl =
+            Config.get('API_ROOT') + '/profile/socialauths/connecttwitter/'
+        const twitterRequestTokenUrl =
+            Config.get('API_ROOT') + '/auth/twitter/getrequesttoken/'
         return (
             <CardContent>
                 <div className="details-section">
@@ -107,15 +107,19 @@ class SocialSettings extends Component {
                         {!!this.state.connectedSocials &&
                             this.state.connectedSocials.map((x, i) => (
                                 <div
-                                    className={`social-account account-${
-                                        x.provider
-                                        }`}
+                                    className={`social-account account-${x.provider}`}
                                     onClick={() =>
                                         this.onClickDisconnect(x.id, x.provider)
                                     }
                                     key={i}>
                                     <div className="social-account-icon">
-                                        <i className={`fa fa-${x.provider}`} />
+                                        <i
+                                            className={`fa fa-${
+                                                x.provider !== 'google-oauth2'
+                                                    ? x.provider
+                                                    : 'google'
+                                            }`}
+                                        />
                                     </div>
                                     <div className="social-account-name text-capitalize">
                                         {x.provider.split('-')[0]}
@@ -124,7 +128,7 @@ class SocialSettings extends Component {
                             ))}
                         {!!this.state.notConnectedSocials &&
                             this.state.notConnectedSocials.map((x, i) => {
-                                return x === 'google-plus' ? (
+                                return x === 'google-oauth2' ? (
                                     <GoogleLogin
                                         key={i}
                                         tag="div"
@@ -161,28 +165,28 @@ class SocialSettings extends Component {
                                         </div>
                                     </FacebookLogin>
                                 ) : (
-                                            <TwitterLogin
-                                                key={i}
-                                                tag="div"
-                                                loginUrl={twitterLoginUrl}
-                                                requestTokenUrl={twitterRequestTokenUrl}
-                                                customHeaders={{
-                                                    'access-token': Auth.getToken()
-                                                }}
-                                                onSuccess={this.handleTwitterConnect}
-                                                onFailure={err => console.log(err)}>
-                                                <div
-                                                    className="social-account account-new"
-                                                    key={i}>
-                                                    <div className="social-account-icon">
-                                                        <i className="fa fa-twitter" />
-                                                    </div>
-                                                    <div className="social-account-name">
-                                                        Twitter
+                                    <TwitterLogin
+                                        key={i}
+                                        tag="div"
+                                        loginUrl={twitterLoginUrl}
+                                        requestTokenUrl={twitterRequestTokenUrl}
+                                        customHeaders={{
+                                            'access-token': Auth.getToken()
+                                        }}
+                                        onSuccess={this.handleTwitterConnect}
+                                        onFailure={err => console.log(err)}>
+                                        <div
+                                            className="social-account account-new"
+                                            key={i}>
+                                            <div className="social-account-icon">
+                                                <i className="fa fa-twitter" />
                                             </div>
-                                                </div>
-                                            </TwitterLogin>
-                                        )
+                                            <div className="social-account-name">
+                                                Twitter
+                                            </div>
+                                        </div>
+                                    </TwitterLogin>
+                                )
                             })}
                     </div>
                     {!!this.state.socialError && (

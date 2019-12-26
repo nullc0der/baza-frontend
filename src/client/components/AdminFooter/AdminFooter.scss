@@ -50,4 +50,11 @@
     .pill-powered {
         width: 118px;
     }
+
+    .link {
+        color: $admin-primary;
+        &:hover {
+            color: $admin-secondary;
+        }
+    }
 }
