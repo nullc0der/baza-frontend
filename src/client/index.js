@@ -38,6 +38,7 @@ store.subscribe(() => {
         Donations,
         GroupNews,
         GroupPost,
+        UserWebWallet,
         ...others
     } = store.getState()
     saveLocalUIState('baza-ui', others)

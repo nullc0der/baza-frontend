@@ -8,12 +8,14 @@ import AccountsSidebar from './AccountsSidebar'
 import TransanctionsTable from './TransanctionsTable'
 import PaymentDialog from './PaymentDialog'
 import TransanctionsDialog from './TransanctionsDialog'
+import CreateWalletDialog from './CreateWalletDialog'
 
 class WalletsPage extends Component {
     state = {
         isPaymentDialogOpen: false,
         isTransanctionsDialogOpen: false,
-        paymentDialogScreenIndex: 0
+        paymentDialogScreenIndex: 0,
+        isCreateWalletDialogOpen: false
     }
 
     openReceiveDialog = accountId => {
@@ -40,17 +42,33 @@ class WalletsPage extends Component {
         this.setState({ isTransanctionsDialogOpen: false })
     }
 
+    toggleCreateWalletDialog = () => {
+        this.setState({
+            isCreateWalletDialogOpen: !this.state.isCreateWalletDialogOpen
+        })
+    }
+
     render() {
         const cx = classnames(s.container)
         return (
             <div className={cx}>
                 <Helmet title="Wallets" />
-                <AccountsSidebar
-                    onRequestReceive={this.openReceiveDialog}
-                    onRequestSend={this.openSendDialog}
-                    onRequestDetails={this.showDetailsDialog}
-                />
-                <TransanctionsTable />
+                <div className="action-bar mb-2">
+                    <div className="flex-1" />
+                    <button
+                        className="btn btn-dark create-new-button"
+                        onClick={this.toggleCreateWalletDialog}>
+                        Create New Baza Wallet
+                    </button>
+                </div>
+                <div className="wallet-section">
+                    <AccountsSidebar
+                        onRequestReceive={this.openReceiveDialog}
+                        onRequestSend={this.openSendDialog}
+                        onRequestDetails={this.showDetailsDialog}
+                    />
+                    <TransanctionsTable />
+                </div>
                 {this.state.isPaymentDialogOpen && (
                     <PaymentDialog
                         id="wallet-payment-dialog"
@@ -62,6 +80,12 @@ class WalletsPage extends Component {
                 {this.state.isTransanctionsDialogOpen && (
                     <TransanctionsDialog
                         onRequestClose={this.closeDetailsDialog}
+                    />
+                )}
+                {this.state.isCreateWalletDialogOpen && (
+                    <CreateWalletDialog
+                        isOpen={this.state.isCreateWalletDialogOpen}
+                        onRequestClose={this.toggleCreateWalletDialog}
                     />
                 )}
             </div>

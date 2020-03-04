@@ -2,69 +2,113 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import classnames from 'classnames'
 
-// import SwipeableViews from 'react-swipeable-views'
+import SwipeableViews from 'react-swipeable-views'
 
 import Dialog from 'components/ui/Dialog'
-// import Tabs from 'components/ui/Tabs'
+import Tabs from 'components/ui/Tabs'
 
-import { actions as walletTransactionActions } from 'store/WalletTransanctions'
-import { actions as walletAccountActions } from 'store/WalletAccounts'
+import { sendUserWebWalletTx } from 'api/userwebwallet'
 
-// import ReceivePayment from './ReceivePayment'
-// import SendPayment from './SendPayment'
+import { actions as userWebWalletAction } from 'store/UserWebWallet'
+import { actions as commonActions } from 'store/Common'
+
+import ReceivePayment from './ReceivePayment'
+import SendPayment from './SendPayment'
 
 import s from './PaymentDialog.scss'
+import get from 'lodash/get'
 
 class PaymentsDialog extends Component {
-    // state = {
-    //     selectedTab: 0
-    // }
+    state = {
+        selectedTab: 0,
+        inputValues: {
+            amount: '',
+            destAddress: ''
+        },
+        inputError: {
+            amount: null,
+            destAddress: null,
+            nonField: null
+        },
+        txfee: 1000
+    }
 
-    // componentDidMount = () => {
-    //     if (this.props.selectedTab) {
-    //         this.setState({ selectedTab: this.props.selectedTab })
-    //     }
-    // }
+    componentDidMount = () => {
+        if (this.props.selectedTab) {
+            this.setState({ selectedTab: this.props.selectedTab })
+        }
+    }
 
-    // componentWillReceiveProps = nextProps => {
-    //     if (nextProps.selectedTab) {
-    //         this.setState({ selectedTab: nextProps.selectedTab })
-    //     }
-    // }
+    componentWillReceiveProps = nextProps => {
+        if (nextProps.selectedTab) {
+            this.setState({ selectedTab: nextProps.selectedTab })
+        }
+    }
 
-    // switchTab = (tab, selectedTab) => {
-    //     this.setState({ selectedTab })
-    // }
+    switchTab = (tab, selectedTab) => {
+        this.setState({ selectedTab })
+    }
 
-    // switchSwipeTab = selectedTab => {
-    //     this.setState({ selectedTab })
-    // }
+    switchSwipeTab = selectedTab => {
+        this.setState({ selectedTab })
+    }
 
-    // onReceiveSubmitClick = () => {
-    //     console.log('receive submit clicked')
-    // }
+    onSendSubmitClick = () => {
+        const {
+            selectedWebWallet,
+            getWebWalletsDetails,
+            addNotification,
+            onRequestClose
+        } = this.props
+        sendUserWebWalletTx({
+            source_address: selectedWebWallet.address,
+            destination_address: this.state.inputValues.destAddress,
+            amount: this.state.inputValues.amount
+        })
+            .then(() => {
+                getWebWalletsDetails(selectedWebWallet.id)
+                addNotification({
+                    message: 'Transaction created successfully',
+                    type: 'info'
+                })
+                onRequestClose()
+            })
+            .catch(responseData => {
+                this.setState({
+                    inputError: {
+                        amount: get(responseData, 'amount', null),
+                        destAddress: get(
+                            responseData,
+                            'destination_address',
+                            null
+                        ),
+                        nonField: get(responseData, 'non_field_errors', null)
+                    }
+                })
+            })
+    }
 
-    // onSendSubmitClick = data => {
-    //     this.props
-    //         .sendPayment(data)
-    //         .then(() => {
-    //             this.props.onRequestClose()
-    //             this.props.fetchAccounts()
-    //         })
-    //         .catch(err => err)
-    // }
+    onInputChange = (id, value) => {
+        this.setState(prevState => ({
+            inputValues: {
+                ...prevState.inputValues,
+                [id]: value
+            }
+        }))
+    }
 
     render() {
         const cx = classnames(s.container, 'payments-dialog')
 
-        // const tabsList = [{ label: 'SEND' }, { label: 'RECEIVE' }]
+        const tabsList = [{ label: 'SEND' }, { label: 'RECEIVE' }]
 
         return (
             <Dialog
                 isOpen={this.props.isOpen}
                 onRequestClose={this.props.onRequestClose}
-                className={cx}>
-                {/* <Tabs
+                className={cx}
+                showClose={false}>
+                <Tabs
                     className="payment-tabs"
                     selectedIndex={this.state.selectedTab}
                     tabs={tabsList}
@@ -76,41 +120,32 @@ class PaymentsDialog extends Component {
                     <SendPayment
                         onSendSubmitClick={this.onSendSubmitClick}
                         hasPaymentSendError={this.props.hasPaymentSendError}
+                        inputValues={this.state.inputValues}
+                        inputError={this.state.inputError}
+                        txfee={this.state.txfee}
                     />
                     <ReceivePayment
-                        onReceiveSubmitClick={this.onReceiveSubmitClick}
+                        wallet={this.props.selectedWebWallet}
+                        addNotification={this.props.addNotification}
+                        onRequestClose={this.props.onRequestClose}
                     />
-                </SwipeableViews> */}
-                <p className="disabled-notice">
-                    Online wallets will be enabled soon. Please download the
-                    desktop wallet until then at{' '}
-                    <a
-                        href="https://gitlab.ekata.io/baza-foundation/baza-fondo-wallet/releases"
-                        target="_blank">
-                        https://gitlab.ekata.io/baza-foundation/baza-fondo-wallet/releases
-                    </a>
-                    .
-                </p>
+                </SwipeableViews>
             </Dialog>
         )
     }
 }
 
 const mapStateToProps = state => ({
-    hasPaymentSendError: state.WalletTransanctions.hasPaymentSendError
+    selectedWebWallet: state.UserWebWallet.selectedWebWallet
 })
 
 const mapDispatchToProps = dispatch => ({
-    sendPayment(data) {
-        return dispatch(walletTransactionActions.sendPayment(data))
+    addNotification(notification) {
+        return dispatch(commonActions.addNotification(notification))
     },
-    fetchAccounts() {
-        return dispatch(walletAccountActions.fetchAccounts())
-    } // TODO: This is temporary in later version make store change the related account amount once
-    // transactions is success
+    getWebWalletsDetails(walletId) {
+        return dispatch(userWebWalletAction.getWebWalletsDetails(walletId))
+    }
 })
 
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(PaymentsDialog)
+export default connect(mapStateToProps, mapDispatchToProps)(PaymentsDialog)

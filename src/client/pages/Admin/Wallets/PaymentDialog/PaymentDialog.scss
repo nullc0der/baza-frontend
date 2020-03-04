@@ -11,6 +11,11 @@ $text-color: rgba($dark, 0.5);
             max-width: 100vw;
         }
     }
+
+    .modal-body {
+        padding: 0;
+    }
+
     .modal-content {
         border-radius: 3px;
         .disabled-notice {
@@ -89,20 +94,26 @@ $text-color: rgba($dark, 0.5);
         margin: 0 auto;
     }
     .copy-code {
-        display: flex;
-        align-items: center;
-        .ui-textfield {
-            flex: 1;
+        .form-control {
+            resize: none;
+            color: inherit;
+            overflow: hidden;
             border-top-right-radius: 0;
             border-bottom-right-radius: 0;
+            &:focus {
+                border-color: #ced4da;
+                box-shadow: none;
+            }
+        }
+        .input-group {
+            align-items: center;
         }
         .btn-copy {
             background-color: $dark;
             color: #fff;
-            width: 40px;
-            height: 60px;
             flex-shrink: 0;
-            padding: 15px 8px;
+            border-radius: 3px;
+            padding: 14px 10px;
             border-top-left-radius: 0;
             border-bottom-left-radius: 0;
             .material-icons {

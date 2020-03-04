@@ -24,6 +24,8 @@ import HashTag from './HashTag'
 
 import Landing from './Landing'
 
+import UserWebWallet from './UserWebWallet'
+
 export default combineReducers({
     router,
     UserProfile,
@@ -42,5 +44,6 @@ export default combineReducers({
     Notifications,
     Donations,
     HashTag,
-    Landing
+    Landing,
+    UserWebWallet
 })
