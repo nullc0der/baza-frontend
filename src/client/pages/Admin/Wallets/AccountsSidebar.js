@@ -43,10 +43,10 @@ class AccountsSidebar extends Component {
                         <div className="wallet-name">{wallet.name}</div>
                         <div className="wallet-conversion-rate">
                             <p className="mb-0">
-                                Unlocked: {wallet.balance.unlocked}
+                                Unlocked: {wallet.balance.unlocked / 1000000}
                             </p>
                             <p className="mb-0">
-                                Locked: {wallet.balance.locked}
+                                Locked: {wallet.balance.locked / 1000000}
                             </p>
                         </div>
                     </div>

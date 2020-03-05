@@ -26,7 +26,7 @@ class TransanctionsDialog extends Component {
                             label="Timestamp"
                             value={
                                 <TransanctionDate
-                                    date={transanction.timestamp}
+                                    timestamp={transanction.timestamp}
                                 />
                             }
                         />
@@ -35,7 +35,7 @@ class TransanctionsDialog extends Component {
                         <LabelledValue
                             className="transanction-amount"
                             label="Amount"
-                            value={transanction.transfers[0].amount}
+                            value={transanction.transfers[0].amount / 1000000}
                         />
                     </div>
                 </div>

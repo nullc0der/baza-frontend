@@ -18,6 +18,10 @@ import SendPayment from './SendPayment'
 import s from './PaymentDialog.scss'
 import get from 'lodash/get'
 
+const calcTotal = (amount, txfee) => {
+    return parseFloat(amount) + parseFloat(txfee) / 1000000
+}
+
 class PaymentsDialog extends Component {
     state = {
         selectedTab: 0,
@@ -30,6 +34,7 @@ class PaymentsDialog extends Component {
             destAddress: null,
             nonField: null
         },
+        txHash: null,
         txfee: 1000
     }
 
@@ -54,24 +59,16 @@ class PaymentsDialog extends Component {
     }
 
     onSendSubmitClick = () => {
-        const {
-            selectedWebWallet,
-            getWebWalletsDetails,
-            addNotification,
-            onRequestClose
-        } = this.props
+        const { selectedWebWallet } = this.props
         sendUserWebWalletTx({
             source_address: selectedWebWallet.address,
             destination_address: this.state.inputValues.destAddress,
-            amount: this.state.inputValues.amount
+            amount: this.state.inputValues.amount * 1000000
         })
-            .then(() => {
-                getWebWalletsDetails(selectedWebWallet.id)
-                addNotification({
-                    message: 'Transaction created successfully',
-                    type: 'info'
+            .then(response => {
+                this.setState({
+                    txHash: get(response.data, 'transaction_hash', null)
                 })
-                onRequestClose()
             })
             .catch(responseData => {
                 this.setState({
@@ -97,6 +94,26 @@ class PaymentsDialog extends Component {
         }))
     }
 
+    cleanupAndCloseDialog = () => {
+        this.setState(
+            {
+                selectedTab: 0,
+                inputValues: {
+                    amount: '',
+                    destAddress: ''
+                },
+                inputError: {
+                    amount: null,
+                    destAddress: null,
+                    nonField: null
+                },
+                txHash: null,
+                txfee: 1000
+            },
+            () => this.props.onRequestClose()
+        )
+    }
+
     render() {
         const cx = classnames(s.container, 'payments-dialog')
 
@@ -105,7 +122,7 @@ class PaymentsDialog extends Component {
         return (
             <Dialog
                 isOpen={this.props.isOpen}
-                onRequestClose={this.props.onRequestClose}
+                onRequestClose={this.cleanupAndCloseDialog}
                 className={cx}
                 showClose={false}>
                 <Tabs
@@ -121,13 +138,20 @@ class PaymentsDialog extends Component {
                         onSendSubmitClick={this.onSendSubmitClick}
                         hasPaymentSendError={this.props.hasPaymentSendError}
                         inputValues={this.state.inputValues}
+                        onInputChange={this.onInputChange}
                         inputError={this.state.inputError}
                         txfee={this.state.txfee}
+                        txHash={this.state.txHash}
+                        totalAmount={calcTotal(
+                            parseFloat(this.state.inputValues.amount) ||
+                                0 * 1000000,
+                            this.state.txfee
+                        )}
                     />
                     <ReceivePayment
                         wallet={this.props.selectedWebWallet}
                         addNotification={this.props.addNotification}
-                        onRequestClose={this.props.onRequestClose}
+                        onRequestClose={this.cleanupAndCloseDialog}
                     />
                 </SwipeableViews>
             </Dialog>

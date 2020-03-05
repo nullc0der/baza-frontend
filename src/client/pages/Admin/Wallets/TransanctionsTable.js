@@ -28,8 +28,9 @@ export const TransanctionFromTo = ({ transanction }) => {
         : `Baza Foundation -> ${transanction.to_account.user.username}`
 }
 
-export const TransanctionDate = ({ timestamp }) =>
-    moment(timestamp).format('MM/DD/YYYY, h:mm a')
+export const TransanctionDate = ({ timestamp }) => {
+    return moment(timestamp).format('MM/DD/YYYY, h:mm a')
+}
 
 export const TransanctionReceipt = ({ receiptLink }) => {
     return receiptLink ? (
@@ -58,12 +59,14 @@ class TransanctionsTable extends Component {
             {
                 id: 'timestamp',
                 Header: 'Timestamp',
-                accessor: d => <TransanctionDate date={d.timestamp} />
+                accessor: d => (
+                    <TransanctionDate timestamp={d.timestamp * 1000} />
+                )
             },
             {
                 id: 'amount',
                 Header: 'Amount',
-                accessor: d => `${d.transfers[0].amount}`
+                accessor: d => `${d.transfers[0].amount / 1000000}`
             }
         ]
 

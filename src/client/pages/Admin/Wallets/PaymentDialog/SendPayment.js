@@ -4,10 +4,6 @@ import PropTypes from 'prop-types'
 
 import TextField from 'components/ui/TextField'
 
-const calcTotal = (amount, txfee) => {
-    return parseFloat(amount) + parseFloat(txfee) / 1000000
-}
-
 class SendPayment extends Component {
     onSendSubmitClick = e => {
         this.props.onSendSubmitClick()
@@ -81,16 +77,19 @@ class SendPayment extends Component {
                             <div className="transanction-info total-info">
                                 <div className="label">Total</div>
                                 <div className="value">
-                                    {calcTotal(
-                                        parseInt(
-                                            this.props.inputValues.amount
-                                        ) || 0 * 1000000,
-                                        this.props.txfee
-                                    )}
+                                    {this.props.totalAmount}
                                 </div>
                             </div>
                         </div>
                     </div>
+                    {!!this.props.txHash && (
+                        <div className="well mt-2 transaction-hash">
+                            <h6 className="text-center">
+                                Transaction has been sent
+                            </h6>
+                            <p className="mb-0">Hash: {this.props.txHash}</p>
+                        </div>
+                    )}
                 </div>
 
                 <div className="flex-1" />

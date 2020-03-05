@@ -84,6 +84,12 @@ $text-color: rgba($dark, 0.5);
     }
 }
 
+:local(.container) .transaction-hash {
+    p {
+        word-break: break-word;
+    }
+}
+
 :local(.container) {
     .qr-code {
         text-align: center;
