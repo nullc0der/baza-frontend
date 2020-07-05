@@ -12,6 +12,10 @@ import { createBrowserHistory as createHistory } from 'history'
 
 import Root from './containers/Root'
 
+import { createMatomoInstance } from 'context/Matomo'
+
+import Config from 'utils/config'
+
 // Create Initial History Object
 const history = createHistory()
 
@@ -44,6 +48,12 @@ store.subscribe(() => {
     saveLocalUIState('baza-ui', others)
 })
 
+const matomoInstance = createMatomoInstance({
+    urlBase: 'https://matomo.ekata.io',
+    siteId: Config.get('MATOMO_SITE_ID'),
+    linkTracking: false,
+})
+
 // Usually you'd want to remove server copy of minimum css in SSR here
 // you also can do your post initialization tasks here,
 // 	 e.g. (re)initializing global libraries such as bootstrap/tooltip
@@ -58,7 +68,7 @@ const onRenderComplete = () => {
 // This happens because until <Switch> / <Route> is encountered the container's prop remains unchanged,
 // and the default `shouldComponentUpdate()` fails
 var renderCounter = 0
-const renderApp = Component => {
+const renderApp = (Component) => {
     const renderFn = !!module.hot ? ReactDOM.render : ReactDOM.hydrate
     console.time('react:rendered-in')
     renderFn(
@@ -66,6 +76,7 @@ const renderApp = Component => {
             history={history}
             store={store}
             renderCounter={++renderCounter}
+            matomoInstance={matomoInstance}
         />,
         document.getElementById('root'),
         onRenderComplete
@@ -78,7 +89,7 @@ renderApp(Root)
 // Configure Sentry in production
 if (process.env.NODE_ENV === 'production') {
     Sentry.init({
-        dsn: 'https://71a017bc7bc94c0b859a265b55294e5f@sentry.io/1210544'
+        dsn: 'https://71a017bc7bc94c0b859a265b55294e5f@sentry.io/1210544',
     })
     // Install a service worker if eligible
     function registerSW() {
@@ -90,10 +101,10 @@ if (process.env.NODE_ENV === 'production') {
             console.info('SW: Registering...')
             navigator.serviceWorker
                 .register('/sw.js')
-                .then(result => {
+                .then((result) => {
                     console.info('SW: Registration Success')
                 })
-                .catch(err => {
+                .catch((err) => {
                     console.warn('SW: Registration Failed')
                     console.error(err)
                 })

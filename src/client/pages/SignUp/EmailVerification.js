@@ -9,21 +9,21 @@ import s from './SignUp.scss'
 
 export default class EmailVerification extends Component {
     state = {
-        infoText: 'Please wait while we verify your email...'
+        infoText: 'Please wait while we verify your email...',
     }
 
     componentDidMount = () => {
         const validationKey = this.props.location.pathname.split('/')[2]
         const validateEmail = Auth.validateEmail(validationKey)
         validateEmail
-            .then(responseData => {
+            .then((responseData) => {
                 this.setState({
-                    infoText: responseData.validation_key[0]
+                    infoText: responseData.validation_key[0],
                 })
             })
-            .catch(responseData => {
+            .catch((responseData) => {
                 this.setState({
-                    infoText: responseData.validation_key[0]
+                    infoText: responseData.validation_key[0],
                 })
             })
     }

@@ -20,19 +20,23 @@ import EnhancedPasswordField from 'components/ui/EnhancedPasswordField'
 import FacebookLogin from 'components/FacebookLogin'
 import GoogleLogin from 'components/GoogleLogin'
 
+import { MatomoContext } from 'context/Matomo'
+
 import s from './SignUp.scss'
 
 class LoginDialog extends Component {
+    static contextType = MatomoContext
+
     state = {
         inputValues: {
             username: '',
             password: '',
-            rememberMe: true
+            rememberMe: true,
         },
         errorText: {
             username: '',
             password: '',
-            nonField: ''
+            nonField: '',
         },
         shouldRedirect: false,
         redirectToOrigin: false,
@@ -40,7 +44,15 @@ class LoginDialog extends Component {
         emailVerificationRequired: false,
         redirectURL: '',
         uuid: '',
-        resendEmailValidationInfo: {}
+        resendEmailValidationInfo: {},
+    }
+
+    componentDidMount = () => {
+        this.context.trackEvent({
+            category: 'Dialog',
+            action: 'Click',
+            name: 'Login',
+        })
     }
 
     closeLoginModal = () => {
@@ -49,29 +61,29 @@ class LoginDialog extends Component {
     }
 
     onInputChange = (id, value) => {
-        this.setState(prevState => ({
+        this.setState((prevState) => ({
             inputValues: {
                 ...prevState.inputValues,
-                [id]: value
-            }
+                [id]: value,
+            },
         }))
     }
 
     toggleRememberMe = () => {
-        this.setState(prevState => ({
+        this.setState((prevState) => ({
             inputValues: {
                 ...prevState.inputValues,
-                rememberMe: !prevState.inputValues.rememberMe
-            }
+                rememberMe: !prevState.inputValues.rememberMe,
+            },
         }))
     }
 
-    onLoginClick = e => {
+    onLoginClick = (e) => {
         e.preventDefault()
         const { username, password, rememberMe } = this.state.inputValues
         const login = Auth.login(username, password, rememberMe)
         login
-            .then(responseData => {
+            .then((responseData) => {
                 if (responseData.access_token) {
                     if (
                         responseData.email_verification === 'mandatory' &&
@@ -79,7 +91,7 @@ class LoginDialog extends Component {
                     ) {
                         this.setState({
                             email: get(responseData, 'email', ''),
-                            emailVerificationRequired: true
+                            emailVerificationRequired: true,
                         })
                     } else {
                         store.dispatch(
@@ -92,41 +104,47 @@ class LoginDialog extends Component {
                         )
                         if (rememberMe) {
                             saveLocalAuthState('baza-auth', {
-                                Auth: store.getState().Auth
+                                Auth: store.getState().Auth,
                             })
                         }
                         this.setState({
                             shouldRedirect: true,
-                            redirectToOrigin: true
+                            redirectToOrigin: true,
+                        })
+                        this.context.trackEvent({
+                            category: 'Authentication',
+                            action: 'State Change',
+                            name: 'loggedin',
+                            value: username,
                         })
                     }
                 } else if (responseData.two_factor_enabled) {
                     this.setState({
                         shouldRedirect: true,
                         redirectURL: '/twofactor/',
-                        uuid: responseData.uuid
+                        uuid: responseData.uuid,
                     })
                 } else {
                     this.setState({
                         errorText: {
                             username: get(responseData, 'username', ''),
                             password: get(responseData, 'password', ''),
-                            nonField: get(responseData, 'non_field_errors', '')
-                        }
+                            nonField: get(responseData, 'non_field_errors', ''),
+                        },
                     })
                 }
             })
-            .catch(err => {
-                this.setState(prevState => ({
+            .catch((err) => {
+                this.setState((prevState) => ({
                     errorText: {
                         ...prevState.errorText,
-                        nonField: [err]
-                    }
+                        nonField: [err],
+                    },
                 }))
             })
     }
 
-    handleSocialLoginResponse = responseData => {
+    handleSocialLoginResponse = (responseData) => {
         if (responseData.access_token) {
             if (responseData.email_exist) {
                 if (
@@ -135,7 +153,7 @@ class LoginDialog extends Component {
                 ) {
                     this.setState({
                         email: get(responseData, 'email', ''),
-                        emailVerificationRequired: true
+                        emailVerificationRequired: true,
                     })
                 } else {
                     this.props.authenticateUser(
@@ -146,29 +164,29 @@ class LoginDialog extends Component {
                     )
                     this.setState({
                         shouldRedirect: true,
-                        redirectToOrigin: true
+                        redirectToOrigin: true,
                     })
                     saveLocalAuthState('baza-auth', {
-                        Auth: store.getState().Auth
+                        Auth: store.getState().Auth,
                     })
                 }
             } else {
                 this.setState({
                     shouldRedirect: true,
-                    redirectURL: '/addemail/'
+                    redirectURL: '/addemail/',
                 })
             }
         } else if (responseData.two_factor_enabled) {
             this.setState({
                 shouldRedirect: true,
                 redirectURL: '/twofactor/',
-                uuid: responseData.uuid
+                uuid: responseData.uuid,
             })
         } else {
             this.setState({
                 errorText: {
-                    nonField: get(responseData, 'non_field_errors', '')
-                }
+                    nonField: get(responseData, 'non_field_errors', ''),
+                },
             })
         }
     }
@@ -176,31 +194,31 @@ class LoginDialog extends Component {
     handleSocialLogin = (token, backend) => {
         const convertToken = Auth.convertToken(token, backend)
         convertToken
-            .then(responseData => {
+            .then((responseData) => {
                 this.handleSocialLoginResponse(responseData)
             })
-            .catch(err => {
-                this.setState(prevState => ({
+            .catch((err) => {
+                this.setState((prevState) => ({
                     errorText: {
                         ...prevState.errorText,
-                        nonField: get(err, 'non_field_errors', '')
-                    }
+                        nonField: get(err, 'non_field_errors', ''),
+                    },
                 }))
             })
     }
 
-    handleTwitterLogin = res => {
+    handleTwitterLogin = (res) => {
         if (res.status === 200) {
-            res.json().then(data => {
+            res.json().then((data) => {
                 this.handleSocialLoginResponse(data)
             })
         } else {
-            res.json().then(data => {
-                this.setState(prevState => ({
+            res.json().then((data) => {
+                this.setState((prevState) => ({
                     errorText: {
                         ...prevState.errorText,
-                        nonField: get(data, 'non_field_errors', '')
-                    }
+                        nonField: get(data, 'non_field_errors', ''),
+                    },
                 }))
             })
         }
@@ -208,20 +226,20 @@ class LoginDialog extends Component {
 
     resendVerificationEmail = () => {
         Auth.resendEmailValidation(this.state.email)
-            .then(res =>
+            .then((res) =>
                 this.setState({
                     resendEmailValidationInfo: {
                         status: 'success',
-                        text: `A verification email sent to ${this.state.email}`
-                    }
+                        text: `A verification email sent to ${this.state.email}`,
+                    },
                 })
             )
-            .catch(res =>
+            .catch((res) =>
                 this.setState({
                     resendEmailValidationInfo: {
                         status: 'error',
-                        text: 'Something went wrong, please try later'
-                    }
+                        text: 'Something went wrong, please try later',
+                    },
                 })
             )
     }
@@ -229,7 +247,7 @@ class LoginDialog extends Component {
     render() {
         const cx = classnames(s.loginDialog, 'login-dialog')
         const { originURL } = this.props.location.state || {
-            originURL: '/profile'
+            originURL: '/profile',
         }
         const twitterLoginUrl = Config.get('API_ROOT') + '/auth/twitter/login/'
         const twitterRequestTokenUrl =
@@ -245,8 +263,8 @@ class LoginDialog extends Component {
                         state: {
                             rememberMe: this.state.inputValues.rememberMe,
                             uuid: this.state.uuid,
-                            redirectURL: originURL
-                        }
+                            redirectURL: originURL,
+                        },
                     }}
                 />
             )
@@ -335,7 +353,7 @@ class LoginDialog extends Component {
                         <Link
                             to={{
                                 pathname: 'resetpassword',
-                                state: { fromLogin: true }
+                                state: { fromLogin: true },
                             }}
                             className="font-weight-bold text-dark forgot-password-link">
                             {' '}
@@ -364,7 +382,7 @@ class LoginDialog extends Component {
                                 loginUrl={twitterLoginUrl}
                                 requestTokenUrl={twitterRequestTokenUrl}
                                 onSuccess={this.handleTwitterLogin}
-                                onFailure={err => console.log(err)}>
+                                onFailure={(err) => console.log(err)}>
                                 <i className="fa fa-twitter" />
                             </TwitterLogin>
                         </li>
@@ -384,11 +402,11 @@ class LoginDialog extends Component {
     }
 }
 
-const mapStateToProps = state => ({
-    location: state.router.location
+const mapStateToProps = (state) => ({
+    location: state.router.location,
 })
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
     navigate(...args) {
         return dispatch(push(...args))
     },
@@ -401,10 +419,7 @@ const mapDispatchToProps = dispatch => ({
                 expiresIn
             )
         )
-    }
+    },
 })
 
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(LoginDialog)
+export default connect(mapStateToProps, mapDispatchToProps)(LoginDialog)

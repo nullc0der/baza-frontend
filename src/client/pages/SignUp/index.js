@@ -19,55 +19,60 @@ import EnhancedPasswordField from 'components/ui/EnhancedPasswordField'
 // import FacebookLogin from 'components/FacebookLogin'
 // import GoogleLogin from 'components/GoogleLogin'
 // import Config from 'utils/config'
+
+import { MatomoContext } from 'context/Matomo'
+
 import s from './SignUp.scss'
 
 class SignUpPage extends Component {
+    static contextType = MatomoContext
     state = {
         inputValues: {
             username: '',
             email: '',
             password: '',
-            password1: ''
+            password1: '',
         },
         errorText: {
             username: null,
             email: null,
             password: null,
             password1: null,
-            nonField: null
+            nonField: null,
         },
         registerSuccessText: '',
         shouldRedirect: false,
         redirectURL: '',
-        uuid: ''
+        uuid: '',
     }
 
     componentDidMount = () => {
         const checkRegEnabled = Auth.checkRegistrationEnabled()
-        checkRegEnabled.then(responseData => {
+        checkRegEnabled.then((responseData) => {
             if (!responseData.is_registration_enabled) {
                 this.setState({
-                    registerSuccessText: 'Registration is disabled on this site'
+                    registerSuccessText:
+                        'Registration is disabled on this site',
                 })
             }
         })
     }
 
     onInputChange = (id, value) => {
-        this.setState(prevState => ({
+        this.setState((prevState) => ({
             inputValues: {
                 ...prevState.inputValues,
-                [id]: value
-            }
+                [id]: value,
+            },
         }))
     }
 
-    onRegisterClick = e => {
+    onRegisterClick = (e) => {
         e.preventDefault()
         const { username, email, password, password1 } = this.state.inputValues
         const register = Auth.register(username, email, password, password1)
         register
-            .then(responseData => {
+            .then((responseData) => {
                 if (responseData.is_registration_enabled) {
                     if (responseData.status === 'success') {
                         if (responseData.email_verification === 'mandatory') {
@@ -77,13 +82,19 @@ class SignUpPage extends Component {
                                     'We sent an email to the one provided.\n' +
                                     'Please check your email to verify and continue.\n' +
                                     '\n' +
-                                    'Note: Check your spam folder if it is not in your inbox.'
+                                    'Note: Check your spam folder if it is not in your inbox.',
                             })
                         } else {
                             this.setState({
-                                registerSuccessText: 'Please login to continue'
+                                registerSuccessText: 'Please login to continue',
                             })
                         }
+                        this.context.trackEvent({
+                            category: 'Authentication',
+                            action: 'State Change',
+                            name: 'signedup',
+                            value: username,
+                        })
                     } else {
                         this.setState({
                             errorText: {
@@ -95,23 +106,23 @@ class SignUpPage extends Component {
                                     responseData,
                                     'non_field_errors',
                                     null
-                                )
-                            }
+                                ),
+                            },
                         })
                     }
                 } else {
                     this.setState({
                         registerSuccessText:
-                            'Registration is disabled on this site'
+                            'Registration is disabled on this site',
                     })
                 }
             })
-            .catch(err => {
-                this.setState(prevState => ({
+            .catch((err) => {
+                this.setState((prevState) => ({
                     errorText: {
                         ...prevState.errorText,
-                        nonField: [err]
-                    }
+                        nonField: [err],
+                    },
                 }))
             })
     }
@@ -213,8 +224,8 @@ class SignUpPage extends Component {
                     state: {
                         fromSocial: this.state.fromSocial,
                         uuid: this.state.uuid,
-                        redirectURL: '/profile'
-                    }
+                        redirectURL: '/profile',
+                    },
                 }}
             />
         ) : (
@@ -390,7 +401,7 @@ class SignUpPage extends Component {
                                     <div
                                         className="page-layer bg"
                                         style={{
-                                            backgroundImage: `url(/public/img/signup/martin-luther-king.png)`
+                                            backgroundImage: `url(/public/img/signup/martin-luther-king.png)`,
                                         }}
                                     />
                                     <div className="carousel-item-content">
@@ -414,7 +425,7 @@ class SignUpPage extends Component {
                                     <div
                                         className="page-layer bg"
                                         style={{
-                                            backgroundImage: `url(/public/img/signup/erich-fromm.png)`
+                                            backgroundImage: `url(/public/img/signup/erich-fromm.png)`,
                                         }}
                                     />
                                     <div className="carousel-item-content">
@@ -436,7 +447,7 @@ class SignUpPage extends Component {
                                     <div
                                         className="page-layer bg"
                                         style={{
-                                            backgroundImage: `url(/public/img/signup/mark-zuckerberg.jpg)`
+                                            backgroundImage: `url(/public/img/signup/mark-zuckerberg.jpg)`,
                                         }}
                                     />
                                     <div className="carousel-item-content">
@@ -464,9 +475,9 @@ class SignUpPage extends Component {
     }
 }
 
-const mapStateToProps = state => ({})
+const mapStateToProps = (state) => ({})
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
     navigate(...args) {
         return dispatch(push(...args))
     },
@@ -479,10 +490,7 @@ const mapDispatchToProps = dispatch => ({
                 expiresIn
             )
         )
-    }
+    },
 })
 
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(SignUpPage)
+export default connect(mapStateToProps, mapDispatchToProps)(SignUpPage)

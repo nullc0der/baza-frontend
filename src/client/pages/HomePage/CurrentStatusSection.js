@@ -5,9 +5,21 @@ import classnames from 'classnames'
 // import DonationList from 'components/DonationList'
 import VideoPlayer from 'components/VideoPlayer'
 
+import { MatomoContext } from 'context/Matomo'
+
 // import { Link } from 'react-router-dom'
 
 class CurrentStatusSection extends Component {
+    static contextType = MatomoContext
+
+    handleVideoPlay = () => {
+        this.context.trackEvent({
+            category: 'Video',
+            action: 'Played',
+            name: 'baza-intro',
+        })
+    }
+
     render() {
         const cx = classnames(
             'current-status-section bg-light',
@@ -24,6 +36,7 @@ class CurrentStatusSection extends Component {
                             <VideoPlayer
                                 src="/public/videos/Baza Intro.mp4"
                                 poster="/public/videothumbnails/Baza Intro.jpeg"
+                                onPlay={this.handleVideoPlay}
                             />
                         </div>
                     </div>

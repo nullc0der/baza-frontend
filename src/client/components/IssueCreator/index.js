@@ -20,77 +20,77 @@ class IssueCreator extends Component {
             subject: '',
             description: '',
             issueTypeID: '',
-            attachment: null
+            attachment: null,
         },
         formErrors: {
             subject: null,
             description: null,
             attachment: null,
             issueTypeID: null,
-            nonField: null
+            nonField: null,
         },
         submitDisabled: false,
-        issueTypes: []
+        issueTypes: [],
     }
 
     componentDidMount = () => {
-        getIssueTypes().then(res => {
-            const issueTypes = get(res, 'data', []).map(x =>
+        getIssueTypes().then((res) => {
+            const issueTypes = get(res, 'data', []).map((x) =>
                 mapKeys(x, (v, k) =>
                     k === 'name' ? 'label' : k === 'id' ? 'value' : k
                 )
             )
             this.setState({
-                issueTypes
+                issueTypes,
             })
         })
     }
 
     onInputChange = (id, value) => {
-        this.setState(prevState => ({
+        this.setState((prevState) => ({
             inputValues: {
                 ...prevState.inputValues,
-                [id]: value
-            }
+                [id]: value,
+            },
         }))
     }
 
-    onDDChange = value => {
-        this.setState(prevState => ({
+    onDDChange = (value) => {
+        this.setState((prevState) => ({
             inputValues: {
                 ...prevState.inputValues,
-                issueTypeID: value
-            }
+                issueTypeID: value,
+            },
         }))
     }
 
-    onDrop = acceptedFiles => {
-        this.setState(prevState => ({
+    onDrop = (acceptedFiles) => {
+        this.setState((prevState) => ({
             inputValues: {
                 ...prevState.inputValues,
                 attachment: prevState.inputValues.attachment
                     ? prevState.inputValues.attachment.concat(acceptedFiles)
-                    : acceptedFiles
-            }
+                    : acceptedFiles,
+            },
         }))
     }
 
     onTrashClick = (e, filename) => {
         e.stopPropagation()
-        this.setState(prevState => ({
+        this.setState((prevState) => ({
             inputValues: {
                 ...prevState.inputValues,
                 attachment: prevState.inputValues.attachment.filter(
-                    f => f.name !== filename
-                )
-            }
+                    (f) => f.name !== filename
+                ),
+            },
         }))
     }
 
-    onSubmitClick = e => {
+    onSubmitClick = (e) => {
         e.preventDefault()
         this.setState({
-            submitDisabled: true
+            submitDisabled: true,
         })
         const data = new FormData()
         data.append('subject', this.state.inputValues.subject)
@@ -102,36 +102,36 @@ class IssueCreator extends Component {
             }
         }
         createIssue(data)
-            .then(response =>
+            .then((response) =>
                 this.setState(
                     {
                         inputValues: {
                             subject: '',
                             description: '',
-                            attachment: null
+                            attachment: null,
                         },
                         formErrors: {
                             subject: null,
                             description: null,
                             attachment: null,
                             nonField: null,
-                            issueTypeID: null
+                            issueTypeID: null,
                         },
-                        submitDisabled: false
+                        submitDisabled: false,
                     },
                     () => this.props.onRequestClose()
                 )
             )
-            .catch(responseData => {
+            .catch((responseData) => {
                 this.setState({
                     formErrors: {
                         subject: get(responseData, 'subject', null),
                         description: get(responseData, 'description', null),
                         attachment: get(responseData, 'attachments', null),
                         nonField: get(responseData, 'non_field_errors', null),
-                        issueTypeID: get(responseData, 'issue_type_id', null)
+                        issueTypeID: get(responseData, 'issue_type_id', null),
                     },
-                    submitDisabled: false
+                    submitDisabled: false,
                 })
             })
     }
@@ -140,7 +140,7 @@ class IssueCreator extends Component {
         const { isOpen, className, onRequestClose } = this.props
         const cx = classnames(s.container, className)
         const ddValue = find(this.state.issueTypes, {
-            value: this.state.inputValues.issueTypeID
+            value: this.state.inputValues.issueTypeID,
         })
         return (
             <Dialog

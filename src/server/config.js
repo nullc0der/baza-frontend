@@ -5,7 +5,7 @@ import chalk from 'chalk'
 
 export var Config = {}
 
-export const initConfig = app => {
+export const initConfig = (app) => {
     // Path is dynamically resolved when this function is called
     // e.g. '.'  will point to build/server.bundle.js
     var p = path.resolve('.', './config.json')
@@ -32,7 +32,8 @@ export const getClientConfig = () => {
         'RELEASE_CODENAME',
         'RELEASE',
         'SMS_CODE_EXPIRES_IN',
-        'GOOGLE_RECAPTCHA_SITE_KEY'
+        'GOOGLE_RECAPTCHA_SITE_KEY',
+        'MATOMO_SITE_ID'
         // add other keys to send here
         // e.g.
         // API Keys,

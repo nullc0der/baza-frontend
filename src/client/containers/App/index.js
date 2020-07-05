@@ -9,11 +9,14 @@ import { isGRecaptchaReady } from 'utils/common'
 
 import { actions as commonActions } from 'store/Common'
 
+import { MatomoContext } from 'context/Matomo'
+
 import AppRoutes from './AppRoutes'
 import AppOverlays from './AppOverlays'
 
 class App extends Component {
     static propTypes = {}
+    static contextType = MatomoContext
 
     componentDidMount = () => {
         this.loadRecaptcha()
@@ -21,6 +24,13 @@ class App extends Component {
             this.updateRecaptchaStatus,
             1000
         )
+        this.context.trackPageView()
+    }
+
+    componentDidUpdate = (prevProps, prevState) => {
+        if (prevProps.location.pathname !== this.props.location.pathname) {
+            setTimeout(() => this.context.trackPageView(), 2000)
+        }
     }
 
     componentWillUnmount = () => {
@@ -53,16 +63,13 @@ class App extends Component {
     }
 }
 
-const mapStateToProps = state => ({
-    location: state.router.location
+const mapStateToProps = (state) => ({
+    location: state.router.location,
 })
 
-const mapDispatchToProps = dispatch => ({
-    updateGoogleRecaptchaStatus: isGRecaptchaReady =>
-        dispatch(commonActions.updateGoogleRecaptchaStatus(isGRecaptchaReady))
+const mapDispatchToProps = (dispatch) => ({
+    updateGoogleRecaptchaStatus: (isGRecaptchaReady) =>
+        dispatch(commonActions.updateGoogleRecaptchaStatus(isGRecaptchaReady)),
 })
 
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(App)
+export default connect(mapStateToProps, mapDispatchToProps)(App)

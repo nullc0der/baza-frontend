@@ -14,10 +14,14 @@ import CoinbaseButton from 'components/CoinbaseButton'
 
 import { CurrencyDropdown } from 'pages/Admin/CoinSale/CoinSale'
 
+import { MatomoContext } from 'context/Matomo'
+
 import s from './Donation.scss'
 import ContactInformation from './ContactInformation'
 
 class DonationDialog extends Component {
+    static contextType = MatomoContext
+
     state = {
         isOtherInputVisible: false,
         selectedCurrency: 'USD',
@@ -27,31 +31,39 @@ class DonationDialog extends Component {
         inputValues: {
             name: '',
             email: '',
-            phoneNumber: ''
+            phoneNumber: '',
         },
         errorValues: {
             name: null,
             email: null,
             phoneNumber: null,
             amount: '',
-            nonField: ''
+            nonField: '',
         },
         donationDone: '',
-        isDonateDialogContentHidden: false
+        isDonateDialogContentHidden: false,
+    }
+
+    componentDidMount = () => {
+        this.context.trackEvent({
+            category: 'Dialog',
+            action: 'Click',
+            name: 'Donation',
+        })
     }
 
     toggleOtherInput = (force, amount) => {
         this.setState({
             isOtherInputVisible: isBoolean(force)
                 ? force
-                : !this.state.isOtherInputVisible
+                : !this.state.isOtherInputVisible,
         })
         this.setSelectedAmount(amount)
     }
 
-    setSelectedAmount = amount => {
+    setSelectedAmount = (amount) => {
         this.setState({
-            selectedAmount: amount
+            selectedAmount: amount,
         })
     }
 
@@ -60,14 +72,14 @@ class DonationDialog extends Component {
         this.props.navigate(pathname + (hash || '').replace('#!donate', ''))
     }
 
-    onOtherInputBlur = e => {
+    onOtherInputBlur = (e) => {
         const isValueNumber = Number.isInteger(Number(e.target.value))
         if (e.target.value === '' || !isValueNumber) {
             e.target.value = 'Other'
         }
     }
 
-    onOtherInputFocus = e => {
+    onOtherInputFocus = (e) => {
         if (e.target.value === 'Other') {
             e.target.value = ''
         }
@@ -76,18 +88,18 @@ class DonationDialog extends Component {
     updateOtherInputAmount = (id, otherInputAmount) => {
         this.setState({
             otherInputAmount: otherInputAmount,
-            selectedAmount: otherInputAmount
+            selectedAmount: otherInputAmount,
         })
     }
 
-    onCurrencyChange = currency => {
+    onCurrencyChange = (currency) => {
         this.setState({ selectedCurrency: currency.name })
     }
 
     onInputChange = (id, value) => {
         if (id === 'name') {
             const values = value.split(' ')
-            const newValues = values.map(x => {
+            const newValues = values.map((x) => {
                 if (x.length) {
                     let letters = x.split('')
                     letters[0] = letters[0].toUpperCase()
@@ -100,62 +112,63 @@ class DonationDialog extends Component {
         if (id === 'phoneNumber') {
             value = value.phoneNumberDialCode + value.phoneNumber
         }
-        this.setState(prevState => ({
+        this.setState((prevState) => ({
             inputValues: {
                 ...prevState.inputValues,
-                [id]: value
-            }
+                [id]: value,
+            },
         }))
     }
 
     onChargeSuccess = () => {
         this.setState({
-            donationDone: 'Thank you for donating to the Foundation'
+            donationDone: 'Thank you for donating to the Foundation',
         })
     }
 
     onChargeFailure = () => {
         this.setState({
-            donationDone: "Your payment couldn't be processed, please try again"
+            donationDone:
+                "Your payment couldn't be processed, please try again",
         })
     }
 
     onPaymentDetected = () => {
         this.setState({
             donationDone: `A payment has been detected, but it is not confirmed yet,
-                you will get an email on confirm.`
+                you will get an email on confirm.`,
         })
     }
 
     onCoinbaseLoad = () => {
         this.setState({
-            isDonateDialogContentHidden: true
+            isDonateDialogContentHidden: true,
         })
     }
 
     onCoinbaseClosed = () => {
         this.setState({
-            isDonateDialogContentHidden: false
+            isDonateDialogContentHidden: false,
         })
     }
 
-    onInitiatePaymentSuccess = data => {}
+    onInitiatePaymentSuccess = (data) => {}
 
-    onInitiatePaymentFailure = err => {
+    onInitiatePaymentFailure = (err) => {
         this.setState({
             errorValues: {
                 name: get(err, 'name', null),
                 email: get(err, 'email', null),
                 phoneNumber: get(err, 'phone_no', null),
                 nonField: get(err, 'non_field_errors', null),
-                amount: get(err, 'amount', null)
-            }
+                amount: get(err, 'amount', null),
+            },
         })
     }
 
     handleIsAnonymousChange = () => {
         this.setState({
-            isAnonymous: !this.state.isAnonymous
+            isAnonymous: !this.state.isAnonymous,
         })
     }
 
@@ -196,7 +209,7 @@ class DonationDialog extends Component {
                         className={`btn btn-outline-dark ${
                             selectedAmount === 4 ? 'active' : ''
                         }`}
-                        onClick={e => this.toggleOtherInput(false, 4)}>
+                        onClick={(e) => this.toggleOtherInput(false, 4)}>
                         {selectedDonation && selectedDonation.value === 'coffee'
                             ? `$${selectedDonation.price}`
                             : '$4'}
@@ -205,7 +218,7 @@ class DonationDialog extends Component {
                         className={`btn btn-outline-dark ${
                             selectedAmount === 7 ? 'active' : ''
                         }`}
-                        onClick={e => this.toggleOtherInput(false, 7)}>
+                        onClick={(e) => this.toggleOtherInput(false, 7)}>
                         {selectedDonation && selectedDonation.value === 'wine'
                             ? `$${selectedDonation.price}`
                             : '$7'}
@@ -214,7 +227,7 @@ class DonationDialog extends Component {
                         className={`btn btn-outline-dark ${
                             selectedAmount === 27 ? 'active' : ''
                         }`}
-                        onClick={e => this.toggleOtherInput(false, 27)}>
+                        onClick={(e) => this.toggleOtherInput(false, 27)}>
                         {selectedDonation && selectedDonation.value === 'dinner'
                             ? `$${selectedDonation.price}`
                             : '$27'}
@@ -223,7 +236,7 @@ class DonationDialog extends Component {
                         className={`btn btn-outline-dark ${
                             selectedAmount === 120 ? 'active' : ''
                         }`}
-                        onClick={e => this.toggleOtherInput(false, 120)}>
+                        onClick={(e) => this.toggleOtherInput(false, 120)}>
                         {selectedDonation &&
                         selectedDonation.value === 'travel-ticket'
                             ? `$${selectedDonation.price}`
@@ -233,7 +246,7 @@ class DonationDialog extends Component {
                         className={`btn btn-outline-dark other-donation-button ${
                             this.state.isOtherInputVisible ? 'd-none' : 'd-flex'
                         }`}
-                        onClick={e => this.toggleOtherInput(true, 0)}>
+                        onClick={(e) => this.toggleOtherInput(true, 0)}>
                         Other
                     </button>
                 </div>
@@ -310,7 +323,7 @@ class DonationDialog extends Component {
                                         email: this.state.inputValues.email,
                                         phone_no: this.state.inputValues
                                             .phoneNumber,
-                                        is_anonymous: this.state.isAnonymous
+                                        is_anonymous: this.state.isAnonymous,
                                     }}
                                     initiatePaymentURL={initiatePaymentURL}
                                     onChargeSuccess={this.onChargeSuccess}
@@ -347,18 +360,15 @@ class DonationDialog extends Component {
     }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
     location: state.router.location,
-    selectedDonation: state.Common.selectedDonation
+    selectedDonation: state.Common.selectedDonation,
 })
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
     navigate(url) {
         return dispatch(push(url))
-    }
+    },
 })
 
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(DonationDialog)
+export default connect(mapStateToProps, mapDispatchToProps)(DonationDialog)
