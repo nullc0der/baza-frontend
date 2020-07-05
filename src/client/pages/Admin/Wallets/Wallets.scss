@@ -1,12 +1,20 @@
 @import 'ui';
 $sidebar-width: 210px;
 :local(.container) {
-    color: inherit;
     display: flex;
-    flex-direction: row;
-    align-items: stretch;
+    flex-direction: column;
     height: 100%;
-    @include _shadow-1();
+    .wallet-section {
+        color: inherit;
+        height: calc(100% - 36px);
+        display: flex;
+        flex-direction: row;
+        align-items: stretch;
+        @include _shadow-1();
+    }
+    .action-bar {
+        display: flex;
+    }
     .accounts-sidebar {
         background-color: #fff;
         width: $sidebar-width;
@@ -263,6 +271,18 @@ $sidebar-width: 210px;
         text-align: right;
         @include media-breakpoint-down(sm, $grid-breakpoints) {
             text-align: unset;
+        }
+    }
+}
+
+:local(.createWalletDialog) {
+    .modal-dialog {
+        width: 400px;
+        .info-section {
+            p {
+                margin-bottom: 0;
+                word-wrap: break-word;
+            }
         }
     }
 }

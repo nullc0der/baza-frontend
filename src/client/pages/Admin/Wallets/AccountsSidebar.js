@@ -1,41 +1,53 @@
 import React, { Component } from 'react'
 import classnames from 'classnames'
+import isEmpty from 'lodash/isEmpty'
 import { connect } from 'react-redux'
 
-import { actions as walletAccountActions } from 'store/WalletAccounts'
+import { actions as userWebWalletActions } from 'store/UserWebWallet'
 
 class AccountsSidebar extends Component {
     componentDidMount = () => {
-        this.props.fetchAccounts()
+        this.props.getWebWallets()
     }
-    onWalletItemClick = (account, index) => e => {
-        this.props.selectWallet(account.id)
+
+    onWalletItemClick = wallet => {
+        this.props
+            .getWebWalletDetails(wallet.id)
+            .then(() => this.props.setSelectedWallet(wallet))
     }
 
     renderOneAccount = (wallet, index) => {
+        const selectedWebWalletId = !isEmpty(this.props.selectedWebWallet)
+            ? this.props.selectedWebWallet.id
+            : -1
         const cx = classnames('account-sidebar-item', {
-            'is-selected': wallet.id === this.props.selectedWalletId
+            'is-selected': wallet.id === selectedWebWalletId
         })
         return (
             <div
                 className={cx}
                 key={index}
-                onClick={this.onWalletItemClick(wallet, index)}>
+                onClick={() => this.onWalletItemClick(wallet)}>
                 <div className="account-details-wrap">
                     <div className="wallet-account-image">
                         <img
                             className="wallet-account-img"
                             alt=""
-                            src={wallet.image}
+                            src="/public/img/baza_logo.svg"
                         />
                     </div>
                     <div className="wallet-account-details">
-                        <div className="wallet-download-transactions">
+                        {/* <div className="wallet-download-transactions">
                             <i className="material-icons">cloud_download</i>
-                        </div>
+                        </div> */}
                         <div className="wallet-name">{wallet.name}</div>
                         <div className="wallet-conversion-rate">
-                            {wallet.balance}
+                            <p className="mb-0">
+                                Unlocked: {wallet.balance.unlocked / 1000000}
+                            </p>
+                            <p className="mb-0">
+                                Locked: {wallet.balance.locked / 1000000}
+                            </p>
                         </div>
                     </div>
                 </div>
@@ -68,13 +80,13 @@ class AccountsSidebar extends Component {
     }
 
     render() {
-        const { list } = this.props
+        const { webWallets } = this.props
 
         return (
             <div className="accounts-sidebar">
                 <div className="sidebar-title">ACCOUNTS</div>
                 <div className="sidebar-items">
-                    {list.map(this.renderOneAccount)}
+                    {webWallets.map(this.renderOneAccount)}
                 </div>
             </div>
         )
@@ -82,24 +94,16 @@ class AccountsSidebar extends Component {
 }
 
 const mapStateToProps = state => ({
-    list: state.WalletAccounts.list,
-    isLoading: state.WalletAccounts.isLoading,
-    selectedWalletId: state.WalletAccounts.selectedWalletId
+    webWallets: state.UserWebWallet.webWallets,
+    selectedWebWallet: state.UserWebWallet.selectedWebWallet
 })
 
 const mapDispatchToProps = dispatch => ({
-    fetchAccounts() {
-        return dispatch(walletAccountActions.fetchAccounts())
-    },
-    selectWallet(walletId) {
-        return dispatch(walletAccountActions.selectWallet(walletId))
-    },
-    sendPayment(data) {
-        return dispatch(walletAccountActions.sendPayment(data))
-    }
+    getWebWallets: () => dispatch(userWebWalletActions.getWebWallets()),
+    getWebWalletDetails: walletId =>
+        dispatch(userWebWalletActions.getWebWalletsDetails(walletId)),
+    setSelectedWallet: wallet =>
+        dispatch(userWebWalletActions.selectWebWallet(wallet))
 })
 
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(AccountsSidebar)
+export default connect(mapStateToProps, mapDispatchToProps)(AccountsSidebar)

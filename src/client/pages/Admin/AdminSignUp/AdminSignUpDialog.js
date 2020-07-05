@@ -25,8 +25,10 @@ import {
     sendPhoneVerificationCodeAgain,
     uploadSignupImage,
     toggleDonor,
-    getUserInfoTabData
+    getUserInfoTabData,
 } from 'api/distribution-signup'
+
+import { MatomoContext } from 'context/Matomo'
 
 import s from './AdminSignUp.scss'
 
@@ -44,8 +46,9 @@ import { actions as messengerActions } from 'store/Messenger'
 
 class AdminSignUpDialog extends Component {
     static propTypes = {
-        className: PropTypes.string
+        className: PropTypes.string,
     }
+    static contextType = MatomoContext
 
     state = {
         selectedIndex: 0,
@@ -62,25 +65,25 @@ class AdminSignUpDialog extends Component {
         errorState: {},
         infoText: {
             message: '',
-            type: 'success'
+            type: 'success',
         },
         signupImage: null,
         showEmailTryAgain: false,
         showPhoneTryAgain: false,
         smsInfo: {
             sentAt: null,
-            sentCount: 0
-        }
+            sentCount: 0,
+        },
     }
 
     componentDidMount = () => {
         checkCompletedSteps()
-            .then(response => {
+            .then((response) => {
                 this.setState({
-                    completedTabs: response.data.completed_steps.map(x =>
+                    completedTabs: response.data.completed_steps.map((x) =>
                         Number(x)
                     ),
-                    errorTabs: response.data.invalidated_steps.map(x =>
+                    errorTabs: response.data.invalidated_steps.map((x) =>
                         Number(x)
                     ),
                     errorFields: response.data.invalidated_fields,
@@ -92,17 +95,22 @@ class AdminSignUpDialog extends Component {
                     handlingStaff: response.data.handling_staff,
                     isDonor: response.data.is_donor,
                     inputValues: {
-                        refCode: this.getReferralCode(this.props.location.hash)
-                    }
+                        refCode: this.getReferralCode(this.props.location.hash),
+                    },
                 })
                 this.setUserInfoData()
             })
-            .catch(responseData => {
+            .catch((responseData) => {
                 console.log(responseData)
             })
+        this.context.trackEvent({
+            category: 'Dialog',
+            action: 'Click',
+            name: 'Distribution Signup',
+        })
     }
 
-    getReferralCode = hash => {
+    getReferralCode = (hash) => {
         if (hash.split('?').length > 1) {
             const referralCodeChunk = hash.split('?')[1]
             return referralCodeChunk.split('=')[1]
@@ -130,7 +138,7 @@ class AdminSignUpDialog extends Component {
         }
     }
 
-    changeSwipeIndex = selectedIndex => {
+    changeSwipeIndex = (selectedIndex) => {
         if (includes(this.state.completedTabs, 0)) {
             this.setState({ selectedIndex })
         }
@@ -171,20 +179,20 @@ class AdminSignUpDialog extends Component {
 
     toggleDonorStatus = () => {
         toggleDonor()
-            .then(response =>
+            .then((response) =>
                 this.setState({
-                    isDonor: response.data.is_donor
+                    isDonor: response.data.is_donor,
                 })
             )
-            .catch(responseData => console.log(responseData))
+            .catch((responseData) => console.log(responseData))
     }
 
     onInputChange = (id, value) => {
-        this.setState(prevState => ({
+        this.setState((prevState) => ({
             inputValues: {
                 ...prevState.inputValues,
-                [id]: value
-            }
+                [id]: value,
+            },
         }))
     }
 
@@ -201,18 +209,18 @@ class AdminSignUpDialog extends Component {
             value.toUpperCase() === 'baz'.toUpperCase()
                 ? value.concat('-')
                 : value
-        this.setState(prevState => ({
+        this.setState((prevState) => ({
             inputValues: {
                 ...prevState.inputValues,
-                refCode: value
-            }
+                refCode: value,
+            },
         }))
     }
 
-    setStepData = data => {
+    setStepData = (data) => {
         this.setState({
-            completedTabs: data.completed_steps.map(x => Number(x)),
-            errorTabs: data.invalidated_steps.map(x => Number(x)),
+            completedTabs: data.completed_steps.map((x) => Number(x)),
+            errorTabs: data.invalidated_steps.map((x) => Number(x)),
             errorFields: data.invalidated_fields,
             invalidationComment: data.invalidation_comment,
             handlingStaff: data.handling_staff,
@@ -222,8 +230,8 @@ class AdminSignUpDialog extends Component {
             isSkippable: data.next_step.is_skippable,
             infoText: {
                 message: '',
-                type: 'success'
-            }
+                type: 'success',
+            },
         })
     }
 
@@ -240,10 +248,10 @@ class AdminSignUpDialog extends Component {
             this.state.inputValues.zipCode,
             this.state.inputValues.birthDate
         )
-            .then(response => {
+            .then((response) => {
                 this.setStepData(response.data)
             })
-            .catch(responseData => {
+            .catch((responseData) => {
                 this.setState({
                     errorState: {
                         firstName: get(responseData, 'first_name', null),
@@ -255,93 +263,93 @@ class AdminSignUpDialog extends Component {
                         houseNo: get(responseData, 'house_number', null),
                         streetName: get(responseData, 'street_name', null),
                         zipCode: get(responseData, 'zip_code', null),
-                        birthDate: get(responseData, 'birthdate', null)
-                    }
+                        birthDate: get(responseData, 'birthdate', null),
+                    },
                 })
             })
     }
 
     skipEmail = () => {
         skipEmail()
-            .then(response => {
+            .then((response) => {
                 this.setStepData(response.data)
             })
-            .catch(responseData => {
+            .catch((responseData) => {
                 this.setState({
                     infoText: {
                         message: 'Unknown error occured',
-                        type: 'danger'
-                    }
+                        type: 'danger',
+                    },
                 })
             })
     }
 
     sendVerificationCode = () => {
         sendVerificationCode(this.state.inputValues.email)
-            .then(response => {
+            .then((response) => {
                 this.setState({
                     infoText: {
                         message: 'Verfication email sent, please check inbox',
-                        type: 'success'
+                        type: 'success',
                     },
-                    showEmailTryAgain: true
+                    showEmailTryAgain: true,
                 })
             })
-            .catch(responseData => {
+            .catch((responseData) => {
                 this.setState({
                     errorState: {
-                        email: get(responseData, 'email', null)
-                    }
+                        email: get(responseData, 'email', null),
+                    },
                 })
             })
     }
 
     sendVerificationCodeAgain = () => {
         sendVerificationCodeAgain()
-            .then(response => {
+            .then((response) => {
                 this.setState({
                     infoText: {
                         message:
                             'Verfication email sent again, please check inbox',
-                        type: 'success'
-                    }
+                        type: 'success',
+                    },
                 })
             })
-            .catch(responseData =>
+            .catch((responseData) =>
                 this.setState({
                     infoText: {
                         message: 'Unknown error occured',
-                        type: 'danger'
-                    }
+                        type: 'danger',
+                    },
                 })
             )
     }
 
     submitVerificationCode = () => {
         validateEmailCode(this.state.inputValues.verificationCode)
-            .then(response => {
+            .then((response) => {
                 this.setStepData(response.data)
             })
-            .catch(responseData => {
+            .catch((responseData) => {
                 this.setState({
                     errorState: {
-                        verificationCode: get(responseData, 'code', null)
-                    }
+                        verificationCode: get(responseData, 'code', null),
+                    },
                 })
             })
     }
 
     skipPhone = () => {
         skipPhone()
-            .then(response => {
+            .then((response) => {
                 this.setStepData(response.data)
             })
-            .catch(responseData => {
+            .catch((responseData) => {
                 this.setState({
                     infoText: {
                         message: 'Unknown error occured',
-                        type: 'danger'
-                    }
+                        type: 'danger',
+                    },
                 })
             })
     }
@@ -350,101 +358,101 @@ class AdminSignUpDialog extends Component {
         sendPhoneVerificationCode({
             phone_number: this.state.inputValues.phoneNumber.phoneNumber,
             phone_number_dial_code: this.state.inputValues.phoneNumber
-                .phoneNumberDialCode
+                .phoneNumberDialCode,
         })
-            .then(response => {
+            .then((response) => {
                 this.setState({
                     infoText: {
                         message: 'Verfication sms sent, please check inbox',
-                        type: 'success'
+                        type: 'success',
                     },
                     showPhoneTryAgain: true,
                     smsInfo: {
                         sentAt: DateTime.local(),
-                        sentCount: 1
-                    }
+                        sentCount: 1,
+                    },
                 })
             })
-            .catch(responseData => {
+            .catch((responseData) => {
                 this.setState({
                     errorState: {
-                        phoneNumber: get(responseData, 'phone', null)
-                    }
+                        phoneNumber: get(responseData, 'phone', null),
+                    },
                 })
             })
     }
 
     sendPhoneVerificationCodeAgain = () => {
         sendPhoneVerificationCodeAgain()
-            .then(response => {
+            .then((response) => {
                 this.setState({
                     infoText: {
                         message:
                             'Verfication sms sent again, please check inbox',
-                        type: 'success'
+                        type: 'success',
                     },
                     smsInfo: {
                         sentAt: this.state.smsInfo.sentAt,
-                        sentCount: this.state.smsInfo.sentCount + 1
-                    }
+                        sentCount: this.state.smsInfo.sentCount + 1,
+                    },
                 })
                 if (this.state.smsInfo.sentCount > 3) {
                     this.setState({
                         infoText: {
                             message:
                                 'You have exceeded maximum limit of SMS send request please wait till counter expires',
-                            type: 'danger'
-                        }
+                            type: 'danger',
+                        },
                     })
                 }
             })
-            .catch(responseData =>
+            .catch((responseData) =>
                 this.setState({
                     infoText: {
                         message: 'Unknown error occured',
-                        type: 'danger'
-                    }
+                        type: 'danger',
+                    },
                 })
             )
     }
 
     submitPhoneVerificationCode = () => {
         validatePhoneCode(this.state.inputValues.smsVerificationCode)
-            .then(response => {
+            .then((response) => {
                 this.setStepData(response.data)
             })
-            .catch(responseData => {
+            .catch((responseData) => {
                 this.setState({
                     errorState: {
-                        smsVerificationCode: get(responseData, 'code', null)
-                    }
+                        smsVerificationCode: get(responseData, 'code', null),
+                    },
                 })
             })
     }
 
-    addSignupImage = image => {
+    addSignupImage = (image) => {
         this.setState({
-            signupImage: image
+            signupImage: image,
         })
     }
 
     removeSignupImage = () => {
         this.setState({
-            signupImage: null
+            signupImage: null,
         })
     }
 
     submitSignupImage = () => {
         uploadSignupImage(this.state.signupImage)
-            .then(response => {
+            .then((response) => {
                 this.setStepData(response.data)
             })
-            .catch(responseData => {
+            .catch((responseData) => {
                 this.setState({
                     infoText: {
                         message: 'Unknown error occured',
-                        type: 'danger'
-                    }
+                        type: 'danger',
+                    },
                 })
             })
     }
@@ -453,20 +461,20 @@ class AdminSignUpDialog extends Component {
         this.setState({
             smsInfo: {
                 sentAt: null,
-                sentCount: 0
+                sentCount: 0,
             },
             showPhoneTryAgain: false,
             infoText: {
                 message: '',
-                type: 'success'
-            }
+                type: 'success',
+            },
         })
     }
 
     setUserInfoData = () => {
         if (includes(this.state.errorTabs, 0)) {
             getUserInfoTabData()
-                .then(response => {
+                .then((response) => {
                     this.setState({
                         inputValues: {
                             firstName: get(response.data, 'first_name', ''),
@@ -478,17 +486,17 @@ class AdminSignUpDialog extends Component {
                             houseNo: get(response.data, 'house_number', ''),
                             streetName: get(response.data, 'street_name', ''),
                             zipCode: get(response.data, 'zip_code', ''),
-                            birthDate: get(response.data, 'birthdate', '')
-                        }
+                            birthDate: get(response.data, 'birthdate', ''),
+                        },
                     })
                 })
-                .catch(responseData => console.log(responseData))
+                .catch((responseData) => console.log(responseData))
         }
     }
 
     initChat = (e, toUser) => {
         e.preventDefault()
-        this.props.initChat(toUser).then(res => {
+        this.props.initChat(toUser).then((res) => {
             this.props.openMiniChat(res.data.room.id)
         })
     }
@@ -577,11 +585,11 @@ class AdminSignUpDialog extends Component {
     }
 }
 
-const mapStateToProps = state => ({
-    location: state.router.location
+const mapStateToProps = (state) => ({
+    location: state.router.location,
 })
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
     navigate(url) {
         return dispatch(push(url))
     },
@@ -593,10 +601,7 @@ const mapDispatchToProps = dispatch => ({
     },
     openMiniChat(id) {
         return dispatch(messengerActions.openMiniChat(id))
-    }
+    },
 })
 
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(AdminSignUpDialog)
+export default connect(mapStateToProps, mapDispatchToProps)(AdminSignUpDialog)

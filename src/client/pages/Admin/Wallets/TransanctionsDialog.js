@@ -1,16 +1,10 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import isEmpty from 'lodash/isEmpty'
 
 import Dialog from 'components/ui/Dialog'
 
-import { actions as walletTransanctionActions } from 'store/WalletTransanctions'
-
-import {
-    TransanctionStatus,
-    TransanctionFromTo,
-    TransanctionDate,
-    TransanctionReceipt
-} from './TransanctionsTable'
+import { TransanctionDate } from './TransanctionsTable'
 
 const LabelledValue = ({ className, label, value }) => (
     <div className={`labelled-value ${className}`}>
@@ -20,70 +14,19 @@ const LabelledValue = ({ className, label, value }) => (
 )
 
 class TransanctionsDialog extends Component {
-    componentDidMount = () => {
-        const { selectedWalletId } = this.props
-        if (selectedWalletId) {
-            this.props.fetchTransanctions(selectedWalletId)
-        }
-    }
-
-    componentWillReceiveProps = nextProps => {
-        const { selectedWalletId } = this.props
-        if (
-            nextProps.selectedWalletId &&
-            nextProps.selectedWalletId !== selectedWalletId
-        ) {
-            this.props.fetchTransanctions(nextProps.selectedWalletId)
-        }
-        if (!nextProps.selectedWalletId) {
-            this.props.clearTransanctions()
-        }
-    }
-
     renderOneTransanction = (transanction, index) => {
         return (
             <div className="transanction-item" key={index}>
                 <div className="row">
                     <div className="col-4">
-                        <LabelledValue
-                            label="From/To"
-                            value={
-                                <TransanctionFromTo
-                                    transanction={transanction}
-                                />
-                            }
-                        />
+                        <LabelledValue label="Hash" value={transanction.hash} />
                     </div>
                     <div className="col-4">
                         <LabelledValue
-                            label="Transanction ID"
-                            value={transanction.txid}
-                        />
-                    </div>
-                    <div className="col-4">
-                        <LabelledValue
-                            label="Status"
-                            value={
-                                <TransanctionStatus
-                                    status={transanction.status}
-                                />
-                            }
-                        />
-                    </div>
-                </div>
-                <div className="row mt-3">
-                    <div className="col-4">
-                        <LabelledValue
-                            label="Description"
-                            value={transanction.message}
-                        />
-                    </div>
-                    <div className="col-4">
-                        <LabelledValue
-                            label="Date"
+                            label="Timestamp"
                             value={
                                 <TransanctionDate
-                                    date={transanction.timestamp}
+                                    timestamp={transanction.timestamp}
                                 />
                             }
                         />
@@ -92,19 +35,7 @@ class TransanctionsDialog extends Component {
                         <LabelledValue
                             className="transanction-amount"
                             label="Amount"
-                            value={transanction.amount.toLocaleString()}
-                        />
-                    </div>
-                </div>
-                <div className="row mt-3">
-                    <div className="col-4">
-                        <LabelledValue
-                            label="Receipt"
-                            value={
-                                <TransanctionReceipt
-                                    receiptLink={transanction.receipt_link}
-                                />
-                            }
+                            value={transanction.transfers[0].amount / 1000000}
                         />
                     </div>
                 </div>
@@ -113,34 +44,26 @@ class TransanctionsDialog extends Component {
     }
 
     render() {
-        const { list = [] } = this.props
+        const tableData = !isEmpty(this.props.selectedWebWalletDetails)
+            ? this.props.selectedWebWalletDetails.transactions
+            : []
+
         return (
             <Dialog
                 isOpen={true}
                 className="transanctions-dialog"
                 onRequestClose={this.props.onRequestClose}>
-                {list.map(this.renderOneTransanction)}
+                {tableData.map(this.renderOneTransanction)}
             </Dialog>
         )
     }
 }
 
 const mapStateToProps = state => ({
-    list: state.WalletTransanctions.list,
-    isLoading: state.WalletTransanctions.isLoading,
-    selectedWalletId: state.WalletAccounts.selectedWalletId
+    selectedWebWallet: state.UserWebWallet.selectedWebWallet,
+    selectedWebWalletDetails: state.UserWebWallet.selectedWebWalletDetails
 })
 
-const mapDispatchToProps = dispatch => ({
-    fetchTransanctions(walletId) {
-        return dispatch(walletTransanctionActions.fetchTransanctions(walletId))
-    },
-    clearTransanctions() {
-        return dispatch(walletTransanctionActions.clearTransanctions())
-    }
-})
+const mapDispatchToProps = dispatch => ({})
 
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(TransanctionsDialog)
+export default connect(mapStateToProps, mapDispatchToProps)(TransanctionsDialog)

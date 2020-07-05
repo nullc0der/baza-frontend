@@ -22,6 +22,7 @@
         "@babel/node": "^7.0.0",
         "@babel/preset-env": "^7.1.5",
         "@babel/preset-react": "^7.0.0",
+        "@datapunt/matomo-tracker-js": "^0.1.5",
         "@sentry/browser": "latest",
         "animate.css": "3.7.0",
         "apisauce": "^1.0.0",

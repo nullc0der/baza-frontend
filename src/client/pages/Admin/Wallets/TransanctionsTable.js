@@ -3,10 +3,10 @@ import classnames from 'classnames'
 import ReactTable from 'react-table'
 import 'react-table/react-table.css'
 import { connect } from 'react-redux'
+import isEmpty from 'lodash/isEmpty'
 
 import capitalize from 'lodash/capitalize'
 
-import { actions as walletTransanctionActions } from 'store/WalletTransanctions'
 import moment from 'moment'
 
 export const TransanctionStatus = ({ status, className }) => {
@@ -24,14 +24,13 @@ export const TransanctionStatus = ({ status, className }) => {
 
 export const TransanctionFromTo = ({ transanction }) => {
     return transanction.account
-        ? `${transanction.account.user.username} -> ${
-              transanction.to_account.user.username
-          }`
+        ? `${transanction.account.user.username} -> ${transanction.to_account.user.username}`
         : `Baza Foundation -> ${transanction.to_account.user.username}`
 }
 
-export const TransanctionDate = ({ date }) =>
-    moment(date).format('MM/DD/YYYY, h:mm a')
+export const TransanctionDate = ({ timestamp }) => {
+    return moment(timestamp).format('MM/DD/YYYY, h:mm a')
+}
 
 export const TransanctionReceipt = ({ receiptLink }) => {
     return receiptLink ? (
@@ -42,88 +41,43 @@ export const TransanctionReceipt = ({ receiptLink }) => {
 }
 
 class TransanctionsTable extends Component {
-    componentDidMount = () => {
-        const { selectedWalletId } = this.props
-        if (selectedWalletId) {
-            this.props.fetchTransanctions(selectedWalletId)
-        }
-    }
-
-    componentWillReceiveProps = nextProps => {
-        const { selectedWalletId } = this.props
-        if (
-            nextProps.selectedWalletId &&
-            nextProps.selectedWalletId !== selectedWalletId
-        ) {
-            this.props.fetchTransanctions(nextProps.selectedWalletId)
-        }
-        if (!nextProps.selectedWalletId) {
-            this.props.clearTransanctions()
-        }
-    }
-
     render() {
-        const tableData = this.props.list || []
+        const tableData = !isEmpty(this.props.selectedWebWalletDetails)
+            ? this.props.selectedWebWalletDetails.transactions
+            : []
 
-        if (!this.props.selectedWalletId) {
+        if (isEmpty(tableData)) {
             return null
         }
 
         const columns = [
             {
-                id: 'id',
-                Header: 'ID',
-                accessor: 'id',
-                show: false
+                id: 'hash',
+                Header: 'Transanction Hash',
+                accessor: 'hash'
             },
             {
-                id: 'from-to',
-                Header: 'From -> To',
-                accessor: d => <TransanctionFromTo transanction={d} />
-            },
-            {
-                id: 'message',
-                Header: 'Description',
-                accessor: 'message'
-            },
-            {
-                id: 'txid',
-                Header: 'TransanctionID',
-                accessor: 'txid'
-            },
-            {
-                id: 'status',
-                Header: 'Status',
-                accessor: d => <TransanctionStatus status={d.status} />
-            },
-            {
-                id: 'date',
-                Header: 'Date',
-                accessor: d => <TransanctionDate date={d.timestamp} />
+                id: 'timestamp',
+                Header: 'Timestamp',
+                accessor: d => (
+                    <TransanctionDate timestamp={d.timestamp * 1000} />
+                )
             },
             {
                 id: 'amount',
                 Header: 'Amount',
-                accessor: d => `${d.amount.toLocaleString()}`
-            },
-            {
-                id: 'receipt',
-                Header: 'Receipt',
-                accessor: d => (
-                    <TransanctionReceipt receiptLink={d.receipt_link} />
-                )
+                accessor: d => `${d.transfers[0].amount / 1000000}`
             }
         ]
 
         const tableOptions = {
-            loading: this.props.isLoading,
             showPagination: false,
             showPageSizeOptions: false,
             minRows: 0,
             multisort: false,
             defaultSorted: [
                 {
-                    id: 'id',
+                    id: 'timestamp',
                     desc: true
                 }
             ]
@@ -142,21 +96,10 @@ class TransanctionsTable extends Component {
 }
 
 const mapStateToProps = state => ({
-    list: state.WalletTransanctions.list,
-    isLoading: state.WalletTransanctions.isLoading,
-    selectedWalletId: state.WalletAccounts.selectedWalletId
+    selectedWebWallet: state.UserWebWallet.selectedWebWallet,
+    selectedWebWalletDetails: state.UserWebWallet.selectedWebWalletDetails
 })
 
-const mapDispatchToProps = dispatch => ({
-    fetchTransanctions(walletId) {
-        return dispatch(walletTransanctionActions.fetchTransanctions(walletId))
-    },
-    clearTransanctions() {
-        return dispatch(walletTransanctionActions.clearTransanctions())
-    }
-})
+const mapDispatchToProps = dispatch => ({})
 
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(TransanctionsTable)
+export default connect(mapStateToProps, mapDispatchToProps)(TransanctionsTable)

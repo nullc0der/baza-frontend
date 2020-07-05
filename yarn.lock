@@ -964,6 +964,11 @@
     lodash "^4.17.13"
     to-fast-properties "^2.0.0"
 
+"@datapunt/matomo-tracker-js@^0.1.5":
+  version "0.1.5"
+  resolved "https://registry.yarnpkg.com/@datapunt/matomo-tracker-js/-/matomo-tracker-js-0.1.5.tgz#650396e2d8d9d905c04c94e637cbc21c07648d02"
+  integrity sha512-4L4y5XlVVfJYeyUY1F3iuG55tWBdM5xODtOJSc4LmxTIeTVMKPdI8VbPG3h/2BzO1xxk/p71XakGlemYzn0inw==
+
 "@icons/material@^0.2.4":
   version "0.2.4"
   resolved "https://registry.yarnpkg.com/@icons/material/-/material-0.2.4.tgz#e90c9f71768b3736e76d7dd6783fc6c2afa88bc8"
