@@ -2,6 +2,8 @@
 :local(.container) {
     .modal-title {
         padding-top: 2rem;
+        font-size: 1.75rem;
+        font-weight: 700;
     }
     .modal-body {
         padding-top: 1rem;
@@ -22,6 +24,9 @@
             @include media-breakpoint-down(md, $grid-breakpoints) {
                 width: auto;
                 padding: 1rem 0;
+            }
+            a {
+                color: #e65100;
             }
             p {
                 word-break: break-word;
