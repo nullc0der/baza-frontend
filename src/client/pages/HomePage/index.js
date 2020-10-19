@@ -15,11 +15,11 @@ import ParallaxContainer from 'components/ui/ParallaxContainer'
 
 import FeaturesSection from './FeaturesSection'
 import CurrentStatusSection from './CurrentStatusSection'
-// import LatestDistributionSection from './LatestDistributionSection'
+import LatestDistributionSection from './LatestDistributionSection'
 import ContactSection from './ContactSection'
-// import WhitePaperSection from './WhitePaperSection'
+import WhitePaperSection from './WhitePaperSection'
 import AboutSection from './AboutSection'
-// import MapSection from './MapSection'
+import MapSection from './MapSection'
 import RoadMapSection from './RoadMapSection'
 import NewsSection from './NewsSection'
 import ExchageSection from './ExchangeSection'
@@ -56,7 +56,7 @@ class HomePage extends Component {
     executeHomePageLoadAction = () => {
         window.grecaptcha
             .execute(Config.get('GOOGLE_RECAPTCHA_SITE_KEY'), {
-                action: 'homepage'
+                action: 'homepage',
             })
             .then(() => {})
     }
@@ -104,12 +104,12 @@ class HomePage extends Component {
                 <NewsSection id="news-section" />
                 <ExchageSection id="exchange-section" />
                 <FeaturesSection id="features-section" />
-                {/* <WhitePaperSection id="white-paper-section" /> */}
-                {/* <LatestDistributionSection
+                <WhitePaperSection id="white-paper-section" />
+                <LatestDistributionSection
                     id="latest-section"
                     stats={landingStats}
                 />
-                <MapSection id="map-section" /> */}
+                <MapSection id="map-section" />
                 <RoadMapSection id="roadmap-section" />
                 <TelegramSection id="telegram-section" />
                 <ContactSection id="contact-section" />
@@ -119,18 +119,15 @@ class HomePage extends Component {
     }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
     landingStats: state.Landing.landingStats,
-    isGRecaptchaReady: state.Common.isGRecaptchaReady
+    isGRecaptchaReady: state.Common.isGRecaptchaReady,
 })
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
     fetchStats() {
         return dispatch(landingActions.fetchLandingStats())
-    }
+    },
 })
 
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(HomePage)
+export default connect(mapStateToProps, mapDispatchToProps)(HomePage)
