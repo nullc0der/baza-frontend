@@ -9,15 +9,17 @@ class LatestDistributionSection extends Component {
                 title: 0,
                 subtitle: 'Baz Distributed',
                 description:
-                    'Baz are redeemable tokens that are automatically distributed to all qualifying members as basic income'
-            }
-        ]
+                    'Baz are redeemable tokens that are automatically distributed to all qualifying members as basic income',
+                link: '/',
+                external: false,
+            },
+        ],
     }
 
     componentDidUpdate(prevProps, prevState) {
         if (prevProps.stats !== this.props.stats) {
             const { stats } = this.props
-            this.setState(prevState => ({
+            this.setState((prevState) => ({
                 list: [
                     ...prevState.list,
                     {
@@ -25,7 +27,9 @@ class LatestDistributionSection extends Component {
                         title: stats.donation.total_donors,
                         subtitle: 'Donor',
                         description:
-                            'Donors are patron members that contribute towards the foundation & token distribution'
+                            'Donors are patron members that contribute towards the foundation & token distribution',
+                        link: '/',
+                        external: false,
                     },
                     {
                         image:
@@ -33,9 +37,11 @@ class LatestDistributionSection extends Component {
                         title: stats.distribution.total_approved_signups,
                         subtitle: 'Recipients',
                         description:
-                            'Recipients are our qualifying platform members who receive the distributed token.'
-                    }
-                ]
+                            'Recipients are our qualifying platform members who receive the distributed token.',
+                        link: '/',
+                        external: false,
+                    },
+                ],
             }))
         }
     }
