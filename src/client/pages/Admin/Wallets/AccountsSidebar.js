@@ -10,7 +10,7 @@ class AccountsSidebar extends Component {
         this.props.getWebWallets()
     }
 
-    onWalletItemClick = wallet => {
+    onWalletItemClick = (wallet) => {
         this.props
             .getWebWalletDetails(wallet.id)
             .then(() => this.props.setSelectedWallet(wallet))
@@ -21,7 +21,7 @@ class AccountsSidebar extends Component {
             ? this.props.selectedWebWallet.id
             : -1
         const cx = classnames('account-sidebar-item', {
-            'is-selected': wallet.id === selectedWebWalletId
+            'is-selected': wallet.id === selectedWebWalletId,
         })
         return (
             <div
@@ -46,7 +46,7 @@ class AccountsSidebar extends Component {
                                 Unlocked: {wallet.balance.unlocked / 1000000}
                             </p>
                             <p className="mb-0">
-                                Locked: {wallet.balance.locked / 1000000}
+                                Pending: {wallet.balance.locked / 1000000}
                             </p>
                         </div>
                     </div>
@@ -54,21 +54,21 @@ class AccountsSidebar extends Component {
                 <div className="account-actions-wrap">
                     <div
                         className="action-btn"
-                        onClick={e =>
+                        onClick={(e) =>
                             this.props.onRequestSend(wallet, index, e)
                         }>
                         Send <i className="material-icons">arrow_upward</i>
                     </div>
                     <div
                         className="action-btn"
-                        onClick={e =>
+                        onClick={(e) =>
                             this.props.onRequestReceive(wallet, index, e)
                         }>
                         Receive <i className="material-icons">arrow_downward</i>
                     </div>
                     <div
                         className="action-btn show-details-btn"
-                        onClick={e =>
+                        onClick={(e) =>
                             this.props.onRequestDetails(wallet, index, e)
                         }>
                         DETAILS{' '}
@@ -93,17 +93,17 @@ class AccountsSidebar extends Component {
     }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
     webWallets: state.UserWebWallet.webWallets,
-    selectedWebWallet: state.UserWebWallet.selectedWebWallet
+    selectedWebWallet: state.UserWebWallet.selectedWebWallet,
 })
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
     getWebWallets: () => dispatch(userWebWalletActions.getWebWallets()),
-    getWebWalletDetails: walletId =>
+    getWebWalletDetails: (walletId) =>
         dispatch(userWebWalletActions.getWebWalletsDetails(walletId)),
-    setSelectedWallet: wallet =>
-        dispatch(userWebWalletActions.selectWebWallet(wallet))
+    setSelectedWallet: (wallet) =>
+        dispatch(userWebWalletActions.selectWebWallet(wallet)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(AccountsSidebar)

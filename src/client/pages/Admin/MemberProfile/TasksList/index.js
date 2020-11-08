@@ -8,7 +8,7 @@ import { actions as profileActions } from 'store/UserProfile'
 import s from './TasksList.scss'
 
 class TasksList extends Component {
-    updateUserTasks = data => {
+    updateUserTasks = (data) => {
         this.props.updateUserTasks(data.message)
     }
 
@@ -50,16 +50,13 @@ class TasksList extends Component {
     }
 }
 
-const mapStateToProps = state => ({
-    tasks: state.UserProfile.tasks
+const mapStateToProps = (state) => ({
+    tasks: state.UserProfile.tasks,
 })
 
-const mapDispatchToProps = dispatch => ({
-    updateUserTasks: message =>
-        dispatch(profileActions.updateUserTasks(message))
+const mapDispatchToProps = (dispatch) => ({
+    updateUserTasks: (message) =>
+        dispatch(profileActions.updateUserTasks(message)),
 })
 
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(TasksList)
+export default connect(mapStateToProps, mapDispatchToProps)(TasksList)

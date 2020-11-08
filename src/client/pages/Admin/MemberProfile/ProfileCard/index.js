@@ -17,19 +17,19 @@ class ProfileCard extends Component {
             gender: '',
             aboutMe: '',
             website: '',
-            location: ''
+            location: '',
         },
-        isEditing: false
+        isEditing: false,
     }
 
     componentDidMount() {
         if (isEmpty(this.props.profile)) {
             this.props
                 .fetchProfile()
-                .then(res => {
+                .then((res) => {
                     this.setInputValues(this.props.profile)
                 })
-                .catch(res => { })
+                .catch((res) => {})
         } else {
             this.setInputValues(this.props.profile)
         }
@@ -43,64 +43,64 @@ class ProfileCard extends Component {
                 gender: profile.gender,
                 aboutMe: profile.about_me || '',
                 website: profile.website || '',
-                location: profile.location || ''
-            }
+                location: profile.location || '',
+            },
         })
     }
 
     onFieldChange = (id, value) => {
-        this.setState(prevState => ({
+        this.setState((prevState) => ({
             inputValues: {
                 ...prevState.inputValues,
-                [id]: value
-            }
+                [id]: value,
+            },
         }))
     }
 
-    onGenderSelect = item => {
-        this.setState(prevState => ({
+    onGenderSelect = (item) => {
+        this.setState((prevState) => ({
             inputValues: {
                 ...prevState.inputValues,
-                gender: item
-            }
+                gender: item,
+            },
         }))
     }
 
-    onPlaceSelect = item => {
-        this.setState(prevState => ({
+    onPlaceSelect = (item) => {
+        this.setState((prevState) => ({
             inputValues: {
                 ...prevState.inputValues,
-                location: item
-            }
+                location: item,
+            },
         }))
     }
 
-    toggleEditMode = e => {
+    toggleEditMode = (e) => {
         this.setState({
-            isEditing: !this.state.isEditing
+            isEditing: !this.state.isEditing,
         })
     }
 
-    onClickSave = e => {
-        const splited_name = this.state.inputValues.name.split()
+    onClickSave = (e) => {
+        const splited_name = this.state.inputValues.name.trim().split(' ')
         const datas = {
             user: {
                 first_name: splited_name[0],
                 last_name:
                     splited_name.length > 1
                         ? splited_name[splited_name.length - 1]
-                        : ''
+                        : '',
             },
             username: this.state.inputValues.username,
             gender: this.state.inputValues.gender,
             about_me: this.state.inputValues.aboutMe,
-            location: this.state.inputValues.location,
-            website: this.state.inputValues.website
+            // location: this.state.inputValues.location,
+            website: this.state.inputValues.website,
         }
         this.props
             .saveProfile(datas)
-            .then(res => this.toggleEditMode())
-            .catch(() => { })
+            .then((res) => this.toggleEditMode())
+            .catch(() => {})
     }
 
     render() {
@@ -136,21 +136,18 @@ class ProfileCard extends Component {
     }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
     profile: state.UserProfile.profile,
-    errors: state.UserProfile.hasError
+    errors: state.UserProfile.hasError,
 })
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
     fetchProfile() {
         return dispatch(userProfileActions.fetchProfile())
     },
     saveProfile(datas) {
         return dispatch(userProfileActions.saveProfile(datas))
-    }
+    },
 })
 
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(ProfileCard)
+export default connect(mapStateToProps, mapDispatchToProps)(ProfileCard)

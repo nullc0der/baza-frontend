@@ -1,0 +1,10 @@
+@import 'ui';
+
+:local(.container) {
+    .modal-dialog {
+        max-width: 400px;
+    }
+    .tx-hash {
+        word-break: break-word;
+    }
+}
