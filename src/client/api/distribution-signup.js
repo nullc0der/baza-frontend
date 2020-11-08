@@ -2,20 +2,20 @@ import { jsonAPI, formAPI } from './base' //eslint-disable-line no-unused-vars
 
 export const saveAccount = (id, data) => {
     const url = `/bazasignup/signup/${id}/`
-    return jsonAPI(api => api.post(url, data))
+    return jsonAPI((api) => api.post(url, data))
 }
 
-export const fetchAccount = id => {
+export const fetchAccount = (id) => {
     const url = `/bazasignup/signup/${id}/`
-    return jsonAPI(api => api.get(url))
+    return jsonAPI((api) => api.get(url))
 }
 
-export const deletePhoto = photoId => {
+export const deletePhoto = (photoId) => {
     // mock api
     return Promise.resolve({
         data: {
-            id: photoId
-        }
+            id: photoId,
+        },
     })
 
     // real api
@@ -23,12 +23,12 @@ export const deletePhoto = photoId => {
     // return jsonAPI(api => api.delete(url))
 }
 
-export const deleteDocument = documentId => {
+export const deleteDocument = (documentId) => {
     // mock api
     return Promise.resolve({
         data: {
-            id: documentId
-        }
+            id: documentId,
+        },
     })
 
     // real api
@@ -37,7 +37,7 @@ export const deleteDocument = documentId => {
 }
 
 export const checkCompletedSteps = () => {
-    return jsonAPI(api => api.get('/bazasignup/checksteps/'))
+    return jsonAPI((api) => api.get('/bazasignup/checksteps/'))
 }
 
 export const submitNameAddress = (
@@ -52,7 +52,7 @@ export const submitNameAddress = (
     zipCode,
     birthDate
 ) => {
-    return jsonAPI(api =>
+    return jsonAPI((api) =>
         api.post('/bazasignup/userinfotab/', {
             first_name: firstName,
             last_name: lastName,
@@ -63,67 +63,67 @@ export const submitNameAddress = (
             house_number: houseNumber,
             street_name: streetName,
             zip_code: zipCode,
-            birthdate: birthDate
+            birthdate: birthDate,
         })
     )
 }
 
 export const skipEmail = () => {
-    return jsonAPI(api => api.post('/bazasignup/skipemail/'))
+    return jsonAPI((api) => api.post('/bazasignup/skipemail/'))
 }
 
-export const sendVerificationCode = email => {
-    return jsonAPI(api =>
+export const sendVerificationCode = (email) => {
+    return jsonAPI((api) =>
         api.post('/bazasignup/sendverificationcode/', {
-            email: email
+            email: email,
         })
     )
 }
 
-export const validateEmailCode = code => {
-    return jsonAPI(api =>
+export const validateEmailCode = (code) => {
+    return jsonAPI((api) =>
         api.post('/bazasignup/validateemailcode/', {
-            code: code
+            code: code,
         })
     )
 }
 
 export const sendVerificationCodeAgain = () => {
-    return jsonAPI(api => api.post('/bazasignup/sendverificationcodeagain/'))
+    return jsonAPI((api) => api.post('/bazasignup/sendverificationcodeagain/'))
 }
 
 export const skipPhone = () => {
-    return jsonAPI(api => api.post('/bazasignup/skipphone/'))
+    return jsonAPI((api) => api.post('/bazasignup/skipphone/'))
 }
 
-export const sendPhoneVerificationCode = data => {
-    return jsonAPI(api =>
+export const sendPhoneVerificationCode = (data) => {
+    return jsonAPI((api) =>
         api.post('/bazasignup/sendphoneverificationcode/', data)
     )
 }
 
-export const validatePhoneCode = code => {
-    return jsonAPI(api =>
+export const validatePhoneCode = (code) => {
+    return jsonAPI((api) =>
         api.post('/bazasignup/validatesmscode/', {
-            code
+            code,
         })
     )
 }
 
 export const sendPhoneVerificationCodeAgain = () => {
-    return jsonAPI(api => api.post('/bazasignup/sendphoneverificationcode/'))
+    return jsonAPI((api) => api.post('/bazasignup/sendphoneverificationcode/'))
 }
 
-export const uploadSignupImage = image => {
+export const uploadSignupImage = (image) => {
     const data = new FormData()
     data.append('image', image)
-    return formAPI(api => api.post('/bazasignup/uploadsignupimage/', data))
+    return formAPI((api) => api.post('/bazasignup/uploadsignupimage/', data))
 }
 
 export const toggleDonor = () => {
-    return jsonAPI(api => api.post('/bazasignup/toggledonor/'))
+    return jsonAPI((api) => api.post('/bazasignup/toggledonor/'))
 }
 
 export const getUserInfoTabData = () => {
-    return jsonAPI(api => api.get('/bazasignup/userinfotab/'))
+    return jsonAPI((api) => api.get('/bazasignup/userinfotab/'))
 }

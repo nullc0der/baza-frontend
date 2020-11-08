@@ -2,11 +2,12 @@
 
 :local(.container) {
     position: relative;
-    flex-shrink: 0;
-    height: $admin-notification-bar-height;
-    background-color: $info;
-    padding: 0 30px;
-    box-shadow: inset 1px 1px 3px rgba(0, 0, 0, 0.23);
+    .notification-item {
+        display: flex;
+        align-items: center;
+        height: $admin-notification-bar-height;
+        padding: 0 30px;
+    }
     a {
         color: $light;
         text-decoration: none;

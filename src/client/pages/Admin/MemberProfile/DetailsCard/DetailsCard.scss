@@ -124,6 +124,10 @@
             background-color: #18cff8;
         }
     }
+
+    .ui-select-dropdown {
+        max-height: 300px;
+    }
 }
 
 :local(.phoneField) {

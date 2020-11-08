@@ -5,13 +5,15 @@ import SwipeableCard from 'components/ui/SwipeableCard'
 import PhoneDetails from './PhoneDetails'
 import EmailDetails from './EmailDetails'
 import SocialDetails from './SocialDetails'
+import LocationDetails from './LocationDetails'
 
 import s from './DetailsCard.scss'
 
 const DETAILS_CARD_TABS = [
     { label: 'Phone' },
     { label: 'Email' },
-    { label: 'Social' }
+    { label: 'Location' },
+    { label: 'Social' },
 ]
 
 class DetailsCard extends Component {
@@ -25,6 +27,7 @@ class DetailsCard extends Component {
                 id="details">
                 <PhoneDetails />
                 <EmailDetails />
+                <LocationDetails />
                 <SocialDetails />
             </SwipeableCard>
         )

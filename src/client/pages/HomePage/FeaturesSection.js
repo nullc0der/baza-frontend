@@ -13,7 +13,7 @@ const FEATURES = [
         description:
             'Easy entry level GPU mining of the Baza token to support the network',
         link: 'https://pool.baza.foundation/#getting_started',
-        external: true
+        external: true,
     },
     {
         image: '/public/img/features/community.svg',
@@ -22,7 +22,7 @@ const FEATURES = [
         description:
             'Join the Foundation to become a platform or patron member',
         link: '/signup',
-        external: false
+        external: false,
     },
     {
         image: '/public/img/features/store-locally.svg',
@@ -31,12 +31,12 @@ const FEATURES = [
         description:
             'Download and store your Baza token on your choice of operating system',
         link: 'https://gitlab.ekata.io/baza-foundation/baz-token/releases',
-        external: true
-    }
+        external: true,
+    },
 ]
 
 class FeatureItem extends Component {
-    renderAnimatedCount = title => {
+    renderAnimatedCount = (title) => {
         return (
             <CountUp start={0} end={title} delay={0} duration={3} separator=",">
                 {({ countUpRef }) => (
@@ -48,7 +48,7 @@ class FeatureItem extends Component {
         )
     }
 
-    renderSection = isVisible => {
+    renderSection = (isVisible) => {
         const {
             iconClassName,
             image,
@@ -58,7 +58,7 @@ class FeatureItem extends Component {
             description,
             isExternal,
             link,
-            linkClassName
+            linkClassName,
         } = this.props
 
         return (
@@ -113,7 +113,7 @@ class FeatureItem extends Component {
     }
 }
 
-const FeaturesSection = props => {
+const FeaturesSection = (props) => {
     const cx = classnames(props.className, 'features-section')
     const iconClassName = classnames(props.iconClassName, 'feature-icon')
     const buttonClassName = classnames(

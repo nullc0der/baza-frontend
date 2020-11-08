@@ -472,26 +472,24 @@ class AdminSignUpDialog extends Component {
     }
 
     setUserInfoData = () => {
-        if (includes(this.state.errorTabs, 0)) {
-            getUserInfoTabData()
-                .then((response) => {
-                    this.setState({
-                        inputValues: {
-                            firstName: get(response.data, 'first_name', ''),
-                            lastName: get(response.data, 'last_name', ''),
-                            refCode: get(response.data, 'referral_code', ''),
-                            country: get(response.data, 'country', ''),
-                            city: get(response.data, 'city', ''),
-                            state: get(response.data, 'state', ''),
-                            houseNo: get(response.data, 'house_number', ''),
-                            streetName: get(response.data, 'street_name', ''),
-                            zipCode: get(response.data, 'zip_code', ''),
-                            birthDate: get(response.data, 'birthdate', ''),
-                        },
-                    })
+        getUserInfoTabData()
+            .then((response) => {
+                this.setState({
+                    inputValues: {
+                        firstName: get(response.data, 'first_name', ''),
+                        lastName: get(response.data, 'last_name', ''),
+                        refCode: get(response.data, 'referral_code', ''),
+                        country: get(response.data, 'country', ''),
+                        city: get(response.data, 'city', ''),
+                        state: get(response.data, 'state', ''),
+                        houseNo: get(response.data, 'house_number', ''),
+                        streetName: get(response.data, 'street_name', ''),
+                        zipCode: get(response.data, 'zip_code', ''),
+                        birthDate: get(response.data, 'birthdate', ''),
+                    },
                 })
-                .catch((responseData) => console.log(responseData))
-        }
+            })
+            .catch((responseData) => console.log(responseData))
     }
 
     initChat = (e, toUser) => {

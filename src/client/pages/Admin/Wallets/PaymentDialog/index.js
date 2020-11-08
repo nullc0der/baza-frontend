@@ -27,15 +27,15 @@ class PaymentsDialog extends Component {
         selectedTab: 0,
         inputValues: {
             amount: '',
-            destAddress: ''
+            destAddress: '',
         },
         inputError: {
             amount: null,
             destAddress: null,
-            nonField: null
+            nonField: null,
         },
         txHash: null,
-        txfee: 1000
+        txfee: 1000,
     }
 
     componentDidMount = () => {
@@ -44,7 +44,7 @@ class PaymentsDialog extends Component {
         }
     }
 
-    componentWillReceiveProps = nextProps => {
+    componentWillReceiveProps = (nextProps) => {
         if (nextProps.selectedTab) {
             this.setState({ selectedTab: nextProps.selectedTab })
         }
@@ -54,7 +54,7 @@ class PaymentsDialog extends Component {
         this.setState({ selectedTab })
     }
 
-    switchSwipeTab = selectedTab => {
+    switchSwipeTab = (selectedTab) => {
         this.setState({ selectedTab })
     }
 
@@ -63,14 +63,18 @@ class PaymentsDialog extends Component {
         sendUserWebWalletTx({
             source_address: selectedWebWallet.address,
             destination_address: this.state.inputValues.destAddress,
-            amount: this.state.inputValues.amount * 1000000
+            amount: this.state.inputValues.amount * 1000000,
         })
-            .then(response => {
+            .then((response) => {
                 this.setState({
-                    txHash: get(response.data, 'transaction_hash', null)
+                    txHash: get(response.data, 'transaction_hash', null),
+                    inputValues: {
+                        amount: '',
+                        destAddress: '',
+                    },
                 })
             })
-            .catch(responseData => {
+            .catch((responseData) => {
                 this.setState({
                     inputError: {
                         amount: get(responseData, 'amount', null),
@@ -79,18 +83,18 @@ class PaymentsDialog extends Component {
                             'destination_address',
                             null
                         ),
-                        nonField: get(responseData, 'non_field_errors', null)
-                    }
+                        nonField: get(responseData, 'non_field_errors', null),
+                    },
                 })
             })
     }
 
     onInputChange = (id, value) => {
-        this.setState(prevState => ({
+        this.setState((prevState) => ({
             inputValues: {
                 ...prevState.inputValues,
-                [id]: value
-            }
+                [id]: value,
+            },
         }))
     }
 
@@ -100,15 +104,15 @@ class PaymentsDialog extends Component {
                 selectedTab: 0,
                 inputValues: {
                     amount: '',
-                    destAddress: ''
+                    destAddress: '',
                 },
                 inputError: {
                     amount: null,
                     destAddress: null,
-                    nonField: null
+                    nonField: null,
                 },
                 txHash: null,
-                txfee: 1000
+                txfee: 1000,
             },
             () => this.props.onRequestClose()
         )
@@ -159,17 +163,17 @@ class PaymentsDialog extends Component {
     }
 }
 
-const mapStateToProps = state => ({
-    selectedWebWallet: state.UserWebWallet.selectedWebWallet
+const mapStateToProps = (state) => ({
+    selectedWebWallet: state.UserWebWallet.selectedWebWallet,
 })
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
     addNotification(notification) {
         return dispatch(commonActions.addNotification(notification))
     },
     getWebWalletsDetails(walletId) {
         return dispatch(userWebWalletAction.getWebWalletsDetails(walletId))
-    }
+    },
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(PaymentsDialog)

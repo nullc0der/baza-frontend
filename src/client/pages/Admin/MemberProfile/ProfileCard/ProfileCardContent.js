@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react'
 import get from 'lodash/get'
 
-import Autocomplete from 'react-google-autocomplete'
+// import Autocomplete from 'react-google-autocomplete'
 
 import { CardContent } from 'components/ui/CardWithTabs'
 import EditableInputField from 'components/ui/EditableInputField'
@@ -9,37 +9,37 @@ import EditableInputField from 'components/ui/EditableInputField'
 const GENDERS = [
     {
         name: 'Male',
-        value: 'male'
+        value: 'male',
     },
     {
         name: 'Female',
-        value: 'female'
+        value: 'female',
     },
     {
         name: 'Other',
-        value: 'other'
+        value: 'other',
     },
     {
         name: 'Quality Person',
-        value: 'quality_person'
-    }
+        value: 'quality_person',
+    },
 ]
 
 const GENDERSMAP = {
     male: 'Male',
     female: 'Female',
     other: 'Other',
-    quality_person: 'Quality Person'
+    quality_person: 'Quality Person',
 }
 
-const ProfileDetail = props => (
+const ProfileDetail = (props) => (
     <div className={`profile-detail ${props.className}`}>
         <div className="label">{props.label}</div>
         <div className="value">{props.value}</div>
     </div>
 )
 
-const GenderDropdown = props => {
+const GenderDropdown = (props) => {
     return (
         <Fragment>
             <div className="gender-dropdown-group btn-group">
@@ -71,13 +71,13 @@ const GenderDropdown = props => {
     )
 }
 
-const ProfileCardContent = props => {
+const ProfileCardContent = (props) => {
     const {
         profile,
         isEditing,
         onFieldChange,
         onGenderSelect,
-        onPlaceSelect
+        // onPlaceSelect,
     } = props
 
     const errors = props.errors || {}
@@ -161,7 +161,7 @@ const ProfileCardContent = props => {
                 </div>
             </div>
             <div className="row mt-2">
-                <div className="col-6">
+                <div className="col-12">
                     <ProfileDetail
                         label="Website"
                         value={
@@ -175,7 +175,7 @@ const ProfileCardContent = props => {
                         }
                     />
                 </div>
-                <div className="col-6">
+                {/* <div className="col-6">
                     <ProfileDetail
                         label="Location"
                         value={
@@ -206,9 +206,9 @@ const ProfileCardContent = props => {
                         }
                         className="text-right"
                     />
-                </div>
+                </div> */}
             </div>
-            <div className="row mt-2">
+            {/* <div className="row mt-2">
                 <div className="col-md-12">
                     <img
                         className="img-fluid profile-location-map"
@@ -218,7 +218,7 @@ const ProfileCardContent = props => {
                         }&zoom=11&scale=1&size=600x250&maptype=roadmap&format=png&visual_refresh=true&key=AIzaSyDqsDgAvVSeYBL2Q7p8x-kAB0lLuwlNW7c`}
                     />
                 </div>
-            </div>
+            </div> */}
         </CardContent>
     )
 }
