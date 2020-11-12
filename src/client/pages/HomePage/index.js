@@ -15,11 +15,11 @@ import ParallaxContainer from 'components/ui/ParallaxContainer'
 
 import FeaturesSection from './FeaturesSection'
 import CurrentStatusSection from './CurrentStatusSection'
-import LatestDistributionSection from './LatestDistributionSection'
+// import LatestDistributionSection from './LatestDistributionSection'
 import ContactSection from './ContactSection'
-import WhitePaperSection from './WhitePaperSection'
+// import WhitePaperSection from './WhitePaperSection'
 import AboutSection from './AboutSection'
-import MapSection from './MapSection'
+// import MapSection from './MapSection'
 import RoadMapSection from './RoadMapSection'
 import NewsSection from './NewsSection'
 import ExchageSection from './ExchangeSection'
@@ -104,12 +104,12 @@ class HomePage extends Component {
                 <NewsSection id="news-section" />
                 <ExchageSection id="exchange-section" />
                 <FeaturesSection id="features-section" />
-                <WhitePaperSection id="white-paper-section" />
+                {/* <WhitePaperSection id="white-paper-section" />
                 <LatestDistributionSection
                     id="latest-section"
                     stats={landingStats}
                 />
-                <MapSection id="map-section" />
+                <MapSection id="map-section" /> */}
                 <RoadMapSection id="roadmap-section" />
                 <TelegramSection id="telegram-section" />
                 <ContactSection id="contact-section" />
