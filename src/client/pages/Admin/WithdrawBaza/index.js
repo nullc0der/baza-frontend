@@ -1,5 +1,6 @@
 import React from 'react'
 import classnames from 'classnames'
+import get from 'lodash/get'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { push } from 'react-router-redux'
@@ -20,6 +21,7 @@ class WithdrawBazaDialog extends React.Component {
         },
         errorState: {
             password: null,
+            nonField: [],
         },
         confirmClicked: false,
         txHash: '',
@@ -53,12 +55,13 @@ class WithdrawBazaDialog extends React.Component {
                     () => this.props.clearProxcBalance()
                 )
             })
-            .catch(() => {
+            .catch((responseData) => {
                 this.setState({
                     confirmClicked: false,
                     errorState: {
-                        password:
-                            'There is some error at this moment, please try later',
+                        nonField: get(responseData, 'non_field_errors', [
+                            'There is some issue processing your withdrawal at this moment, please try later',
+                        ]),
                     },
                 })
             })
@@ -95,6 +98,15 @@ class WithdrawBazaDialog extends React.Component {
                                     </i>
                                 }
                             />
+                            {!!errorState.nonField.length && (
+                                <div className="alert alert-danger">
+                                    {errorState.nonField.map((x, i) => (
+                                        <p className="m-0" key={i}>
+                                            {x}
+                                        </p>
+                                    ))}
+                                </div>
+                            )}
                             <button
                                 className="btn btn-dark btn-block"
                                 onClick={this.onClickConfirm}
