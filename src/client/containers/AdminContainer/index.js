@@ -25,6 +25,7 @@ import { actions as usersActions } from 'store/Users'
 import { actions as messengerActions } from 'store/Messenger'
 import { actions as walletTransactionsActions } from 'store/WalletTransanctions'
 import { actions as notificationsActions } from 'store/Notifications'
+import { actions as walletAccountsActions } from 'store/WalletAccounts'
 
 import AdminRoutes from './AdminRoutes'
 import AdminOverlays from './AdminOverlays'
@@ -34,7 +35,7 @@ import AdminOverlays from './AdminOverlays'
 class AdminContainer extends Component {
     state = {
         isLeftNavOpen: false,
-        isRightNavOpen: false
+        isRightNavOpen: false,
     }
 
     componentDidMount = () => {
@@ -45,7 +46,7 @@ class AdminContainer extends Component {
     componentWillUnmount = () => {
         document.body.classList.remove('is-admin-ui')
     }
-    componentDidUpdate = prevProps => {
+    componentDidUpdate = (prevProps) => {
         if (
             prevProps.notificationSystemData !==
             this.props.notificationSystemData
@@ -61,9 +62,9 @@ class AdminContainer extends Component {
     notificationSystemStyle = {
         NotificationItem: {
             DefaultStyle: {
-                margin: '20px 5px 2px 1px'
-            }
-        }
+                margin: '20px 5px 2px 1px',
+            },
+        },
     }
 
     injectFontIfAbsent = () => {
@@ -85,26 +86,29 @@ class AdminContainer extends Component {
         this.setState({ isRightNavOpen: !this.state.isRightNavOpen })
     }
 
-    onWebSocketData = data => {
+    onWebSocketData = (data) => {
         this.props.setOnlineUsers(get(data.message, 'online_users', []))
     }
 
-    isChatEmpty = chatroomID => {
+    isChatEmpty = (chatroomID) => {
         return isEmpty(this.props.chats[chatroomID])
     }
 
-    shouldPlayMessengerTone = chatroomID => {
+    shouldPlayMessengerTone = (chatroomID) => {
         return (
             chatroomID !== this.props.selectedChatroom &&
             this.props.minichats.indexOf(chatroomID) === -1
         )
     }
 
-    onNotificationWebSocketData = data => {
+    onNotificationWebSocketData = (data) => {
         const { message } = data
         switch (message.type) {
             case 'proxcdb-transaction':
                 this.props.receievedTXdata(message.data)
+                break
+            case 'add_baza_distribution_balance':
+                this.props.updateProxcBalance(message.data.balance)
                 break
             default:
                 this.props.receivedNotification(message.data)
@@ -113,7 +117,7 @@ class AdminContainer extends Component {
         }
     }
 
-    onMessengerWebSocketData = data => {
+    onMessengerWebSocketData = (data) => {
         switch (data.message.type) {
             case 'add_message':
                 const chatroomID = data.message.chatroom.id
@@ -221,15 +225,15 @@ class AdminContainer extends Component {
                     state: {
                         originURL:
                             this.props.location.pathname +
-                            this.props.location.hash
-                    }
+                            this.props.location.hash,
+                    },
                 }}
             />
         )
     }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
     notificationSystemData: state.Common.notificationSystemData,
     location: state.router.location,
     userStatus: state.UserProfile.userStatus,
@@ -237,30 +241,29 @@ const mapStateToProps = state => ({
     showHeaders: state.Common.showHeaders,
     selectedChatroom: state.Messenger.selected,
     minichats: state.Messenger.minichats,
-    chats: state.Messenger.chats
+    chats: state.Messenger.chats,
 })
 
-const mapDispatchToProps = dispatch => ({
-    setOnlineUsers: users => dispatch(usersActions.setOnlineUsers(users)),
-    addChatRoom: room => dispatch(messengerActions.addChatRoom(room)),
+const mapDispatchToProps = (dispatch) => ({
+    setOnlineUsers: (users) => dispatch(usersActions.setOnlineUsers(users)),
+    addChatRoom: (room) => dispatch(messengerActions.addChatRoom(room)),
     recievedChatOnWebsocket: (roomId, chat) =>
         dispatch(messengerActions.receivedChatOnWebsocket(roomId, chat)),
     deleteChatsFromWebsocket: (roomId, chatIds) =>
         dispatch(messengerActions.deleteChatsFromWebsocket(roomId, chatIds)),
-    setTypingStatus: roomId =>
+    setTypingStatus: (roomId) =>
         dispatch(messengerActions.updateTypingStatus(roomId)),
-    openMiniChat: roomId => dispatch(messengerActions.openMiniChat(roomId)),
-    receievedTXdata: transaction =>
+    openMiniChat: (roomId) => dispatch(messengerActions.openMiniChat(roomId)),
+    receievedTXdata: (transaction) =>
         dispatch(
             walletTransactionsActions.receivedTxdataOnWebsocket(transaction)
         ),
-    receivedNotification: notification =>
+    receivedNotification: (notification) =>
         dispatch(
             notificationsActions.receivedNotificationOnWebsocket(notification)
-        )
+        ),
+    updateProxcBalance: (balance) =>
+        dispatch(walletAccountsActions.updateProxcBalance(balance)),
 })
 
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(AdminContainer)
+export default connect(mapStateToProps, mapDispatchToProps)(AdminContainer)

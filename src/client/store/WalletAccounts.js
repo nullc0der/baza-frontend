@@ -77,11 +77,18 @@ const clearProxcBalance = () => ({
     type: CLEAR_PROXC_BALANCE,
 })
 
+const UPDATE_PROXC_BALANCE = createAction('UPDATE_PROXC_BALANCE')
+const updateProxcBalance = (balance) => ({
+    type: UPDATE_PROXC_BALANCE,
+    balance,
+})
+
 export const actions = {
     fetchAccounts,
     selectWallet,
     fetchWithdrawBazaInfo,
     clearProxcBalance,
+    updateProxcBalance,
 }
 
 export default function WalletAccountsReducer(state = INITIAL_STATE, action) {
@@ -102,6 +109,14 @@ export default function WalletAccountsReducer(state = INITIAL_STATE, action) {
             return {
                 ...state,
                 withdrawBazaInfo: { ...state.withdrawBazaInfo, balance: 0 },
+            }
+        case UPDATE_PROXC_BALANCE:
+            return {
+                ...state,
+                withdrawBazaInfo: {
+                    ...state.withdrawBazaInfo,
+                    balance: state.withdrawBazaInfo.balance + action.balance,
+                },
             }
         default:
             return state

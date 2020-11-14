@@ -1,12 +1,22 @@
 import React, { Component, Fragment } from 'react'
 import isEmpty from 'lodash/isEmpty'
 
+import SelectDropdown from 'components/ui/SelectDropdown/SimpleSelectDropdown'
 import Avatar from 'components/Avatar'
 import DistributionSignupInfoCard from './DistributionSignupInfoCard'
 
 class OtherInfo extends Component {
     render() {
-        const { otherInfo, toggleReassignDialog } = this.props
+        const {
+            otherInfo,
+            toggleReassignDialog,
+            toggleOnDistribution,
+            signupID,
+        } = this.props
+        const STATUS = [
+            { label: 'Yes', value: 'yes' },
+            { label: 'No', value: 'no' },
+        ]
         return (
             <DistributionSignupInfoCard
                 title="Other Info"
@@ -40,8 +50,25 @@ class OtherInfo extends Component {
                         <div className="text-box">
                             <div className="title">On Distribution</div>
                             <div className="content-with-badge">
-                                <div className="content">
-                                    {otherInfo.on_distribution ? 'Yes' : 'No'}
+                                <div className="content with-select-dropdown">
+                                    <SelectDropdown
+                                        className="status-select-dropdown"
+                                        id="status"
+                                        placeholder=""
+                                        value={
+                                            otherInfo.on_distribution
+                                                ? 'Yes'
+                                                : 'No'
+                                        }
+                                        items={STATUS}
+                                        onChange={(value) => {
+                                            toggleOnDistribution(
+                                                signupID,
+                                                value
+                                            )
+                                        }}
+                                        errorState={null}
+                                    />
                                 </div>
                             </div>
                         </div>
@@ -99,7 +126,7 @@ class OtherInfo extends Component {
                                                             .user_image_url,
                                                     default_avatar_color:
                                                         otherInfo.referred_by
-                                                            .user_avatar_color
+                                                            .user_avatar_color,
                                                 }}
                                                 own={false}
                                             />
@@ -145,7 +172,7 @@ class OtherInfo extends Component {
                                                             .user_image_url,
                                                     default_avatar_color:
                                                         otherInfo.assigned_to
-                                                            .user_avatar_color
+                                                            .user_avatar_color,
                                                 }}
                                                 own={false}
                                             />

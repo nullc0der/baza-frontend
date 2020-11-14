@@ -89,7 +89,7 @@ class DistributionProfileCard extends Component {
         const {
             markFormViolation,
             distributionProfile,
-            addNotification
+            addNotification,
         } = this.props
         markFormViolation(distributionProfile.id, {
             data_types: this.state.selectedDataTypes,
@@ -163,7 +163,8 @@ class DistributionProfileCard extends Component {
         const {
             staffs,
             distributionProfile,
-            onClickSubmitReassign
+            onClickSubmitReassign,
+            toggleOnDistribution
         } = this.props
         const { selectedStaffID, error } = this.state
 
@@ -293,8 +294,10 @@ class DistributionProfileCard extends Component {
                     <div className="row mt-2">
                         <div className="col-md-12">
                             <OtherInfo
+                                signupID={distributionProfile.id}
                                 otherInfo={distributionProfile.additional_data}
                                 toggleReassignDialog={this.toggleReassignDialog}
+                                toggleOnDistribution={toggleOnDistribution}
                             />
                             <Dialog
                                 className={s.reassigndialog}

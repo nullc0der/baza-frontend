@@ -13,18 +13,18 @@ export default class SimpleSelectDropdown extends Component {
         value: PropTypes.string,
         placeholder: PropTypes.string,
         errorState: PropTypes.array,
-        showSearch: PropTypes.bool
+        showSearch: PropTypes.bool,
     }
 
     state = {
         isOpen: false,
         items: [],
-        searchInputValue: ''
+        searchInputValue: '',
     }
 
     componentDidMount = () => {
         this.setState({
-            items: this.props.items
+            items: this.props.items,
         })
     }
 
@@ -43,11 +43,11 @@ export default class SimpleSelectDropdown extends Component {
             )
         }
         this.setState({
-            isOpen: !this.state.isOpen
+            isOpen: !this.state.isOpen,
         })
     }
 
-    handleClickOutside = e => {
+    handleClickOutside = (e) => {
         if (this.simpleSelectDropdownNode.contains(e.target)) {
             return
         }
@@ -64,7 +64,7 @@ export default class SimpleSelectDropdown extends Component {
             <div
                 key={index}
                 className="ui-select-dropdown-item"
-                onClick={e => this.handleClick(e, item, index)}>
+                onClick={(e) => this.handleClick(e, item, index)}>
                 {item.label}
             </div>
         )
@@ -74,9 +74,9 @@ export default class SimpleSelectDropdown extends Component {
         const { items } = this.props
         this.setState({
             searchInputValue: value,
-            items: items.filter(x =>
+            items: items.filter((x) =>
                 x.value.toLowerCase().startsWith(value.toLowerCase())
-            )
+            ),
         })
     }
 
@@ -86,7 +86,7 @@ export default class SimpleSelectDropdown extends Component {
             placeholder,
             errorState,
             className,
-            showSearch = false
+            showSearch = false,
         } = this.props
 
         const { items, isOpen, searchInputValue } = this.state
@@ -101,7 +101,7 @@ export default class SimpleSelectDropdown extends Component {
         return (
             <div
                 className={cx}
-                ref={node => (this.simpleSelectDropdownNode = node)}>
+                ref={(node) => (this.simpleSelectDropdownNode = node)}>
                 <div className="select-label-field">
                     <div className="label-text">{placeholder}</div>
                 </div>

@@ -34,11 +34,11 @@ class DistributionSignUpPage extends Component {
         }
     }
 
-    onClickSubmitReassign = id => {
+    onClickSubmitReassign = (id) => {
         const { signupData, reassignStaff } = this.props
         reassignStaff({
             id,
-            signup_id: signupData.id
+            signup_id: signupData.id,
         })
     }
 
@@ -50,7 +50,8 @@ class DistributionSignUpPage extends Component {
             markFormViolation,
             addNotification,
             changeSignupStatus,
-            getReassignableStaffs
+            getReassignableStaffs,
+            toggleOnDistribution,
         } = this.props
 
         const cx = classnames(s.signupdetails)
@@ -79,6 +80,7 @@ class DistributionSignUpPage extends Component {
                                     this.onClickSubmitReassign
                                 }
                                 getReassignableStaffs={getReassignableStaffs}
+                                toggleOnDistribution={toggleOnDistribution}
                             />
                         )}
                     </div>
@@ -93,16 +95,16 @@ class DistributionSignUpPage extends Component {
     }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
     signupData: state.DistributionSignUpStaffSide.signupData,
     signupUserProfileData:
         state.DistributionSignUpStaffSide.signupUserProfileData,
     selectedID: state.DistributionSignUpStaffSide.selectedID,
     userProfile: state.UserProfile.profile,
-    staffs: state.DistributionSignUpStaffSide.staffs
+    staffs: state.DistributionSignUpStaffSide.staffs,
 })
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
     fetchSignupUserProfileData(id) {
         return dispatch(
             distributionSignupStaffSideActions.fetchSignupUserProfileData(id)
@@ -134,7 +136,15 @@ const mapDispatchToProps = dispatch => ({
         return dispatch(
             distributionSignupStaffSideActions.getReassignableStaffs()
         )
-    }
+    },
+    toggleOnDistribution(signupID, onDistribution) {
+        return dispatch(
+            distributionSignupStaffSideActions.toggleOnDistribution(
+                signupID,
+                onDistribution
+            )
+        )
+    },
 })
 
 export default connect(

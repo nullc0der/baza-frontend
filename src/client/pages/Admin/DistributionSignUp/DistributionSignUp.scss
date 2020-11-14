@@ -82,6 +82,9 @@
             &:empty {
                 padding: 1.2rem;
             }
+            &.with-select-dropdown {
+                padding: 0;
+            }
         }
         .content-with-badge {
             display: flex;
@@ -207,6 +210,10 @@
             span {
                 margin-left: 0.5rem;
             }
+        }
+        .select-value-field {
+            border-bottom: none;
+            padding: 0.5rem;
         }
     }
 }
