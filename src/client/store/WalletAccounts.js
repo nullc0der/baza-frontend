@@ -115,7 +115,10 @@ export default function WalletAccountsReducer(state = INITIAL_STATE, action) {
                 ...state,
                 withdrawBazaInfo: {
                     ...state.withdrawBazaInfo,
-                    balance: state.withdrawBazaInfo.balance + action.balance,
+                    balance: (
+                        Number(state.withdrawBazaInfo.balance) +
+                        Number(action.balance)
+                    ).toFixed(6),
                 },
             }
         default:
