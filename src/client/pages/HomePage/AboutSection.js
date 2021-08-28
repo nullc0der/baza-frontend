@@ -4,7 +4,7 @@ import classnames from 'classnames'
 class AboutSection extends React.Component {
     render() {
         const { className, id } = this.props
-        const cx = classnames(className, 'about-section')
+        const cx = classnames(className, 'about-section', 'bg-light')
 
         return (
             <div className={cx} id={id}>
