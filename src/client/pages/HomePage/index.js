@@ -16,11 +16,11 @@ import ParallaxContainer from 'components/ui/ParallaxContainer'
 import FeaturesSection from './FeaturesSection'
 import CurrentStatusSection from './CurrentStatusSection'
 // import LatestDistributionSection from './LatestDistributionSection'
-import ContactSection from './ContactSection'
+// import ContactSection from './ContactSection'
 // import WhitePaperSection from './WhitePaperSection'
 import AboutSection from './AboutSection'
 // import MapSection from './MapSection'
-import RoadMapSection from './RoadMapSection'
+// import RoadMapSection from './RoadMapSection'
 import NewsSection from './NewsSection'
 import ExchageSection from './ExchangeSection'
 import TelegramSection from './TelegramSection'
@@ -96,23 +96,23 @@ class HomePage extends Component {
                         <p> Become a part of the basic income movement. </p>
                     </Link>
                 </ParallaxContainer>
-                <AboutSection id="about-section" />
+                <FeaturesSection id="features-section" />
                 <CurrentStatusSection
                     id="status-section"
                     stats={landingStats.donation || {}}
                 />
                 <NewsSection id="news-section" />
                 <ExchageSection id="exchange-section" />
-                <FeaturesSection id="features-section" />
+                <TelegramSection id="telegram-section" />
+                <AboutSection id="about-section" />
                 {/* <WhitePaperSection id="white-paper-section" />
                 <LatestDistributionSection
                     id="latest-section"
                     stats={landingStats}
                 />
                 <MapSection id="map-section" /> */}
-                <RoadMapSection id="roadmap-section" />
-                <TelegramSection id="telegram-section" />
-                <ContactSection id="contact-section" />
+                {/* <RoadMapSection id="roadmap-section" /> */}
+                {/* <ContactSection id="contact-section" /> */}
                 <Footer />
             </div>
         )
