@@ -10,7 +10,9 @@ import Auth from 'utils/authHelpers'
 import TextField from 'components/ui/TextField'
 import Dialog from 'components/ui/Dialog'
 
-import CoinbaseButton from 'components/CoinbaseButton'
+// import CoinbaseButton from 'components/CoinbaseButton'
+import EkataGPForm from 'components/EkataGP'
+import { initiatePayment } from 'api/ekatagp'
 
 import { CurrencyDropdown } from 'pages/Admin/CoinSale/CoinSale'
 
@@ -42,6 +44,7 @@ class DonationDialog extends Component {
         },
         donationDone: '',
         isDonateDialogContentHidden: false,
+        formID: null,
     }
 
     componentDidMount = () => {
@@ -50,6 +53,14 @@ class DonationDialog extends Component {
             action: 'Click',
             name: 'Donation',
         })
+    }
+
+    componentDidUpdate(prevProps, prevState) {
+        if (prevState.formID !== this.state.formID) {
+            this.setState({
+                isDonateDialogContentHidden: true,
+            })
+        }
     }
 
     toggleOtherInput = (force, amount) => {
@@ -120,33 +131,20 @@ class DonationDialog extends Component {
         }))
     }
 
-    onChargeSuccess = () => {
+    onPaymentSuccess = () => {
         this.setState({
             donationDone: 'Thank you for donating to the Foundation',
         })
     }
 
-    onChargeFailure = () => {
+    onPaymentError = () => {
         this.setState({
             donationDone:
                 "Your payment couldn't be processed, please try again",
         })
     }
 
-    onPaymentDetected = () => {
-        this.setState({
-            donationDone: `A payment has been detected, but it is not confirmed yet,
-                you will get an email on confirm.`,
-        })
-    }
-
-    onCoinbaseLoad = () => {
-        this.setState({
-            isDonateDialogContentHidden: true,
-        })
-    }
-
-    onCoinbaseClosed = () => {
+    onCloseForm = () => {
         this.setState({
             isDonateDialogContentHidden: false,
         })
@@ -172,6 +170,31 @@ class DonationDialog extends Component {
         })
     }
 
+    onClickDonate = () => {
+        const initiatePaymentURL = Auth.isAuthenticated()
+            ? '/donate/initiate/'
+            : '/donate/initiate/anon/'
+        initiatePayment(initiatePaymentURL, {
+            amount: Number(this.state.selectedAmount),
+            name: this.state.inputValues.name,
+            email: this.state.inputValues.email,
+            phone_no: this.state.inputValues.phoneNumber,
+            is_anonymous: this.state.isAnonymous,
+        })
+            .then((res) => {
+                const formID = get(res.data, 'form_id', null)
+                this.setState(
+                    {
+                        formID,
+                    },
+                    () => this.onInitiatePaymentSuccess(res.data)
+                )
+            })
+            .catch((err) => {
+                this.onInitiatePaymentFailure(err)
+            })
+    }
+
     render() {
         const cx = classnames(s.donationDialog, 'donation-dialog')
         const { selectedDonation } = this.props
@@ -182,9 +205,6 @@ class DonationDialog extends Component {
                 <br /> Support!
             </p>
         )
-        const initiatePaymentURL = Auth.isAuthenticated()
-            ? '/donate/initiate/'
-            : '/donate/initiate/anon/'
         // return (
         //     <Dialog
         //         className={cx}
@@ -308,35 +328,20 @@ class DonationDialog extends Component {
                                 {this.state.donationDone.length > 0 && (
                                     <div className="well mt-2 error-well text-center">
                                         <p className="mb-0">
-                                            {this.state.coinPurchaseDone}
+                                            {this.state.donationDone}
                                         </p>
                                     </div>
                                 )}
-                                <CoinbaseButton
-                                    className="mt-3"
-                                    title="Donate with CoinBase"
-                                    data={{
-                                        amount: Number(
-                                            this.state.selectedAmount
-                                        ),
-                                        name: this.state.inputValues.name,
-                                        email: this.state.inputValues.email,
-                                        phone_no: this.state.inputValues
-                                            .phoneNumber,
-                                        is_anonymous: this.state.isAnonymous,
-                                    }}
-                                    initiatePaymentURL={initiatePaymentURL}
-                                    onChargeSuccess={this.onChargeSuccess}
-                                    onChargeFailure={this.onChargeFailure}
-                                    onPaymentDetected={this.onPaymentDetected}
-                                    onCoinbaseLoad={this.onCoinbaseLoad}
-                                    onCoinbaseClosed={this.onCoinbaseClosed}
-                                    onInitiatePaymentSuccess={
-                                        this.onInitiatePaymentSuccess
-                                    }
-                                    onInitiatePaymentFailure={
-                                        this.onInitiatePaymentFailure
-                                    }
+                                <button
+                                    className="mt-3 btn btn-block btn-dark"
+                                    onClick={this.onClickDonate}>
+                                    Donate
+                                </button>
+                                <EkataGPForm
+                                    onSuccess={this.onPaymentSuccess}
+                                    onError={this.onPaymentError}
+                                    onCloseForm={this.onCloseForm}
+                                    formID={this.state.formID}
                                 />
                                 {/* <div className="form-check form-check-inline mt-2 mb-2">
                                     <input

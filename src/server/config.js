@@ -33,7 +33,8 @@ export const getClientConfig = () => {
         'RELEASE',
         'SMS_CODE_EXPIRES_IN',
         'GOOGLE_RECAPTCHA_SITE_KEY',
-        'MATOMO_SITE_ID'
+        'MATOMO_SITE_ID',
+        'EKATA_GATEWAY_PROCESSOR_PROJECT_ID'
         // add other keys to send here
         // e.g.
         // API Keys,
