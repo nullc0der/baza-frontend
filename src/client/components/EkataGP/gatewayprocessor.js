@@ -1,4 +1,4 @@
-const SITE_TYPE = 'staging'
+const SITE_TYPE = 'production'
 let FORM_URL = ''
 
 if (SITE_TYPE === 'development') {

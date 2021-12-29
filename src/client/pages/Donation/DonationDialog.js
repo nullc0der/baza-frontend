@@ -42,7 +42,7 @@ class DonationDialog extends Component {
             amount: '',
             nonField: '',
         },
-        donationDone: false,
+        donationDone: '',
         isDonateDialogContentHidden: false,
         formID: null,
     }
@@ -328,7 +328,7 @@ class DonationDialog extends Component {
                                 {this.state.donationDone.length > 0 && (
                                     <div className="well mt-2 error-well text-center">
                                         <p className="mb-0">
-                                            {this.state.coinPurchaseDone}
+                                            {this.state.donationDone}
                                         </p>
                                     </div>
                                 )}
