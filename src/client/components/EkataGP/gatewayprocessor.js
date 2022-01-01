@@ -31,20 +31,27 @@ export class EkataGatewayProcessorForm {
             }
             switch (e.data.type) {
                 case 'GET_FORM_ID':
-                    const iFrame = document.getElementById(this.iframeID)
-                    iFrame.contentWindow.postMessage(
-                        {
-                            type: 'SET_FORM_ID',
-                            payload: {
-                                formID: this.config.formID,
+                    document
+                        .getElementById(this.iframeID)
+                        .contentWindow.postMessage(
+                            {
+                                type: 'SET_FORM_ID',
+                                payload: {
+                                    formID: this.config.formID,
+                                },
                             },
-                        },
-                        FORM_URL
-                    )
+                            FORM_URL
+                        )
+                    document.getElementById(this.iframeID).style.visibility =
+                        'visible'
+                    document.getElementById('gp-loading-anim').remove()
                     break
                 case 'PROJECT_ERROR':
                     typeof this.config.onError === 'function' &&
                         this.config.onError(e.data.payload)
+                    document.getElementById(this.iframeID).style.visibility =
+                        'visible'
+                    document.getElementById('gp-loading-anim').remove()
                     break
                 case 'USER_CANCEL':
                     this.closePaymentForm('User Canceled')
@@ -64,6 +71,7 @@ export class EkataGatewayProcessorForm {
     showPaymentForm(formID) {
         this.config['formID'] = formID
         const iFrameContainer = document.createElement('div')
+        const loadingAnimation = document.createElement('img')
         const iFrame = document.createElement('iframe')
         Object.assign(iFrameContainer.style, {
             position: 'fixed',
@@ -73,10 +81,23 @@ export class EkataGatewayProcessorForm {
             bottom: 0,
             width: '100%',
             height: '100%',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            backgroundColor: 'rgba(0, 0, 0, 0.45)',
             zIndex: 9999,
         })
         iFrameContainer.setAttribute('id', 'ekata-gateway-processor-container')
         document.getElementsByTagName('body')[0].appendChild(iFrameContainer)
+        loadingAnimation.setAttribute('id', 'gp-loading-anim')
+        loadingAnimation.setAttribute(
+            'src',
+            'data:image/svg+xml;base64, PHN2ZyB2ZXJzaW9uPSIxLjEiIGlkPSJMOSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgeD0iMHB4IiB5PSIwcHgiCiAgdmlld0JveD0iMCAwIDEwMCAxMDAiIGVuYWJsZS1iYWNrZ3JvdW5kPSJuZXcgMCAwIDAgMCIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSI+CiAgICA8cGF0aCBmaWxsPSIjZmZmIiBkPSJNNzMsNTBjMC0xMi43LTEwLjMtMjMtMjMtMjNTMjcsMzcuMywyNyw1MCBNMzAuOSw1MGMwLTEwLjUsOC41LTE5LjEsMTkuMS0xOS4xUzY5LjEsMzkuNSw2OS4xLDUwIj4KICAgICAgPGFuaW1hdGVUcmFuc2Zvcm0gCiAgICAgICAgIGF0dHJpYnV0ZU5hbWU9InRyYW5zZm9ybSIgCiAgICAgICAgIGF0dHJpYnV0ZVR5cGU9IlhNTCIgCiAgICAgICAgIHR5cGU9InJvdGF0ZSIKICAgICAgICAgZHVyPSIxcyIgCiAgICAgICAgIGZyb209IjAgNTAgNTAiCiAgICAgICAgIHRvPSIzNjAgNTAgNTAiIAogICAgICAgICByZXBlYXRDb3VudD0iaW5kZWZpbml0ZSIgLz4KICA8L3BhdGg+Cjwvc3ZnPgo='
+        )
+        Object.assign(loadingAnimation.style, {
+            width: '150px',
+            height: '150px',
+        })
         iFrame.setAttribute('id', this.iframeID)
         iFrame.setAttribute(
             'src',
@@ -92,7 +113,9 @@ export class EkataGatewayProcessorForm {
             height: '100%',
             zIndex: 9999,
             border: 'none',
+            visibility: 'hidden',
         })
+        iFrameContainer.appendChild(loadingAnimation)
         iFrameContainer.appendChild(iFrame)
     }
 
