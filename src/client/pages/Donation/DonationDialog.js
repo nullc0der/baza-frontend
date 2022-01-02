@@ -321,7 +321,7 @@ class DonationDialog extends Component {
                                 />
                                 <label
                                     htmlFor="is_anonymous_checkbox"
-                                    className="mb-0">
+                                    className="mb-0 mt-2">
                                     {' '}
                                     Donate Anonymously
                                 </label>
@@ -335,7 +335,7 @@ class DonationDialog extends Component {
                                 <button
                                     className="mt-3 btn btn-block btn-dark"
                                     onClick={this.onClickDonate}>
-                                    Donate
+                                    Next
                                 </button>
                                 <EkataGPForm
                                     onSuccess={this.onPaymentSuccess}
