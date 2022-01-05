@@ -14,11 +14,17 @@ class EkataGPForm extends React.Component {
                 onSuccess: (data) => this.props.onSuccess(data),
             },
         }
+    }
+
+    componentDidMount() {
         this.gpForm = new EkataGatewayProcessorForm(this.state.formConfig)
     }
 
     componentDidUpdate(prevProps) {
-        if (prevProps.formID !== this.props.formID) {
+        if (
+            prevProps.formID !== this.props.formID &&
+            this.props.formID.length
+        ) {
             this.gpForm.showPaymentForm(this.props.formID)
         }
     }

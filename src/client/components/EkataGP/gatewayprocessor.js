@@ -21,51 +21,52 @@ export class EkataGatewayProcessorForm {
             onCloseForm: config.onCloseForm,
             onError: config.onError,
             onSuccess: config.onSuccess,
+            iframeID:
+                Math.random().toString(36).substring(2, 10) +
+                '-ekata-gateway-processor-iframe',
         }
-        this.iframeID =
-            Math.random().toString(36).substring(2, 10) +
-            'ekata-gateway-processor-iframe'
-        window.addEventListener('message', (e) => {
-            if (e.origin !== FORM_URL) {
-                return
-            }
-            switch (e.data.type) {
-                case 'GET_FORM_ID':
-                    document
-                        .getElementById(this.iframeID)
-                        .contentWindow.postMessage(
-                            {
-                                type: 'SET_FORM_ID',
-                                payload: {
-                                    formID: this.config.formID,
-                                },
+    }
+
+    handleEvents = (e) => {
+        if (e.origin !== FORM_URL) {
+            return
+        }
+        switch (e.data.type) {
+            case 'GET_FORM_ID':
+                document
+                    .getElementById(this.config.iframeID)
+                    .contentWindow.postMessage(
+                        {
+                            type: 'SET_FORM_ID',
+                            payload: {
+                                formID: this.config.formID,
                             },
-                            FORM_URL
-                        )
-                    document.getElementById(this.iframeID).style.visibility =
-                        'visible'
-                    document.getElementById('gp-loading-anim').remove()
-                    break
-                case 'PROJECT_ERROR':
-                    typeof this.config.onError === 'function' &&
-                        this.config.onError(e.data.payload)
-                    document.getElementById(this.iframeID).style.visibility =
-                        'visible'
-                    document.getElementById('gp-loading-anim').remove()
-                    break
-                case 'USER_CANCEL':
-                    this.closePaymentForm('User Canceled')
-                    break
-                case 'PAYMENT_SUCCESS':
-                    typeof this.config.onSuccess === 'function' &&
-                        this.config.onSuccess(e.data.payload)
-                    this.closePaymentForm('Payment Success')
-                    break
-                default:
-                    console.log(e.data.payload)
-                    break
-            }
-        })
+                        },
+                        FORM_URL
+                    )
+                document.getElementById(this.config.iframeID).style.visibility =
+                    'visible'
+                document.getElementById('gp-loading-anim').remove()
+                break
+            case 'PROJECT_ERROR':
+                typeof this.config.onError === 'function' &&
+                    this.config.onError(e.data.payload)
+                document.getElementById(this.config.iframeID).style.visibility =
+                    'visible'
+                document.getElementById('gp-loading-anim').remove()
+                break
+            case 'USER_CANCEL':
+                this.closePaymentForm('User Canceled')
+                break
+            case 'PAYMENT_SUCCESS':
+                typeof this.config.onSuccess === 'function' &&
+                    this.config.onSuccess(e.data.payload)
+                this.closePaymentForm('Payment Success')
+                break
+            default:
+                console.log(e.data.payload)
+                break
+        }
     }
 
     showPaymentForm(formID) {
@@ -98,7 +99,7 @@ export class EkataGatewayProcessorForm {
             width: '150px',
             height: '150px',
         })
-        iFrame.setAttribute('id', this.iframeID)
+        iFrame.setAttribute('id', this.config.iframeID)
         iFrame.setAttribute(
             'src',
             FORM_URL + `?project-id=${this.config.projectID}`
@@ -117,10 +118,11 @@ export class EkataGatewayProcessorForm {
         })
         iFrameContainer.appendChild(loadingAnimation)
         iFrameContainer.appendChild(iFrame)
+        window.addEventListener('message', this.handleEvents)
     }
 
     closePaymentForm(reason) {
-        const iFrame = document.getElementById(this.iframeID)
+        const iFrame = document.getElementById(this.config.iframeID)
         const iFrameContainer = document.getElementById(
             'ekata-gateway-processor-container'
         )
@@ -128,5 +130,6 @@ export class EkataGatewayProcessorForm {
         iFrameContainer.remove()
         typeof this.config.onCloseForm === 'function' &&
             this.config.onCloseForm(reason)
+        window.removeEventListener('message', this.handleEvents)
     }
 }
