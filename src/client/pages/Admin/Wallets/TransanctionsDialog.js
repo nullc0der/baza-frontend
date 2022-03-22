@@ -26,7 +26,7 @@ class TransanctionsDialog extends Component {
                             label="Timestamp"
                             value={
                                 <TransanctionDate
-                                    timestamp={transanction.timestamp}
+                                    timestamp={transanction.timestamp * 1000}
                                 />
                             }
                         />
@@ -59,11 +59,11 @@ class TransanctionsDialog extends Component {
     }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
     selectedWebWallet: state.UserWebWallet.selectedWebWallet,
-    selectedWebWalletDetails: state.UserWebWallet.selectedWebWalletDetails
+    selectedWebWalletDetails: state.UserWebWallet.selectedWebWalletDetails,
 })
 
-const mapDispatchToProps = dispatch => ({})
+const mapDispatchToProps = (dispatch) => ({})
 
 export default connect(mapStateToProps, mapDispatchToProps)(TransanctionsDialog)
