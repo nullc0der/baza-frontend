@@ -361,7 +361,7 @@ class LoginDialog extends Component {
                         </Link>
                     </div>
                 </div>
-                <div className="well text-center mt-3">
+                {/* <div className="well text-center mt-3">
                     <p> or login with </p>
                     <ul className="list-inline social-login-list">
                         <li className="list-inline-item">
@@ -387,7 +387,7 @@ class LoginDialog extends Component {
                             </TwitterLogin>
                         </li>
                     </ul>
-                </div>
+                </div> */}
                 <div className="bottom-content text-center">
                     Login with your registered username & password. If you are
                     not registered then
