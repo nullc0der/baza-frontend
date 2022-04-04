@@ -10,7 +10,7 @@ import EnhancedPasswordField from 'components/ui/EnhancedPasswordField'
 
 import s from './SignUp.scss'
 
-const EmailSection = props => {
+const EmailSection = (props) => {
     return (
         <div className="card-text">
             Please enter your email below to get reset link
@@ -41,7 +41,7 @@ const EmailSection = props => {
     )
 }
 
-const PasswordSection = props => {
+const PasswordSection = (props) => {
     return (
         <div className="card-text">
             Enter your new password below
@@ -92,33 +92,38 @@ export default class ForgotPasswordPage extends Component {
         inputValues: {
             email: '',
             password: '',
-            password1: ''
+            password1: '',
         },
         errorText: {
             email: '',
             password: '',
             password1: '',
-            nonField: ''
+            nonField: '',
         },
         emailSent: false,
-        statusText: ''
+        statusText: '',
     }
 
     componentDidMount = () => {
-        const state = this.props.location.state
-        if (state && state.fromLogin) {
+        if (this.props.location.pathname.split('/').length >= 3) {
             this.setState({
-                showEmailPage: true
+                showEmailPage: true,
             })
         }
+        // const state = this.props.location.state
+        // if (state && state.fromLogin) {
+        //     this.setState({
+        //         showEmailPage: true
+        //     })
+        // }
     }
 
     onInputChange = (id, value) => {
-        this.setState(prevState => ({
+        this.setState((prevState) => ({
             inputValues: {
                 ...prevState.inputValues,
-                [id]: value
-            }
+                [id]: value,
+            },
         }))
     }
 
@@ -127,21 +132,21 @@ export default class ForgotPasswordPage extends Component {
             this.state.inputValues.email
         )
         intiateForgotPassword
-            .then(responseData => {
+            .then((responseData) => {
                 if (responseData.status === 'success') {
                     this.setState({
                         emailSent: true,
                         errorText: {
-                            email: ''
-                        }
+                            email: '',
+                        },
                     })
                 }
             })
-            .catch(responseData => {
+            .catch((responseData) => {
                 this.setState({
                     errorText: {
-                        email: responseData.email[0]
-                    }
+                        email: responseData.email[0],
+                    },
                 })
             })
     }
@@ -155,7 +160,7 @@ export default class ForgotPasswordPage extends Component {
             resetToken
         )
         resetPassword
-            .then(responseData => {
+            .then((responseData) => {
                 if (responseData.status === 'success') {
                     this.setState({
                         statusText:
@@ -163,18 +168,18 @@ export default class ForgotPasswordPage extends Component {
                         errorText: {
                             password: '',
                             password1: '',
-                            nonField: ''
-                        }
+                            nonField: '',
+                        },
                     })
                 }
             })
-            .catch(responseData => {
+            .catch((responseData) => {
                 this.setState({
                     errorText: {
                         password: get(responseData, 'password', ''),
                         password1: get(responseData, 'password1', ''),
-                        nonField: get(responseData, 'non_field_errors', '')
-                    }
+                        nonField: get(responseData, 'non_field_errors', ''),
+                    },
                 })
             })
     }
