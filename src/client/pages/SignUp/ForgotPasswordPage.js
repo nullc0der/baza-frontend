@@ -105,7 +105,7 @@ export default class ForgotPasswordPage extends Component {
     }
 
     componentDidMount = () => {
-        if (this.props.location.pathname.split('/').length >= 3) {
+        if (this.props.location.pathname.split('/').length < 3) {
             this.setState({
                 showEmailPage: true,
             })
