@@ -11,7 +11,7 @@ const FEATURES = [
         title: 'GPU MINING',
         subtitle: 'Security',
         description:
-            'Easy entry level GPU mining of the Baza token to support the network',
+            'Easy entry level GPU mining of the Baza coin to support the network',
         link: 'https://pool.baza.foundation/#getting_started',
         external: true,
     },
@@ -29,7 +29,7 @@ const FEATURES = [
         title: 'STORE LOCALLY',
         subtitle: 'Decentralize',
         description:
-            'Download and store your Baza token on your choice of operating system',
+            'Download and store your Baza coin on your choice of operating system',
         link: 'https://gitlab.ekata.io/baza-foundation/baz-token/-/releases#0.0.1.7',
         external: true,
     },
@@ -122,7 +122,7 @@ const FeaturesSection = (props) => {
     )
     const linkClassName = classnames(props.linkClassName, 'feature-link')
     const list = props.list || FEATURES
-    const title = props.title || 'Baza Token'
+    const title = props.title || 'Baza Coin'
     return (
         <div className={cx} id={props.id}>
             <div className="container page-section">

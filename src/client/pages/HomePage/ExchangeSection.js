@@ -13,7 +13,7 @@ class ExchangeSection extends React.Component {
             <div className={cx} id={id}>
                 <div className="container page-section">
                     <h3 className="mb-3">Exchange</h3>
-                    <p>Where can I buy, sell and trade BAZ tokens?</p>
+                    <p>Where can I buy, sell and trade BAZA coins?</p>
                     <a href="https://www.southxchange.com/" target="_blank">
                         <img
                             src="/public/img/southxchange.png"
