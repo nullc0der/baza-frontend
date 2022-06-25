@@ -33,10 +33,10 @@ import './HomePage.scss'
 
 class HomePage extends Component {
     componentDidMount = () => {
-        this.props
-            .fetchStats()
-            .then(() => {})
-            .catch(() => {})
+        // this.props
+        //     .fetchStats()
+        //     .then(() => {})
+        //     .catch(() => {})
         if (this.props.isGRecaptchaReady) {
             this.executeHomePageLoadAction()
         }
@@ -63,7 +63,7 @@ class HomePage extends Component {
 
     render() {
         const cx = classnames('home-page')
-        const { landingStats } = this.props
+        // const { landingStats } = this.props
 
         return (
             <div className={cx}>
@@ -97,10 +97,11 @@ class HomePage extends Component {
                     </Link>
                 </ParallaxContainer>
                 <FeaturesSection id="features-section" />
-                <CurrentStatusSection
+                {/* <CurrentStatusSection
                     id="status-section"
                     stats={landingStats.donation || {}}
-                />
+                /> */}
+                <CurrentStatusSection id="status-section" />
                 <NewsSection id="news-section" />
                 <ExchageSection id="exchange-section" />
                 <TelegramSection id="telegram-section" />
