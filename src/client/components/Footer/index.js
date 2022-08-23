@@ -11,43 +11,76 @@ const FOOTER_LINKS = [
     { label: 'Privacy Policy', href: '/privacy-policy/' },
     { label: 'Terms and Conditions', href: '/terms-of-service/' },
     { label: 'Cookie Policy', href: '/cookie-policy/' },
-    { label: 'Donate', href: '#!donate' }
+    { label: 'Donate', href: '#!donate' },
 ]
 
 const SOCIAL_LINKDATAS = [
     {
         linkName: 'Facebook',
         url: 'https://www.facebook.com/bazafoundation',
-        iconName: 'fa fa-fw fa-facebook'
-    },
-    {
-        linkName: 'Instagram',
-        url: 'https://www.instagram.com/bazafoundation/',
-        iconName: 'fa fa-fw fa-instagram'
+        iconName: 'fa fa-fw fa-facebook',
     },
     {
         linkName: 'Twitter',
         url: 'https://twitter.com/BazaFoundation',
-        iconName: 'fa fa-fw fa-twitter'
+        iconName: 'fa fa-fw fa-twitter',
     },
     {
         linkName: 'Linkedin',
         url: 'https://www.linkedin.com/company/bazafoundation/',
-        iconName: 'fa fa-fw fa-linkedin'
+        iconName: 'fa fa-fw fa-linkedin',
     },
     {
         linkName: 'Reddit',
         url: 'https://www.reddit.com/r/BazaFoundation/',
-        iconName: 'fa fa-fw fa-reddit'
-    }
-]
-
-const DISCUSSION_LINKDATAS = [
+        iconName: 'fa fa-fw fa-reddit',
+    },
     {
         linkName: 'Telegram',
         url: 'https://t.me/bazafoundation',
-        iconName: 'fa fa-fw fa-telegram'
-    }
+        iconName: 'fa fa-fw fa-telegram',
+    },
+    {
+        linkName: 'Discord',
+        url: 'https://discord.gg/De92vhVD2m',
+        iconName: 'fab fa-discord',
+    },
+    {
+        linkName: 'Youtube',
+        url: 'https://youtu.be/ObkuKcqjC_k',
+        iconName: 'fa fa-fw fa-youtube',
+    },
+]
+
+const SITE_LINKDATAS = [
+    { label: 'Explorer', href: 'https://explorer.baza.foundation' },
+    { label: 'Pool', href: 'https://pool.baza.foundation' },
+    {
+        label: 'GUI wallet',
+        href: 'https://gitlab.ekata.io/baza-foundation/baza-fondo-wallet',
+    },
+    {
+        label: 'Coin Source',
+        href: 'https://gitlab.ekata.io/baza-foundation/baz-token',
+    },
+]
+
+const EKATAIO_LINKS = [
+    {
+        label: 'Payment Processor',
+        href: 'https://ekata.io',
+    },
+    {
+        label: 'Android and desktop miner',
+        href: 'https://gitlab.ekata.io/ekata-io-projects/ekata-pool-companion',
+    },
+]
+
+const OTHER_LINKS = [
+    {
+        label: 'Mining Pool Stats',
+        href: 'https://miningpoolstats.stream/bazacoin',
+    },
 ]
 
 // const ICO_LISTINGS = [
@@ -92,7 +125,7 @@ export default class Footer extends Component {
                                     ))}
                                 </ul>
                             </div>
-                            <div className="discussion-links">
+                            {/* <div className="discussion-links">
                                 <p className="discussion-links-title">
                                     Have a Question or Suggestion for us? Talk
                                     to us directly.
@@ -103,6 +136,24 @@ export default class Footer extends Component {
                                             className="list-unstyled-item"
                                             key={i}>
                                             <SocialLink linkData={x} />
+                                        </li>
+                                    ))}
+                                </ul>
+                            </div> */}
+                            <div className="site-links">
+                                <p className="site-links-title">SITE LINKS</p>
+                                <ul className="list-unstyled">
+                                    {SITE_LINKDATAS.map((x, i) => (
+                                        <li
+                                            key={i}
+                                            className="list-unstyled-item">
+                                            <a
+                                                className="footer-link"
+                                                target="_blank"
+                                                href={x.href}>
+                                                {' '}
+                                                {x.label}{' '}
+                                            </a>
                                         </li>
                                     ))}
                                 </ul>
@@ -141,6 +192,44 @@ export default class Footer extends Component {
                                             SouthXchange
                                         </a>
                                     </li>
+                                </ul>
+                            </div>
+                            <div className="ekataio-links ml-md-3 ml-lg-0">
+                                <p className="ekataio-links-title">
+                                    EKATAIO LINKS
+                                </p>
+                                <ul className="list-unstyled">
+                                    {EKATAIO_LINKS.map((x, i) => (
+                                        <li
+                                            key={i}
+                                            className="list-unstyled-item">
+                                            <a
+                                                className="footer-link"
+                                                target="_blank"
+                                                href={x.href}>
+                                                {' '}
+                                                {x.label}{' '}
+                                            </a>
+                                        </li>
+                                    ))}
+                                </ul>
+                            </div>
+                            <div className="other-links ml-md-3 ml-lg-0">
+                                <p className="other-links-title">OTHER LINKS</p>
+                                <ul className="list-unstyled">
+                                    {OTHER_LINKS.map((x, i) => (
+                                        <li
+                                            key={i}
+                                            className="list-unstyled-item">
+                                            <a
+                                                className="footer-link"
+                                                target="_blank"
+                                                href={x.href}>
+                                                {' '}
+                                                {x.label}{' '}
+                                            </a>
+                                        </li>
+                                    ))}
                                 </ul>
                             </div>
                         </div>
