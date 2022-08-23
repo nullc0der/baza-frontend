@@ -54,9 +54,9 @@ const SOCIAL_LINKDATAS = [
 
 const SITE_LINKDATAS = [
     { label: 'Explorer', href: 'https://explorer.baza.foundation' },
-    { label: 'Pool', href: 'https://pool.baza.foundation' },
+    { label: 'Mining Pool', href: 'https://pool.baza.foundation' },
     {
-        label: 'GUI wallet',
+        label: 'GUI Wallet',
         href: 'https://gitlab.ekata.io/baza-foundation/baza-fondo-wallet',
     },
     {
@@ -71,7 +71,7 @@ const EKATAIO_LINKS = [
         href: 'https://ekata.io',
     },
     {
-        label: 'Android and desktop miner',
+        label: 'Android and Desktop Miner',
         href: 'https://gitlab.ekata.io/ekata-io-projects/ekata-pool-companion',
     },
 ]
@@ -110,22 +110,23 @@ export default class Footer extends Component {
                 </div>
                 <div className="container">
                     <div className="row">
-                        <div className="col-md-6 col-lg-2 d-flex d-lg-block justify-content-between">
-                            <div className="social-links">
-                                <p className="social-links-title">
-                                    SOCIAL LINKS
-                                </p>
-                                <ul className="list-unstyled">
-                                    {SOCIAL_LINKDATAS.map((x, i) => (
-                                        <li
-                                            className="list-unstyled-item"
-                                            key={i}>
-                                            <SocialLink linkData={x} />
-                                        </li>
-                                    ))}
-                                </ul>
-                            </div>
-                            {/* <div className="discussion-links">
+                        <div className="col-md-6 col-lg-2">
+                            <div className="d-flex d-lg-block justify-content-between">
+                                <div className="social-links footer-links">
+                                    <p className="social-links-title">
+                                        SOCIAL LINKS
+                                    </p>
+                                    <ul className="list-unstyled">
+                                        {SOCIAL_LINKDATAS.map((x, i) => (
+                                            <li
+                                                className="list-unstyled-item"
+                                                key={i}>
+                                                <SocialLink linkData={x} />
+                                            </li>
+                                        ))}
+                                    </ul>
+                                </div>
+                                {/* <div className="discussion-links">
                                 <p className="discussion-links-title">
                                     Have a Question or Suggestion for us? Talk
                                     to us directly.
@@ -140,97 +141,143 @@ export default class Footer extends Component {
                                     ))}
                                 </ul>
                             </div> */}
-                            <div className="site-links">
-                                <p className="site-links-title">SITE LINKS</p>
-                                <ul className="list-unstyled">
-                                    {SITE_LINKDATAS.map((x, i) => (
-                                        <li
-                                            key={i}
-                                            className="list-unstyled-item">
+                                <div className="site-links footer-links">
+                                    <p className="site-links-title">
+                                        SITE LINKS
+                                    </p>
+                                    <ul className="list-unstyled">
+                                        {SITE_LINKDATAS.map((x, i) => (
+                                            <li
+                                                key={i}
+                                                className="list-unstyled-item">
+                                                <a
+                                                    className="footer-link"
+                                                    target="_blank"
+                                                    href={x.href}>
+                                                    {' '}
+                                                    {x.label}{' '}
+                                                </a>
+                                            </li>
+                                        ))}
+                                    </ul>
+                                </div>
+                            </div>
+                            <div className="d-md-flex d-none d-lg-none justify-content-between">
+                                <div className="ico-listings footer-links">
+                                    <p className="ico-listings-title">
+                                        EXCHANGE LISTINGS
+                                    </p>
+                                    <ul className="list-unstyled">
+                                        <li className="list-unstyled-item">
                                             <a
-                                                className="footer-link"
                                                 target="_blank"
-                                                href={x.href}>
-                                                {' '}
-                                                {x.label}{' '}
+                                                className="footer-link"
+                                                href="https://southxchange.com">
+                                                SouthXchange
                                             </a>
                                         </li>
-                                    ))}
-                                </ul>
+                                    </ul>
+                                </div>
+                                <div className="other-links footer-links ml-md-3 ml-lg-0">
+                                    <p className="other-links-title">
+                                        OTHER LINKS
+                                    </p>
+                                    <ul className="list-unstyled">
+                                        {OTHER_LINKS.map((x, i) => (
+                                            <li
+                                                key={i}
+                                                className="list-unstyled-item">
+                                                <a
+                                                    className="footer-link"
+                                                    target="_blank"
+                                                    href={x.href}>
+                                                    {' '}
+                                                    {x.label}{' '}
+                                                </a>
+                                            </li>
+                                        ))}
+                                    </ul>
+                                </div>
                             </div>
                         </div>
-                        <div className="col-md-6 col-lg-2 d-flex d-lg-block justify-content-between mt-2 mt-md-0">
-                            <div className="links-and-downloads">
-                                <p className="links-and-downloads-title">
-                                    LINKS &amp; DOWNLOADS
-                                </p>
-                                <ul className="list-unstyled">
-                                    {FOOTER_LINKS.map((x, i) => (
-                                        <li
-                                            key={i}
-                                            className="list-unstyled-item">
-                                            <a
-                                                className="footer-link"
-                                                href={x.href}>
-                                                {' '}
-                                                {x.label}{' '}
-                                            </a>
-                                        </li>
-                                    ))}
-                                </ul>
+                        <div className="col-md-6 col-lg-2 mt-2 mt-md-0">
+                            <div className="d-flex d-lg-block justify-content-between">
+                                <div className="links-and-downloads footer-links">
+                                    <p className="links-and-downloads-title">
+                                        LINKS &amp; DOWNLOADS
+                                    </p>
+                                    <ul className="list-unstyled">
+                                        {FOOTER_LINKS.map((x, i) => (
+                                            <li
+                                                key={i}
+                                                className="list-unstyled-item">
+                                                <a
+                                                    className="footer-link"
+                                                    href={x.href}>
+                                                    {' '}
+                                                    {x.label}{' '}
+                                                </a>
+                                            </li>
+                                        ))}
+                                    </ul>
+                                </div>
+                                <div className="ekataio-links footer-links ml-md-3 ml-lg-0">
+                                    <p className="ekataio-links-title">
+                                        EKATAIO LINKS
+                                    </p>
+                                    <ul className="list-unstyled">
+                                        {EKATAIO_LINKS.map((x, i) => (
+                                            <li
+                                                key={i}
+                                                className="list-unstyled-item">
+                                                <a
+                                                    className="footer-link"
+                                                    target="_blank"
+                                                    href={x.href}>
+                                                    {' '}
+                                                    {x.label}{' '}
+                                                </a>
+                                            </li>
+                                        ))}
+                                    </ul>
+                                </div>
                             </div>
-                            <div className="ico-listings ml-md-3 ml-lg-0">
-                                <p className="ico-listings-title">
-                                    EXCHANGE LISTINGS
-                                </p>
-                                <ul className="list-unstyled">
-                                    <li className="list-unstyled-item">
-                                        <a
-                                            target="_blank"
-                                            className="footer-link"
-                                            href="https://southxchange.com">
-                                            SouthXchange
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div className="ekataio-links ml-md-3 ml-lg-0">
-                                <p className="ekataio-links-title">
-                                    EKATAIO LINKS
-                                </p>
-                                <ul className="list-unstyled">
-                                    {EKATAIO_LINKS.map((x, i) => (
-                                        <li
-                                            key={i}
-                                            className="list-unstyled-item">
+                            <div className="d-flex d-md-none d-lg-block justify-content-between">
+                                <div className="ico-listings footer-links ml-md-3 ml-lg-0">
+                                    <p className="ico-listings-title">
+                                        EXCHANGE LISTINGS
+                                    </p>
+                                    <ul className="list-unstyled">
+                                        <li className="list-unstyled-item">
                                             <a
-                                                className="footer-link"
                                                 target="_blank"
-                                                href={x.href}>
-                                                {' '}
-                                                {x.label}{' '}
-                                            </a>
-                                        </li>
-                                    ))}
-                                </ul>
-                            </div>
-                            <div className="other-links ml-md-3 ml-lg-0">
-                                <p className="other-links-title">OTHER LINKS</p>
-                                <ul className="list-unstyled">
-                                    {OTHER_LINKS.map((x, i) => (
-                                        <li
-                                            key={i}
-                                            className="list-unstyled-item">
-                                            <a
                                                 className="footer-link"
-                                                target="_blank"
-                                                href={x.href}>
-                                                {' '}
-                                                {x.label}{' '}
+                                                href="https://southxchange.com">
+                                                SouthXchange
                                             </a>
                                         </li>
-                                    ))}
-                                </ul>
+                                    </ul>
+                                </div>
+                                <div className="other-links footer-links ml-md-3 ml-lg-0">
+                                    <p className="other-links-title">
+                                        OTHER LINKS
+                                    </p>
+                                    <ul className="list-unstyled">
+                                        {OTHER_LINKS.map((x, i) => (
+                                            <li
+                                                key={i}
+                                                className="list-unstyled-item">
+                                                <a
+                                                    className="footer-link"
+                                                    target="_blank"
+                                                    href={x.href}>
+                                                    {' '}
+                                                    {x.label}{' '}
+                                                </a>
+                                            </li>
+                                        ))}
+                                    </ul>
+                                </div>
                             </div>
                         </div>
                         <div className="col-lg-4 mt-2 mt-lg-0">
