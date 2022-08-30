@@ -53,7 +53,9 @@ class TransanctionsDialog extends Component {
                 isOpen={true}
                 className="transanctions-dialog"
                 onRequestClose={this.props.onRequestClose}>
-                {tableData.map(this.renderOneTransanction)}
+                {tableData
+                    .sort((a, b) => b.timestamp - a.timestamp)
+                    .map(this.renderOneTransanction)}
             </Dialog>
         )
     }
