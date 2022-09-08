@@ -114,7 +114,7 @@ class HomePage extends Component {
                 <MapSection id="map-section" /> */}
                 {/* <RoadMapSection id="roadmap-section" /> */}
                 {/* <ContactSection id="contact-section" /> */}
-                <Footer />
+                <Footer id="footer" />
             </div>
         )
     }

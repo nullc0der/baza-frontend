@@ -63,6 +63,10 @@ const SITE_LINKDATAS = [
         label: 'Coin Source',
         href: 'https://gitlab.ekata.io/baza-foundation/baz-token',
     },
+    {
+        label: 'Docker Images',
+        href: 'https://hub.docker.com/u/ewarehouse',
+    },
 ]
 
 const EKATAIO_LINKS = [
@@ -80,6 +84,10 @@ const OTHER_LINKS = [
     {
         label: 'Mining Pool Stats',
         href: 'https://miningpoolstats.stream/bazacoin',
+    },
+    {
+        label: 'CoinPaprika',
+        href: 'https://coinpaprika.com/coin/baza-bazacoin/',
     },
 ]
 
@@ -100,7 +108,7 @@ export default class Footer extends Component {
         const cx = classnames(s.container, 'app-footer bg-dark pb-3 pt-6')
         const newsModalClass = classnames(s.newsModal)
         return (
-            <div className={cx}>
+            <div className={cx} id={this.props.id}>
                 <div className="baza-logo">
                     <img
                         className="img-fluid"
