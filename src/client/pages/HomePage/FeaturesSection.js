@@ -30,7 +30,7 @@ const FEATURES = [
         subtitle: 'Decentralize',
         description:
             'Download and store your Baza coin on your choice of operating system',
-        link: 'https://gitlab.ekata.io/baza-foundation/baz-token/-/releases',
+        link: 'https://gitlab.ekata.io/baza-foundation/baza-coin/-/releases',
         external: true,
     },
 ]

@@ -61,7 +61,7 @@ const SITE_LINKDATAS = [
     },
     {
         label: 'Coin Source',
-        href: 'https://gitlab.ekata.io/baza-foundation/baz-token',
+        href: 'https://gitlab.ekata.io/baza-foundation/baza-coin',
     },
     {
         label: 'Docker Images',
