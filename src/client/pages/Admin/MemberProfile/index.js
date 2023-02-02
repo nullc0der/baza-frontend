@@ -12,7 +12,7 @@ import SettingsCard from './SettingsCard'
 // import ReferencesCard from './ReferencesCard'
 import TrustMeter from './TrustMeter'
 import TasksList from './TasksList'
-import JustDonatedCard from './JustDonatedCard'
+// import JustDonatedCard from './JustDonatedCard'
 
 export default class MemberProfile extends Component {
     render() {
@@ -21,13 +21,13 @@ export default class MemberProfile extends Component {
             <div className={cx}>
                 <Helmet title="Profile" />
                 <div className="row align-stretch">
-                    <div className="col-lg-4">
+                    {/* <div className="col-lg-4">
                         <JustDonatedCard />
-                    </div>
-                    <div className="col-lg-4 mt-3 mt-lg-0 mt-xl-0">
+                    </div> */}
+                    <div className="col-lg-6 mt-3 mt-lg-0 mt-xl-0">
                         <TrustMeter />
                     </div>
-                    <div className="col-lg-4 mt-3 mt-lg-0 mt-xl-0">
+                    <div className="col-lg-6 mt-3 mt-lg-0 mt-xl-0">
                         <TasksList />
                     </div>
                 </div>
